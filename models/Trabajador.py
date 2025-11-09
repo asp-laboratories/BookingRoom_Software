@@ -73,6 +73,9 @@ class Trabajador:
     def email(self, email):
         self.__email = email
 
+    def __str__(self):
+        return f"--INFORMACION DEL TRABAJADOR-- RFC: {self.rfc}, Nombre completo: {self.nombre} {self.prim_apell} {self.seg_apell}"
+
 
 
 class Administrador(Trabajador):
@@ -116,3 +119,10 @@ class Almacenista(Trabajador):
     def cambiar_estado_mob(self):
         pass
 
+def main():
+    t1 = Trabajador("1234567890123", "Jacinto", "Zamorano", "Perez", 62471,18,6632832828,"jacinto@gmail.com")
+    print(t1)
+
+# Bloque de ejecución principal, ahora debajo de la definición de main()
+if __name__ == "__main__":
+    main()
