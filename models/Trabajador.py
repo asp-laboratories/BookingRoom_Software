@@ -51,7 +51,7 @@ class Trabajador:
 
     @property
     def numero_emple(self):
-        return self._numero_emple
+        return self.__numero_emple
 
     @numero_emple.setter
     def numero_emple(self, numero_emple):
@@ -76,7 +76,7 @@ class Trabajador:
 
 
 class Administrador(Trabajador):
-    def __init__(self):
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
         super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
     
     def asignar_roles(self):
@@ -105,8 +105,14 @@ class Administrador(Trabajador):
 
 
 class Recepcionista(Trabajador):
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
+        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
 
 
 class Almacenista(Trabajador):
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
+        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
 
+    def cambiar_estado_mob(self):
+        pass
 
