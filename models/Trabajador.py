@@ -51,7 +51,7 @@ class Trabajador:
 
     @property
     def numero_emple(self):
-        return self._numero_emple
+        return self.__numero_emple
 
     @numero_emple.setter
     def numero_emple(self, numero_emple):
@@ -73,10 +73,13 @@ class Trabajador:
     def email(self, email):
         self.__email = email
 
+    def __str__(self):
+        return f"--INFORMACION DEL TRABAJADOR-- RFC: {self.rfc}, Nombre completo: {self.nombre} {self.prim_apell} {self.seg_apell}"
+
 
 
 class Administrador(Trabajador):
-    def __init__(self):
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
         super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
     
     def asignar_roles(self):
@@ -105,8 +108,21 @@ class Administrador(Trabajador):
 
 
 class Recepcionista(Trabajador):
-    pass
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
+        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
+
 
 class Almacenista(Trabajador):
-    pass
+    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
+        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
 
+    def cambiar_estado_mob(self):
+        pass
+
+def main():
+    t1 = Trabajador("1234567890123", "Jacinto", "Zamorano", "Perez", 62471,18,6632832828,"jacinto@gmail.com")
+    print(t1)
+
+# Bloque de ejecución principal, ahora debajo de la definición de main()
+if __name__ == "__main__":
+    main()
