@@ -105,8 +105,8 @@ class Administrador(Trabajador):
 
 
 class Recepcionista(Trabajador):
-
+    pass
 
 class Almacenista(Trabajador):
-
+    pass
 
