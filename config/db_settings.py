@@ -4,7 +4,7 @@ class conexion():
     # Constructor
     def __init__(self, host = 'localhost', user = 'root', password = '', database = ''):
         try:
-            self.__mybd = conector.connect(
+            self.__database_config = conector.connect(
                 host= host,
                 user= user,
                 password= password,
@@ -13,7 +13,6 @@ class conexion():
             )
 
             self.__connection = None
-            self.__cursor = self.__mybd.cursor()
             print("Conexion establecida")
         except:
             print("Conexion Fallida a la base de datos")
@@ -21,7 +20,7 @@ class conexion():
     # Metodos
     def conectar(self):
         try:
-            self.__connection = conector.connect(**self.__mybd)
+            self.__connection = conector.connect(**self.__database_config)
             return True
         except Exception as e:
             print(f"Error de conexión: {e}")
@@ -35,19 +34,22 @@ class conexion():
         if self.__connection:
             return self.__connection.cursor(dictionary=dictionary)
         return None
-    
+   
+''' HACERLO CON DICCIONARIOS
     def show_tables(self):
         print("Mostrando tablas")
         try:
-            self.__cursor.execute('show tables')
-            for i in self.__cursor.fetchall():
+            cursor = self.cursor()
+            cursor.execute('show tables')
+            for i in cursor.fetchall():
                 print(i)
         except:
             print("No te encuentras en una base de datos, imposible mostrar tablas")
 
     def show_databases(self):
-        self.__cursor.execute('show databases')
-        for i in self.__cursor.fetchall():
+        cursor = self.cursor()
+        cursor.execute('show databases')
+        for i in cursor.fetchall():
             print(i)
 
     def show_columns(self, table):
@@ -55,4 +57,4 @@ class conexion():
         for i in resultado:
             print(i)
 
-
+'''
