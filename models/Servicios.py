@@ -21,21 +21,6 @@ class Servicio:
     def tipo_servicio(self, tipo_servicio):
         self.__tipo_servicio = tipo_servicio
 
-    
-
-class TipoServicio:
-    def __init__(self, codigo, descripcion):
-        self.__codigo = codigo
-        self.__descripcion = descripcion
-
-    @property
-    def descripcion(self):
-        return self.__descripcion
-
-    @descripcion.setter
-    def descripcion(self, descripcion):
-        self.__descripcion = descripcion
-
 
         
         
