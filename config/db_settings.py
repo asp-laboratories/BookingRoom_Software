@@ -1,40 +1,44 @@
 import mysql.connector as conector
 
-class conexion():
+class BaseDeDatos():
     # Constructor
     def __init__(self, host = 'localhost', user = 'root', password = '', database = ''):
         try:
-            self.__database_config = conector.connect(
-                host= host,
-                user= user,
-                password= password,
-                port= 3306,
-                database= database
-            )
+            self.database_config = {
+                'host': host,
+                'port': 3306,
+                'user': user,
+                'password': password,
+                'database': database
+            }
 
-            self.__connection = None
+            self.connection = None
             print("Conexion establecida")
-        except:
-            print("Conexion Fallida a la base de datos")
+        except Exception as error:
+            print(f"Conexion Fallida a la base de datos {error}")
 
     # Metodos
     def conectar(self):
         try:
-            self.__connection = conector.connect(**self.__database_config)
+            self.connection = conector.connect(**self.database_config)
             return True
         except Exception as e:
             print(f"Error de conexión: {e}")
             return False
 
     def desconectar(self):
-        if self.__connection and self.__connection.is_connected():
-            self.__connection.close()
+        if self.connection and self.connection.is_connected():
+            self.connection.close()
 
     def cursor(self, dictionary=True):
-        if self.__connection:
-            return self.__connection.cursor(dictionary=dictionary)
+        if self.connection:
+            return self.connection.cursor(dictionary=dictionary)
         return None
-   
+  
+
+
+
+
 ''' HACERLO CON DICCIONARIOS
     def show_tables(self):
         print("Mostrando tablas")
