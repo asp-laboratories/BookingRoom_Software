@@ -1,34 +1,34 @@
-class TipoServiciosRepository:
+class ServicioRepository:
     def __init__(self, db_configuracion):
         self.db = db_configuracion
 
-    def crear_tipo_servicio(self, tipo_servicio):
+    def crear_servicio(self, servicio):
         if not self.db.conectar():
             return False
 
         try:
             cursor = self.db.cursor()
             cursor.execute("""
-                INSERT INTO tipo_servicio (codigoTiSer, descripcion)
-                VALUES (%s, %s)
-            """, (tipo_servicio.codigoTiSer, tipo_servicio.descripcion))
+                INSERT INTO servicio (codigoSer, nombre, descripcion, costoRenta, tipo_servicio)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (servicio.codigoSer, servicio.nombre, servicio.descripcion, servicio.costo_renta, servicio.tipo_servicio))
     
             self.db.connection.commit()
-            print("Se añadio un tipo de servicio")
+            print("Se añadio un de servicio")
             return True
         except Exception as error:
-            print(f"Error al crear tipo de servicio: {error}")
+            print(f"Error al crear un servicio: {error}")
             return False
         finally:
             cursor.close()
             self.db.desconectar()
 
-    def listar_tipo_servicio(self):
+    def listar_servicio(self):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM tipo_servicio")
+            cursor.execute("SELECT * FROM servicio")
             resultados = cursor.fetchall()
 
         except Exception as error:
@@ -41,5 +41,5 @@ class TipoServiciosRepository:
 
 
 
-
-
+        
+        

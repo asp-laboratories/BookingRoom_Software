@@ -1,6 +1,6 @@
 from config.db_settings import BaseDeDatos
 from models.TipoServicio import TipoServicio
-from repositories.TipoServiciosRepository import TipoServiciosRepository
+from repositories_crud.TipoServiciosRepository import TipoServiciosRepository
 
 
 class TipoServicioService:
@@ -23,6 +23,19 @@ class TipoServicioService:
         for row in tipo_servicio:
             print(f"{row['codigoTiSer']}\t {row['descripcion']}")
     
+    def mostrar_servicios_de_tipo(self, tipo_servicio):
+        tipo = self.repository.obtener_servicios_de_tipo(tipo_servicio)
+        
+        if tipo:
+            print(f"\n--- {tipo} ---")
+            print("Servicios:")
+            if tipo.servicios:
+                for servicios in tipo.servicios:
+                    print(f"  - {servicios.nombre}")
+            else:
+                print("  No tiene libros registrados")
+        else:
+            print("Autor no encontrado")
+        
 
-        
-        
+

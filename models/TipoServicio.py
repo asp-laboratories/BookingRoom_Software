@@ -2,6 +2,7 @@ class TipoServicio:
     def __init__(self, codigoTiSer, descripcion):
         self.__codigoTiSer = codigoTiSer
         self.__descripcion = descripcion
+        self.__servicios = []
 
     @property
     def codigoTiSer(self):
@@ -19,4 +20,13 @@ class TipoServicio:
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
 
+    @property
+    def servicios(self):
+        return self.__servicios
 
+    @servicios.setter
+    def servicios(self, servicios):
+        self.__servicios = servicios
+
+    def __str__(self):
+        return (f"{self.descripcion}")
