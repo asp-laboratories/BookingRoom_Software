@@ -1,7 +1,8 @@
 class Rol:
-    def __init__(self, codigoRol, nombre):
+    def __init__(self, codigoRol, descripcion):
         self.__codigoRol = codigoRol
-        self.__nombre = nombre
+        self.__descripcion = descripcion
+        self.trabajadores = []
 
     @property
     def codigoRol(self):
@@ -12,9 +13,9 @@ class Rol:
         self.__codigoRol = codigoRol
 
     @property
-    def nombre(self):
-        return self.__nombre
+    def descripcion(self):
+        return self.__descripcion
 
-    @nombre.setter
-    def nombre(self, nombre):
-        self.__nombre = nombre
+    @descripcion.setter
+    def descripcion(self, descripcion):
+        self.__descripcion = descripcion

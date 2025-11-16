@@ -1,13 +1,14 @@
 class Trabajador:
-    def __init__(self, rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
+    def __init__(self, rfc, numTrabajador, nombre, priApellido, segApellido, email, codigoRol = "DEFLT", rolObj=None):
         self.__rfc = rfc
         self.__nombre = nombre
-        self.__prim_apell = prim_apell
-        self.__seg_apell = seg_apell
-        self.__matricula = matricula
-        self.__numero_emple = numero_emple
-        self.__telefono = telefono
+        self.__numTrabajador = numTrabajador
+        self.__priApellido = priApellido
+        self.__segApellido = segApellido
+        self.__numTrabajador = numTrabajador
         self.__email = email
+        self.__codigoRol = codigoRol
+        self.rolObj = rolObj 
 
     @property
     def rfc(self):
@@ -20,50 +21,33 @@ class Trabajador:
     @property
     def nombre(self):
         return self.__nombre
+    @property
+    def numTrabajador(self):
+        return self.__numTrabajador
+
+    @numTrabajador.setter
+    def numTrabajador(self, numTrabajador):
+        self.__numTrabajador = numTrabajador
 
     @nombre.setter
     def nombre(self, nombre):
         self.__nombre = nombre
 
     @property
-    def prim_apell(self):
-        return self.__prim_apell
+    def priApellido(self):
+        return self.__priApellido
 
-    @prim_apell.setter
-    def prim_apell(self, prim_apell):
-        self.__prim_apell = prim_apell
-
-    @property
-    def seg_apell(self):
-        return self.__seg_apell
-
-    @seg_apell.setter
-    def seg_apell(self, seg_apell):
-        self.__seg_apell = seg_apell
+    @priApellido.setter
+    def priApellido(self, priApellido):
+        self.__priApellido = priApellido
 
     @property
-    def matricula(self):
-        return self.__matricula
+    def segApellido(self):
+        return self.__segApellido
 
-    @matricula.setter
-    def matricula(self, matricula):
-        self.__matricula = matricula
-
-    @property
-    def numero_emple(self):
-        return self.__numero_emple
-
-    @numero_emple.setter
-    def numero_emple(self, numero_emple):
-        self.__numero_emple = numero_emple
-
-    @property
-    def telefono(self):
-        return self.__telefono
-
-    @telefono.setter
-    def telefono(self, telefono):
-        self.__telefono = telefono
+    @segApellido.setter
+    def segApellido(self, segApellido):
+        self.__segApellido = segApellido
 
     @property
     def email(self):
@@ -73,50 +57,16 @@ class Trabajador:
     def email(self, email):
         self.__email = email
 
+    @property
+    def codigoRol(self):
+        return self.__codigoRol
+
+    @codigoRol.setter
+    def codigoRol(self, codigoRol):
+        self.__codigoRol = codigoRol
     def __str__(self):
-        return f"--INFORMACION DEL TRABAJADOR-- RFC: {self.rfc}, Nombre completo: {self.nombre} {self.prim_apell} {self.seg_apell}"
+        return f"--INFORMACION DEL TRABAJADOR-- RFC: {self.rfc}, Nombre completo: {self.nombre} {self.priApellido} {self.segApellido}"
 
 
-
-class Administrador(Trabajador):
-    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
-        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
-    
-    def asignar_roles(self):
-        pass
-
-    def eliminar_roles(self):
-        pass
-
-    def añadir_equipamiento(self):
-        pass
-
-    def eliminar_equipamiento(self):
-        pass
-
-    def actualizar_equipamiento(self):
-        pass
-
-    def añadir_servicio(self):
-        pass
-    
-    def eliminar_servicio(self):
-        pass
-
-    def actualizar_servicio(self):
-        pass
-
-
-class Recepcionista(Trabajador):
-    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
-        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
-
-
-class Almacenista(Trabajador):
-    def __init__(self,rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email):
-        super().__init__(rfc, nombre, prim_apell, seg_apell, matricula, numero_emple, telefono, email)
-
-    def cambiar_estado_mob(self):
-        pass
 
 
