@@ -23,7 +23,7 @@ def añadir_ser():
 
 def listar_ser():
     while True:
-        servicio_service.listar_servicio()
+        servicio_service.listar_servicio_y_tipo()
         break
 
        

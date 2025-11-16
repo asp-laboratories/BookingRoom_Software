@@ -18,3 +18,10 @@ class ServicioService:
         for row in servicio:
             print(f"{row['codigoSer']}\t {row['nombre']}\t {row['descripcion']}\t {row['costoRenta']}\t")
 
+    def listar_servicio_y_tipo(self):
+
+        servicios = self.servicio_repository.obtener_servicios_inner()
+        if servicios:
+            for ser in servicios:
+                print(f"Informacion de: {ser.nombre}:\n{ser.descripcion}\n{ser.costo_renta}\n{ser.tipo_nombre}")
+

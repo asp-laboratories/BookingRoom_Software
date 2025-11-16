@@ -1,3 +1,7 @@
+from models.Servicios import Servicio
+from models.TipoServicio import TipoServicio
+
+
 class ServicioRepository:
     def __init__(self, db_configuracion):
         self.db = db_configuracion
@@ -38,6 +42,52 @@ class ServicioRepository:
             self.db.desconectar()
         return resultados
 
+    def obtener_servicios_inner(self):
+        """Obtiene libros con información básica del autor incluida"""
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            
+            # ✅ INNER JOIN para obtener libro + nombre autor
+            cursor.execute("""
+                SELECT 
+                    s.codigoSer as codigoSer,
+                    s.nombre as servicio,
+                    s.descripcion as descripcion,
+                    s.costoRenta as costoRenta,
+                    s.tipo_servicio as ts,
+                    t.descripcion as tipo  
+                FROM servicio as s
+                INNER JOIN tipo_servicio as t  ON s.tipo_servicio = t.codigoTiSer
+            """)
+            
+            results = cursor.fetchall()
+            servicios = []
+            
+            for row in results:
+                # Crear objeto Libro con información del autor incluida
+                servicio = Servicio(
+                    codigoSer=row['codigoSer'],
+                    nombre=row['servicio'],
+                    descripcion=row['descripcion'],
+                    costo_renta=row['costoRenta'],
+                    tipo_servicio=row['ts']
+                )
+                
+                # ⭐ Añadir información del autor al objeto libro
+                servicio.tipo_nombre = row['tipo']  # Información directa
+                
+                servicios.append(servicio)
+            
+            return servicios
+            
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+        finally:
+            self.db.desconectar()
 
 
 
