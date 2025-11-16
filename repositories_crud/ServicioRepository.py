@@ -1,6 +1,4 @@
 from models.Servicios import Servicio
-from models.TipoServicio import TipoServicio
-
 
 class ServicioRepository:
     def __init__(self, db_configuracion):
@@ -50,7 +48,6 @@ class ServicioRepository:
         try:
             cursor = self.db.cursor(dictionary=True)
             
-            # ✅ INNER JOIN para obtener libro + nombre autor
             cursor.execute("""
                 SELECT 
                     s.codigoSer as codigoSer,
@@ -67,7 +64,6 @@ class ServicioRepository:
             servicios = []
             
             for row in results:
-                # Crear objeto Libro con información del autor incluida
                 servicio = Servicio(
                     codigoSer=row['codigoSer'],
                     nombre=row['servicio'],
@@ -76,7 +72,6 @@ class ServicioRepository:
                     tipo_servicio=row['ts']
                 )
                 
-                # ⭐ Añadir información del autor al objeto libro
                 servicio.tipo_nombre = row['tipo']  # Información directa
                 
                 servicios.append(servicio)

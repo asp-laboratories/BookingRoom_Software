@@ -18,7 +18,7 @@ class TipoServiciosRepository:
             """, (tipo_servicio.codigoTiSer, tipo_servicio.descripcion))
     
             self.db.connection.commit()
-    print("Se añadio un tipo de servicio")
+            print("Se añadio un tipo de servicio")
             return True
         except Exception as error:
             print(f"Error al crear tipo de servicio: {error}")
