@@ -33,9 +33,9 @@ class TipoServicioService:
                 for servicios in tipo.servicios:
                     print(f"  - {servicios.nombre}")
             else:
-                print("  No tiene libros registrados")
+                print(" No tiene servicios registrados")
         else:
-            print("Autor no encontrado")
+            print("Tipo de servicio no encontrado, revise el codigo")
         
 
 
