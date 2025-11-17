@@ -37,4 +37,23 @@ class TrabajadorRepository:
             self.db.desconectar()
         return resultados
 
-
+    def actualizar(self, RFC, codigoRol):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+                UPDATE trabajador 
+                SET rol = %s 
+                WHERE RFC = %s
+            """, (codigoRol, RFC))
+            self.db.connection.commit()
+            print("Trabajador actualizado exitosamente.")
+            
+        except Exception as e:
+            print(f"Error al actualizar trabajador: {e}")
+            return False
+        finally:
+            cursor.close()
+            self.db.desconectar()

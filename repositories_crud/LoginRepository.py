@@ -24,7 +24,7 @@ class LoginRepository:
             trabajador = Trabajador(
                 rfc = resultado['RFC'],
                 numTrabajador = resultado['numTrabajador'],
-                nombre = resultado['nombre'],
+    nombre = resultado['nombre'],
                 priApellido=resultado['priApellido'],
                 segApellido=resultado['segApellido'],
                 email=resultado['email'],

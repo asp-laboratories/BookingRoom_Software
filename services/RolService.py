@@ -4,7 +4,7 @@ from repositories_crud.RolRepository import RolRepository
 
 
 class RolService:
-    def __init__(self) -> None:
+    def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.rol_repository = RolRepository(self.db)
        

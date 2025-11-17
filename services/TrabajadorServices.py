@@ -18,3 +18,7 @@ class TrabajadorServices:
         print("Nombre:\t Rol:\t")
         for row in trabajador:
             print(f"{row['nombre']}\t {row['rol']}")
+
+    def actualizar_trabajadores(self, RFC, codigoRol):
+        self.trabajador_repository.actualizar(RFC, codigoRol)
+
