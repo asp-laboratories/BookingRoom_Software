@@ -10,9 +10,10 @@ login = LoginService()
 def main():
     email = input("Ingresa email: ")
     numTrabajador = input("Ingresa numero de trabajador: ")
-    p = login.registrar_trabajadores(email, numTrabajador)
-    if p:
-        test_trabajador.main()
+
+    login.registrar_trabajadores(email, numTrabajador)
+    # if p:
+    #     test_trabajador.main()
             
 
 main()

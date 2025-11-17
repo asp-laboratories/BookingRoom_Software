@@ -1,5 +1,7 @@
 from config.db_settings import BaseDeDatos
 from repositories_crud.LoginRepository import LoginRepository
+from tests import test_trabajador
+from utils.horario import horario
 
 
 class LoginService:
@@ -15,7 +17,9 @@ class LoginService:
         else:
             if datos[0] == email and datos[1] == numTrabajador:
                 if datos[2] == "DEFLT":
-                    print("usuario default")
+                    horario()
+                elif datos[2] == "ADMIN":
+                    test_trabajador.main()
                 return True
             else:
                 return False
