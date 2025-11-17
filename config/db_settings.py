@@ -11,7 +11,6 @@ class BaseDeDatos():
                 'password': password,
                 'database': database
             }
-
             self.connection = None
             print("Conexion establecida")
         except Exception as error:
@@ -35,30 +34,41 @@ class BaseDeDatos():
             return self.connection.cursor(dictionary=dictionary)
         return None
   
-
-
-
-
-''' HACERLO CON DICCIONARIOS
     def show_tables(self):
         print("Mostrando tablas")
         try:
             cursor = self.cursor()
             cursor.execute('show tables')
-            for i in cursor.fetchall():
-                print(i)
+            consulta = cursor.fetchall()
+            for tabla in consulta:
+                print(f"{tabla.values()}")
         except:
-            print("No te encuentras en una base de datos, imposible mostrar tablas")
+            print("Error, imposible mostrar tablas")
 
     def show_databases(self):
-        cursor = self.cursor()
-        cursor.execute('show databases')
-        for i in cursor.fetchall():
-            print(i)
+        print("Mostrando Bases de Datos")
+        try:
+            cursor = self.cursor()
+            cursor.execute('show databases')
+            consulta = cursor.fetchall()
+            for tabla in consulta:
+                print(f"{tabla.values()}")
+        except:
+            print("Error, imposible mostrar tablas")
 
     def show_columns(self, table):
-        resultado = self.execute(f'desc {table}')
-        for i in resultado:
-            print(i)
+        cursor = self.cursor()
+        cursor.execute(f'desc {table}')
+        consulta = cursor.fetchall()
+        #print(consulta)
+        for atributo in consulta:
+            print(f"{atributo}")
 
-'''
+if __name__ == "__main__":
+    conexion = BaseDeDatos(database="pruebas")
+    conexion.conectar()
+    conexion.show_tables()
+    conexion.show_databases()
+    conexion.show_columns('trabajador')
+
+
