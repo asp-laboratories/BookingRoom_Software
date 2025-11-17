@@ -1,8 +1,8 @@
 class Trabajador:
     def __init__(self, rfc, numTrabajador, nombre, priApellido, segApellido, email, codigoRol = "DEFLT", rolObj=None):
         self.__rfc = rfc
-        self.__nombre = nombre
         self.__numTrabajador = numTrabajador
+        self.__nombre = nombre
         self.__priApellido = priApellido
         self.__segApellido = segApellido
         self.__numTrabajador = numTrabajador

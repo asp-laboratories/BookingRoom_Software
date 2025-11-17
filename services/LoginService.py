@@ -10,17 +10,17 @@ class LoginService:
         self.login_repository = LoginRepository(self.db)
 
     def registrar_trabajadores(self, email, numTrabajador):
-        datos = self.login_repository.iniciar_trabajador(email, numTrabajador)
+        return self.login_repository.iniciar_trabajador(email, numTrabajador)
 
-        if datos == None:
-            print("Sorry")
-        else:
-            if datos[0] == email and datos[1] == numTrabajador:
-                if datos[2] == "DEFLT":
-                    horario()
-                elif datos[2] == "ADMIN":
-                    test_trabajador.main()
-                return True
-            else:
-                return False
+        # if datos == None:
+        #     print("Sorry")
+        # else:
+        #     if datos[0] == email and datos[1] == numTrabajador:
+        #         if datos[2] == "DEFLT":
+        #             horario()
+        #         elif datos[2] == "ADMIN":
+        #             test_trabajador.main()
+        #         return True
+        #     else:
+        #         return False
         
