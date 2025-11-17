@@ -1,8 +1,10 @@
 from models.Servicios import Servicio
-
+# Servicio Repository o CRUD para la tabla de servicios - Lo que se hace en este archivo son las operaciones de la base de datos, por ejemplo las consultas que conocemos
+# apareceran aqui tales como INSERT, SELECT, UPDATE y DELETE.
 class ServicioRepository:
     def __init__(self, db_configuracion):
-        self.db = db_configuracion
+        self.db = db_configuracion # En esta sentencia se pasa un objeto que es mandado desde el archivo ServicioService, basicamente es la manera en la cual 
+        #las operaciones podran ser exitosas por que aqui se esta guardando la configuracion de la base de datos.
 
     def crear_servicio(self, servicio):
         if not self.db.conectar():
