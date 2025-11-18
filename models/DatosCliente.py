@@ -1,7 +1,7 @@
 
 class DatosCliente:
     # Constructor
-    def __init__(self, RFC, contNombre, contPriApellido, tipo_cliente, nombreFiscal, email, dirCalle, dirColonia, dirNumero, contSegApellido = None):
+    def __init__(self, RFC, contNombre, contPriApellido, contSegApellido, tipo_cliente, nombreFiscal, email, dirCalle, dirColonia, dirNumero):
         self.__RFC = RFC
         self.__contNombre = contNombre
         self.__contPriApellido = contPriApellido
