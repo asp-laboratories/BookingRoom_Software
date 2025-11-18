@@ -6,85 +6,95 @@ class ServicioRepository:
         self.db = db_configuracion # En esta sentencia se pasa un objeto que es mandado desde el archivo ServicioService, basicamente es la manera en la cual 
         #las operaciones podran ser exitosas por que aqui se esta guardando la configuracion de la base de datos.
 
-    def crear_servicio(self, servicio):
-        if not self.db.conectar():
+    def crear_servicio(self, servicio): # Para insertar los datos de un servicio a la base de datos se utiliza, una funcion en la cual contendra un parametro que 
+        #se espera que sea un objeto.
+        if not self.db.conectar(): # Si la conexion a la base de datos no funciona devolvera False, mediante la propiedades db que es una instancia de un clase, recordar
+            #composicion, se puede acceder a la configuracion de la base de datos, si la conexion existe entonces procedera con el codigo, ejecutando el try.
             return False
 
-        try:
-            cursor = self.db.cursor()
+        try: #Intentamos ejecutar el bloque try.
+            cursor = self.db.cursor() #Generamos un cursor para poder hacer las consultas de la base de datos, accedemos al cursor mediante la instancia que es una propiedad
+            #de esta clase, guardamos en la variable cursor el resultado de db.cursor().
             cursor.execute("""
                 INSERT INTO servicio (codigoSer, nombre, descripcion, costoRenta, tipo_servicio)
                 VALUES (%s, %s, %s, %s, %s)
-            """, (servicio.codigoSer, servicio.nombre, servicio.descripcion, servicio.costo_renta, servicio.tipo_servicio))
+            """, (servicio.codigoSer, servicio.nombre, servicio.descripcion, servicio.costo_renta, servicio.tipo_servicio)) #mediante la variable cursor podemos hacer
+            #uso de las diferentes funcionalidades que ofrece execute es una de ellas, estas caracteristicas provienen del importe de mysql-connector. Para insertar los 
+            # valores en la tabla de la base de datos se ponen los campos de la tabla y en values %s que tomara los valores entre parentesis. Los valores entre parentesis
+            # son los valores que se ingresaran, en este caso podemos ver que el parametro actuara como objeto, entonces mediante el . podemos acceder lo que contiene
+            #ese objeto y eso es lo que se enviara a la tabla.
     
-            self.db.connection.commit()
-            print("Se añadio un de servicio")
-            return True
-        except Exception as error:
-            print(f"Error al crear un servicio: {error}")
-            return False
+            self.db.connection.commit() #Metodo de la base de datos que es necesario para que el insert no se pierda y sea exitoso.
+            print("Se añadio un de servicio") #mensaje de confirmacion de que todo salio correcto.
+            return True #Retornar True si todo salio como se esperaba.
+        except Exception as error: #Si el bloque de codigo en try detecta un error, esta excepcion lo capturara.
+            print(f"Error al crear un servicio: {error}") #Mediante el alias mostramos en pantalla el error.
+            return False #Retornamos False.
         finally:
-            cursor.close()
+            cursor.close() # Cerramos tanto el cursor como la base de datos ESTO SIEMPRE SE HACE EN CADA CONSULTA PARA NO TENER ERRORES, en la sentencia finally que siempre
+            #ejecutara.
             self.db.desconectar()
 
-    def listar_servicio(self):
-        if not self.db.conectar():
+    def listar_servicio(self):#Metodo para traer todos los datos de una tabla.
+        if not self.db.conectar(): # La misma explicacion la conexion de arriba pero en esta ocasion retorna None, significa que si no pudo conectarse devuelva NADA.
             return None
         try:
-            cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM servicio")
-            resultados = cursor.fetchall()
+            cursor = self.db.cursor(dictionary=True) #Obtenemos el cursor para poder hacer consultas, pero convertimos el cursor a diccioario.
+            cursor.execute("SELECT * FROM servicio") #Hacemos la consulta para traer todos los servicios.
+            resultados = cursor.fetchall() #Guardamos en una variable cursor.fetchall() que basicamente significa que trae todos los resultados existe otro que es
+            #cursor.fetchone() que solo trae una solo fila es aplicable para casos donde se utilize un where.
 
-        except Exception as error:
-            print(f"Error al listar los servicios: {error}")
+        except Exception as error: # Si hubo un error, aparecera este mensaje junto con el motivo del error.
+            print(f"Error al listar los servicios: {error}") 
         finally:
-            cursor.close()
+            cursor.close() # Cerramos el cursor y la base de datos.
             self.db.desconectar()
-        return resultados
+        return resultados # Retornamos el resultado, tenemos que recordar que es un diccionario, importante.
 
-    def obtener_servicios_inner(self):
-        """Obtiene libros con información básica del autor incluida"""
+    def obtener_servicios_inner(self): #Metodo para traer mucha informacion en un inner join.
         if not self.db.conectar():
-            return None
+            return None # Misma explicacion de arriba.
         
         try:
-            cursor = self.db.cursor(dictionary=True)
+            cursor = self.db.cursor(dictionary=True) # Misma explicacion de arriba.
             
             cursor.execute("""
                 SELECT 
                     s.codigoSer as codigoSer,
                     s.nombre as servicio,
-                    s.descripcion as descripcion,
+                    s.descripcion as descripcion, 
                     s.costoRenta as costoRenta,
                     s.tipo_servicio as ts,
                     t.descripcion as tipo  
                 FROM servicio as s
                 INNER JOIN tipo_servicio as t  ON s.tipo_servicio = t.codigoTiSer
-            """)
+            """)# Sentencia conocida, inner join con integridad referencial.
             
-            results = cursor.fetchall()
-            servicios = []
+            results = cursor.fetchall() # Misma explicacion de arriba, recibimos un diccionario.
+            servicios = [] #Creamos un arreglo para solo guardar la informacion que nos sea de utilidad.
             
-            for row in results:
+            for row in results: # Mecanica para poder meter los datos del diccionario en un objeto, hay que pensar como si el llamado de la clase este en posicion
+                #horizontal, con row accemos a la informacion que nos dio results, entre los corchetes intentara encontrar un valor igual, si nos damos cuenta entre 
+                 # estos corchetos se pone el alias asignado a la hora de hacer el inner join.
                 servicio = Servicio(
                     codigoSer=row['codigoSer'],
                     nombre=row['servicio'],
                     descripcion=row['descripcion'],
                     costo_renta=row['costoRenta'],
                     tipo_servicio=row['ts']
-                )
-                
-                servicio.tipo_nombre = row['tipo']  # Información directa
-                
-                servicios.append(servicio)
+                ) #Cada propiedad de la clase esta igualado a los rows, lo que significa que las propiedades guardaran la informacion que contenga ese row, en este caso los
+                # datos del servicio.              
+                servicio.tipo_nombre = row['tipo']  # la clase Servicio tiene una propiedad que esta por fuera del constructor es decir que no se requiere en el llenado
+                #y es por que esta por fuera a la hora de la creacion de la instancia, si no hay intancia creada esto no va funcionar por obvias razones.
+                servicios.append(servicio)#Recordando el arreglo de arriba, guardamos el objeto/intancia servicio.
             
-            return servicios
+            return servicios #Enviamos de regreso el arreglo de servicios.
             
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"Error: {e}") #Si encontramos un error, enviar None
             return None
         finally:
-            self.db.desconectar()
+            self.db.desconectar() #desconectar base de datos y cursor.
 
 
 
