@@ -10,7 +10,6 @@ class Servicio:
     @property
     def codigoSer(self):
         return self.__codigoSer
-
     @codigoSer.setter
     def codigoSer(self, codigoSer):
         self.__codigoSer = codigoSer
@@ -18,7 +17,6 @@ class Servicio:
     @property
     def nombre(self):
         return self.__nombre
-
     @nombre.setter
     def nombre(self, nombre):
         self.__nombre = nombre
@@ -26,7 +24,6 @@ class Servicio:
     @property
     def descripcion(self):
         return self.__descripcion
-
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
@@ -34,7 +31,6 @@ class Servicio:
     @property
     def costo_renta(self):
         return self.__costo_renta
-
     @costo_renta.setter
     def costo_renta(self, costo_renta):
         self.__costo_renta = costo_renta
@@ -42,7 +38,6 @@ class Servicio:
     @property
     def tipo_servicio(self):
         return self.__tipo_servicio
-
     @tipo_servicio.setter
     def tipo_servicio(self, tipo_servicio):
         self.__tipo_servicio = tipo_servicio

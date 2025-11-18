@@ -6,7 +6,6 @@ class EstaEquipa:
     @property
     def codigoEquipa(self):
         return self.__codigoEquipa
-
     @codigoEquipa.setter
     def codigoMe(self, codigoEquipa):
         self.__codigoEquipa = codigoEquipa
@@ -14,7 +13,6 @@ class EstaEquipa:
     @property
     def descripcion(self):
         return self.__descripcion
-
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

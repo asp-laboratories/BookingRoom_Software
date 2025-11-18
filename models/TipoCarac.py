@@ -6,7 +6,6 @@ class TipoCarac:
     @property
     def codigoTiCarac(self):
         return self.__codigoTiCarac
-
     @codigoTiCarac.setter
     def codigoTiCarac(self, codigoTiCarac):
         self.__codigoTiCarac = codigoTiCarac
@@ -14,7 +13,6 @@ class TipoCarac:
     @property
     def nombreCarac(self):
         return self.__nombreCarac
-
     @nombreCarac.setter
     def nombreCarac(self, nombreCarac):
         self.__nombreCarac = nombreCarac

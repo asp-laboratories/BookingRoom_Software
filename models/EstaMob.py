@@ -6,7 +6,6 @@ class EstaMob:
     @property
     def codigoMob(self):
         return self.__codigoMob
-
     @codigoMob.setter
     def codigoMob(self, codigoMob):
         self.__codigoMob = codigoMob
@@ -14,7 +13,6 @@ class EstaMob:
     @property
     def descripcion(self):
         return self.__descripcion
-
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

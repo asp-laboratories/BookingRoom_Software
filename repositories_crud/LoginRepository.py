@@ -24,11 +24,11 @@ class LoginRepository:
             trabajador = Trabajador(
                 rfc = resultado['RFC'],
                 numTrabajador = resultado['numTrabajador'],
-    nombre = resultado['nombre'],
-                priApellido=resultado['priApellido'],
-                segApellido=resultado['segApellido'],
-                email=resultado['email'],
-                codigoRol=resultado['rol']
+                nombre = resultado['nombre'],
+                priApellido = resultado['priApellido'],
+                segApellido = resultado['segApellido'],
+                email = resultado['email'],
+                codigoRol = resultado['rol']
             )
 
             info.append(trabajador.email)

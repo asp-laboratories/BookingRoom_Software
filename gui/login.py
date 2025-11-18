@@ -6,6 +6,7 @@ from gui.admin import AdminWindow
 from gui.deftl import DefaultWindow
 from gui.registro import Registro
 from services.LoginService import LoginService
+
 ruta_ui = Path(__file__).parent / "login.ui"
 log = LoginService()
 

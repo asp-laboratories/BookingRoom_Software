@@ -3,6 +3,7 @@ from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox 
 from services.TrabajadorServices import TrabajadorServices
+
 ruta_ui = Path(__file__).parent / "registro.ui"
 trabajador = TrabajadorServices()
 

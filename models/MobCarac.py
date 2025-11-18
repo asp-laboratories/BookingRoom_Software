@@ -6,7 +6,6 @@ class MobCarac:
     @property
     def numCarac(self):
         return self.__numCarac
-
     @numCarac.setter
     def numCarac(self, numCarac):
         self.__numCarac = numCarac
@@ -14,7 +13,6 @@ class MobCarac:
     @property
     def descripcion(self):
         return self.__descripcion
-
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

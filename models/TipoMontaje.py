@@ -7,7 +7,6 @@ class TipoMontaje:
     @property
     def codigoMon(self):
         return self.__codigoMon
-
     @codigoMon.setter
     def codigoMon(self, codigoMon):
         self.__codigoMon = codigoMon
@@ -15,7 +14,6 @@ class TipoMontaje:
     @property
     def nombre(self):
         return self.__nombre
-
     @nombre.setter
     def nombre(self, nombre):
         self.__nombre = nombre
@@ -23,7 +21,6 @@ class TipoMontaje:
     @property
     def descripcion(self):
         return self.__descripcion
-
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
