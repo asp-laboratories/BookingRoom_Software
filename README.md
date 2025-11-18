@@ -1,6 +1,9 @@
 #BookingRoom Software
 
 ## 📁 Estructura del Proyecto
+
+```
+
 BookingRoom_Software/
 ├── 📄 .gitignore
 ├── 🖼️ BookingRoom.png
@@ -15,3 +18,5 @@ BookingRoom_Software/
 ├── 🔧 services/ # Lógica de negocio, control del crud
 ├── ✅ tests/ # Pruebas unitarias por modulo
 └── 🛠️ utils/ # Utilidades
+
+```
