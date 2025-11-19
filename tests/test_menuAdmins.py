@@ -1,6 +1,7 @@
 
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -8,13 +9,16 @@ from config.db_settings import BaseDeDatos
 from tests.test_salon import main as  main_salones
 from tests.test_servicio import main as main_servicios
 from tests.test_tipo_servicio import main as main_tipoServicios
-from tests.test_trabajador import main as main_trabajador
+from tests.test_trabajador import asignar as establecer_rol, listar
 from utils.Obtener_Numeros import obt_int 
+from tests.test_equipamento import main as main_equipamiento
+
 
 def menu_administrador():
-    print("Que deseas hacer?")
     while True:
-        respuesta = obt_int("1. Salon \n2. Equipamento \n3. Servicio \n4. Mobiliario \n5. Trabajadores \n0. Salir")
+
+        print("\nQue deseas hacer?")
+        respuesta = obt_int("\n1. Salon \n2. Equipamento \n3. Servicio \n4. Mobiliario \n5. Asignar rol\n6. Listar trabajadores \n0. Salir")
         match respuesta:
             case 0:
                 print("Saliendo...")
@@ -26,7 +30,7 @@ def menu_administrador():
         
             case 2:
                 print("Menu equipamento")
-                
+                main_equipamiento()
 
             case 3:
                 print("Menu servicio")
@@ -45,11 +49,14 @@ def menu_administrador():
 
             case 4:
                 print("Menu mobiliario")
-                
-
+                print("En proceso") 
             case 5:
                 print("Menu trabajadores")
-                main_trabajador()
+                establecer_rol()
+
+            case 6:
+                print("Lista de los trabajadores")
+                listar()
 
             case _:
                 print("Valor fuera de rango intente de nuevo")
