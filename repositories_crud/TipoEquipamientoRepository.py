@@ -1,7 +1,7 @@
 from models.TipoEquipa import TipoEquipa
 from models.Equipamiento import Equipamiento
 
-class TipoEquipoRepository:
+class TipoEquipaRepository:
     # Constructor
     def __init__(self, db_configuration):
         self.db = db_configuration
@@ -51,7 +51,7 @@ class TipoEquipoRepository:
 
         return resultados
     
-    def obtener_equipamentoss_de_tipo(self, tipo_equipa):# Aca se mostrarian los equipamentos por tipo de equipamento
+    def obtener_equipamentos_de_tipo(self, tipo_equipa):# Aca se mostrarian los equipamentos por tipo de equipamento
         if not self.db.conectar():
             return None
 
