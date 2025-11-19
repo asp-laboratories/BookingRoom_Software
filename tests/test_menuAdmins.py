@@ -4,15 +4,13 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
-from config.db_settings import BaseDeDatos
 from tests.test_salon import main as  main_salones
 from tests.test_servicio import main as main_servicios
 from tests.test_tipo_servicio import main as main_tipoServicios
 from tests.test_trabajador import asignar as establecer_rol, listar
 from utils.Obtener_Numeros import obt_int 
 from tests.test_equipamento import main as main_equipamiento
-
+from tests.test_tipoEquipamento import main as main_tiEquipamento
 
 def menu_administrador():
     while True:
@@ -30,13 +28,27 @@ def menu_administrador():
         
             case 2:
                 print("Menu equipamento")
-                main_equipamiento()
+                print("A que menu desea ingresar?")
+                while True:
+                    respuesta = obt_int("1. Menu Tipo de Equipamento \n2. Menu Equipamentos \n0. Salir")
+                    match respuesta:
+                        case 0:
+                            print("Saliendo...")
+                            break
+                        case 1:
+                            main_tiEquipamento()
+                        
+                        case 2:
+                            main_equipamiento()
+                        
+                        case _:
+                            print("Valor fuera de rango, intente de nuevo")
 
             case 3:
                 print("Menu servicio")
                 while True:
                     print("A que menu desea ingresar?")
-                    respuesta = obt_int("1. Menu Tipo de servicio \n2. Servicios \n0. Salir")
+                    respuesta = obt_int("1. Menu Tipo de servicio \n2. Menu Servicios \n0. Salir")
                     if respuesta == 0:
                         print("Saliendo")
                         break
@@ -62,5 +74,4 @@ def menu_administrador():
                 print("Valor fuera de rango intente de nuevo")
 
 if __name__ == "__main__":
-    bd = BaseDeDatos(database="bookingroomlocal")
     menu_administrador()
