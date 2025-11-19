@@ -35,10 +35,10 @@ class LoginRepository:
             info.append(trabajador.numTrabajador)
             info.append(trabajador.codigoRol)
 
-            return info
         except Exception as error:
             print(f"Error al encontrar los datos: {error}")
             return False
         finally:
             cursor.close()
             self.db.desconectar()
+            return info

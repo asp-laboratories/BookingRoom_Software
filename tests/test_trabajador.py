@@ -42,7 +42,7 @@ def listar():
 
 def main():
     while True:
-        print("--Registro de trabajador--\n1. Registrar trabajador \n2. Listar trabajador\n 3. Asignar rol \n4. Salir")
+        print("--Registro de trabajador--\n1. Registrar trabajador \n2. Listar trabajador \n3. Asignar rol \n4. Salir")
         opcion = int(input("Elige una opcion"))
         if opcion == 1:
             registrar()
