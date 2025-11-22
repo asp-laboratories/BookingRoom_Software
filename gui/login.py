@@ -4,6 +4,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
 from gui.admin import AdminWindow
 from gui.deftl import DefaultWindow
+from gui.navegacion import Navegacion
 from gui.registro import Registro
 from services.LoginService import LoginService
 
@@ -42,7 +43,8 @@ class Login():
                     self.deftl = DefaultWindow()
                     self.login.hide()
                 elif resultado[2] == "ADMIN":
-                    self.admin = AdminWindow()
+                    self.nav = Navegacion()
+                    # self.admin = AdminWindow()
                     self.login.hide()
 
     def initGUI(self):
