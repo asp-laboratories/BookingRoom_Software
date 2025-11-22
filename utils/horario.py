@@ -1,2 +1,2 @@
 def horario():
-    print("hola")
+    print("horario")

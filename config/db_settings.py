@@ -29,7 +29,7 @@ class BaseDeDatos():
         if self.connection and self.connection.is_connected():
             self.connection.close()
 
-    def cursor(self, dictionary=True):
+    def cursor(self, dictionary= True):
         if self.connection:
             return self.connection.cursor(dictionary=dictionary)
         return None
