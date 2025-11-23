@@ -8,9 +8,9 @@ class SalonRepository:
         try:
             cursor = self.db.cursor()
             cursor.execute("""
-                INSERT INTO datos_salon (numSalon, nombre, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados, esta_salon)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """, (salon.numSalon, salon.nombre, salon.ubiNombrePas, salon.ubiNumeroPas, salon.dimenLargo, salon.dimenAncho, salon.dimenAltura, salon.mCuadrados, salon.esta_salon))
+                INSERT INTO datos_salon (nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados, esta_salon)
+                VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, ( salon.nombre, salon.costoRenta, salon.ubiNombrePas, salon.ubiNumeroPas, salon.dimenLargo, salon.dimenAncho, salon.dimenAltura, salon.mCuadrados, salon.esta_salon))
     
             self.db.connection.commit()
             print("Se añadio un salon")

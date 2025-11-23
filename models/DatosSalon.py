@@ -1,9 +1,9 @@
 
 class DatosSalon:
     # Constructor
-    def __init__(self, numSalon, nombre, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados, esta_salon):
-        self.__numSalon = numSalon
+    def __init__(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados=0, esta_salon="DISPN"):
         self.__nombre = nombre
+        self.__costoRenta = costoRenta
         self.__ubiNombrePas = ubiNombrePas
         self.__ubiNumeroPas = ubiNumeroPas
         self.__dimenLargo = dimenLargo
@@ -13,12 +13,14 @@ class DatosSalon:
         self.__esta_salon = esta_salon
     
     # Get / Set
+
     @property
-    def numSalon(self):
-        return self.__numSalon
-    @numSalon.setter
-    def numSalon(self, new_numSalon):
-        self.__numSalon = new_numSalon
+    def costoRenta(self):
+        return self.__costoRenta
+
+    @costoRenta.setter
+    def costoRenta(self, costoRenta):
+        self.__costoRenta = costoRenta
 
     @property
     def nombre(self):

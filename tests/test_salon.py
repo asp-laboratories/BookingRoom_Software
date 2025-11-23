@@ -10,7 +10,6 @@ def registrar():
         opcion = int(input("Quieres registrar un salon? 1.Si 2.No"))
         if opcion == 1:
             print("--Registro de salones--")
-            numero_salon = int(input("Ingresa el numero del salon: "))
             nombre = input("Ingresa el nombre del salon: ")
             nombre_pasillo = input("Ingresa el nombre del pasillo en donde se ubica: ")
             numero_pasillo = int(input("Ingresa el numero del pasillo en donde se ubica: "))
@@ -20,7 +19,7 @@ def registrar():
             m2 = (2*(dimeLargo+dimeAncho)*dimeAlto)
             print(m2)
             estado = input("Estado: ")
-            salon.registrar_salones(numero_salon, nombre, nombre_pasillo, numero_pasillo, dimeLargo, dimeAncho, dimeAlto, m2, estado)
+            salon.registrar_salones(nombre, nombre_pasillo, numero_pasillo, dimeLargo, dimeAncho, dimeAlto, m2, estado)
         elif opcion == 2:
             break
         else:

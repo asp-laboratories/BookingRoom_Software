@@ -2,9 +2,12 @@ import os
 from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
+from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 ruta_ui = Path(__file__).parent / "navegacion.ui"
 servicio = ServicioService()
+salon = SalonServices()  
+
 
 class Navegacion():
     def __init__(self):
@@ -12,6 +15,7 @@ class Navegacion():
         # self.initGUI()
         self.navegacion.show()
         self.navegacion.sMensaje.setText("")
+        self.navegacion.saMensaje.setText("")
         self.navegacion.subMenuAdministracion.setVisible(False)
         self.navegacion.subMenuAlmacen.setVisible(False)
         self.navegacion.subMenuRecepcion.setVisible(False)
@@ -22,8 +26,14 @@ class Navegacion():
 
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
+        self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
 
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio)
+
+        self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
+        self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
+
+
 
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(not self.navegacion.subMenuAdministracion.isVisible())
@@ -38,6 +48,29 @@ class Navegacion():
             self.navegacion.sMensaje.setText("Incorrecto")
         else:
             self.navegacion.sMensaje.setText("Correcto")
+
+    def registrar_salon(self):
+        largo =  float(self.navegacion.saLargo.text()) 
+        ancho = float(self.navegacion.saAncho.text())
+        altura =  float(self.navegacion.saAltura.text())
+        m2 = (2*(largo+ancho)*altura)
+        self.navegacion.saResultadoM2.setText(str(m2))
+        resultado = salon.registrar_salones(self.navegacion.saNombre.text(), float(self.navegacion.saCostoRenta.text()), self.navegacion.saNombrePasillo.text(), self.navegacion.saNumeroPasillo.text(), largo, ancho, altura, m2)
+        if resultado == False:
+            self.navegacion.saMensaje.setText("Incorrecto")
+        else:
+            self.navegacion.saMensaje.setText("Correcto")
+    
+
+    def limpiar_salon(self):
+        self.navegacion.saNombre.clear()
+        self.navegacion.saCostoRenta.clear()
+        self.navegacion.saNombrePasillo.clear()
+        self.navegacion.saNumeroPasillo.    clear()
+        self.navegacion.saLargo.clear()
+        self.navegacion.saAncho.clear()
+        self.navegacion.saAltura.clear()
+        self.navegacion.saResultadoM2.clear()
 
     def mostrar_pagina(self, indice):
         self.navegacion.stackedWidget.setCurrentIndex(indice)

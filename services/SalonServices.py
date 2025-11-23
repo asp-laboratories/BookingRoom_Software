@@ -8,8 +8,8 @@ class SalonServices:
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.salon_repository = SalonRepository(self.db)
        
-    def registrar_salones(self, numSalon, nombre, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados, esta_salon):
-        salon = DatosSalon(numSalon, nombre, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados, esta_salon)
+    def registrar_salones(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2):
+        salon = DatosSalon( nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2)
         return self.salon_repository.crear_salon(salon)
 
     def listar_salones(self):
