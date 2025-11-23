@@ -42,6 +42,35 @@ class TipoServiciosRepository:
             self.db.desconectar()
         return resultados
 
+    def descripcion_de_tipo(self,t_descripcion):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM tipo_servicio WHERE descripcion = %s",(t_descripcion,))
+            resultado = cursor.fetchone()
+
+            if not resultado:
+                return None
+
+            simpleArreglo = []
+
+            tipo = TipoServicio(
+                codigoTiSer=resultado['codigoTiSer'],
+                descripcion=resultado['descripcion']
+            )
+
+            simpleArreglo.append(tipo.codigoTiSer)
+
+            return tipo
+            
+        except Exception as error:
+            print(f"Error al listar los servicios: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+ 
+
 
     def obtener_servicios_de_tipo(self, tipo_servicio):
         if not self.db.conectar():
@@ -68,7 +97,6 @@ class TipoServiciosRepository:
       
             for servicio_data in servicios_data:
                 servicio = Servicio(
-                    codigoSer=servicio_data['codigoSer'],
                     nombre=servicio_data['nombre'],
                     descripcion=servicio_data['descripcion'],
                     costo_renta=servicio_data['costoRenta'],
@@ -83,6 +111,7 @@ class TipoServiciosRepository:
             print(f"Error al obtener los servicios: {e}")
             return None
         finally:
+            cursor.close()
             self.db.desconectar()
     
     

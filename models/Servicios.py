@@ -1,18 +1,10 @@
 class Servicio:
-    def __init__(self, codigoSer, nombre, descripcion, costo_renta, tipo_servicio, tipo=None):
-        self.__codigoSer = codigoSer
+    def __init__(self, nombre, descripcion, costo_renta, tipo_servicio, tipo=None):
         self.__nombre = nombre
         self.__descripcion = descripcion
         self.__costo_renta = costo_renta
         self.__tipo_servicio = tipo_servicio
         self.tipo = tipo
-
-    @property
-    def codigoSer(self):
-        return self.__codigoSer
-    @codigoSer.setter
-    def codigoSer(self, codigoSer):
-        self.__codigoSer = codigoSer
 
     @property
     def nombre(self):

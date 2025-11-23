@@ -11,9 +11,9 @@ class EquipamentoRepository:
         try:
             cursor = self.db.cursor()
             cursor.execute("""
-                INSERT INTO equipamiento (numEquipa, nombre, descripcion, costoRenta, stock, esta_equipa, tipo_equipa)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """, (equipamiento.numEquipa, equipamiento.nombre, equipamiento.descripcion, equipamiento.costoRenta, equipamiento.stock, equipamiento.esta_equipa, equipamiento.tipo_equipa))
+                INSERT INTO equipamiento (nombre, descripcion, costoRenta, stock, esta_equipa, tipo_equipa)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """, ( equipamiento.nombre, equipamiento.descripcion, equipamiento.costoRenta, equipamiento.stock, equipamiento.esta_equipa, equipamiento.tipo_equipa))
     
             self.db.connection.commit()
             print("Se añadio un equipamento")

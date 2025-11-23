@@ -1,7 +1,6 @@
 class Equipamiento:
     # Constructor 
-    def __init__(self, numEquipa, nombre, descripcion, costoRenta, stock, esta_equipa, tipo_equipa): 
-        self.__numEquipa = numEquipa
+    def __init__(self, nombre, descripcion, costoRenta, stock, esta_equipa, tipo_equipa): 
         self.__nombre = nombre
         self.__descripcion = descripcion
         self.__costoRenta = costoRenta
@@ -12,12 +11,8 @@ class Equipamiento:
     # Set / Get
     
 
-    @property
-    def numEquipa(self):
-        return self.__numEquipa
-    @numEquipa.setter
-    def numEquipa(self, new_numEquipa):
-        self.__numEquipa = new_numEquipa
+
+
 
     @property
     def nombre(self):

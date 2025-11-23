@@ -16,9 +16,9 @@ class ServicioRepository:
             cursor = self.db.cursor() #Generamos un cursor para poder hacer las consultas de la base de datos, accedemos al cursor mediante la instancia que es una propiedad
             #de esta clase, guardamos en la variable cursor el resultado de db.cursor().
             cursor.execute("""
-                INSERT INTO servicio (codigoSer, nombre, descripcion, costoRenta, tipo_servicio)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (servicio.codigoSer, servicio.nombre, servicio.descripcion, servicio.costo_renta, servicio.tipo_servicio)) #mediante la variable cursor podemos hacer
+                INSERT INTO servicio (nombre, descripcion, costoRenta, tipo_servicio)
+                VALUES ( %s, %s, %s, %s)
+            """, (servicio.nombre, servicio.descripcion, servicio.costo_renta, servicio.tipo_servicio)) #mediante la variable cursor podemos hacer
             #uso de las diferentes funcionalidades que ofrece execute es una de ellas, estas caracteristicas provienen del importe de mysql-connector. Para insertar los 
             # valores en la tabla de la base de datos se ponen los campos de la tabla y en values %s que tomara los valores entre parentesis. Los valores entre parentesis
             # son los valores que se ingresaran, en este caso podemos ver que el parametro actuara como objeto, entonces mediante el . podemos acceder lo que contiene
@@ -60,7 +60,7 @@ class ServicioRepository:
             
             cursor.execute("""
                 SELECT 
-                    s.codigoSer as codigoSer,
+                    s.numServicio as numServicio,
                     s.nombre as servicio,
                     s.descripcion as descripcion, 
                     s.costoRenta as costoRenta,
@@ -77,7 +77,6 @@ class ServicioRepository:
                 #horizontal, con row accemos a la informacion que nos dio results, entre los corchetes intentara encontrar un valor igual, si nos damos cuenta entre 
                  # estos corchetos se pone el alias asignado a la hora de hacer el inner join.
                 servicio = Servicio(
-                    codigoSer=row['codigoSer'],
                     nombre=row['servicio'],
                     descripcion=row['descripcion'],
                     costo_renta=row['costoRenta'],

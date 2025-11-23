@@ -9,8 +9,8 @@ class EquipamentoService:
         self.equipamento_repository = EquipamentoRepository(self.db)
 
     # Metodos
-    def registrar_equipamento(self, numEquipa, nombre, descripcion, costoRenta, stock, tipo_equipa, esta_equipa = "DISPO"):
-        if not numEquipa or not nombre or not descripcion or not costoRenta or not stock or not esta_equipa or not tipo_equipa:
+    def registrar_equipamento(self, nombre, descripcion, costoRenta, stock, tipo_equipa, esta_equipa = "DISPO"):
+        if  not nombre or not descripcion or not costoRenta or not stock or not esta_equipa or not tipo_equipa:
             print("Los campos no permiten nulos")
             return False
 

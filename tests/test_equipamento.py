@@ -11,13 +11,12 @@ equipamento = EquipamentoService()
 
 def registro_equipamento():
     while True:
-        numEquipa = obt_int("Ingrese el numero del equipamento")
         nombre = input("Ingrese el nombre del equipamento \n")
         descripcion = input("Introduzca la descripcion del equipamento \n")
         costoRenta = float(input("Ingrese el costo del equipamento \n")) # posible creacion de metodo para obtener numeros de punto flotante
         stock = obt_int("Ingrese el total de stock del equipamento")
         tipo_equipa = input("Ingrese el tipo de equipamento al que pertenece \n")
-        if equipamento.registrar_equipamento(numEquipa= numEquipa, nombre= nombre, descripcion=descripcion, costoRenta= costoRenta, stock= stock, tipo_equipa= tipo_equipa):
+        if equipamento.registrar_equipamento(nombre= nombre, descripcion=descripcion, costoRenta= costoRenta, stock= stock, tipo_equipa= tipo_equipa):
             print("Equipamento creado correctamente")
             break
         else:

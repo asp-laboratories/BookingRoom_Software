@@ -9,12 +9,11 @@ def añadir_ser():
     while True:
         ciclo = int(input("¿Añadir servicio?\n1. Si \n2. No\nOpcion: "))
         if ciclo == 1:
-            codigo = input("Codigo de servicio: ")
             nombre = input("Nombre del servicio: ")
-            descripcion = input("descripcion del servicio: ")
+            descripcions = input("descripcion del servicio: ")
             costo = float(input("Costo del servicio: "))
-            tipo = input("Codigo del tipo de servicio")
-            servicio_service.registrar_servicio(codigo,nombre, descripcion, costo, tipo)
+            descripcion = input("Descripcion: ")
+            servicio_service.registrar_servicio(nombre, descripcions, costo, descripcion)
         elif ciclo == 2:
             break
         else:
