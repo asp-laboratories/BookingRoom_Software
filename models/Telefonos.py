@@ -1,40 +1,29 @@
-  .git
-  config
-  │  __init__.py
-  └  db_settings.py
-  ★ models
-  │  __init__.py
-  │  ★ Caracteristicas.py
-  │  Cliente.py
-  │  ★ EstaMob.py
-  │  ★ MobCarac.py
-  │  ★ Mobiliario.py
-  │  ★ MontajeMobiliario.py
-  │  ★ PermisoRol.py
-  │  ★ ReserServicio.py
-  │  ★ Reservacion.py
-  │  ★ Rol.py
-  │  Servicios.py
-  │  ★ TipoCarac.py
-  │  ★ TipoMob.py
-  │  TipoServicio.py
-  └  Trabajador.py
-  repositories_crud
-  │  __init__.py
-  │  ServicioRepository.py
-  └  TipoServiciosRepository.py
-  services
-  │  __init__.py
-  │  ServicioServices.py
-  └  TipoServicioService.py
-  tests
-  │  __init__.py
-  │  test_servicio.py
-  │  test_tipo_servicio.py
-  └  test_trabajador.py
-  utils
-  └  __init__.py
-   .gitignore
-   __init__.py
-   main.py
-  󰈙 requirements.txt
+class Telefonos:
+    def __init__(self, telefono, datos_cliente=None, trabajador=None):
+        self.__telefono = telefono
+        self.__datos_cliente = datos_cliente
+        self.__trabajador = trabajador
+
+    @property
+    def telefono(self):
+        return self.__telefono
+
+    @telefono.setter
+    def telefono(self, telefono):
+        self.__telefono = telefono
+
+    @property
+    def datos_cliente(self):
+        return self.__datos_cliente
+
+    @datos_cliente.setter
+    def datos_cliente(self, datos_cliente):
+        self.__datos_cliente = datos_cliente
+
+    @property
+    def trabajador(self):
+        return self.__trabajador
+
+    @trabajador.setter
+    def trabajador(self, trabajador):
+        self.__trabajador = trabajador
