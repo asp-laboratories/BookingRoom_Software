@@ -1,12 +1,11 @@
 
 class Mobiliario:
     # Constructor 
-    def __init__(self, numMob, nombre, costoRenta, stock, esta_mob, tipo_mob, trabajador = None):
+    def __init__(self, nombre, costoRenta, stock, tipo_mob, numMob = None, trabajador = None):
       self.__numMob = numMob        
       self.__nombre = nombre
       self.__costoRenta = costoRenta
       self.__stock = stock
-      self.__esta_mob = esta_mob
       self.__tipo_mob = tipo_mob
       self.__trabajador = trabajador
 
@@ -38,13 +37,6 @@ class Mobiliario:
     @stock.setter
     def stock(self, new_stock):
       self.__stock = new_stock
-    
-    @property
-    def esta_mob(self):
-      return self.__esta_mob
-    @esta_mob.setter
-    def esta_mob(self, new_esta_mob):
-      self.__esta_mob = new_esta_mob
     
     @property
     def tipo_mob(self):
