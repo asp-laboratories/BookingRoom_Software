@@ -37,3 +37,9 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
                 print(f"Informacion de: {ser.nombre}:\n{ser.descripcion}\n{ser.costo_renta}\n{ser.tipo_nombre}") #ser es como si fuera i, solo que ser contiene los
                 #objetos que encuentre mediante el . accede a la informacion.
 
+
+    def actualizar_campos(self, campo, numServicio, valor):
+        self.servicio_repository.actualizar_servicios(campo, numServicio, valor)
+
+    def eliminar_fila(self, numServicio):
+        self.servicio_repository.eliminar_servicios(numServicio)

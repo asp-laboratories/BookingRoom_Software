@@ -51,6 +51,46 @@ class ServicioRepository:
             self.db.desconectar()
         return resultados # Retornamos el resultado, tenemos que recordar que es un diccionario, importante.
 
+    def actualizar_servicios(self, campo, numServicio, valor):
+        if not self.db.conectar():
+            return None
+        try:
+           cursor = self.db.cursor(dictionary=True)
+           cursor.execute(f"""
+                UPDATE servicio
+                SET {campo} = %s 
+                WHERE numServicio =%s
+           """,(valor, numServicio))
+           self.db.connection.commit()
+           print("Servicio actualizado correctamente")
+        except Exception as error:
+            print(f"Error al actualizar: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
+
+
+    def eliminar_servicios(self, numServicio):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+                DELETE FROM servicio 
+                WHERE numServicio = %s
+            """, (numServicio,))
+            self.db.connection.commit()
+            print("Servicio eliminado correctamente")
+        except Exception as error:
+            print(f"Error al eliminar servicio: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
+    
     def obtener_servicios_inner(self): #Metodo para traer mucha informacion en un inner join.
         if not self.db.conectar():
             return None # Misma explicacion de arriba.

@@ -15,9 +15,10 @@ class SalonServices:
     def listar_salones(self):
         print("Salones: ")
         salon = self.salon_repository.listar_salones()
-        print("Numero de salon:\t Nombre:\t Estado:")
-        for row in salon:
-            print(f"{row['numSalon']}\t\t\t {row['nombre']}\t\t\t {row['esta_salon']}")
+        return salon
+        # print("Numero de salon:\t Nombre:\t Estado:")
+        # for row in salon:
+        #     print(f"{row['numSalon']}\t\t\t {row['nombre']}\t\t\t {row['esta_salon']}")
 
     def listar_estados(self):
         print("Estados: ")
