@@ -26,9 +26,17 @@ class EquipamentoService:
             print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['costoRenta']}\t {equipamento['descripcion']}")
 
     
-    def listar_equipamento_descripcion(self): # Pa checar por lo mismo de q las descripciones son largitas
+    def listar_equipamento_descripcion(self): 
         print("Equipamentos con descripcion:")
         equipamentos = self.equipamento_repository.listar_equipamiento()
 
         for equipamento in equipamentos:
             print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['descripcion']}")
+    
+    def actualizar_equipamento(self):
+        equipamentos = self.equipamento_repository.actualizar_equipamiento()
+        print("se actualizaron los datos de equipamiento")
+    
+    def aliminar_equipamento(self):
+        equipamento = self.equipamento_repository.eliminar_equipamiento()
+        print("Se eliminaron datos de equipamiento")
