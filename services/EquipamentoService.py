@@ -33,10 +33,8 @@ class EquipamentoService:
         for equipamento in equipamentos:
             print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['descripcion']}")
     
-    def actualizar_equipamento(self):
-        equipamentos = self.equipamento_repository.actualizar_equipamiento()
-        print("se actualizaron los datos de equipamiento")
+    def actualizar_equipamento(self, numEquipa, nombre):
+        self.equipamento_repository.actualizar_equipamiento(numEquipa,nombre)
     
-    def aliminar_equipamento(self):
-        equipamento = self.equipamento_repository.eliminar_equipamiento()
-        print("Se eliminaron datos de equipamiento")
+    def aliminar_equipamento(self,numEquipa):
+        self.equipamento_repository.eliminar_equipamiento(numEquipa)

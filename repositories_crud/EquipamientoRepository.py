@@ -67,11 +67,11 @@ class EquipamentoRepository:
             cursor = self.db.cursor()
             cursor.execute(f"""
                 UPDATE equipamiento SET
-                nombre = {cambiodato}
+                nombre = %s
                 WHERE numEquipa = %s
-                    """,(nombre, numEquipa))
+                    """,(cambiodato, numEquipa))
             self.db.connection.commit()
-            print(f"Se actualizo el equipamiento: {nombre} = {numEquipa}")
+            print(f"Se actualizo el equipamiento: {cambiodato}")
 
         except Exception as error:
             print(f"Ocurrio un error actualizar: {error}")
@@ -93,7 +93,7 @@ class EquipamentoRepository:
                 WHERE esta_equipa = %s
                     """,(esta_equipa))
             self.db.connection.commit()
-            print(f"Se elimino el esta_equipa: {esta_equipa}")
+            print(f"Se eliminaron datos del equipamiento: {esta_equipa}")
 
         except Exception as error:
             print(f"Ocurrio un error al eliminar: {error}")
