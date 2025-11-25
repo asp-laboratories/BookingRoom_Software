@@ -91,4 +91,31 @@ class TipoEquipaRepository:
             return None
         
         finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def descripcion_de_tipo(self,t_descripcion):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM tipo_equipa WHERE descripcion = %s",(t_descripcion,))
+            resultado = cursor.fetchone()
+
+            if not resultado:
+                return None
+
+
+            tipo = TipoEquipa(
+                codigoTiEquipa=resultado['codigoTiEquipa'],
+                descripcion=resultado['descripcion']
+            )
+
+
+            return tipo
+            
+        except Exception as error:
+            print(f"Error al listar los servicios: {error}")
+        finally:
+            cursor.close()
             self.db.desconectar()
