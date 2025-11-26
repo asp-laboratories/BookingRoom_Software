@@ -38,6 +38,7 @@ class LoginRepository:
         except Exception as error:
             print(f"Error al encontrar los datos: {error}")
             return False
+        
         finally:
             cursor.close()
             self.db.desconectar()

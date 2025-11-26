@@ -8,6 +8,7 @@ class Mobiliario:
       self.__stock = stock
       self.__tipo_mob = tipo_mob
       self.__trabajador = trabajador
+      self.__caracteristicas = []
 
     # Metodos
     @property
@@ -52,3 +53,9 @@ class Mobiliario:
     def trabajador(self, new_trabajador):
       self.__trabajador = new_trabajador
     
+    @property
+    def caracteristicas(self):
+      return self.__caracteristicas
+    @caracteristicas.setter
+    def caracteristicas(self, new_caracteristicas):
+      self.__caracteristicas = new_caracteristicas
