@@ -5,10 +5,13 @@ from PyQt6.QtWidgets import QMessageBox
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
+from services.TrabajadorServices import TrabajadorServices
 ruta_ui = Path(__file__).parent / "navegacion.ui"
 servicio = ServicioService()
 salon = SalonServices()  
 equipamiento = EquipamentoService()
+trabajador = TrabajadorServices()
+
 
 class Navegacion():
     def __init__(self):
@@ -21,20 +24,23 @@ class Navegacion():
         self.navegacion.subMenuAdministracion.setVisible(False)
         self.navegacion.subMenuAlmacen.setVisible(False)
         self.navegacion.subMenuRecepcion.setVisible(False)
-
+        self.navegacion.widget.layout()
         self.navegacion.btnAdministracion.clicked.connect(self.abrir_opciones_admin)
         self.navegacion.btnAlmacen.clicked.connect(self.abrir_opciones_almac)
         self.navegacion.btnRecepcion.clicked.connect(self.abrir_opciones_recep)
+    
 
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
         self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(4))
+        self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
 
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio)
 
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
         self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
+        self.navegacion.atBuscar.clicked.connect(self.buscar)
         
         self.cargar_seleccion_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
@@ -108,11 +114,23 @@ class Navegacion():
             self.navegacion.resultadoSalon.setText(mensaje)
     
     def buscar_usuario_por_id(self, salNumero):
-        """Buscar usuario por ID en los datos de prueba"""
         for s in salon.listar_salones():
             if s["numSalon"] == salNumero:
                 return s
-        return None 
+        return None
+
+    def buscar(self):
+        resultado = trabajador.buscar_al_trabajador(self.navegacion.atBuscador.text())
+        if resultado == None:
+            self.navegacion.atMensaje.setText("Incorrecto")
+        else:
+            mensaje = "\n---TRABAJADORES---\n"
+            for traba in resultado:
+                mensaje += f"\nRFC: {traba["RFC"]}.\nNombre completo: {traba["nombre"]}.\n"
+                self.navegacion.atResultadoText.setText(mensaje)
+            self.navegacion.atMensaje.setText("Correcto")
+         
+        
 
 
     # def initGUI(self):

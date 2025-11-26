@@ -14,11 +14,13 @@ class TrabajadorServices:
 
     def listar_trabajadores(self):
         print("Trabajadores: ")
-        trabajador = self.trabajador_repository.listar_trabajador()
-        print("Nombre:\t Rol:\t")
-        for row in trabajador:
-            print(f"{row['nombre']}\t {row['rol']}")
+        return self.trabajador_repository.listar_trabajador()
+        # print("Nombre:\t Rol:\t")
+        # for row in trabajador:
+            # print(f"{row['nombre']}\t {row['rol']}")
 
     def actualizar_trabajadores(self, RFC, codigoRol):
-        self.trabajador_repository.actualizar(RFC, codigoRol)
-
+        self.trabajador_repository.actualizar_trabajadores(RFC, codigoRol)
+    
+    def buscar_al_trabajador(self, buscador):
+        return self.trabajador_repository.buscar_trabajadores(buscador)

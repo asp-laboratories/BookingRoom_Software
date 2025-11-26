@@ -29,13 +29,32 @@ class TrabajadorRepository:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("SELECT * FROM trabajador")
             resultados = cursor.fetchall()
-
+            return resultados
         except Exception as error:
             print(f"Error al listar los trabajadores: {error}")
         finally:
             cursor.close()
             self.db.desconectar()
-        return resultados
+
+    def buscar_trabajadores(self, buscador):
+        if not self.db.conectar():
+            return None
+
+        try:
+            like = f"%{buscador}%"
+            print(like)
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute(f"""
+                SELECT RFC, CONCAT(nombre, ' ', priApellido, ' ', segApellido) as nombre  FROM trabajador WHERE nombre LIKE "%{buscador}%" 
+            """)
+            resultadoTraba = cursor.fetchall()
+
+            return resultadoTraba
+        except Exception as error:
+            print(f"Error: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
 
     def actualizar(self, RFC, codigoRol):
         if not self.db.conectar():
