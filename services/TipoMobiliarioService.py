@@ -1,3 +1,8 @@
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from config.db_settings import BaseDeDatos
 from repositories_crud.TipoMobiliarioRepository import TipoMobiliarioRepository
 from models.TipoMob import TipoMob
@@ -33,5 +38,16 @@ class TipoMobiliarioService:
             return resultado['codigoTiMob']
 
     def mostra_mobiliarios_tipo(self, tipo_mob):
-        pass
+        tipo_mob = self.repository.obtener_mobiliarios_tipo(tipo_mob)
+
+        if not tipo_mob:
+            print("No se encontraron mobiliarios de este tipo")
+            return 
+
+        for mobiliario in tipo_mob.mobiliarios:
+            print(f"{mobiliario.numMob}. {mobiliario.nombre} \t{mobiliario.stock} \t{mobiliario.costoRenta}")
+
+if __name__ == "__main__":
+    tipo = TipoMobiliarioService()
+    tipo.mostra_mobiliarios_tipo('MESA')
 
