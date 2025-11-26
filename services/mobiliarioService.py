@@ -13,8 +13,8 @@ class mobiliarioService:
         self.mobiliario_repository = MobiliarioRepository(self.db)
 
     # Metodos
-    def registrar_mobiliario(self, numMob, nombre, costoRenta, stock, tipo_mob, trabajador):
-        mobiliario = Mobiliario(numMob, nombre, costoRenta, stock, tipo_mob, trabajador)
+    def registrar_mobiliario(self, nombre, costoRenta, stock, tipo_mob, trabajador):
+        mobiliario = Mobiliario(nombre, costoRenta, stock, tipo_mob, trabajador)
         return self.mobiliario_repository.crear_mobiliario(mobiliario)
     
     def listar_mobiliarios(self): # Sin descripcion detallada de tipo, estado, trabajador
@@ -25,27 +25,28 @@ class mobiliarioService:
         for mobiliario in mobiliarios:
             print(f"{mobiliario['numMob']}\t{mobiliario['nombre']}\t{mobiliario['costoRenta']}\t{mobiliario['stock']}")
             
-    def listar_mobiliario_detallado(self, mobiliario : int): 
+    def info_detallada_mobiliario(self, mobiliario : int): 
         print(f"Mobiliario {mobiliario}")
 
         info_mob = self.mobiliario_repository.datos_especificos_mob(mobiliario)
 
         if not info_mob:
             print("No existen registros del mobiliario buscado")
+            return False
+        
+        mob = Mobiliario(numMob=info_mob[0]['numMob'], nombre=info_mob[0]['nombre'], costoRenta=info_mob[0]['costoRenta'], stock=info_mob[0]['stock'], tipo_mob=info_mob[0]['tipo_mob'])
 
         # Se imprimen datos repetibles (nombre, numero, stock)
         print(f"{info_mob[0]['numMob']}. {info_mob[0]['nombre']} \tHay un total de: {info_mob[0]['stock']} \tCosto de Renta: {info_mob[0]['costoRenta']}")
 
-        # Se guardan en un lista aparte todas aquellas caracteristicas que no se repitan
-        lista_carac = []
         for row in info_mob: # Se recorre todo el array buscando caracteristicas
-            if row['nombreCarac'] not in lista_carac: # Se comprueban y guardan aquellas caracteristicas que no se repitan
-                lista_carac.append(row['nombreCarac'])
+            if row['nombreCarac'] not in mob.caracteristicas: # Se comprueban y guardan aquellas caracteristicas que no se repitan
+                mob.caracteristicas.append(row['nombreCarac'])
         
         # Se imprimen todas las caracteristicas
         print("Caracteristicas:")
         contador = 1
-        for i in lista_carac:
+        for i in mob.caracteristicas:
             print(f"{contador}. {i}")
             contador += 1
 
@@ -56,6 +57,7 @@ class mobiliarioService:
                 if not (row['cantidad'] == 0):
                     lista_estado.append(row['cantidad'])
                     lista_estado.append(row['descripcion'])
+
         contador = 0
         # Los estados y sus cantidades se guardan en un array plano, en este las posiciones pares son las cantidades y las posiciones impares son los estados
         for i in lista_estado:
@@ -65,6 +67,28 @@ class mobiliarioService:
                 print(f"en estado: {i}",end= "\n")
             contador +=1
     
+    def eliminar_mobiliario(self, numMob):
+        print("Eliminando mobiliario")
+        return self.mobiliario_repository.eliminar_mobiliario(numMob)
+
+    def actu_datos_mob(self, numMob, new_nombre, new_costoRenta, new_stock):
+        print("Actulizando datos de mobiliario")
+        return self.mobiliario_repository.actu_mob_datos(numMob, new_nombre, new_costoRenta, new_stock)
+
+    def actu_carac_mob(self, numCarac, nombreCarac, tipo_carac):
+        print("Actualizando caracteristica del mobiliario")
+        return self.mobiliario_repository.actu_mob_carac(numCarac, nombreCarac, tipo_carac)
+    
+    def caracteristicas_mob(self, numMob):
+        print("Caracteristicas del mobiliario")
+        
+        caracteristicas = self.mobiliario_repository.caracteristicas_mobiliario(numMob)
+
+        for carac in caracteristicas:
+            print(f"{carac['numcarac']}. {carac['nombcarac']} de tipo {carac['tpcarac']}")
+
 if __name__ == "__main__":
+    conexcion = BaseDeDatos(database='BookingRoomLocal')
     prueba = mobiliarioService()
-    print(prueba.listar_mobiliario_detallado(1))
+    print(prueba.caracteristicas_mob(1))
+    
