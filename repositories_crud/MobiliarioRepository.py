@@ -11,7 +11,7 @@ class MobiliarioRepository:
         self.db = db_configuration
     
     # Metodos
-    def crear_mobiliario(self, mobiliario): # 
+    def crear_mobiliario(self, mobiliario): 
         if not self.db.conectar():
             return False
         
@@ -22,17 +22,28 @@ class MobiliarioRepository:
                 VALUES (%s, %s, %s, %s, %s)
                 """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob, mobiliario.trabajador))
 
+            numMob = cursor.lastrowid
+
+            for carac in mobiliario.caracteristicas:
+                cursor.execute("""INSERT INTO mob_carac (nombreCarac, tipo_carac) values (%s, %s)""", (carac.nombreCarac, carac.tipo_carac))
+
+                numCarac = cursor.lastrowid
+
+                cursor.execute("""INSERT INTO caracteristicas (mob_carac, mobiliario) VALUES (%s, %s)""", (numCarac, numMob))
+
+            cursor.execute("""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) VALUES (%s, 'DISPO', %s)""", (numMob, mobiliario.stock))
             self.db.connection.commit()
+
             print("Se añadio un nuevo mobiliario")
+            return True
         except Exception as error:
             print(f"Error al crear un mobiliario: {error}")
+            return False
         
         finally:
             cursor.close()
             self.db.desconectar()
         
-        return True
-    
     def listar_mobiliarios(self): 
         if not self.db.conectar():
             return None
@@ -64,6 +75,7 @@ class MobiliarioRepository:
                         mob.costoRenta,
                         mob.tipo_mob,
                         tcarac.nombreCarac,
+                        tcarac.codigoTiCarac,
                         mcarac.numCarac,
                         mcarac.nombreCarac,
                         imobi.cantidad,
@@ -127,17 +139,16 @@ class MobiliarioRepository:
             stockA = canti['cantidad']
 
             if not resultados:
-                cursor.execute(f"""INSERT INTO inventario_mob (numMob, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})""")
+                cursor.execute(f"""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})""")
 
-                cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_equipa = '{esta_mob1}'""")
-                self.db.connection.commit()
+                cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
 
             else:
                 cursor.execute(f"""UPDATE inventario_mob set cantidad = {resultados[0]['cantidad'] + cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'""")
 
                 cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
-                self.db.connection.commit()
             
+            self.db.connection.commit()
             return True
         
         except Exception as error:
@@ -238,8 +249,66 @@ class MobiliarioRepository:
             cursor.close()
             self.db.desconectar()
 
+    def listar_tipos_carac(self):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            
+            cursor.execute("SELECT * FROM tipo_carac")
+            resultados = cursor.fetchall()
+
+            return resultados
+
+        except Exception as error:
+            print(f"Error al listar los tipos de caracteristicas: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def obtener_tipo_carac(self, nombreCarac):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"SELECT codigoTiCarac FROM tipo_carac WHERE nombreCarac like '{nombreCarac}%'") 
+            codigoTiCarac = cursor.fetchone()
+
+            return codigoTiCarac['codigoTiCarac']
+
+        except Exception as error:
+            print(f"Error al obtener el codigo del tipo de caracteristica: {error}")
+            return None 
+
+        finally:
+            cursor.close()
+            self.db.desconectar()          
+
+    def obtener_esta_mob(self, descripcion):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"SELECT codigoMob FROM esta_mob WHERE descripcion like '{descripcion}%'")
+            resultado = cursor.fetchone()
+
+            return resultado['codigoMob']
+
+        except Exception as error:
+            print(f"Error al obtener un estado de mobiliario: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
 
 if __name__ == "__main__":
     conexcion = BaseDeDatos(database='BookingRoomLocal')
     prueba = MobiliarioRepository(conexcion)
-    print(prueba.caracteristicas_mobiliario(1))
+    print(prueba.obtener_esta_mob(1, "dispo"))

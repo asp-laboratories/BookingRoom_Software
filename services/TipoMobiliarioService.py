@@ -17,13 +17,21 @@ class TipoMobiliarioService:
         tipo_equipa = TipoMob(codigoTiEquipa= codigoTiMob,descripcion= descripcion)
         return self.repository.crear_tipo_mobiliario(tipo_equipa)
 
-    def listar_tipos_equipamentos(self):
+    def listar_tipos_mobiliarios(self):
         print("Tipos de mobiliarios:")
         tipos_equipa = self.repository.listar_tipos_mobiliarios()
         print("Codigo: \t Descripcion:")
         for tmob in tipos_equipa:
             print(f"{tmob['codigoTiMob']}\t {tmob['descripcion']}")
 
-    def mostrar_equipamentos_tipo(self, tipo_mob):
+    def obtener_codigo(self, descripcion):
+        #print("Buscando tipo de mobiliario")
+        resultado =  self.repository.codigo_tipo_mob(descripcion)
+        if not resultado:
+            print("No se encontro el tipo de mobiliario")
+        else:
+            return resultado['codigoTiMob']
+
+    def mostra_mobiliarios_tipo(self, tipo_mob):
         pass
 
