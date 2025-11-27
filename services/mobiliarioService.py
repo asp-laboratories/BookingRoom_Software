@@ -41,7 +41,6 @@ class mobiliarioService:
                 'esta_mob'  : []
             }
 
-
             lista_apoyo_esta = []
             lista_apoyo_caracs = []
 
@@ -51,8 +50,8 @@ class mobiliarioService:
                 caracteristica = row['caracteristica']
                 
                 if caracteristica not in lista_apoyo_caracs:
-                    tipo_carac = TipoCarac(row['tipo_carac'], row['ti_caracteristica'])
-                    mob_carac = MobCarac(nombreCarac=row['caracteristica'], tipo_carac=tipo_carac)
+                    tipo_carac = TipoCarac(row['tipo_carac'], caracteristica)
+                    mob_carac = MobCarac(nombreCarac=caracteristica, tipo_carac=tipo_carac)
                     mob_info['caracs'].append(mob_carac)
 
                     lista_apoyo_caracs.append(caracteristica)
@@ -101,15 +100,25 @@ class mobiliarioService:
         
         caracteristicas = self.mobiliario_repository.caracteristicas_mobiliario(numMob)
 
+        lista_caracteristicas = []
+
         for carac in caracteristicas:
-            print(f"{carac['numcarac']}. {carac['nombcarac']} de tipo {carac['tpcarac']}")
+            dic_carac = {
+            'numCarac'  : carac['numcarac'],
+            'nombCarac'  : carac['nombcarac'],
+            'tipo_carac' : carac['tpcarac']
+            }
+            lista_caracteristicas.append(dic_carac)
+
+        return lista_caracteristicas
+
 
     def obtener_tipo_carac(self, nombreCarac):
         resultado = self.mobiliario_repository.obtener_tipo_carac(nombreCarac)
         if not resultado:
             print("No se encontro este tipo de caracteristica") 
         else:
-            return resultado
+            return resultado['codigoTiCarac']
 
     def listar_tipo_carac(self):
         print("Listando tipos de caracteristicas")
@@ -125,4 +134,4 @@ if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
     #print(prueba.obtener_tipo_carac('espec'))
-    print(prueba.info_detallada_mobiliario(1))
+    print(prueba.caracteristicas_mob(1))
