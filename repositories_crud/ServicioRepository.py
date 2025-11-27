@@ -53,16 +53,17 @@ class ServicioRepository:
 
     def actualizar_servicios(self, campo, numServicio, valor):
         if not self.db.conectar():
-            return None
+            return False
         try:
            cursor = self.db.cursor(dictionary=True)
            cursor.execute(f"""
                 UPDATE servicio
                 SET {campo} = %s 
                 WHERE numServicio =%s
-           """,(valor, numServicio))
+           """,(valor, numServicio, ))
            self.db.connection.commit()
            print("Servicio actualizado correctamente")
+           return True
         except Exception as error:
             print(f"Error al actualizar: {error}")
         finally:
