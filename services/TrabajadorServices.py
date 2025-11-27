@@ -1,5 +1,6 @@
 from config.db_settings import BaseDeDatos
 from models.Trabajador import Trabajador
+from repositories_crud.RolRepository import RolRepository
 from repositories_crud.TrabajadorRepository import TrabajadorRepository
 
 
@@ -7,6 +8,7 @@ class TrabajadorServices:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.trabajador_repository = TrabajadorRepository(self.db)
+        self.rol_repository = RolRepository(self.db)
        
     def registrar_trabajadores(self, rfc, numTrabajador, nombre, priApellido, segApellido, email):
         trabajador = Trabajador(rfc, numTrabajador, nombre, priApellido, segApellido, email)
@@ -19,8 +21,9 @@ class TrabajadorServices:
         # for row in trabajador:
             # print(f"{row['nombre']}\t {row['rol']}")
 
-    def actualizar_trabajadores(self, RFC, codigoRol):
-        self.trabajador_repository.actualizar_trabajadores(RFC, codigoRol)
+    def actualizar_roles(self, RFC, codigoRolValor):
+        descripcionRol = self.rol_repository.obtener_descripcion(codigoRolValor)
+        self.trabajador_repository.actualizar_rol(RFC, descripcionRol.codigoRol)
     
     def buscar_al_trabajador(self, buscador):
         return self.trabajador_repository.buscar_trabajadores(buscador)
