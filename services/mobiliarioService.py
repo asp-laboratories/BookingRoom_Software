@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories_crud.MobiliarioRepository import MobiliarioRepository
 from models.Mobiliario import Mobiliario
+from models.MobCarac import MobCarac
 from config.db_settings import BaseDeDatos
 
 class mobiliarioService:
@@ -13,8 +14,7 @@ class mobiliarioService:
         self.mobiliario_repository = MobiliarioRepository(self.db)
 
     # Metodos
-    def registrar_mobiliario(self, nombre, costoRenta, stock, tipo_mob, trabajador):
-        mobiliario = Mobiliario(nombre, costoRenta, stock, tipo_mob, trabajador)
+    def registrar_mobiliario(self, mobiliario):
         return self.mobiliario_repository.crear_mobiliario(mobiliario)
     
     def listar_mobiliarios(self): # Sin descripcion detallada de tipo, estado, trabajador
@@ -79,6 +79,18 @@ class mobiliarioService:
         print("Actualizando caracteristica del mobiliario")
         return self.mobiliario_repository.actu_mob_carac(numCarac, nombreCarac, tipo_carac)
     
+    def actu_esta_mob(self, numMob, cantidad, esta_mob_og, new_esta_mob):
+        print("Actualizando estado mobiliario")
+        esta_og = self.mobiliario_repository.obtener_esta_mob(esta_mob_og)
+        new_esta = self.mobiliario_repository.obtener_esta_mob(new_esta_mob)
+
+        if not esta_og or not new_esta:
+            print("Valores no validos de estados")
+            return 
+        
+        self.mobiliario_repository.actu_mob_esta(numMob, cantidad, esta_og, new_esta)
+        
+
     def caracteristicas_mob(self, numMob):
         print("Caracteristicas del mobiliario")
         
@@ -87,8 +99,25 @@ class mobiliarioService:
         for carac in caracteristicas:
             print(f"{carac['numcarac']}. {carac['nombcarac']} de tipo {carac['tpcarac']}")
 
+    def obtener_tipo_carac(self, nombreCarac):
+        resultado = self.mobiliario_repository.obtener_tipo_carac(nombreCarac)
+        if not resultado:
+            print("No se encontro este tipo de caracteristica") 
+        else:
+            return resultado.strip()
+
+    def listar_tipo_carac(self):
+        print("Listando tipos de caracteristicas")
+        tipos = self.mobiliario_repository.listar_tipos_carac()
+
+        for tipo in tipos:
+            print(f"{tipo['nombreCarac']}",end="\t")
+            
+        print("\n")
+
 if __name__ == "__main__":
     conexcion = BaseDeDatos(database='BookingRoomLocal')
     prueba = mobiliarioService()
-    print(prueba.caracteristicas_mob(1))
-    
+    #prueba.listar_tipo_carac()
+    #print(prueba.obtener_tipo_carac('espec'))
+    prueba.actu_esta_mob(15, 50, 'disponible', 'no disponible')

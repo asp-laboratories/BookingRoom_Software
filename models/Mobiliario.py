@@ -1,14 +1,14 @@
 
 class Mobiliario:
     # Constructor 
-    def __init__(self, nombre, costoRenta, stock, tipo_mob, numMob = None, trabajador = None):
+    def __init__(self, nombre, costoRenta, stock, tipo_mob, caracteristicas = [], numMob = None, trabajador = None):
       self.__numMob = numMob        
       self.__nombre = nombre
       self.__costoRenta = costoRenta
       self.__stock = stock
       self.__tipo_mob = tipo_mob
       self.__trabajador = trabajador
-      self.__caracteristicas = []
+      self.__caracteristicas = caracteristicas
 
     # Metodos
     @property

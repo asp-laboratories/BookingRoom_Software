@@ -1,5 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from models.TipoMob import TipoMob
 from models.Mobiliario import Mobiliario
+from config.db_settings import BaseDeDatos
 
 class TipoMobiliarioRepository:
     # Constructor
@@ -49,7 +54,7 @@ class TipoMobiliarioRepository:
         try:
             cursor = self.db.cursor(dictionary=True)
             
-            cursor.execute("SELECT * FROM tipo_servicio WHERE codigoTiSer = %s", (tipo_mob,))
+            cursor.execute("SELECT * FROM tipo_mob WHERE codigoTiMob = %s", (tipo_mob,))
             tipo_data = cursor.fetchone()
             
             if not tipo_data:
@@ -60,12 +65,13 @@ class TipoMobiliarioRepository:
                 descripcion=tipo_data['descripcion']
             )
             
-            cursor.execute("SELECT * FROM mobiliario WHERE tipo_servicio = %s", (tipo_mob,))
+            cursor.execute("SELECT * FROM mobiliario WHERE tipo_mob = %s", (tipo_mob,))
             mobiliarios_data = cursor.fetchall()
             
       
             for mobiliario in mobiliarios_data:
                 mobiliario_data = Mobiliario(
+                    numMob=mobiliario['numMob'],
                     nombre=mobiliario['nombre'],
                     costoRenta=mobiliario['costoRenta'],
                     stock=mobiliario['stock'],
@@ -78,6 +84,35 @@ class TipoMobiliarioRepository:
         except Exception as e:
             print(f"Error al obtener los servicios: {e}")
             return None
+        
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def codigo_tipo_mob(self, descripcion):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"""
+                            SELECT codigoTiMob
+                            FROM tipo_mob
+                            WHERE descripcion LIKE '{descripcion}%'
+                            """)
+            
+            resultado = cursor.fetchone()        
+            return resultado
+
+        except Exception as error:
+            print(f"Error al intentar obtener codigo del tipo de mobiliario: {error}")
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+if __name__ == "__main__":
+    db = BaseDeDatos(database='BookingRoomLocal')
+    pruebas = TipoMobiliarioRepository(db)
+    print(pruebas.codigo_tipo_mob(''))
