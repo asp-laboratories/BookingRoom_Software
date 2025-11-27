@@ -3,6 +3,7 @@ from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
 from gui.admin import AdminWindow
+from gui.admin_screen import AdministradorScreen
 from gui.deftl import DefaultWindow
 from gui.navegacion import Navegacion
 from gui.registro import Registro
@@ -40,7 +41,7 @@ class Login():
             else:
                 self.login.mensaje.setText("Correcto")
                 if resultado[2] == "DEFLT":
-                    self.deftl = DefaultWindow()
+                    self.deftl = AdministradorScreen()
                     self.login.hide()
                 elif resultado[2] == "ADMIN":
                     self.nav = Navegacion()
