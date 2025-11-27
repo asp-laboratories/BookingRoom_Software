@@ -1,4 +1,7 @@
 
+from models.Rol import Rol
+
+
 class RolRepository:
     def __init__(self, db_configuracion):
         self.db = db_configuracion
@@ -22,6 +25,26 @@ class RolRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+    def obtener_descripcion(self, descripcion):
+        if not self.db.conectar():
+            return False
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+                SELECT * FROM rol WHERE descripcion = %s
+            """, (descripcion,))
+            resultado = cursor.fetchone()
+            rol = Rol(
+                codigoRol=resultado["codigoRol"],
+                descripcion=resultado["descripcion"]
+            )
+            return rol
+        except Exception as error:  
+            print(f"Error: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
 
     def listar_rol(self):
         if not self.db.conectar():

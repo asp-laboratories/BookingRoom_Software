@@ -45,7 +45,10 @@ class TrabajadorRepository:
             print(like)
             cursor = self.db.cursor(dictionary=True)
             cursor.execute(f"""
-                SELECT RFC, CONCAT(nombre, ' ', priApellido, ' ', segApellido) as nombre  FROM trabajador WHERE nombre LIKE "%{buscador}%" 
+                SELECT t.RFC as RFC, CONCAT(t.nombre, ' ', t.priApellido, ' ', t.segApellido) as nombre, r.descripcion as rol  
+                FROM trabajador as t
+                INNER JOIN rol as r on t.rol = r.codigoRol
+                WHERE nombre LIKE "%{buscador}%" 
             """)
             resultadoTraba = cursor.fetchall()
 
@@ -56,9 +59,9 @@ class TrabajadorRepository:
             cursor.close()
             self.db.desconectar()
 
-    def actualizar(self, RFC, codigoRol):
+    def actualizar_rol(self, RFC, codigoRol):
         if not self.db.conectar():
-            return None
+            return False
         
         try:
             cursor = self.db.cursor()
