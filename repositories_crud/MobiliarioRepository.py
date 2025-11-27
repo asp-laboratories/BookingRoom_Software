@@ -68,25 +68,24 @@ class MobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"""SELECT 
-                        mob.numMob,
-                        mob.nombre,
-                        mob.stock,
-                        mob.costoRenta,
-                        mob.tipo_mob,
-                        tcarac.nombreCarac,
-                        tcarac.codigoTiCarac,
-                        mcarac.numCarac,
-                        mcarac.nombreCarac,
-                        imobi.cantidad,
-                        emob.descripcion
-                        FROM mobiliario as mob
-                        INNER JOIN caracteristicas as carac on carac.mobiliario = mob.numMob
-                        INNER JOIN mob_carac as mcarac on carac.mob_carac = mcarac.numCarac
-                        INNER JOIN tipo_carac as tcarac on mcarac.tipo_carac = tcarac.codigoTiCarac
-                        INNER JOIN inventario_mob as imobi on imobi.mobiliario = mob.numMob
-                        INNER JOIN esta_mob as emob on imobi.esta_mob = emob.codigoMob
-                        WHERE mob.numMob = {mobiliario}""")
+            cursor.execute( """
+                            SELECT 
+                            mob.*,
+                            carac.*,
+                            mcarac.numCarac,
+                            mcarac.nombreCarac as caracteristica,
+                            mcarac.tipo_carac,
+                            tcarac.nombreCarac as ti_caracteristica,
+                            imobi.*,
+                            emob.*
+                            FROM mobiliario as mob
+                            INNER JOIN caracteristicas as carac on carac.mobiliario = mob.numMob
+                            INNER JOIN mob_carac as mcarac on carac.mob_carac = mcarac.numCarac
+                            INNER JOIN tipo_carac as tcarac on mcarac.tipo_carac = tcarac.codigoTiCarac
+                            INNER JOIN inventario_mob as imobi on imobi.mobiliario = mob.numMob
+                            INNER JOIN esta_mob as emob on imobi.esta_mob = emob.codigoMob
+                            WHERE mob.numMob = %s
+                            """, (mobiliario,))
 
             resultados = cursor.fetchall()
             return resultados
@@ -275,10 +274,10 @@ class MobiliarioRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute(f"SELECT codigoTiCarac FROM tipo_carac WHERE nombreCarac like '{nombreCarac}%'") 
+            cursor.execute(f"SELECT codigoTiCarac FROM tipo_carac WHERE nombreCarac like '%{nombreCarac}%'") 
             codigoTiCarac = cursor.fetchone()
 
-            return codigoTiCarac['codigoTiCarac']
+            return codigoTiCarac
 
         except Exception as error:
             print(f"Error al obtener el codigo del tipo de caracteristica: {error}")
@@ -298,7 +297,47 @@ class MobiliarioRepository:
             cursor.execute(f"SELECT codigoMob FROM esta_mob WHERE descripcion like '{descripcion}%'")
             resultado = cursor.fetchone()
 
-            return resultado['codigoMob']
+            return resultado
+
+        except Exception as error:
+            print(f"Error al obtener un estado de mobiliario: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def obtener_num_mob(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"SELECT numMob FROM mobiliario WHERE descripcion like '%{nombre}%'")
+            resultado = cursor.fetchone()
+
+            return resultado
+
+        except Exception as error:
+            print(f"Error al obtener un estado de mobiliario: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def obtener_tipo_por_carac(self, nombreCarac):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"SELECT tc.nombreCarac FROM mob_carac as mc INNER JOIN tipo_carac as tc on mc.tipo_carac = tc.codigoTiCarac WHERE nombreCarac like '%{nombreCarac}%'")
+            resultado = cursor.fetchone()
+
+            return resultado
 
         except Exception as error:
             print(f"Error al obtener un estado de mobiliario: {error}")

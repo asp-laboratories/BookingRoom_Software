@@ -99,7 +99,7 @@ class TipoMobiliarioRepository:
             cursor.execute(f"""
                             SELECT codigoTiMob
                             FROM tipo_mob
-                            WHERE descripcion LIKE '{descripcion}%'
+                            WHERE descripcion LIKE '%{descripcion}%'
                             """)
             
             resultado = cursor.fetchone()        

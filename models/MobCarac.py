@@ -16,3 +16,6 @@ class MobCarac:
     @tipo_carac.setter
     def tipo_carac(self, tipo_carac):
         self.__tipo_carac = tipo_carac
+
+    def __str__(self):
+        return self.nombreCarac

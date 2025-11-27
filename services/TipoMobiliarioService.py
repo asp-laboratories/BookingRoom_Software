@@ -49,5 +49,5 @@ class TipoMobiliarioService:
 
 if __name__ == "__main__":
     tipo = TipoMobiliarioService()
-    tipo.mostra_mobiliarios_tipo('MESA')
+    tipo.mostra_mobiliarios_tipo('silla')
 

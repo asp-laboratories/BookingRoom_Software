@@ -136,7 +136,24 @@ class ServicioRepository:
         finally:
             self.db.desconectar() #desconectar base de datos y cursor.
 
+    def obtener_num_servicio(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("SELECT numServicio FROM servicio WHERE nombre like %s", (f"%{nombre}%",))
+            numServicio = cursor.fetchone()
 
+            return numServicio
 
+        except Exception as error:
+            print(f"Error al mostrar el numero del servicio: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+        
         
         

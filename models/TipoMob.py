@@ -24,3 +24,6 @@ class TipoMob:
     @mobiliarios.setter
     def mobiliarios(self, new_mobiliarios):
         self.__mobiliarios = new_mobiliarios
+
+    def __str__(self):
+        return self.descripcion

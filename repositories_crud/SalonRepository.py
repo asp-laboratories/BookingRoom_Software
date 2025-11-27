@@ -73,3 +73,23 @@ class SalonRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def obtener_num_salon(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute("""SELECT numSalon FROM datos_salon WHERE nombre like %s""", (f"%{nombre}%",))
+            numSalon = cursor.fetchall()
+
+            return numSalon
+        
+        except Exception as error:
+            print(f"Error al obtener el numero del salon: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()

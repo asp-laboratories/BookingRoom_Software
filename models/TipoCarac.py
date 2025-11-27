@@ -17,4 +17,6 @@ class TipoCarac:
     def nombreCarac(self, nombreCarac):
         self.__nombreCarac = nombreCarac
 
+    def __str__(self):
+        return self.nombreCarac
 

@@ -1,5 +1,5 @@
 class Reservacion:
-    def __init__(self,numReser,fechaReser,fechaEvento,horaInicio,horaFin,descripEvento,estimaAsistentes,subtotal,IVA,total,tipo_montaje,trabajador,datos_cliente,esta_reser,datos_salon):
+    def __init__(self, fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, tipo_montaje, trabajador, datos_cliente, datos_salon, subtotal = None, IVA = None, total = None, numReser = None, esta_reser = 'PENDI'):
         self.__numReser = numReser
         self.__fechaReser = fechaReser
         self.__fechaEvento = fechaEvento
@@ -15,6 +15,8 @@ class Reservacion:
         self.__datos_cliente = datos_cliente
         self.__esta_reser = esta_reser
         self.__datos_salon = datos_salon
+        self.__servicios = []
+        self.__equipamientos = []
 
     @property
     def numReser(self):
@@ -120,3 +122,17 @@ class Reservacion:
     @datos_salon.setter
     def datos_salon(self, datos_salon):
         self.__datos_salon = datos_salon
+    
+    @property
+    def equipamientos(self):
+        return self.__equipamientos
+    @equipamientos.setter
+    def equipamientos(self, equipamientos):
+        self.__equipamientos = equipamientos
+
+    @property
+    def servicios(self):
+        return self.__servicios
+    @servicios.setter
+    def servicios(self, servicios):
+        self.__servicios = servicios

@@ -16,3 +16,6 @@ class EstaMob:
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
+
+    def __str__(self):
+        return self.descripcion

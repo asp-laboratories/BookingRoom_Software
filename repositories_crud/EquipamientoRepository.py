@@ -59,13 +59,13 @@ class EquipamentoRepository:
 
         return valores_equipamiento
     
-    def actualizar_equipamiento(self, numEquipa, nombre, cambiodato):
+    def actualizar_equipamiento(self, numEquipa, cambiodato):
         if not self.db.conectar():
             return False
 
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"""
+            cursor.execute("""
                 UPDATE equipamiento SET
                 nombre = %s
                 WHERE numEquipa = %s
@@ -88,7 +88,7 @@ class EquipamentoRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"""
+            cursor.execute("""
                 DELETE FROM equipamiento
                 WHERE esta_equipa = %s
                     """,(esta_equipa))
@@ -103,3 +103,23 @@ class EquipamentoRepository:
             cursor.close()
             self.db.desconectar()
         return True
+    
+    def obtener_num_equipa(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute("SELECT numEquipa FROM equipamiento WHERE nombre LIKE %s", (f"%{nombre}%",))
+            numEquipa = cursor.fetchone()
+
+            return numEquipa
+        
+        except Exception as error:
+            print(f"Error al mostrar el numero de equipamiento: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()

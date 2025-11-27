@@ -26,7 +26,7 @@ def registrar_mobilario():
             print(tipo_mob)
             break
     
-    mobi = Mobiliario(nombre=nombre, costoRenta=costoRenta, stock=stock, tipo_mob=tipo_mob)
+    mob_caracteristicas = []
     
     canti_carac = obt_int("Ingrese el total de caracteristicas a ingresar")
     for i in range(1, canti_carac + 1):
@@ -42,18 +42,31 @@ def registrar_mobilario():
                 break
 
         caracteristica = MobCarac(nombreCarac, tipo_carac)
-        mobi.caracteristicas.append(caracteristica)
+        mob_caracteristicas.append(caracteristica)
     
-    mobiliario.registrar_mobiliario(mobi)
+    mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo_mob, mob_caracteristicas)
         
 def mostrar_mobiliarios():
-    mobiliario.listar_mobiliarios()
+    mobi = mobiliario.listar_mobiliarios()
+    if mobi:
+        print("Numero: \tNombre: \tCosto de Renta \tStock \t")
+        for mobili in mobi:
+            print(f"{mobili['numMob']}\t{mobili['nombre']}\t{mobili['costoRenta']}\t{mobili['stock']}")
 
 def info_detallada_mobiliario():
     print("Eliga un mobiliario a inspeccionar:")
     mostrar_mobiliarios()
     mobi = obt_int("")
-    mobiliario.info_detallada_mobiliario(mobi)
+    mobili = mobiliario.info_detallada_mobiliario(mobi)
+    if mobili:
+        print(f"{mobili['numMob']}. {mobili['nombre']} Costo de Renta: {mobili['costoRenta']} Stock Disponible: {mobili['stock']}")
+        for caracteristica in mobili['caracs']:
+            print(f"Tipo: {caracteristica.tipo_carac} Caracteristica: {caracteristica.nombreCarac}")
+    
+        for estado in mobili['esta_mob']:
+            print(f"{estado.esta_mob}: {estado.cantidad}")
+    else:
+        print("No existen registros de ese mobiliario")
 
 def actualizar_estado_mob():
     pass
@@ -64,8 +77,11 @@ def actualizar_caracteristica_mob():
 def actualizar_mob():
     pass
 
-def main():
+def mostrar_mobiliario_tipo():
     pass
+
+def main():
+    info_detallada_mobiliario()
 
 if __name__ == "__main__":
     main()
