@@ -3,6 +3,8 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories_crud.MobiliarioRepository import MobiliarioRepository
+from repositories_crud.TipoMobiliarioRepository import TipoMobiliarioRepository
+
 from models.Mobiliario import Mobiliario
 from models.MobCarac import MobCarac
 from models.EstaMob import EstaMob
@@ -15,6 +17,7 @@ class mobiliarioService:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.mobiliario_repository = MobiliarioRepository(self.db)
+        self.tipoMobiliario_repository = TipoMobiliarioRepository(self.db)
 
     # Metodos
     def registrar_mobiliario(self, nombre, costoRenta, stock, tipo_mob, caracteristicas):
@@ -93,7 +96,7 @@ class mobiliarioService:
             print("Valores no validos de estados")
             return 
         
-        self.mobiliario_repository.actu_mob_esta(numMob, cantidad, esta_og, new_esta)
+        self.mobiliario_repository.actu_mob_esta(numMob, cantidad, esta_og['codigoMob'], new_esta['codigoMob'])
         
     def caracteristicas_mob(self, numMob):
         print("Caracteristicas del mobiliario")
@@ -130,8 +133,9 @@ class mobiliarioService:
         print("\n")
 
 if __name__ == "__main__":
-    conexcion = BaseDeDatos(database='BookingRoomLocal')
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
+    #prueba.actu_carac_mob(1,"hhh", 'mater')
+    #prueba.actu_esta_mob(numMob=1,cantidad=10,esta_mob_og='no disponible',new_esta_mob='disponible')
     #print(prueba.obtener_tipo_carac('espec'))
-    print(prueba.caracteristicas_mob(1))
+    #print(prueba.caracteristicas_mob(1))
