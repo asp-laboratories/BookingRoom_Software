@@ -23,10 +23,11 @@ def registrar_mobilario():
             print("Tipo de mobiliario no valido, intente de nuevo")
         else:
             tipo_mob = tipo_mobiliario.obtener_codigo(tipo_mob)
+            
             print(tipo_mob)
             break
     
-    mob_caracteristicas = []
+    caracteristicas = []
     
     canti_carac = obt_int("Ingrese el total de caracteristicas a ingresar")
     for i in range(1, canti_carac + 1):
@@ -39,12 +40,13 @@ def registrar_mobilario():
                 print("Tipo de caracteristica no valido")
             else:
                 tipo_carac = mobiliario.obtener_tipo_carac(tipo_carac)
+                print(tipo_carac)
                 break
 
         caracteristica = MobCarac(nombreCarac, tipo_carac)
-        mob_caracteristicas.append(caracteristica)
+        caracteristicas.append(caracteristica)
     
-    mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo_mob, mob_caracteristicas)
+    mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo_mob, caracteristicas)
         
 def mostrar_mobiliarios():
     mobi = mobiliario.listar_mobiliarios()
@@ -81,7 +83,7 @@ def mostrar_mobiliario_tipo():
     pass
 
 def main():
-    info_detallada_mobiliario()
+    registrar_mobilario()
 
 if __name__ == "__main__":
     main()

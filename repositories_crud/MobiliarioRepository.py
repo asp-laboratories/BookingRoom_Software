@@ -20,18 +20,18 @@ class MobiliarioRepository:
             cursor.execute("""
                 INSERT INTO mobiliario (nombre, costoRenta, stock, tipo_mob, trabajador)
                 VALUES (%s, %s, %s, %s, %s)
-                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob, mobiliario.trabajador))
-
+                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob, mobiliario.trabajador,))
+            
             numMob = cursor.lastrowid
 
             for carac in mobiliario.caracteristicas:
-                cursor.execute("""INSERT INTO mob_carac (nombreCarac, tipo_carac) values (%s, %s)""", (carac.nombreCarac, carac.tipo_carac))
+                cursor.execute("""INSERT INTO mob_carac (nombreCarac, tipo_carac) values (%s, %s)""", (carac.nombreCarac, carac.tipo_carac,))
 
                 numCarac = cursor.lastrowid
 
                 cursor.execute("""INSERT INTO caracteristicas (mob_carac, mobiliario) VALUES (%s, %s)""", (numCarac, numMob))
-
-            cursor.execute("""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) VALUES (%s, 'DISPO', %s)""", (numMob, mobiliario.stock))
+                
+            cursor.execute("""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) VALUES (%s, 'DISPO', %s)""", (numMob, mobiliario.stock,))
             self.db.connection.commit()
 
             print("Se añadio un nuevo mobiliario")
@@ -70,14 +70,14 @@ class MobiliarioRepository:
             cursor = self.db.cursor()
             cursor.execute( """
                             SELECT 
-                            mob.*,
-                            carac.*,
-                            mcarac.numCarac,
-                            mcarac.nombreCarac as caracteristica,
-                            mcarac.tipo_carac,
-                            tcarac.nombreCarac as ti_caracteristica,
-                            imobi.*,
-                            emob.*
+                                mob.*,
+                                carac.*,
+                                mcarac.numCarac,
+                                mcarac.nombreCarac as caracteristica,
+                                mcarac.tipo_carac,
+                                tcarac.nombreCarac as ti_caracteristica,
+                                imobi.*,
+                                emob.*
                             FROM mobiliario as mob
                             INNER JOIN caracteristicas as carac on carac.mobiliario = mob.numMob
                             INNER JOIN mob_carac as mcarac on carac.mob_carac = mcarac.numCarac
