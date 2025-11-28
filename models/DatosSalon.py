@@ -1,7 +1,7 @@
 
 class DatosSalon:
     # Constructor
-    def __init__(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados=0, esta_salon="DISPN"):
+    def __init__(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, mCuadrados=0, esta_salon="DISPO"):
         self.__nombre = nombre
         self.__costoRenta = costoRenta
         self.__ubiNombrePas = ubiNombrePas
