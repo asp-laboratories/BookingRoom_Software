@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 from PyQt6 import uic
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QListWidgetItem
+from PyQt6.QtCore import Qt
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
@@ -21,8 +22,8 @@ class AdministradorScreen():
         self.navegacion.sMensaje.setText("")
         self.navegacion.saMensaje.setText("")
         self.navegacion.eMensaje.setText("")
-        # self.navegacion.atMensaR.setText("")
-        # self.navegacion.atMenaje.setText("")
+        self.navegacion.atMensaR.setText("")
+        self.navegacion.atMensaje.setText("")
 
 
 
@@ -38,7 +39,7 @@ class AdministradorScreen():
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
         self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
-        # self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(4))
+        self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
 
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
@@ -54,9 +55,9 @@ class AdministradorScreen():
         self.navegacion.atBuscar.clicked.connect(self.buscar)
         
 
-        # self.cargar_seleccion_salon()
-        # self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
-
+        self.cargar_seleccion_salon()
+        self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
+        self.cargar_listas()
 
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(not self.navegacion.subMenuAdministracion.isVisible())
@@ -139,30 +140,44 @@ class AdministradorScreen():
         self.navegacion.stackedWidget.setCurrentIndex(indice)
 
     
-    # def cargar_seleccion_salon(self):
-    #     self.navegacion.reSalonSelecc.clear()
-    #     self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
-    #     obtener = salon.listar_salones()
-    #     for sln in obtener:
-    #         self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
+    def cargar_seleccion_salon(self):
+        self.navegacion.reSalonSelecc.clear()
+        self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
+        obtener = salon.listar_salones()
+        for sln in obtener:
+            self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
     
-    # def mostrar_info_salon(self):
-    #     salNumero = self.navegacion.reSalonSelecc.currentData()
-    #     sali = self.buscar_usuario_por_id(salNumero)
-    #     mensaje = "INFORMACION DEL SALON"
-    #     mensaje += f"\n NOMBRE: {sali["nombre"]}"
-    #     mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
-    #     if sali:
-    #         self.navegacion.resultadoSalon.setText(mensaje)
+    def mostrar_info_salon(self):
+        salNumero = self.navegacion.reSalonSelecc.currentData()
+        sali = self.buscar_usuario_por_id(salNumero)
+        mensaje = "INFORMACION DEL SALON"
+        mensaje += f"\n NOMBRE: {sali["nombre"]}"
+        mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
+        if sali:
+            self.navegacion.resultadoSalon.setText(mensaje)
     
-    # def buscar_usuario_por_id(self, salNumero):
-    #     for s in salon.listar_salones():
-    #         if s["numSalon"] == salNumero:
-    #             return s
-    #     return None
+    def buscar_usuario_por_id(self, salNumero):
+        for s in salon.listar_salones():
+            if s["numSalon"] == salNumero:
+                return s
+        return None
 
 
+    def cargar_listas(self):
+        self.navegacion.listaServicios.clear()
+        self.navegacion.listaEquipamiento.clear()
 
+        for servi in servicio.listar_servicio():
+            texto = f"{servi['nombre']} - ${servi['costoRenta']:.2f}"
+            item = QListWidgetItem(texto)
+            item.setData(Qt.ItemDataRole.UserRole, servi)
+            self.navegacion.listaServicios.addItem(item)
+
+        for equipa in equipamiento.listar_equipamentos():
+            texto = f"{equipa['nombre']} - ${equipa['costoRenta']:.2f}"
+            item = QListWidgetItem(texto)
+            item.setData(Qt.ItemDataRole.UserRole, equipa)
+            self.navegacion.listaEquipamiento.addItem(item)
 
     # def initGUI(self):
     #     self.login.btnIniciar.clicked.connect(self.ingresar)
