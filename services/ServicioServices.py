@@ -24,10 +24,10 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
 
     def listar_servicio(self): #Metodo para listar los datos a pantalla.
         print("Servicios: ")
-        servicio = self.servicio_repository.listar_servicio() #Recordando que devuelve un diccionario
-        print("Numero:\t Nombre:\t Descripcion:\t Costo:\t Tipo: ")#\t para tabulacion
-        for row in servicio:
-            print(f"{row['numServicio']}\t {row['nombre']}\t {row['descripcion']}\t {row['costoRenta']}\t") #row es como si fuera i de esta manera regresara todo lo que 
+        return self.servicio_repository.listar_servicio() #Recordando que devuelve un diccionario
+        # print("Numero:\t Nombre:\t Descripcion:\t Costo:\t Tipo: ")#\t para tabulacion
+        # for row in servicio:
+        #     print(f"{row['numServicio']}\t {row['nombre']}\t {row['descripcion']}\t {row['costoRenta']}\t") #row es como si fuera i de esta manera regresara todo lo que 
             #encuentre de la tabla servicios.
 
     def listar_servicio_y_tipo(self):

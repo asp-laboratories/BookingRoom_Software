@@ -22,10 +22,10 @@ class EquipamentoService:
 
     def listar_equipamentos(self):
         print("Equipamentos registrados:")
-        equipamentos = self.equipamento_repository.listar_equipamiento()
+        return self.equipamento_repository.listar_equipamiento()
 
-        for equipamento in equipamentos:
-            print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['costoRenta']}\t {equipamento['descripcion']}")
+        # for equipamento in equipamentos:
+        #     print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['costoRenta']}\t {equipamento['descripcion']}")
 
     
     def listar_equipamento_descripcion(self): 
