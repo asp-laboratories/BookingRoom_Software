@@ -41,10 +41,11 @@ class Login():
             else:
                 self.login.mensaje.setText("Correcto")
                 if resultado[2] == "DEFLT":
-                    self.deftl = AdministradorScreen()
+                    self.nav = Navegacion()
                     self.login.hide()
                 elif resultado[2] == "ADMIN":
-                    self.nav = Navegacion()
+
+                    self.admin = AdministradorScreen()
                     # self.admin = AdminWindow()
                     self.login.hide()
 

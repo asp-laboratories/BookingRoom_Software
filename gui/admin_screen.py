@@ -44,8 +44,8 @@ class AdministradorScreen():
 
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
-        
-
+        self.navegacion.slBuscar.clicked.connect(self.listar_servicio) 
+        self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
 
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
@@ -80,9 +80,28 @@ class AdministradorScreen():
         else:
             self.navegacion.sMensajeAct.setText("Correcto")
 
+    def listar_servicio(self):
+        self.navegacion.sResultadoListar.clear()
+        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda.text())
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---SERVICIOS---\n"
+            for ser in resultado:
+                mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
+                self.navegacion.sResultadoListar.setText(mensaje)
+           
+    def eliminar_servicio(self):
+        resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
+        if resultado == False:
+            pass
+        else:
+            self.navegacion.seMensajeE.setText("Correcto")
 
 
-            
+
+
+
     def registrar_salon(self):
         largo =  float(self.navegacion.saLargo.text()) 
         ancho = float(self.navegacion.saAncho.text())

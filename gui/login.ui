@@ -129,7 +129,7 @@ border-right: 3px solid  #ca857e;
 </string>
     </property>
     <property name="placeholderText">
-     <string>R-21342</string>
+     <string>Ingrese su numero de empleado</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="leEmail">
@@ -150,7 +150,7 @@ border-right: 3px solid  #ca857e;
 </string>
     </property>
     <property name="placeholderText">
-     <string>usuario@ejemplo.com</string>
+     <string>Ingrese su correo electronico</string>
     </property>
    </widget>
    <widget class="QLabel" name="titulo">

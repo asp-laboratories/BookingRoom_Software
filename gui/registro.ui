@@ -132,7 +132,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Correo electronico</string>
+       <string>Ingrese su correo electronico</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leNombre">
@@ -152,7 +152,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Nombre</string>
+       <string>Ingrese su nombre</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leAmaterno">
@@ -172,7 +172,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Apellido materno</string>
+       <string>Ingrese su apellido materno</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leApaterno">
@@ -192,7 +192,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Apellido paterno</string>
+       <string>Ingrese su apellido paterno</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leTelefono">
@@ -212,7 +212,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Telefono</string>
+       <string>Ingrese su numero de telefono</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leRfc">
@@ -232,7 +232,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>RFC</string>
+       <string>Ingrese el RFC</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leNumero">
@@ -254,7 +254,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
 </string>
       </property>
       <property name="placeholderText">
-       <string>Numero de trabajador</string>
+       <string>Ingrese el numero de trabajador</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leTelefono2">
@@ -274,7 +274,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Telefono</string>
+       <string>Ingrese su numero de telefono</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="leTelefono3">
@@ -294,7 +294,7 @@ border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
       </property>
       <property name="placeholderText">
-       <string>Telefono</string>
+       <string>Ingrese su numero de telefono</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btnRegistrar">
