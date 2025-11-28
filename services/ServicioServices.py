@@ -12,23 +12,25 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
         # pero ademas de pasar la configuracion tambien creados otra instancia/objeto con el cual nos vamos a poder comunicar con las operaciones de la base de datos.
        
     def registrar_servicio(self, nombre, descripcion, costo_renta, tipo_servicio): #Metodo para registrar un servicio que en tests/test_servicio.py hay un
-        #ejemplo en terminal pero esto tambien sirve para la interfaz grafica, para hacer pruebas es recomendable hacerlo en terminal como siempre se ha hecho. 
-        try:
-
-            descripciont = self.tipo_repository.descripcion_de_tipo(tipo_servicio)
-            servicio = Servicio( nombre, descripcion, costo_renta, descripciont.codigoTiSer) #Mediante los parametros obtenidos creamos un objeto llamando a la clase Servicio en 
+        #ejemplo en terminal pero esto tambien sirve para la interfaz grafica, para hacer pruebas es recomendable hacerlo en terminal como siempre se ha hecho
+        descripciont = self.tipo_repository.descripcion_de_tipo(tipo_servicio)
+        servicio = Servicio( nombre, descripcion, costo_renta, descripciont.codigoTiSer) #Mediante los parametros obtenidos creamos un objeto llamando a la clase Servicio en 
         #los imports se muestra de donde viene cada archivo.
-        except Exception as error:
-            print(f"Error: {error}")
-        return self.servicio_repository.crear_servicio(servicio) #Opcional retornar ya que con el simple hecho de llamar a la funcion del repository es funcional.
+        return self.servicio_repository.crear_servicio(servicio)
 
-    def listar_servicio(self): #Metodo para listar los datos a pantalla.
+         #Opcional retornar ya que con el simple hecho de llamar a la funcion del repository es funcional.
+
+    def listar_servicio_busqueda(self, nombre): #Metodo para listar los datos a pantalla.
         print("Servicios: ")
-        return self.servicio_repository.listar_servicio() #Recordando que devuelve un diccionario
+        return self.servicio_repository.listar_servicio_buscar(nombre) #Recordando que devuelve un diccionario
         # print("Numero:\t Nombre:\t Descripcion:\t Costo:\t Tipo: ")#\t para tabulacion
         # for row in servicio:
         #     print(f"{row['numServicio']}\t {row['nombre']}\t {row['descripcion']}\t {row['costoRenta']}\t") #row es como si fuera i de esta manera regresara todo lo que 
             #encuentre de la tabla servicios.
+
+
+    def listar_servicio(self): 
+        return self.servicio_repository.listar_servicio()
 
     def listar_servicio_y_tipo(self):
         servicios = self.servicio_repository.obtener_servicios_inner() # Recordando que devuelve un arreglo.

@@ -37,10 +37,27 @@ class ServicioRepository:
 
     def listar_servicio(self):#Metodo para traer todos los datos de una tabla.
         if not self.db.conectar(): # La misma explicacion la conexion de arriba pero en esta ocasion retorna None, significa que si no pudo conectarse devuelva NADA.
-            return None
+            return False
         try:
             cursor = self.db.cursor(dictionary=True) #Obtenemos el cursor para poder hacer consultas, pero convertimos el cursor a diccioario.
             cursor.execute("SELECT * FROM servicio") #Hacemos la consulta para traer todos los servicios.
+            resultados = cursor.fetchall() #Guardamos en una variable cursor.fetchall() que basicamente significa que trae todos los resultados existe otro que es
+            #cursor.fetchone() que solo trae una solo fila es aplicable para casos donde se utilize un where.
+
+        except Exception as error: # Si hubo un error, aparecera este mensaje junto con el motivo del error.
+            print(f"Error al listar los servicios: {error}") 
+        finally:
+            cursor.close() # Cerramos el cursor y la base de datos.
+            self.db.desconectar()
+        return resultados # Retornamos el resultado, tenemos que recordar que es un diccionario, importante.
+
+
+    def listar_servicio_buscar(self, nombre):#Metodo para traer todos los datos de una tabla.
+        if not self.db.conectar(): # La misma explicacion la conexion de arriba pero en esta ocasion retorna None, significa que si no pudo conectarse devuelva NADA.
+            return False
+        try:
+            cursor = self.db.cursor(dictionary=True) #Obtenemos el cursor para poder hacer consultas, pero convertimos el cursor a diccioario.
+            cursor.execute("SELECT * FROM servicio WHERE nombre = %s",(nombre,)) #Hacemos la consulta para traer todos los servicios.
             resultados = cursor.fetchall() #Guardamos en una variable cursor.fetchall() que basicamente significa que trae todos los resultados existe otro que es
             #cursor.fetchone() que solo trae una solo fila es aplicable para casos donde se utilize un where.
 
@@ -75,7 +92,7 @@ class ServicioRepository:
 
     def eliminar_servicios(self, numServicio):
         if not self.db.conectar():
-            return None
+            return False
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("""
