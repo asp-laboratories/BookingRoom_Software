@@ -1,21 +1,15 @@
-class pago:
-    def __init__(self, num, montoPago, descripcion, fecha, hora, noPago, reservacion, metodo_pago, concepto_pago):
-        self.__num = num
+class Pago:
+    def __init__(self, montoPago, descripcion, fecha, hora, noPago, saldo, reservacion, metodo_pago, concepto_pago):
         self.__montoPago = montoPago
         self.__descripcion = descripcion
         self.__fecha = fecha
         self.__hora = hora
         self.__noPago = noPago
+        self.__saldo = saldo
         self.__reservacion = reservacion
         self.__metodo_pago = metodo_pago
         self.__concepto_pago = concepto_pago
 
-    @property
-    def num(self):
-        return self.__num
-    @num.setter
-    def num(self, num):
-        self.__num = num
 
     @property
     def montoPago(self):
