@@ -18,4 +18,4 @@ class MobCarac:
         self.__tipo_carac = tipo_carac
 
     def __str__(self):
-        return self.nombreCarac
+        return f"{self.nombreCarac} {self.tipo_carac}"

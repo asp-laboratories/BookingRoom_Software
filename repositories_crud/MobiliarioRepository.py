@@ -19,8 +19,8 @@ class MobiliarioRepository:
             cursor = self.db.cursor()
             cursor.execute("""
                 INSERT INTO mobiliario (nombre, costoRenta, stock, tipo_mob, trabajador)
-                VALUES (%s, %s, %s, %s, %s)
-                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob, mobiliario.trabajador,))
+                VALUES (%s, %s, %s, %s, 'rfc123')
+                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob,))
             
             numMob = cursor.lastrowid
 
