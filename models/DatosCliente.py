@@ -1,15 +1,15 @@
 
 class DatosCliente:
     # Constructor
-    def __init__(self, RFC, contNombre, contPriApellido, contSegApellido, nombreFiscal, email, dirCalle, dirColonia, dirNumero, tipo_cliente):
+    def __init__(self, RFC, contNombre, contPriApellido, contSegApellido, nombreFiscal, email, dirColonia, dirCalle, dirNumero, tipo_cliente):
         self.__RFC = RFC
         self.__contNombre = contNombre
         self.__contPriApellido = contPriApellido
         self.__contSegApellido = contSegApellido
         self.__nombreFiscal = nombreFiscal
         self.__email = email
-        self.__dirCalle = dirCalle
         self.__dirColonia = dirColonia
+        self.__dirCalle = dirCalle
         self.__dirNumero = dirNumero
         self.__tipo_cliente = tipo_cliente
 

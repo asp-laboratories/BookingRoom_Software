@@ -8,8 +8,8 @@ class DatosClienteServices:
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.cliente_repository = DatosClientesRepository(self.db)
        
-    def registrar_clientes(self, rfc, contNombre, contPriApellido, contSegApellido , nombreFiscal, email, dirCalle, dirColonia, dirNumero,tipo_cliente):
-        cliente = DatosCliente(rfc, contNombre, contPriApellido, contSegApellido , nombreFiscal, email, dirCalle, dirColonia, dirNumero,tipo_cliente)
+    def registrar_clientes(self, rfc, contNombre, contPriApellido, contSegApellido , nombreFiscal, email, dirColonia, dirCalle, dirNumero,tipo_cliente):
+        cliente = DatosCliente(rfc, contNombre, contPriApellido, contSegApellido , nombreFiscal, email, dirColonia, dirCalle, dirNumero,tipo_cliente)
         return self.cliente_repository.crear_cliente(cliente)
 
     def listar_clientes(self):
