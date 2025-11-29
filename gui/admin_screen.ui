@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1177</width>
+    <width>1193</width>
     <height>682</height>
    </rect>
   </property>
@@ -628,6 +628,50 @@ color: rgb(255, 255, 255);
            <bool>true</bool>
           </property>
          </widget>
+         <widget class="QLabel" name="linkLogin">
+          <property name="geometry">
+           <rect>
+            <x>60</x>
+            <y>610</y>
+            <width>141</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Adwaita Sans</family>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #000000;</string>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;cerrar&quot;&gt;&lt;span style=&quot; font-weight:400; color:#ffffff;&quot;&gt;Cerrar sesion&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_19">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>600</y>
+            <width>41</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>../Imagenes/Icons/admin_panel_settings_45dp_FFFFFF_FILL0_wght400_GRAD0_opsz48.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -643,7 +687,7 @@ color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>946</width>
+         <width>962</width>
          <height>3000</height>
         </rect>
        </property>
@@ -670,7 +714,7 @@ color: rgb(255, 255, 255);
 background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="predeterminada"/>
           <widget class="QWidget" name="paginaServicio">
@@ -717,7 +761,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -2195,7 +2239,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="tab_18">
              <attribute name="title">
@@ -2672,7 +2716,238 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             </widget>
            </widget>
           </widget>
-          <widget class="QWidget" name="paginaMobiliario"/>
+          <widget class="QWidget" name="paginaMobiliario">
+           <widget class="QLabel" name="lCostoS_2">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>110</y>
+              <width>291</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Nombre del mobiliario</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="saCostoRenta_2">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>160</y>
+              <width>291</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Ingrese el costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="lCostoS_3">
+            <property name="geometry">
+             <rect>
+              <x>420</x>
+              <y>110</y>
+              <width>291</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="saCostoRenta_3">
+            <property name="geometry">
+             <rect>
+              <x>420</x>
+              <y>160</y>
+              <width>291</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Ingrese el costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="lCostoS_4">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>230</y>
+              <width>291</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Stock</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="saCostoRenta_4">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>280</y>
+              <width>291</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Ingrese el costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="saCostoRenta_5">
+            <property name="geometry">
+             <rect>
+              <x>430</x>
+              <y>280</y>
+              <width>291</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Ingrese el costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="lCostoS_5">
+            <property name="geometry">
+             <rect>
+              <x>430</x>
+              <y>230</y>
+              <width>291</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Tipo de mobiliario</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="saCostoRenta_6">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>400</y>
+              <width>291</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Ingrese el costo de renta</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="lCostoS_6">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>350</y>
+              <width>291</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Total de caracteristicas</string>
+            </property>
+           </widget>
+          </widget>
           <widget class="QWidget" name="paginaTrabajador">
            <widget class="QTabWidget" name="tabWidget_3">
             <property name="geometry">

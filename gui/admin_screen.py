@@ -19,6 +19,7 @@ class AdministradorScreen():
         self.navegacion = uic.loadUi(str(ruta_ui))
         # self.initGUI()
         self.navegacion.show()
+        self.navegacion.linkLogin.linkActivated.connect(self.volver_login)
         self.navegacion.sMensaje.setText("")
         self.navegacion.saMensaje.setText("")
         self.navegacion.eMensaje.setText("")
@@ -197,6 +198,12 @@ class AdministradorScreen():
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, equipa)
             self.navegacion.listaEquipamiento.addItem(item)
+    
+    def volver_login(self, link):
+        from gui.login import Login
+        if link == "cerrar":
+            self.navegacion.hide()
+            self.login = Login()
 
     # def initGUI(self):
     #     self.login.btnIniciar.clicked.connect(self.ingresar)
