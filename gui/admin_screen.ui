@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1193</width>
+    <width>1151</width>
     <height>682</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(154, 87, 89);</string>
+    <string notr="true">background-color: rgb(155, 88, 43);</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -33,7 +33,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(154, 87, 89);</string>
+       <string notr="true">background-color: rgb(155, 88, 43);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
@@ -686,8 +686,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>962</width>
+         <y>-105</y>
+         <width>920</width>
          <height>3000</height>
         </rect>
        </property>
@@ -1842,7 +1842,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="tab">
              <attribute name="title">
@@ -2239,7 +2239,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_18">
              <attribute name="title">
@@ -2741,7 +2741,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Nombre del mobiliario</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="saCostoRenta_2">
+           <widget class="QLineEdit" name="mobNombre">
             <property name="geometry">
              <rect>
               <x>90</x>
@@ -2760,7 +2760,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string/>
             </property>
             <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
+             <string>Ingrese el nombre del mobiliario</string>
             </property>
            </widget>
            <widget class="QLabel" name="lCostoS_3">
@@ -2787,7 +2787,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Costo de renta</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="saCostoRenta_3">
+           <widget class="QLineEdit" name="mobCostoRenta">
             <property name="geometry">
              <rect>
               <x>420</x>
@@ -2833,7 +2833,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Stock</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="saCostoRenta_4">
+           <widget class="QLineEdit" name="mobStock">
             <property name="geometry">
              <rect>
               <x>90</x>
@@ -2852,10 +2852,10 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string/>
             </property>
             <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
+             <string>Ingrese la cantidad del mobiliario</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="saCostoRenta_5">
+           <widget class="QLineEdit" name="mobTipo">
             <property name="geometry">
              <rect>
               <x>430</x>
@@ -2874,7 +2874,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string/>
             </property>
             <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
+             <string>Ingrese el nombre del tipo de mobiliario</string>
             </property>
            </widget>
            <widget class="QLabel" name="lCostoS_5">
@@ -2901,28 +2901,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Tipo de mobiliario</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="saCostoRenta_6">
-            <property name="geometry">
-             <rect>
-              <x>90</x>
-              <y>400</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
-            </property>
-           </widget>
            <widget class="QLabel" name="lCostoS_6">
             <property name="geometry">
              <rect>
@@ -2945,6 +2923,107 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             </property>
             <property name="text">
              <string>Total de caracteristicas</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="amConfirmar">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>740</y>
+              <width>261</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+            </property>
+            <property name="text">
+             <string>Confirmar</string>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="seleccionCaracteristicas">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>410</y>
+              <width>241</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="amConfirmar_2">
+            <property name="geometry">
+             <rect>
+              <x>310</x>
+              <y>870</y>
+              <width>261</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+            </property>
+            <property name="text">
+             <string>Confirmar</string>
+            </property>
+           </widget>
+           <widget class="QScrollArea" name="scrollAreaMobiliario2">
+            <property name="geometry">
+             <rect>
+              <x>100</x>
+              <y>450</y>
+              <width>271</width>
+              <height>271</height>
+             </rect>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="mobcont2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>269</width>
+               <height>269</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4"/>
+            </widget>
+           </widget>
+           <widget class="QLabel" name="mobMensaje">
+            <property name="geometry">
+             <rect>
+              <x>400</x>
+              <y>990</y>
+              <width>131</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>-1</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+            </property>
+            <property name="text">
+             <string>Mensaje</string>
             </property>
            </widget>
           </widget>
@@ -3606,7 +3685,7 @@ color: rgba(155, 88, 43, 1.0);
 </string>
             </property>
             <property name="text">
-             <string>Acerca de la reservacion</string>
+             <string>Acerca del evento</string>
             </property>
            </widget>
            <widget class="QLabel" name="label_25">
@@ -3634,7 +3713,7 @@ color: rgba(155, 88, 43, 1.0);
              <string>Datos del cliente</string>
             </property>
            </widget>
-           <widget class="QCheckBox" name="rePerMo">
+           <widget class="QCheckBox" name="cbTipoMoral">
             <property name="geometry">
              <rect>
               <x>200</x>
@@ -3650,7 +3729,7 @@ color: rgba(155, 88, 43, 1.0);
              <string>Persona Moral</string>
             </property>
            </widget>
-           <widget class="QCheckBox" name="rePerFI">
+           <widget class="QCheckBox" name="cbTipoFisica">
             <property name="geometry">
              <rect>
               <x>440</x>
@@ -3758,7 +3837,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             <property name="geometry">
              <rect>
               <x>200</x>
-              <y>930</y>
+              <y>1070</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3842,7 +3921,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Ingrese el tercer telefono del cliente</string>
             </property>
            </widget>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="cbTelefono2">
             <property name="geometry">
              <rect>
               <x>710</x>
@@ -3858,7 +3937,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>+2 Telefonos</string>
             </property>
            </widget>
-           <widget class="QCheckBox" name="checkBox_4">
+           <widget class="QCheckBox" name="cbTelefono3">
             <property name="geometry">
              <rect>
               <x>720</x>
@@ -3878,7 +3957,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             <property name="geometry">
              <rect>
               <x>200</x>
-              <y>1050</y>
+              <y>950</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -4086,7 +4165,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             <property name="geometry">
              <rect>
               <x>200</x>
-              <y>880</y>
+              <y>1020</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4110,7 +4189,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             <property name="geometry">
              <rect>
               <x>200</x>
-              <y>990</y>
+              <y>890</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4248,7 +4327,7 @@ color: rgba(155, 88, 43, 1.0);
 </string>
             </property>
             <property name="text">
-             <string>Seleccion de elementos</string>
+             <string>Acerca de la reservacion</string>
             </property>
            </widget>
            <widget class="QLabel" name="label_27">
@@ -4559,6 +4638,47 @@ background-color: #CA301B;</string>
               <month>1</month>
               <day>1</day>
              </date>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="clienteConfirmar">
+            <property name="geometry">
+             <rect>
+              <x>560</x>
+              <y>1380</y>
+              <width>261</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+            </property>
+            <property name="text">
+             <string>Confirmar</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="clienteMen">
+            <property name="geometry">
+             <rect>
+              <x>560</x>
+              <y>1470</y>
+              <width>251</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>-1</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+            </property>
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </widget>
