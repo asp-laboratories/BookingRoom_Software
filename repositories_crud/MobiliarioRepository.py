@@ -50,17 +50,27 @@ class MobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute("SELECT * FROM mobiliario")
+            cursor.execute("""
+                            SELECT 
+                            mob.numMob,
+                            mob.nombre,
+                            esmob.descripcion,
+                            imob.cantidad
+                            FROM mobiliario as mob
+                            INNER JOIN inventario_mob as imob on imob.mobiliario = mob.numMob
+                            INNER JOIN esta_mob as esmob on imob.esta_mob = esmob.codigoMob
+                           """)
             resultados = cursor.fetchall()
+
+            return resultados
 
         except Exception as error:
             print(f"Error al listar los mobiliarios: {error}")
+            return None
         
         finally:
             cursor.close()
             self.db.desconectar()
-
-        return resultados
     
     def datos_especificos_mob(self, mobiliario):
         if not self.db.conectar():

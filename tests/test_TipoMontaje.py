@@ -15,5 +15,9 @@ def listar_tipos_montajes():
     for tipo in tipos_montajes:
         print(f"{tipo['codigoMon']} \t {tipo['nombre']}")
 
+def mostrar_mobiliarios_montaje(montaje):
+    tipoMontaje = TipoMontajeService()
+    return tipoMontaje.listar_mobiliarios_montaje(montaje)
+
 if __name__ == "__main__":
-    listar_tipos_montajes()
+    mostrar_mobiliarios_montaje('banq')

@@ -76,3 +76,37 @@ class EstadoMobiliarioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+<<<<<<< HEAD
+=======
+
+    def listar_mob_por_estado(self, esta_mob):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT 
+                            mob.numMob,
+                            mob.nombre,
+                            imob.cantidad,
+                            emob.descripcion
+                            FROM inventario_mob as imob
+                            INNER JOIN mobiliario as mob on imob.mobiliario = mob.numMob
+                            INNER JOIN esta_mob as emob on imob.esta_mob = emob.codigoMob
+                            WHERE emob.codigoMob = %s
+                            """, (esta_mob,))
+            
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        except Exception as error:
+            print(f"Error al querer obtener el codigo de estado: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+>>>>>>> b750afa6492c60bbcec74608d5d37d6f8e1b43e7
