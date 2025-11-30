@@ -11,3 +11,8 @@ class TipoMontajeService:
     def listar_tipos_montajes(self):
         tipos_montajes = self.TipoMontajeRepository.listar_tipos_montajes()
         return tipos_montajes
+    
+    def listar_mobiliarios_montaje(self, montaje):
+        montaje = self.TipoMontajeRepository.obtener_codigo_montaje(montaje) 
+        resultado = self.TipoMontajeRepository.mobiliarios_por_montaje(montaje['codigoMon'])
+        print(resultado)
