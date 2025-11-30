@@ -170,7 +170,7 @@ class MobiliarioRepository:
 
     def actu_mob_esta(self, numMob, cantidad, esta_mob1, esta_mob2): # Actualizacion del estado (y cantidad del mobiliario en ese estado)
         if not self.db.conectar():
-            return None
+            return False
         
         try:
             cursor = self.db.cursor()

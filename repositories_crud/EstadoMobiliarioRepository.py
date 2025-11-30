@@ -36,7 +36,7 @@ class EstadoMobiliarioRepository:
             cursor = self.db.cursor()
 
             cursor.execute( """
-                            UPDATE estA_mob
+                            UPDATE esta_mob
                             SET descripcion = %s
                             WHERE codigoMob = %s
                             """, (new_esta_descripcion, esta_og_codigo))
