@@ -21,3 +21,19 @@ class PagoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def listar_pagos(self):
+        if not self.db.conectar():
+            return False
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM pagos")
+            resultados = cursor.fetchall()
+
+        except Exception as error:
+            print(f"Error al listar los pagos: {error}")
+            return False
+        finally:
+            cursor.close()
+            self.db.desconectar()
+        return resultados
