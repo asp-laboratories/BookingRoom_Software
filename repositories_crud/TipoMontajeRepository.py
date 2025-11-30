@@ -50,8 +50,7 @@ class TipoMontajeRepository:
         
         finally:
             cursor.close()
-            self.db.desconectar()
-        
+            self.db.desconectar()   
     
     def obtener_codigo_montaje(self, nombreTipo):
         if not self.db.conectar():
@@ -77,8 +76,5 @@ class TipoMontajeRepository:
             cursor.close()
             self.db.desconectar()
 
-    def crear_tipo_montaje(self, TipoMontaje):
-        pass
-
-    def actu_tipo_montaje(self, nombre = None, descripcion = None):
-        pass
+    def mobiliarios_por_montaje(self, codigoMon):
+        
