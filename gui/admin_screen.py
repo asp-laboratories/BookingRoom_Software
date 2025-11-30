@@ -600,7 +600,7 @@ class AdministradorScreen():
 
     def actualizar_estado_mob(self):
         resultado = mobiliario.actu_esta_mob(int(self.navegacion.almNum.text()),int(self.navegacion.almCantidad.text()),self.navegacion.almEstadoAntiguo.text(), self.navegacion.almNuevoEstado.text())
-        if resultado == False or resultado == None:
+        if resultado == False:
             self.navegacion.almMensaje.setText("Incorrecto")
         else:
             self.navegacion.almMensaje.setText("Correcto")
