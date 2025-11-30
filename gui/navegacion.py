@@ -6,6 +6,7 @@ from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
 from services.TrabajadorServices import TrabajadorServices
+from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "navegacion.ui"
 servicio = ServicioService()
 salon = SalonServices()  
@@ -64,30 +65,115 @@ class Navegacion():
         self.navegacion.subMenuRecepcion.setVisible(not self.navegacion.subMenuRecepcion.isVisible())
 
     def registar_servicio(self):
-        resultado = servicio.registrar_servicio(self.navegacion.sNombreSer.text(), self.navegacion.sDescripcion.text(), self.navegacion.sCostoRenta.text(), self.navegacion.sTipoServicio.text())
-        if resultado == False:
-            self.navegacion.sMensaje.setText("Incorrecto")
+        nombre = self.navegacion.sNombreSer.text()
+        if (len(nombre) < 2): # unica validacion?
+            self.navegacion.sMensaje.setText("Ingresar un nombre valido")
+        
+        descripcion = self.navegacion.sDescripcion.text()
+        if (len(descripcion) < 2):
+            self.navegacion.sMensaje.setText("Ingresar una descripcion valida")
+
+        resCostoRenta = self.navegacion.sCostoRenta.text()
+        if not (permitir_ingreso(resCostoRenta, 'numfloat')):
+            self.navegacion.sMensaje.setText("Ingrese un valor valido como costo de renta")
         else:
-            self.navegacion.sMensaje.setText("Correcto")
+            costo_renta = float(resCostoRenta)
+        
+        tipo_servicio = self.navegacion.sTipoServicio.text() # Combo box?
+
+        resultado = servicio.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
+
+        if not resultado:
+            self.navegacion.sMensaje.setText("Registro fallido")
+        else:
+            self.navegacion.sMensaje.setText("Registro concretado")
 
     def registrar_salon(self):
-        largo =  float(self.navegacion.saLargo.text()) 
-        ancho = float(self.navegacion.saAncho.text())
-        altura =  float(self.navegacion.saAltura.text())
+        resLargo = self.navegacion.saLargo.text()
+        if not permitir_ingreso(resLargo, 'numfloat'):
+            self.navegacion.saMensaje.setText("Ingrese valor numerico en largo")
+        else:
+            largo = float(resLargo)
+
+        resAncho = self.navegacion.saAncho.text()
+        if not permitir_ingreso(resAncho, 'numfloat'):
+            self.navegacion.saMensaje.setText("Ingrese valor numerico en ancho")
+        else:
+            ancho = float(resAncho)
+        
+        resAltura = float(self.navegacion.saAltura.text())
+        if not permitir_ingreso(resAltura, 'numfloat'):
+            self.navegacion.saMensaje.setText("Ingrese valor numerico en altura")
+        else:
+            altura = float(resAltura)
+        
         m2 = (2*(largo+ancho)*altura)
         self.navegacion.saResultadoM2.setText(str(m2))
-        resultado = salon.registrar_salones(self.navegacion.saNombre.text(), float(self.navegacion.saCostoRenta.text()), self.navegacion.saNombrePasillo.text(), self.navegacion.saNumeroPasillo.text(), largo, ancho, altura, m2)
-        if resultado == False:
-            self.navegacion.saMensaje.setText("Incorrecto")
+        
+        nombre = self.navegacion.saNombre.text()
+        if (len(nombre) < 2):
+            self.navegacion.saMensaje.setText("Ingrese un nombre valido (solo letras)")
+        #elif not permitir_ingreso(nombre, 'correo'): # Las lineas comentadas estan en caso de ser realmente requerido el ingreso de un formato en este tipo de campos
+        #    self.navegacion.saMensaje.setText("Ingrese un nombre valido (solo letras)")
+
+        costoRenta = self.navegacion.saCostoRenta.text()
+        if not permitir_ingreso(costoRenta, 'numfloat'):
+            self.navegacion.saMensaje.setText("Ingrese valor numerico en el costo de renta")
         else:
-            self.navegacion.saMensaje.setText("Correcto")
+            costoRenta = float(costoRenta)
+
+        nombrePasillo = self.navegacion.saNombrePasillo.text()
+        if (len(nombrePasillo) < 2):
+            self.navegacion.saMensaje.setText("Ingrese un nombre valido (solo letras)")
+        #if not permitir_ingreso(nombrePasillo, 'correo'):
+        #    self.navegacion.saMensaje.setText("Ingrese un nombre de pasillo valido")
+
+        numPasillo = self.navegacion.saNumeroPasillo.text()
+        if not permitir_ingreso(numPasillo, 'numtraba'):
+            self.navegacion.saMensaje.setText("Ingrese un nombre de pasillo valido")
+
+        resultado = salon.registrar_salones(nombre, costoRenta, nombrePasillo, numPasillo, largo, ancho, altura, m2)
+        if resultado == False:
+            self.navegacion.saMensaje.setText("Registro fallido")
+        else:
+            self.navegacion.saMensaje.setText("Registro concretado")
     
+
     def registrar_equipamiento(self):
-        resultado = equipamiento.registrar_equipamento(self.navegacion.eNombreEqui.text(),self.navegacion.eDescripcion.text(), float(self.navegacion.eCostoRenta.text()), int(self.navegacion.eStock.text()), self.navegacion.eTipoEquipamiento.text())
-        if resultado == False:
-            self.navegacion.eMensaje.setText("Incorrecto")
+        nombreEquipa = (self.navegacion.eNombreEqui.text())
+        if (len(nombreEquipa) < 2):
+            self.navegacion.saMensaje.setText("Ingrese un nombre valido")
+        #if not permitir_ingreso(nombreEquipa, 'onlytext'):
+        #    self.navegacion.eMensaje.setText("Nombre no valido (no caracteres especiales)")
+
+        descripcion = (self.navegacion.eDescripcion.text())
+        if (len(descripcion) < 2):
+            self.navegacion.saMensaje.setText("Ingrese una descripcion valida")
+        #if not permitir_ingreso(descripcion, 'correo'):
+        #    self.navegacion.eMensaje.setText("Descripcion no valida (utilizar una descripcion mas simple)")
+
+        resCostoRenta = (self.navegacion.eCostoRenta.text())
+        if not permitir_ingreso(resCostoRenta, 'numfloat'):
+            self.navegacion.eMensaje.setText("Ingrese valor numerico en el costo de renta")
         else:
-            self.navegacion.eMensaje.setText("Correcto")
+            costoRenta = float(resCostoRenta)
+
+        resStock = (self.navegacion.eStock.text())
+        if not permitir_ingreso(resStock, 'numint'):
+            self.navegacion.eMensaje.setText("Ingrese valor numerico como cantidad de stock")
+        else:
+            stock = int(resStock)
+        
+        tipoEquipa = (self.navegacion.eTipoEquipamiento.text())
+        #if not permitir_ingreso(tipoEquipa, 'onlytext'):
+        #    self.navegacion.eMensaje.setText("Tipo de equipamiento no valido") # Segun yo esto se iba a cambiar para hacerse con combobox ¿¿
+
+        #resultado = equipamiento.registrar_equipamento(nombreEquipa, descripcion, costoRenta, stock, tipoEquipa)
+        
+        if not equipamiento.registrar_equipamento(nombreEquipa, descripcion, costoRenta, stock, tipoEquipa):
+            self.navegacion.eMensaje.setText("Registro fallido")
+        else:
+            self.navegacion.eMensaje.setText("Registro concretado")
 
 
 
@@ -96,11 +182,12 @@ class Navegacion():
         self.navegacion.saNombre.clear()
         self.navegacion.saCostoRenta.clear()
         self.navegacion.saNombrePasillo.clear()
-        self.navegacion.saNumeroPasillo.    clear()
+        self.navegacion.saNumeroPasillo.clear()
         self.navegacion.saLargo.clear()
         self.navegacion.saAncho.clear()
         self.navegacion.saAltura.clear()
         self.navegacion.saResultadoM2.clear()
+
 
     def mostrar_pagina(self, indice):
         self.navegacion.stackedWidget.setCurrentIndex(indice)

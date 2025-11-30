@@ -1,11 +1,12 @@
 
+
 class EstadoMobiliarioRepository:
     # Constructor
     def __init__(self, db_configuration):
         self.db = db_configuration
     
     # Metodos
-    def crear_estado_mobiliario(self, EstaMob):
+    def crear_estado_mobiliario(self, tipo_carac):
         if not self.db.conectar():
             return False
         
@@ -13,15 +14,15 @@ class EstadoMobiliarioRepository:
             cursor = self.db.cursor()
 
             cursor.execute("""
-                            INSERT INTO esta_mob (codigoMob, descripcion)
+                            INSERT INTO tipo_carac (codigoTiMob, nombreCarac)
                             values (%s, %s)
-                            """, (EstaMob.codigoMob, EstaMob.descripcion))
+                            """, (tipo_carac.codigoTiMob, tipo_carac.nombreCarac))
 
             self.db.connection.commit()
             return True
         
         except Exception as error:
-            print(f"Error al querer crear un nuevo estado de mobiliario: {error}")
+            print(f"Error al querer crear un nuevo tipo de caracteristica: {error}")
             return False
         
         finally:

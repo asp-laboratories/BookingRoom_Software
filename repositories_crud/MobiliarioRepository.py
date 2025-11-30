@@ -19,8 +19,8 @@ class MobiliarioRepository:
             cursor = self.db.cursor()
             cursor.execute("""
                 INSERT INTO mobiliario (nombre, costoRenta, stock, tipo_mob, trabajador)
-                VALUES (%s, %s, %s, %s, 'rfc123')
-                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob,))
+                VALUES (%s, %s, %s, %s, 'rfc123') 
+                """, (mobiliario.nombre, mobiliario.costoRenta, mobiliario.stock, mobiliario.tipo_mob,)) # Aca se tiene q modificar para poner el rfc de un trabajador
             
             numMob = cursor.lastrowid
 
@@ -123,6 +123,51 @@ class MobiliarioRepository:
             self.db.desconectar()
             return True
     
+   # Actualizacion de datos (stock, nombre, costo de renta) requiere de la pk del mobiliario
+    def actu_mob_datos(self, numMob, nombre, costoRenta, stock):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(f"""
+                            UPDATE mobiliario set
+                            nombre = '{nombre}',
+                            costoRenta = {costoRenta},
+                            stock = {stock}
+                            where numMob = {numMob}""")
+            
+            self.db.connection.commit()
+            return True
+        
+        except Exception as error:
+            print(f"Error al actualizar los datos del mobiliario: {error}")
+            return False
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def obtener_num_mob(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute(f"SELECT numMob FROM mobiliario WHERE descripcion like '%{nombre}%'")
+            resultado = cursor.fetchone()
+
+            return resultado
+
+        except Exception as error:
+            print(f"Error al obtener un estado de mobiliario: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
     def actu_mob_esta(self, numMob, cantidad, esta_mob1, esta_mob2): # Actualizacion del estado (y cantidad del mobiliario en ese estado)
         if not self.db.conectar():
             return None
@@ -192,32 +237,7 @@ class MobiliarioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
-    # Actualizacion de datos (stock, nombre, costo de renta) requiere de la pk del mobiliario
-    def actu_mob_datos(self, numMob, nombre, costoRenta, stock):
-        if not self.db.conectar():
-            return None
-        
-        try:
-            cursor = self.db.cursor()
-            cursor.execute(f"""
-                            UPDATE mobiliario set
-                            nombre = '{nombre}',
-                            costoRenta = {costoRenta},
-                            stock = {stock}
-                            where numMob = {numMob}""")
-            
-            self.db.connection.commit()
-            return True
-        
-        except Exception as error:
-            print(f"Error al actualizar los datos del mobiliario: {error}")
-            return False
-
-        finally:
-            cursor.close()
-            self.db.desconectar()
-    
+ 
     def caracteristicas_mobiliario(self, numMob):
         if not self.db.conectar():
             return None
@@ -287,45 +307,25 @@ class MobiliarioRepository:
             cursor.close()
             self.db.desconectar()          
 
-    def obtener_esta_mob(self, descripcion):
-        if not self.db.conectar():
-            return None
-        
-        try:
-            cursor = self.db.cursor()
-
-            cursor.execute(f"SELECT codigoMob FROM esta_mob WHERE descripcion like '{descripcion}%'")
-            resultado = cursor.fetchone()
-
-            return resultado
-
-        except Exception as error:
-            print(f"Error al obtener un estado de mobiliario: {error}")
-            return None
-        
-        finally:
-            cursor.close()
-            self.db.desconectar()
-
-    def obtener_num_mob(self, nombre):
-        if not self.db.conectar():
-            return None
-        
-        try:
-            cursor = self.db.cursor()
-
-            cursor.execute(f"SELECT numMob FROM mobiliario WHERE descripcion like '%{nombre}%'")
-            resultado = cursor.fetchone()
-
-            return resultado
-
-        except Exception as error:
-            print(f"Error al obtener un estado de mobiliario: {error}")
-            return None
-        
-        finally:
-            cursor.close()
-            self.db.desconectar()
+    #def obtener_esta_mob(self, descripcion): # Esta funcion se movio a EstadoMobiliarioRepository (ya modificado en el service)
+    #    if not self.db.conectar():
+    #        return None
+    #    
+    #    try:
+    #        cursor = self.db.cursor()
+    #
+    #        cursor.execute(f"SELECT codigoMob FROM esta_mob WHERE descripcion like '{descripcion}%'")
+    #        resultado = cursor.fetchone()
+    #
+    #        return resultado
+    #
+    #    except Exception as error:
+    #        print(f"Error al obtener un estado de mobiliario: {error}")
+    #        return None
+    #    
+    #    finally:
+    #        cursor.close()
+    #        self.db.desconectar()
 
     def obtener_tipo_por_carac(self, nombreCarac):
         if not self.db.conectar():

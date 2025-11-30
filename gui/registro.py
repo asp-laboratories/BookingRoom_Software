@@ -4,6 +4,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox 
 from services.TelefonoServices import TelefonoServices
 from services.TrabajadorServices import TrabajadorServices
+from utils.Formato import permitir_ingreso
 
 ruta_ui = Path(__file__).parent / "registro.ui"
 trabajador = TrabajadorServices()
@@ -27,40 +28,63 @@ class Registro():
             self.login = Login()
  
     def registrar(self):
-        if len(self.registro.leRfc.text()) < 2:
+
+        rfc = self.registro.leRfc.text()
+        if (len(rfc) < 2) or (not permitir_ingreso(rfc, 'rfc')):
             self.registro.mensaje.setText("Ingrese un RFC valido")
-            self.registro.leEmail.setFocus()
-        elif len(self.registro.leNumero.text()) < 2:
+            self.registro.leRfc.selectAll()
+            self.registro.leRfc.setFocus()
+            return
+
+        numTrabajador = self.registro.leNumero.text()
+        if (len(numTrabajador) < 2) or (not permitir_ingreso(numTrabajador, 'numtraba')):
             self.registro.mensaje.setText("Ingrese un numero de trabajador valido")
+            self.registro.leNumero.selectAll()
             self.registro.leNumero.setFocus()
+            return
 
-        elif len(self.registro.leNombre.text()) < 2:
+        nombre = self.registro.leNombre.text()
+        if (len(nombre) < 2) or (not permitir_ingreso(nombre, 'onlytext')):
             self.registro.mensaje.setText("Ingrese un nombre valido")
+            self.registro.leNombre.selectAll()
             self.registro.leNombre.setFocus()
+            return
 
-        elif len(self.registro.leApaterno.text()) < 2:
+        apePater = self.registro.leApaterno.text()
+        if (len(apePater) < 2) or (not permitir_ingreso(apePater, 'onlytext')):
             self.registro.mensaje.setText("Ingrese un apellido paterno valido")
+            self.registro.leApaterno.selectAll()
             self.registro.leApaterno.setFocus()
+            return
 
-        elif len(self.registro.leAmaterno.text()) < 2:
-            self.registro.mensaje.setText("Ingrese un apellido materno valido")
-            self.registro.leAmaterno.setFocus()
-
-        elif len(self.registro.leEmail.text()) < 2:
-            self.registro.mensaje.setText("Ingrese un email valido")
-            self.registro.leEmail.setFocus()
-
+        apeMater = self.registro.leAmaterno.text()
+        if not (apeMater == ""):
+            if (len(apeMater) < 2) or (not permitir_ingreso(apeMater, 'onlytext')):
+                self.registro.mensaje.setText("Ingrese un apellido materno valido")
+                self.registro.leAmaterno.selectAll()
+                self.registro.leAmaterno.setFocus()
+                return
         else:
-            self.registro.mensaje.setText("")
-            resultado = trabajador.registrar_trabajadores(self.registro.leRfc.text(), self.registro.leNumero.text(), self.registro.leNombre.text(), self.registro.leApaterno.text(),self.registro.leAmaterno.text(), self.registro.leEmail.text())
-            
-            telefono.registrar_telefono(self.registro.leTelefono.text(), None,self.registro.leRfc.text())
-            telefono.registrar_telefono(self.registro.leTelefono2.text(), None,self.registro.leRfc.text())
-            telefono.registrar_telefono(self.registro.leTelefono3.text(), None,self.registro.leRfc.text())
-            if resultado == False:
-                self.registro.mensaje.setText("Incorrecto")
-            else:
-                self.registro.mensaje.setText("Correcto")
+            apeMater = None
+
+        email = self.registro.leEmail.text()
+        if (len(email) < 2) or (not permitir_ingreso(email, 'correo')):
+            self.registro.mensaje.setText("Ingrese un correo valido")
+            self.registro.leEmail.selectAll()
+            self.registro.leEmail.setFocus()
+            return
+
+        resultado = trabajador.registrar_trabajadores(rfc, numTrabajador, nombre, apePater, apeMater, email)
+
+        if not resultado:
+            self.registro.mensaje.setText("Error al registrar trabajador")
+        else:
+            self.registro.mensaje.setText("Trabajador registrado")            
+            telefono.registrar_telefono(self.registro.leTelefono.text(), None, rfc)
+            telefono.registrar_telefono(self.registro.leTelefono2.text(), None, rfc)
+            telefono.registrar_telefono(self.registro.leTelefono3.text(), None, rfc)
+    
+    
     def deshabilitar_telefonos(self):
         self.registro.leTelefono2.setEnabled(False)
         self.registro.leTelefono3.setEnabled(False)
