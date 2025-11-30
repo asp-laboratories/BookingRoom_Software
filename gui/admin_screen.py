@@ -1,19 +1,25 @@
 import os
 from pathlib import Path
+from datetime import datetime, date, timedelta
 from PyQt6 import uic
-from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QVBoxLayout, QPushButton
-from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QBrush, QColor
+from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QVBoxLayout, QPushButton
+from PyQt6.QtCore import QDate, Qt
+from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
 from services.DatosClienteService import DatosClienteServices
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
 from services.TelefonoServices import TelefonoServices
+from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
 from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
+tipo_servi = TipoServicioService()
+db = DatabaseSimulada()
 servicio = ServicioService()
 salon = SalonServices()  
 equipamiento = EquipamentoService()
@@ -21,6 +27,12 @@ trabajador = TrabajadorServices()
 cliente = DatosClienteServices()
 telefono = TelefonoServices()
 mobiliario = mobiliarioService()  
+
+
+
+
+
+
 
 class AdministradorScreen():
     def __init__(self):
@@ -55,6 +67,14 @@ class AdministradorScreen():
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
         self.navegacion.slBuscar.clicked.connect(self.listar_servicio) 
+        self.navegacion.slBuscar_3.clicked.connect(self.listar_servicio_act) 
+        self.navegacion.slBuscar_2.clicked.connect(self.listar_servicio_del)
+
+        self.navegacion.buscarTipo.clicked.connect(self.buscar_tipo_ser)
+        self.navegacion.tipoBuscarE.clicked.connect(self.buscar_tipoS_eli)    
+    
+
+
         self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
 
@@ -71,6 +91,9 @@ class AdministradorScreen():
         self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
         
         self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
+        self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
+        self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
+
 
         self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
         self.deshabilitar_telefonos()
@@ -95,6 +118,17 @@ class AdministradorScreen():
         self.controles_equipos = {}
         self.inputs = []
         self.inputs_tipo = []
+        
+        self.fechas = []
+        self.configurar_fechas_iniciales()
+
+        self.navegacion.btnAgregar_2.clicked.connect(self.agregar_evento)
+        self.navegacion.btnMostrar_2.clicked.connect(self.mostrar_eventos)
+        self.navegacion.btnLimpiar_2.clicked.connect(self.limpiar_horario)
+        self.navegacion.btnActualizar.clicked.connect(self.actualizar_fechas)
+
+        self.navegacion.tableHorario.cellDoubleClicked.connect(self.celda_doble_clic)
+        self.configurar_horario()
 
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(not self.navegacion.subMenuAdministracion.isVisible())
@@ -150,7 +184,31 @@ class AdministradorScreen():
             for ser in resultado:
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar.setText(mensaje)
-           
+        
+    def listar_servicio_act(self):
+        self.navegacion.sResultadoListar_3.clear()
+        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_3.text())
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---SERVICIOS---\n"
+            for ser in resultado:
+                mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
+                self.navegacion.sResultadoListar_3.setText(mensaje)
+        
+    def listar_servicio_del(self):
+        self.navegacion.sResultadoListar_2.clear()
+        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_2.text())
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---SERVICIOS---\n"
+            for ser in resultado:
+                mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
+                self.navegacion.sResultadoListar_2.setText(mensaje)
+
+
+
     def eliminar_servicio(self):
         resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
         if resultado == False:
@@ -158,8 +216,26 @@ class AdministradorScreen():
         else:
             self.navegacion.seMensajeE.setText("Correcto")
 
+    
+    def buscar_tipo_ser(self):
+        resultado = tipo_servi.mostrar_servicios_de_tipo(self.navegacion.tipoBuscar.text())
+        if resultado:
+            mensaje = f"\n--- {resultado} ---\n Servicios:\n"
+            if resultado.servicios:
+                for servicios in resultado.servicios:
+                    mensaje += f"- {servicios.nombre}\n"
+            else:
+                print(" No tiene servicios registrados")
 
+            self.navegacion.tResultadoS.setText(mensaje)
 
+    def buscar_tipoS_eli(self):
+        resultado = tipo_servi.listar_tipos_servicio(self.navegacion.tipoBusqueda.text())
+        if resultado:
+            mensaje = f"\nTipo de servicios\n"
+            for row in resultado:
+                mensaje += f"\nCodigo del tipo: {row['codigoTiSer']}\nDescripcion del tipo: {row['descripcion']}\n"
+            self.navegacion.tipoResultado.setText(mensaje)
 
 
     def registrar_salon(self):
@@ -604,8 +680,258 @@ class AdministradorScreen():
             self.navegacion.almMensaje.setText("Incorrecto")
         else:
             self.navegacion.almMensaje.setText("Correcto")
-    
+   
 
+    def buscar_estado_mobiliario(self):
+        resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
+        if resultado == None:
+            pass
+        else:
+            mensaje = "\n---MOBILIARIOS---\n"
+            for mob in resultado:
+                mensaje += f"\nMobiliario: {mob["Numero"]}.\nNombre: {mob["Nombre"]}.\nEstado Actual: {mob["Estado"]}\nCantidad: {mob["Cantidad"]}\n"
+                self.navegacion.almResultadoM.setText(mensaje)
+    
+    
+    def buscar_estado_equipamiento(self):
+        resultado = equipamiento.obtener_equipa_estado(self.navegacion.almBuscadorE.text())
+        if resultado == None:
+            pass
+        else:
+            mensaje = "\n---EQUIPAMIENTOS---\n"
+            for equi in resultado:
+                mensaje += f"\nEquipamiento: {equi["Numero"]}.\nNombre: {equi["Nombre"]}.\nEstado Actual: {equi["Estado"]}\nCantidad: {equi["Cantidad"]}\n"
+                self.navegacion.almResultadoE.setText(mensaje)
+
+    def configurar_fechas_iniciales(self):
+        hoy = date.today()
+        self.fechas = [hoy + timedelta(days=i) for i in range (7)]
+
+        self.navegacion.dateInicio.setDate(QDate.currentDate())
+        self.navegacion.dateEvento_2.setDate(QDate.currentDate())
+
+    def configurar_horario(self):
+        self.horas = []
+        for hora in range(7, 22):
+            for minuto in [0, 30]:
+                if hora == 20 and minuto == 30:
+                    continue
+                self.horas.append(f"{hora:02d}:{minuto:02d}")
+        self.horas.append("22:00")
+
+        self.navegacion.tableHorario.setRowCount(len(self.horas))
+        self.navegacion.tableHorario.setColumnCount(len(self.fechas)+1)
+
+        self.actualizar_encabezados()
+
+        for i, hora in enumerate(self.horas):
+            item = QTableWidgetItem(hora)
+            item.setBackground(QColor(155, 88, 43))
+            item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            self.navegacion.tableHorario.setItem(i, 0, item)
+            self.cargar_eventos()
+
+    def actualizar_encabezados(self):
+        headers = ["Hora"]
+        for fecha in self.fechas:
+            # Formato: "Lun 15/01"
+            dia = fecha.strftime("%a")
+            fecha_corta = fecha.strftime("%d/%m")
+            headers.append(f"{dia}\n{fecha_corta}")
+        
+        self.navegacion.tableHorario.setHorizontalHeaderLabels(headers)
+        self.navegacion.tableHorario.horizontalHeader().setStyleSheet("""
+    QHeaderView::section {
+        background-color: #9b582b;
+        color: white;
+        font-weight: bold;
+        padding: 6px;
+        border: 1px solid #9b582b;
+    }
+""") 
+    def actualizar_fechas(self):
+        """Actualizar las fechas mostradas en el horario"""
+        fecha_inicio = self.navegacion.dateInicio.date().toPyDate()
+        self.fechas = [fecha_inicio + timedelta(days=i) for i in range(7)]
+        
+        print(f"🔄 Actualizando fechas: {[f.strftime('%d/%m') for f in self.fechas]}")
+        
+        # Limpiar tabla (excepto columna de horas)
+        self.limpiar_tabla()
+        
+        # Actualizar encabezados
+        self.actualizar_encabezados()
+        
+        # Recargar eventos para las nuevas fechas
+        self.cargar_eventos()
+        
+        QMessageBox.information(None, "Éxito", "Fechas actualizadas")
+
+    def limpiar_tabla(self):
+        """Limpiar la tabla (mantener solo columna de horas)"""
+        for fila in range(self.navegacion.tableHorario.rowCount()):
+            for columna in range(1, self.navegacion.tableHorario.columnCount()):
+                self.navegacion.tableHorario.setItem(fila, columna, QTableWidgetItem(""))
+        
+    def agregar_evento(self):
+        """Agregar nuevo evento"""
+        try:
+            # Obtener datos
+            nombre = self.navegacion.inputNombre_2.text().strip()
+            fecha = self.navegacion.dateEvento_2.date().toPyDate()
+            hora_inicio = self.navegacion.timeInicio_2.time().toString("HH:mm")
+            hora_fin = self.navegacion.timeFin_2.time().toString("HH:mm")
+            
+            print(f"➕ Intentando agregar evento: {nombre} | {fecha} | {hora_inicio}-{hora_fin}")
+            
+            # Validaciones simples
+            if not nombre:
+                QMessageBox.warning(None, "Error", "Ingresa un nombre para el evento")
+                return
+            
+            if hora_inicio >= hora_fin:
+                QMessageBox.warning(None, "Error", "La hora de fin debe ser mayor a la de inicio")
+                return
+            
+            # Verificar que la fecha esté en el rango mostrado
+            if fecha not in self.fechas:
+                QMessageBox.warning(None, "Error", 
+                                  f"La fecha {fecha.strftime('%d/%m/%Y')} debe estar en el rango mostrado")
+                return
+            
+            # Verificar que las horas estén en el rango
+            if hora_inicio not in self.horas or hora_fin not in self.horas:
+                QMessageBox.warning(None, "Error", 
+                                  f"Las horas deben estar entre 19:00 y 22:00")
+                return
+            
+            # Verificar disponibilidad
+            if not self.verificar_disponibilidad(fecha, hora_inicio, hora_fin):
+                QMessageBox.warning(None, "Conflicto", 
+                                  "Ya hay un evento en ese horario")
+                return
+            
+            # Guardar en base de datos simulada
+            evento = db.agregar_evento(nombre, fecha, hora_inicio, hora_fin)
+            print(f"✅ Evento guardado en BD: {evento}")
+            
+            # Actualizar horario
+            self.marcar_evento_en_horario(evento)
+            
+            # Limpiar formulario
+            self.navegacion.inputNombre_2.clear()
+            
+            QMessageBox.information(None, "Éxito", 
+                                  f"Evento '{nombre}' agregado para {fecha.strftime('%d/%m/%Y')}")
+            
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            QMessageBox.critical(None, "Error", f"Error: {str(e)}")
+    
+    def verificar_disponibilidad(self, fecha, hora_inicio, hora_fin):
+
+        eventos_fecha = db.obtener_eventos_por_fecha(fecha)
+
+        
+        for evento in eventos_fecha:
+            if not (hora_fin <= evento['hora_inicio'] or hora_inicio >= evento['hora_fin']):
+                print(f"❌ Conflicto con evento: {evento}")
+                return False
+        return True
+
+    def cargar_eventos(self):
+        """Cargar todos los eventos en el horario"""
+        todos_eventos = db.obtener_todos_eventos()
+        print(f"📂 Cargando {len(todos_eventos)} eventos en el horario")
+        
+        for evento in todos_eventos:
+            if evento['fecha'] in self.fechas:
+                print(f"  - Marcando evento: {evento}")
+                self.marcar_evento_en_horario(evento)
+
+    def marcar_evento_en_horario(self, evento):
+        """Marcar un evento en el horario"""
+        try:
+            # Encontrar posición en la tabla
+            fila_inicio = self.horas.index(evento['hora_inicio'])
+            fila_fin = self.horas.index(evento['hora_fin'])
+            columna = self.fechas.index(evento['fecha']) + 1
+            
+            print(f"  🎯 Marcando en: fila {fila_inicio}-{fila_fin}, columna {columna}")
+            
+            # Marcar celdas
+            for fila in range(fila_inicio, fila_fin):
+                item = QTableWidgetItem(evento['nombre'])
+                item.setBackground(QBrush(QColor(155, 88, 43)))  # Azul
+                item.setForeground(QBrush(QColor(255, 255, 255)))  # Texto blanco
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                
+                # Guardar ID del evento para poder identificarlo
+                item.setData(Qt.ItemDataRole.UserRole, evento['id'])
+                
+                self.navegacion.tableHorario.setItem(fila, columna, item)
+                print(f"    ✅ Celda [{fila}, {columna}] marcada: {evento['nombre']}")
+                
+        except ValueError as e:
+            print(f"⚠️ Error marcando evento {evento}: {e}")
+        except Exception as e:
+            print(f"❌ Error inesperado: {e}")
+    
+    def celda_doble_clic(self, fila, columna):
+        """Manejar doble clic en celdas para eliminar eventos"""
+        if columna == 0:  # Columna de horas
+            return
+        
+        item = self.navegacion.tableHorario.item(fila, columna)
+        if item and item.data(Qt.ItemDataRole.UserRole):
+            evento_id = item.data(Qt.ItemDataRole.UserRole)
+            evento = next((e for e in db.obtener_todos_eventos() if e['id'] == evento_id), None)
+            
+            if evento:
+                respuesta = QMessageBox.question(
+                    self, "Eliminar Evento", 
+                    f"¿Eliminar evento?\n\n"
+                    f"📝 {evento['nombre']}\n"
+                    f"📅 {evento['fecha'].strftime('%d/%m/%Y')}\n"
+                    f"⏰ {evento['hora_inicio']} - {evento['hora_fin']}",
+                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+                )
+                
+                if respuesta == QMessageBox.StandardButton.Yes:
+                    db.eliminar_evento(evento_id)
+                    self.actualizar_fechas()  # Recargar el horario
+                    QMessageBox.information(self, "Éxito", "Evento eliminado")
+
+    def mostrar_eventos(self):
+        """Mostrar todos los eventos en un mensaje"""
+        eventos = db.obtener_todos_eventos()
+        
+        if not eventos:
+            QMessageBox.information(self, "Eventos", "No hay eventos programados")
+            return
+        
+        mensaje = "📅 TODOS LOS EVENTOS:\n\n"
+        for evento in sorted(eventos, key=lambda x: (x['fecha'], x['hora_inicio'])):
+            mensaje += (f"• {evento['nombre']}\n"
+                       f"  📍 {evento['fecha'].strftime('%A %d/%m/%Y')}\n"
+                       f"  ⏰ {evento['hora_inicio']} - {evento['hora_fin']}\n\n")
+        
+        QMessageBox.information(None, "Eventos Guardados", mensaje)
+    
+    def limpiar_horario(self):
+        """Limpiar todo el horario y la base de datos"""
+        respuesta = QMessageBox.question(
+            self, "Confirmar", 
+            "¿Estás seguro de que quieres eliminar TODOS los eventos?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if respuesta == QMessageBox.StandardButton.Yes:
+            db.limpiar_base_datos()
+            self.limpiar_tabla()
+            QMessageBox.information(None, "Éxito", "Todos los eventos han sido eliminados")
+    
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":

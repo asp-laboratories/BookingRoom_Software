@@ -1,6 +1,7 @@
 from config.db_settings import BaseDeDatos
 from repositories_crud.EquipamientoRepository import EquipamentoRepository 
 from models.Equipamiento import Equipamiento as Equpo
+from repositories_crud.EstadoEquipaRepository import EstadoEquipaRepository
 from repositories_crud.TipoEquipamientoRepository import TipoEquipaRepository
 
 class EquipamentoService:
@@ -9,6 +10,7 @@ class EquipamentoService:
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.equipamento_repository = EquipamentoRepository(self.db)
         self.tipo_equipamiento = TipoEquipaRepository(self.db)
+        self.estado = EstadoEquipaRepository(self.db)
 
     # Metodos
     def registrar_equipamento(self, nombre, descripcion, costoRenta, stock, tipo_equipa, esta_equipa = "DISPO"):
@@ -40,3 +42,9 @@ class EquipamentoService:
     
     def aliminar_equipamento(self,numEquipa):
         self.equipamento_repository.eliminar_equipamiento(numEquipa)
+
+    def obtener_equipa_estado(self, esta_equipa):
+        print("Listando mobiliarios por su estado")
+        esta_equipa = self.estado.obtener_codigo_estado(esta_equipa)
+        resultado =  self.estado.listar_equipa_por_estado(esta_equipa['codigoEquipa'])
+        return resultado

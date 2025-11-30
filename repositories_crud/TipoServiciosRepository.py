@@ -27,12 +27,12 @@ class TipoServiciosRepository:
             cursor.close()
             self.db.desconectar()
 
-    def listar_tipo_servicio(self):
+    def listar_tipo_servicio(self, descripcion):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM tipo_servicio")
+            cursor.execute(f"SELECT * FROM tipo_servicio WHERE descripcion LIKE '%{descripcion}%'")
             resultados = cursor.fetchall()
 
         except Exception as error:
@@ -79,7 +79,7 @@ class TipoServiciosRepository:
         try:
             cursor = self.db.cursor(dictionary=True)
             
-            cursor.execute("SELECT * FROM tipo_servicio WHERE codigoTiSer = %s", (tipo_servicio,))
+            cursor.execute(f"SELECT * FROM tipo_servicio WHERE codigoTiSer = %s",(tipo_servicio,))
             tipo_data = cursor.fetchone()
             
             if not tipo_data:
@@ -116,3 +116,22 @@ class TipoServiciosRepository:
     
     
      
+    def obtener_codigo_tipo(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(f"SELECT codigoTiSer FROM tipo_servicio WHERE descripcion = %s",(nombre,))
+            numServicio = cursor.fetchone()
+
+            return numServicio
+
+        except Exception as error:
+            print(f"Error al mostrar el numero del servicio: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+

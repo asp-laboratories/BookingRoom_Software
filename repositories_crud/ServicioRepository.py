@@ -57,7 +57,7 @@ class ServicioRepository:
             return False
         try:
             cursor = self.db.cursor(dictionary=True) #Obtenemos el cursor para poder hacer consultas, pero convertimos el cursor a diccioario.
-            cursor.execute("SELECT * FROM servicio WHERE nombre = %s",(nombre,)) #Hacemos la consulta para traer todos los servicios.
+            cursor.execute(f"SELECT * FROM servicio WHERE nombre LIKE '%{nombre}%'") #Hacemos la consulta para traer todos los servicios.
             resultados = cursor.fetchall() #Guardamos en una variable cursor.fetchall() que basicamente significa que trae todos los resultados existe otro que es
             #cursor.fetchone() que solo trae una solo fila es aplicable para casos donde se utilize un where.
 
@@ -71,11 +71,23 @@ class ServicioRepository:
     def actualizar_servicios(self, campo, numServicio, valor):
         if not self.db.conectar():
             return False
+        CAMPOS = {
+            "Nombre": "nombre",
+            "Costo renta": "costoRenta",
+            "Tipo de servicio": "tipo_servicio",
+            "Descripcion" : "descripcion"
+        }
+        
+        if campo not in CAMPOS:
+            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            return False
+        campo_act = CAMPOS[campo]
+
         try:
            cursor = self.db.cursor(dictionary=True)
            cursor.execute(f"""
                 UPDATE servicio
-                SET {campo} = %s 
+                SET {campo_act} = %s 
                 WHERE numServicio =%s
            """,(valor, numServicio, ))
            self.db.connection.commit()
@@ -92,7 +104,7 @@ class ServicioRepository:
 
     def eliminar_servicios(self, numServicio):
         if not self.db.conectar():
-            return False
+            return None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("""

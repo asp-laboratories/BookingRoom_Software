@@ -1,11 +1,10 @@
-
-class EstadoMobiliarioRepository:
+class EstadoEquipaRepository:
     # Constructor
     def __init__(self, db_configuration):
         self.db = db_configuration
     
     # Metodos
-    def crear_estado_mobiliario(self, EstaMob):
+    def crear_estado_mobiliario(self, esta_equi):
         if not self.db.conectar():
             return False
         
@@ -13,22 +12,22 @@ class EstadoMobiliarioRepository:
             cursor = self.db.cursor()
 
             cursor.execute("""
-                            INSERT INTO esta_mob (codigoMob, descripcion)
+                            INSERT INTO esta_mob (codigoEquipa, descripcion)
                             values (%s, %s)
-                            """, (EstaMob.codigoMob, EstaMob.descripcion))
+                            """, (esta_equi.codigoEquipa, esta_equi.descripcion))
 
             self.db.connection.commit()
             return True
         
         except Exception as error:
-            print(f"Error al querer crear un nuevo estado de mobiliario: {error}")
+            print(f"Error al querer crear un nuevo estado de equipamiento: {error}")
             return False
         
         finally:
             cursor.close()
             self.db.desconectar()
     
-    def actu_esta_mob(self, esta_og_codigo, new_esta_descripcion):
+    def actu_esta_equi(self, esta_og_codigo, new_esta_descripcion):
         if not self.db.conectar():
             return False
         
@@ -36,9 +35,9 @@ class EstadoMobiliarioRepository:
             cursor = self.db.cursor()
 
             cursor.execute( """
-                            UPDATE esta_mob
+                            UPDATE esta_equi
                             SET descripcion = %s
-                            WHERE codigoMob = %s
+                            WHERE codigoEquipa = %s
                             """, (new_esta_descripcion, esta_og_codigo))
 
             self.db.connection.commit()
@@ -60,8 +59,8 @@ class EstadoMobiliarioRepository:
             cursor = self.db.cursor()
 
             cursor.execute( """
-                            SELECT codigoMob
-                            FROM esta_mob
+                            SELECT codigoEquipa
+                            FROM esta_quipa
                             WHERE descripcion LIKE %s
                             """, (f"{descripcion}%",))
             
@@ -76,9 +75,11 @@ class EstadoMobiliarioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+    
 
 
-    def listar_mob_por_estado(self, esta_mob):
+
+    def listar_equipa_por_estado(self, esta_e):
         if not self.db.conectar():
             return None
         
@@ -87,22 +88,22 @@ class EstadoMobiliarioRepository:
 
             cursor.execute( """
                             SELECT 
-                            mob.numMob as Numero,
-                            mob.nombre as Nombre,
-                            imob.cantidad as Cantidad,
-                            emob.descripcion as Estado
-                            FROM inventario_mob as imob
-                            INNER JOIN mobiliario as mob on imob.mobiliario = mob.numMob
-                            INNER JOIN esta_mob as emob on imob.esta_mob = emob.codigoMob
-                            WHERE emob.codigoMob = %s
-                            """, (esta_mob,))
+                            eq.numEquipa as Numero,
+                            eq.nombre as Nombre,
+                            iequ.cantidad as Cantidad,
+                            equi.descripcion as Estado
+                            FROM inventario_equipa as iequ
+                            INNER JOIN equipamiento as eq on iequ.equipamiento = eq.numEquipa
+                            INNER JOIN esta_quipa as equi on iequ.esta_quipa = equi.codigoEquipa
+                            WHERE equi.codigoEquipa = %s
+                            """, (esta_e,))
             
             resultado = cursor.fetchall()
 
             return resultado
         
         except Exception as error:
-            print(f"Error al querer obtener el codigo de estado: {error}")
+            print(f"Error al querer obtener el codigo de equipamiento: {error}")
             return None
         
         finally:
