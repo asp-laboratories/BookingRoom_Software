@@ -38,6 +38,7 @@ class PagoRepository:
             self.db.desconectar()
         return resultados
     
+    # Actualizar datos de pago
     def actualizar_pago(self, montoPago, descripcion, fecha, hora, reservacion, metodo_pago, concepto_pago, saldo):
         if not self.db.conectar():
             return False
@@ -69,7 +70,7 @@ class PagoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
+    # Eliminar datos de pago
     def eliminar_pago(self, numPago):
         if not self.db.conectar():
             return False
@@ -89,14 +90,15 @@ class PagoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-        
+    # Mostrar consulta solicitada
     def info_pago(self):
         if not self.db.conectar():
             return None
 
         try:
             cursor = self.db.cursor(dictionary=True)
-
+            #dentro de esta consulta el valor de la hora, no se como se pondria pero si ya es fija
+            #colocar nada mas el valor y quitar el formato
             cursor.execute("""
                 SELECT
                 r.numReser AS CodigoReservacion,
@@ -124,7 +126,8 @@ class PagoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-    
+
+    # Calcular los saldos de cada cliente, dependiendo el pago de la reservacion y el monto total
     def calcular_saldo(self, numReser):
         if not self.db.conectar():
             return False
@@ -136,19 +139,20 @@ class PagoRepository:
                 "SELECT total FROM reservacion WHERE numReser = %s",
                 (numReser,)
             )
-            total = cursor.fetchone()["total"]
+            total = cursor.fetchone()["total"] #Esto del total, se pone para decir que se ocupa justo ese valor del diccionario en todo caso la consulta de arriba
 
             cursor.execute("""
                 SELECT SUM(montoPago) AS pagos
                 FROM pago 
                 WHERE reservacion = %s
             """, (numReser,))
-            pagos = cursor.fetchone()["pagos"]
+            pagos = cursor.fetchone()["pagos"] #al igual que aqui
 
-            if pagos is None:
+            if pagos is None: # si no existe nungun valor en pagos osea lo de arriba, se convierte en 0 para que no se le reste nada
                 pagos = 0
-
-            return total - pagos
+            
+            saldo = total - pagos
+            return saldo # returna este valor, que no se si se ocuparia otra cosa para que salga en la consulta
 
         except Exception as error:
             print(f"Existio un erro al calcular saldo: {error}")
