@@ -137,6 +137,6 @@ if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
     #prueba.actu_carac_mob(1,"hhh", 'mater')
-    #prueba.actu_esta_mob(numMob=1,cantidad=10,esta_mob_og='no disponible',new_esta_mob='disponible')
+    prueba.actu_esta_mob(numMob=1,cantidad=50,esta_mob_og='disponible',new_esta_mob='no disponible')
     #print(prueba.obtener_tipo_carac('espec'))
     #print(prueba.caracteristicas_mob(1))

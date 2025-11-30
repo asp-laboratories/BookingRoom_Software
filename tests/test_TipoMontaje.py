@@ -9,5 +9,11 @@ tipoMontaje = TipoMontajeService()
 def crear_tipoMontaje():
     pass
 
+def listar_tipos_montajes():
+    tipos_montajes = tipoMontaje.listar_tipos_montajes()
+    print("Codigo \t Nombre")
+    for tipo in tipos_montajes:
+        print(f"{tipo['codigoMon']} \t {tipo['nombre']}")
+
 if __name__ == "__main__":
-    crear_tipoMontaje()
+    listar_tipos_montajes()

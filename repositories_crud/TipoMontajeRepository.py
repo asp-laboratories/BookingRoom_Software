@@ -5,13 +5,80 @@ class TipoMontajeRepository:
         self.db = db_configuration
     
     # Metodos
-    def crear_tipo_montaje(self, codigoMon, nombre, descripcion):
-        pass
-
     def listar_tipos_montajes(self):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute( """
+                            SELECT * FROM tipo_montaje
+                            """)
+            
+            resultados = cursor.fetchall()
+
+            return resultados
+
+        except Exception as error:
+            print(f"Error al listar los tipos de montaje: {error}")
+            return None
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def listar_salones_tipo_montaje(self, codigoMon):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute( """
+                            SELECT *
+                            FROM tipo_montaje as tm
+                            INNER JOIN datos_montaje as dm on dm.tipo_montaje = tm.codigoMon
+                            INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+                            WHERE codigoMon = %s
+                            """, (codigoMon,))
+
+            resultado = cursor.fetchone()
+
+            return resultado
+
+        except Exception as error:
+            print(f"Error al obtener el codigo del montaje: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+        
+    
+    def obtener_codigo_montaje(self, nombreTipo):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute( """
+                            SELECT codigoMon
+                            FROM tipo_montaje
+                            WHERE nombre LIKE %s
+                            """, (f"{nombreTipo}%",))
+
+            resultado = cursor.fetchone()
+
+            return resultado
+
+        except Exception as error:
+            print(f"Error al obtener el codigo del montaje: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def crear_tipo_montaje(self, TipoMontaje):
         pass
 
     def actu_tipo_montaje(self, nombre = None, descripcion = None):
         pass
-
-    def 
