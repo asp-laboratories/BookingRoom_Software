@@ -138,6 +138,7 @@ class mobiliarioService:
         resultado =  self.estaMob_repository.listar_mob_por_estado(esta_mob['codigoMob'])
         return resultado
 
+
 if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
