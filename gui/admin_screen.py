@@ -11,6 +11,7 @@ from services.EquipamentoService import EquipamentoService
 from services.TelefonoServices import TelefonoServices
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
+from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
 servicio = ServicioService()
@@ -87,11 +88,34 @@ class AdministradorScreen():
         self.navegacion.subMenuRecepcion.setVisible(not self.navegacion.subMenuRecepcion.isVisible())
 
     def registar_servicio(self):
-        resultado = servicio.registrar_servicio(self.navegacion.sNombreSer.text(), self.navegacion.sDescripcion.text(), self.navegacion.sCostoRenta.text(), self.navegacion.sTipoServicio.text())
-        if resultado == False:
-            self.navegacion.sMensaje.setText("Incorrecto")
+        nombre = self.navegacion.sNombreSer.text()
+        if (len(nombre) < 2): # unica validacion?
+            self.navegacion.sMensaje.setText("Ingresar un nombre valido")
+            return
+        
+        descripcion = self.navegacion.sDescripcion.text()
+        if (len(descripcion) < 2):
+            self.navegacion.sMensaje.setText("Ingresar una descripcion valida")
+            return
+
+        resCostoRenta = self.navegacion.sCostoRenta.text()
+        if not (permitir_ingreso(resCostoRenta, 'numfloat')):
+            self.navegacion.sMensaje.setText("Ingrese un valor valido como costo de renta")
+            return
         else:
-            self.navegacion.sMensaje.setText("Correcto")
+            costo_renta = float(resCostoRenta)
+        
+        tipo_servicio = self.navegacion.sTipoServicio.text() # Combo box?
+        if not (permitir_ingreso(tipo_servicio, 'onlytext')):
+            self.navegacion.sMensaje.setText("Ingrese un tipo de servicio valido")
+            return
+
+        resultado = servicio.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
+
+        if not resultado:
+            self.navegacion.sMensaje.setText("Registro fallido")
+        else:
+            self.navegacion.sMensaje.setText("Registro concretado")
 
     def actualizar_servicio(self):
         resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.sNumeroServicio.text()) , self.navegacion.sNuevoValor.text())

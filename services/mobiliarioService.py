@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from repositories_crud.MobiliarioRepository import MobiliarioRepository
 from repositories_crud.TipoMobiliarioRepository import TipoMobiliarioRepository
-
+from repositories_crud.EstadoMobiliarioRepository import EstadoMobiliarioRepository
 from models.Mobiliario import Mobiliario
 from models.MobCarac import MobCarac
 from models.EstaMob import EstaMob
@@ -18,6 +18,7 @@ class mobiliarioService:
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.mobiliario_repository = MobiliarioRepository(self.db)
         self.tipoMobiliario_repository = TipoMobiliarioRepository(self.db)
+        self.estaMob_repository = EstadoMobiliarioRepository(self.db)
 
     # Metodos
     def registrar_mobiliario(self, nombre, costoRenta, stock, tipo_mob, caracteristicas):
@@ -89,8 +90,8 @@ class mobiliarioService:
     
     def actu_esta_mob(self, numMob, cantidad, esta_mob_og, new_esta_mob):
         print("Actualizando estado mobiliario")
-        esta_og = self.mobiliario_repository.obtener_esta_mob(esta_mob_og)
-        new_esta = self.mobiliario_repository.obtener_esta_mob(new_esta_mob)
+        esta_og = self.estaMob_repository.obtener_codigo_estado(esta_mob_og)
+        new_esta = self.estaMob_repository.obtener_codigo_estado(new_esta_mob)
 
         if not esta_og or not new_esta:
             print("Valores no validos de estados")
