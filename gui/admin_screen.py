@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from PyQt6 import uic
-from PyQt6.QtWidgets import QLineEdit, QMessageBox, QListWidgetItem, QVBoxLayout
+from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QVBoxLayout, QPushButton
 from PyQt6.QtCore import Qt
 from models.MobCarac import MobCarac
 from services.DatosClienteService import DatosClienteServices
@@ -47,8 +47,9 @@ class AdministradorScreen():
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
         self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
-        self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
+        self.navegacion.mobiliario_2.clicked.connect(lambda: self.mostrar_pagina(4))
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
+        self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
 
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
@@ -65,7 +66,9 @@ class AdministradorScreen():
         
         self.navegacion.atConfirmar.clicked.connect(self.establecer_rol)
         self.navegacion.atBuscar.clicked.connect(self.buscar)
-        
+       
+        self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
+
         self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
         self.deshabilitar_telefonos()
         self.navegacion.cbTelefono2.toggled.connect(self.ingresar_segundoTel)
@@ -76,6 +79,14 @@ class AdministradorScreen():
         self.cargar_seleccion_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
         self.cargar_listas()
+        self.cargar_lista_equipamiento()
+        self.navegacion.listaEquipamiento.itemSelectionChanged.connect(self.mostrar_controles_cantidad)
+        #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
+        
+        self.subtotal_servicios = 0.0
+        
+        self.cantidades = {}
+        self.controles_equipos = {}
         self.inputs = []
         self.inputs_tipo = []
 
@@ -256,7 +267,6 @@ class AdministradorScreen():
             self.navegacion.mobMensaje.setText("Correcto")
     def limpiar_caracteristicas(self):
         lay = self.navegacion.mobcont2.layout()
-
         while lay.count():
             child = lay.takeAt(0)
             if child.widget():
@@ -266,9 +276,17 @@ class AdministradorScreen():
 
     
     def generar_caracteristicas(self):
+        self.limpiar_caracteristicas()
         lay = self.navegacion.mobcont2.layout()
         cantidad = self.navegacion.seleccionCaracteristicas.value()
         for i in range(cantidad):
+            label1 = QLabel(f"Característica {i+1}")
+            label1.setStyleSheet("""
+            QLabel {
+                color: #000000;
+            }
+            """)
+            lay.addWidget(label1)
             input_caracteristica = QLineEdit()
             input_caracteristica.setPlaceholderText(f"Ingrese el nombre de la caracteristica {i+1}:")
             # input_caracteristica.setObjectName(f"input_caracteristica_{i}")
@@ -290,6 +308,14 @@ class AdministradorScreen():
             }
             """)
 
+            lay.addWidget(input_caracteristica)
+            label2 = QLabel(f"Tipo de caracteristica {i+1}")
+            label2.setStyleSheet("""
+            QLabel {
+                color: #000000;
+            }
+            """)
+            lay.addWidget(label2)
             input_tipo_carac = QLineEdit()
             input_tipo_carac.setPlaceholderText(f"Ingrese el tipo de caracteristica {i+1}: ")
             input_tipo_carac.setStyleSheet("""
@@ -309,7 +335,6 @@ class AdministradorScreen():
                 border-color: #3498db;
             }
             """)
-            lay.addWidget(input_caracteristica)
             lay.addWidget(input_tipo_carac)
             self.inputs.append(input_caracteristica)
             self.inputs_tipo.append(input_tipo_carac)
@@ -342,6 +367,7 @@ class AdministradorScreen():
 
     
     def mostrar_pagina(self, indice):
+        self.navegacion.scrollAreaContenido.verticalScrollBar().setValue(0)
         self.navegacion.stackedWidget.setCurrentIndex(indice)
 
     
@@ -398,20 +424,182 @@ class AdministradorScreen():
 
     def cargar_listas(self):
         self.navegacion.listaServicios.clear()
-        self.navegacion.listaEquipamiento.clear()
+        # self.navegacion.listaEquipamiento.clear()
 
         for servi in servicio.listar_servicio():
             texto = f"{servi['nombre']} - ${servi['costoRenta']:.2f}"
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, servi)
             self.navegacion.listaServicios.addItem(item)
+    
 
+    def calcular_subtotal_serv(self):
+        servicios_seleccionados = self.navegacion.listaServicios.selectedItems()
+        self.subtotal_servicios = 0.0
+
+        for servicios in servicios_seleccionados:
+            servicio = servicios.data(Qt.ItemDataRole.UserRole)
+            self.subtotal_servicios += servicio["costoRenta"]
+
+        return self.subtotal_servicios
+
+    def cargar_lista_equipamiento(self):
+        self.navegacion.listaEquipamiento.clear()
         for equipa in equipamiento.listar_equipamentos():
             texto = f"{equipa['nombre']} - ${equipa['costoRenta']:.2f}"
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, equipa)
             self.navegacion.listaEquipamiento.addItem(item)
+    def mostrar_controles_cantidad(self):
+        self.limpiar_todos_controles()
+        equipamientos_seleccionados = self.navegacion.listaEquipamiento.selectedItems()
+
+        for equipamiento_item in equipamientos_seleccionados:
+            # CORRECCIÓN CLAVE: Obtener el diccionario 'equipa' completo del rol UserRole
+            equipa_data = equipamiento_item.data(Qt.ItemDataRole.UserRole) 
+
+            # Verificar que los datos existen (buena práctica)
+            if equipa_data is None:
+                print("Error: El elemento seleccionado no contiene datos.")
+                continue
+
+            # Extraer las claves 'nombre' y 'costoRenta' del diccionario
+            nombre = equipa_data['nombre'] # Asume que 'equipa' tiene la clave 'nombre'
+            costoRenta = equipa_data['costoRenta'] # Asume que 'equipa' tiene la clave 'costoRenta'
+
+            # Asegurar que el nombre no ha sido agregado ya (para evitar duplicados visuales)
+            if nombre not in self.cantidades:
+                # Inicializar la cantidad en 1 si es la primera vez que se agrega
+                self.cantidades[nombre] = 1 
+            
+            self.crear_control_cantidad(nombre, costoRenta)
+
+    def crear_control_cantidad(self, nombre, costoRenta):
+        # Widget contenedor
+
+        layEqui = self.navegacion.equipamientoW.layout()
+        
+        # Label del producto
+        lbl_producto = QLabel(f"{nombre} (${costoRenta} c/u)")
+        lbl_producto.setMinimumWidth(150)
+        lbl_producto.setStyleSheet("""
+            QLabel{
+                color: #000000
+            }
+            """) 
+        # Botón -
+        btn_menos = QPushButton("-")
+        btn_menos.setFixedSize(30, 30)
+        btn_menos.clicked.connect(lambda: self.cambiar_cantidad(nombre, -1))
+        btn_menos.setStyleSheet("""
+            QPushButton{
+                color: #ffffff;
+                background-color: #000000;
+            }                     
+            """) 
+        # Label cantidad actual
+        lbl_cantidad = QLabel(str(self.cantidades[nombre]))
+        lbl_cantidad.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        lbl_cantidad.setMinimumWidth(30)
+        lbl_cantidad.setStyleSheet("font-weight: bold; color: #000000;")
+        
+        # Botón R
+        btn_mas = QPushButton("+")
+        btn_mas.setFixedSize(30, 30)
+        btn_mas.clicked.connect(lambda: self.cambiar_cantidad(nombre, 1))
+        btn_mas.setStyleSheet("""
+            QPushButton{
+                color: #ffffff;
+                background-color: #000000;
+            }                     
+            """) 
+
+        # Label subtotal
+        subtotal = self.cantidades[nombre] * costoRenta
+        lbl_subtotal = QLabel(f"${subtotal:.2f}")
+        lbl_subtotal.setMinimumWidth(60)
+        lbl_subtotal.setStyleSheet("font-weight: bold; color: blue;")
+
+        if nombre not in self.controles_equipos:
+            self.controles_equipos[nombre] = {
+                'label_cantidad': lbl_cantidad,
+                'label_subtotal': lbl_subtotal,
+                'costo': costoRenta
+            }
+
+        sub = QLabel("Subtotal: ")
+        sub.setStyleSheet("color: #000000;")
+        # Agregar al layout
+        layEqui.addWidget(lbl_producto)
+        layEqui.addWidget(btn_menos)
+        layEqui.addWidget(lbl_cantidad)
+        layEqui.addWidget(btn_mas)
+        layEqui.addWidget(sub)
+        layEqui.addWidget(lbl_subtotal)
     
+    def cambiar_cantidad(self, nombre, cambio):
+
+    # 1. Actualizar la cantidad en el diccionario
+        nueva_cantidad = self.cantidades[nombre] + cambio
+        
+        # 2. Validar que no sea menor a 0
+        if nueva_cantidad < 0:
+            return  # No hacer nada si sería negativo
+        
+        # 3. Guardar la nueva cantidad
+        self.cantidades[nombre] = nueva_cantidad
+        
+        # 4. Actualizar los labels en la interfaz
+        if nombre in self.controles_equipos:
+            controles = self.controles_equipos[nombre]
+            
+            # Actualizar label de cantidad (ej: "1" → "2")
+            controles['label_cantidad'].setText(str(nueva_cantidad))
+            
+            # Calcular y actualizar subtotal
+            nuevo_subtotal = nueva_cantidad * controles['costo']
+            controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
+        self.calcular_total_general()
+
+    def calcular_total_general(self):
+        """Calcula el total de todos los equipos seleccionados"""
+        total = 0
+        
+        # Sumar el subtotal de cada equipo
+        for nombre, cantidad in self.cantidades.items():
+            if nombre in self.controles_equipos:
+                costo = self.controles_equipos[nombre]['costo']
+                subtotal = cantidad * costo
+                total += subtotal
+        
+        # Actualizar algún label de total en tu interfaz
+        # Ejemplo: si tienes un label llamado lblTotalGeneral
+        if hasattr(self.navegacion, 'lblTotalGeneral'):
+            self.navegacion.lblTotalGeneral.setText(f"Total: ${total:.2f}")
+        
+        return total
+
+    def total_reservacion(self):
+        subtotalServicios = self.calcular_subtotal_serv()
+        subtotalEquipamiento = self.calcular_total_general()
+
+        total = subtotalServicios + subtotalEquipamiento
+        
+        self.navegacion.reTotal.setText(f"Total: {total}")
+        return total
+
+    def limpiar_todos_controles(self):
+        # Eliminar widgets del layout
+        layEqui = self.navegacion.equipamientoW.layout()
+        
+        # Método 1: Eliminar todos los widgets del layout
+        while layEqui.count():
+            child = layEqui.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+        
+        # Limpiar diccionario de controles
+        self.controles_equipos.clear() 
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":

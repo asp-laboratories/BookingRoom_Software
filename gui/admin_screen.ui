@@ -686,7 +686,7 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-105</y>
+         <y>-2326</y>
          <width>920</width>
          <height>3000</height>
         </rect>
@@ -714,7 +714,7 @@ color: rgb(255, 255, 255);
 background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="predeterminada"/>
           <widget class="QWidget" name="paginaServicio">
@@ -2928,8 +2928,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QPushButton" name="amConfirmar">
             <property name="geometry">
              <rect>
-              <x>110</x>
-              <y>740</y>
+              <x>160</x>
+              <y>770</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -2939,20 +2939,22 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
 background-color: #2B9B32;</string>
             </property>
             <property name="text">
-             <string>Confirmar</string>
+             <string>Generar campos</string>
             </property>
            </widget>
            <widget class="QSpinBox" name="seleccionCaracteristicas">
             <property name="geometry">
              <rect>
               <x>90</x>
-              <y>410</y>
+              <y>400</y>
               <width>241</width>
               <height>32</height>
              </rect>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);</string>
+             <string notr="true">color: rgb(0, 0, 0);
+border: 2px solid rgb(155, 88, 43);
+border-radius: 3px;</string>
             </property>
             <property name="minimum">
              <number>1</number>
@@ -2965,7 +2967,7 @@ background-color: #2B9B32;</string>
             <property name="geometry">
              <rect>
               <x>310</x>
-              <y>870</y>
+              <y>1030</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -2981,10 +2983,10 @@ background-color: #2B9B32;</string>
            <widget class="QScrollArea" name="scrollAreaMobiliario2">
             <property name="geometry">
              <rect>
-              <x>100</x>
+              <x>90</x>
               <y>450</y>
-              <width>271</width>
-              <height>271</height>
+              <width>421</width>
+              <height>301</height>
              </rect>
             </property>
             <property name="widgetResizable">
@@ -2995,8 +2997,8 @@ background-color: #2B9B32;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>269</width>
-               <height>269</height>
+               <width>419</width>
+               <height>299</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -3005,8 +3007,8 @@ background-color: #2B9B32;</string>
            <widget class="QLabel" name="mobMensaje">
             <property name="geometry">
              <rect>
-              <x>400</x>
-              <y>990</y>
+              <x>390</x>
+              <y>1100</y>
               <width>131</width>
               <height>41</height>
              </rect>
@@ -4333,8 +4335,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="label_27">
             <property name="geometry">
              <rect>
-              <x>60</x>
-              <y>2420</y>
+              <x>80</x>
+              <y>2590</y>
               <width>441</width>
               <height>21</height>
              </rect>
@@ -4358,8 +4360,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="lNombreS_14">
             <property name="geometry">
              <rect>
-              <x>220</x>
-              <y>2500</y>
+              <x>240</x>
+              <y>2670</y>
               <width>111</width>
               <height>41</height>
              </rect>
@@ -4382,8 +4384,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="lNombreS_15">
             <property name="geometry">
              <rect>
-              <x>230</x>
-              <y>2560</y>
+              <x>250</x>
+              <y>2730</y>
               <width>111</width>
               <height>41</height>
              </rect>
@@ -4403,12 +4405,12 @@ color: rgba(155, 88, 43, 1.0);
              <string>IVA</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_16">
+           <widget class="QLabel" name="reTotal">
             <property name="geometry">
              <rect>
-              <x>230</x>
-              <y>2620</y>
-              <width>111</width>
+              <x>250</x>
+              <y>2790</y>
+              <width>381</width>
               <height>41</height>
              </rect>
             </property>
@@ -4430,8 +4432,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QPushButton" name="reConfirmar">
             <property name="geometry">
              <rect>
-              <x>170</x>
-              <y>2730</y>
+              <x>190</x>
+              <y>2900</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -4447,8 +4449,8 @@ background-color: #2B9B32;</string>
            <widget class="QPushButton" name="reCancelar">
             <property name="geometry">
              <rect>
-              <x>470</x>
-              <y>2730</y>
+              <x>490</x>
+              <y>2900</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -4679,6 +4681,54 @@ font-size: 28px;</string>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+           <widget class="QScrollArea" name="scrollAreaEquipamiento">
+            <property name="geometry">
+             <rect>
+              <x>310</x>
+              <y>2350</y>
+              <width>301</width>
+              <height>201</height>
+             </rect>
+            </property>
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="equipamientoW">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>299</width>
+               <height>199</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_5"/>
+            </widget>
+           </widget>
+           <widget class="QLabel" name="lblTotalGeneral">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>2520</y>
+              <width>221</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <family>Adwaita Sans</family>
+              <pointsize>18</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+            </property>
+            <property name="text">
+             <string>Total:</string>
             </property>
            </widget>
           </widget>
