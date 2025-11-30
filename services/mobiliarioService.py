@@ -116,7 +116,6 @@ class mobiliarioService:
 
         return lista_caracteristicas
 
-
     def obtener_tipo_carac(self, nombreCarac):
         resultado = self.mobiliario_repository.obtener_tipo_carac(nombreCarac)
         if not resultado:
@@ -133,10 +132,17 @@ class mobiliarioService:
             
         print("\n")
 
+    def obtener_mob_estado(self, esta_mob):
+        print("Listando mobiliarios por su estado")
+        esta_mob = self.estaMob_repository.obtener_codigo_estado(esta_mob)
+        resultado =  self.estaMob_repository.listar_mob_por_estado(esta_mob['codigoMob'])
+        return resultado
+
 if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
     #prueba.actu_carac_mob(1,"hhh", 'mater')
-    #prueba.actu_esta_mob(numMob=1,cantidad=10,esta_mob_og='no disponible',new_esta_mob='disponible')
+    #prueba.actu_esta_mob(numMob=1,cantidad=50,esta_mob_og='disponible',new_esta_mob='no disponible')
     #print(prueba.obtener_tipo_carac('espec'))
     #print(prueba.caracteristicas_mob(1))
+    #print(prueba.obtener_mob_estado('Disponible'))

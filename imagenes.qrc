@@ -2,7 +2,4 @@
   <qresource prefix="xy">
     <file>BookingRoom.png</file>
   </qresource>
-  <qresource prefix="yx">
-    <file>Imagenes/img-0575_5_53768-157893797128677.jpeg</file>
-  </qresource>
 </RCC>
