@@ -69,13 +69,18 @@ class AdministradorScreen():
         self.navegacion.atBuscar.clicked.connect(self.buscar)
        
         self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
+        
+        self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
 
         self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
         self.deshabilitar_telefonos()
         self.navegacion.cbTelefono2.toggled.connect(self.ingresar_segundoTel)
         self.navegacion.cbTelefono3.toggled.connect(self.ingresar_tercerTel)
+        
         self.navegacion.cbTipoFisica.toggled.connect(self.seleccionar_fisica)
         self.navegacion.cbTipoMoral.toggled.connect(self.seleccionar_moral)
+        
+        
 
         self.cargar_seleccion_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
@@ -85,7 +90,7 @@ class AdministradorScreen():
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
         
         self.subtotal_servicios = 0.0
-        
+        self.subtotal_salon = 0.0 
         self.cantidades = {}
         self.controles_equipos = {}
         self.inputs = []
@@ -208,37 +213,6 @@ class AdministradorScreen():
         else:
             self.navegacion.atMensaR.setText("Incorrecto")
 
-    #
-    # def registrar_mobiliario(self):
-    #     nombre = self.navegacion.mobNombre.text()
-    #     costoRenta = float(self.navegacion.mobCostoRenta.text())
-    #     stock = int(self.navegacion.mobStock.text())
-    #     tipo = self.navegacion.mobTipo.text()
-    #     print(nombre)
-    #     print(costoRenta)
-    #
-    #     print(stock)
-    #     print(tipo)
-    #     valor = []        
-    #     for i, caracteristica in enumerate(self.inputs):
-    #         valor.append(caracteristica.text())
-    #
-    #     valor_tipo = []
-    #     for i, tipo in enumerate(self.inputs_tipo):
-    #         valor_tipo.append(tipo.text())
-    #     
-    #     caracteristicas = []
-    #     print(valor[0])
-    #     print(valor_tipo[0])
-    #     caracteristica = MobCarac(valor[0], valor_tipo[0])
-    #     print(caracteristica)
-    #     caracteristicas.append(caracteristica)
-    #     
-    #     resultado = mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo, caracteristicas)
-    #     if resultado == False:
-    #         self.navegacion.mobMensaje.setText("Incorrecto")
-    #     else:
-    #         self.navegacion.mobMensaje.setText("Correcto")
 
     def registrar_mobiliario(self):
         # 1. Obtención de datos principales (SIN CAMBIOS)
@@ -362,32 +336,10 @@ class AdministradorScreen():
             lay.addWidget(input_tipo_carac)
             self.inputs.append(input_caracteristica)
             self.inputs_tipo.append(input_tipo_carac)
-        
-        # valor = []        
-        # for i, caracteristica in enumerate(self.inputs):
-        #     valor.append(caracteristica.text())
-        #
-        # valor_tipo = []
-        # for i, tipo in enumerate(self.inputs_tipo):
-        #     valor_tipo.append(tipo.text())
-
 
             print("Yes")
 
-    # def valores(self):
-    #     valor = []
-    #     for i, caracteristica in enumerate(self.inputs):
-    #         valor.append(caracteristica.text())
-    #         # valor.append(f"Input {i +1}: {val}")
-    #         # for v in valor:
-    #         #     print(v)
-    #     return valor
-    #
-    # def valores_input(self):
-    #     valor_tipo = []
-    #     for i, tipo in enumerate(self.inputs_tipo):
-    #         valor_tipo.append(tipo.text())
-    #     return valor_tipo
+
 
     
     def mostrar_pagina(self, indice):
@@ -396,11 +348,19 @@ class AdministradorScreen():
 
     
     def registrar_cliente(self):
-        resultado = cliente.registrar_clientes(self.navegacion.reRfc.text(), self.navegacion.reNombre.text(), self.navegacion.reApellPat.text(), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), "TCLPF")
+        tipo_cliente = ""
+        if self.navegacion.cbTipoFisica.isChecked():
+            tipo_cliente = "TCLPF"
+
+        if self.navegacion.cbTipoMoral.isChecked():
+            tipo_cliente= "TCLPM"
+
+        resultado = cliente.registrar_clientes(self.navegacion.reRfc.text(), self.navegacion.reNombre.text(), self.navegacion.reApellPat.text(), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), tipo_cliente)
 
         telefono.registrar_telefono(self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(),None)
         telefono.registrar_telefono(self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(),None)
         telefono.registrar_telefono(self.navegacion.reTelefono3.text(), self.navegacion.reRfc.text(),None)
+        
         if resultado == False:
             self.navegacion.clienteMen.setText("Incorrecto")
         else:
@@ -412,17 +372,26 @@ class AdministradorScreen():
     
     def ingresar_segundoTel(self, estado):
         self.navegacion.reTelefono2.setEnabled(estado)
-    
+        
     def ingresar_tercerTel(self, estado):
         self.navegacion.reTelefono3.setEnabled(estado)
 
-    def seleccionar_fisica(self):
-        self.navegacion.cbTipoMoral.setChecked(False)
-
-    def seleccionar_moral(self):
-        self.navegacion.cbTipoFisica.setChecked(False)
-
-
+    def seleccionar_fisica(self, estado):
+        if estado:
+            self.navegacion.cbTipoMoral.setChecked(False)
+            self.navegacion.reNombreFiscal.setEnabled(False)
+            nombre_fiscal = f"{self.navegacion.reNombre.text()} {self.navegacion.reApellPat.text()} {self.navegacion.reApellMa.text()}"
+            self.navegacion.reNombreFiscal.setText(nombre_fiscal)
+            self.navegacion.clNombre.setText("Nombre")
+            self.navegacion.clAp.setText("Apellido paterno")
+            self.navegacion.clAm.setText("Apellido materno")
+    def seleccionar_moral(self, estado):
+        if estado:
+            self.navegacion.cbTipoFisica.setChecked(False)
+            self.navegacion.reNombreFiscal.setEnabled(True)
+            self.navegacion.clNombre.setText("Nombre del contacto")
+            self.navegacion.clAp.setText("Apellido paterno del contacto")
+            self.navegacion.clAm.setText("Apellido materno del contacto")
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
         self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
@@ -436,6 +405,8 @@ class AdministradorScreen():
         mensaje = "INFORMACION DEL SALON"
         mensaje += f"\n NOMBRE: {sali["nombre"]}"
         mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
+        self.subtotal_salon = 0.0
+        self.subtotal_salon = sali["costoRenta"]
         if sali:
             self.navegacion.resultadoSalon.setText(mensaje)
     
@@ -607,9 +578,11 @@ class AdministradorScreen():
         subtotalServicios = self.calcular_subtotal_serv()
         subtotalEquipamiento = self.calcular_total_general()
 
-        total = subtotalServicios + subtotalEquipamiento
+        total = subtotalServicios + subtotalEquipamiento + self.subtotal_salon
         
-        self.navegacion.reTotal.setText(f"Total: {total}")
+        self.navegacion.reSubtotal.setText(f"Subtotal: {total}")
+        self.navegacion.reIVA.setText(f"IVA: {total*0.16}")
+        self.navegacion.reTotal.setText(f"Total: {total+(total*0.16)}")
         return total
 
     def limpiar_todos_controles(self):
@@ -623,7 +596,16 @@ class AdministradorScreen():
                 child.widget().deleteLater()
         
         # Limpiar diccionario de controles
-        self.controles_equipos.clear() 
+        self.controles_equipos.clear()
+
+    def actualizar_estado_mob(self):
+        resultado = mobiliario.actu_esta_mob(int(self.navegacion.almNum.text()),int(self.navegacion.almCantidad.text()),self.navegacion.almEstadoAntiguo.text(), self.navegacion.almNuevoEstado.text())
+        if resultado == False or resultado == None:
+            self.navegacion.almMensaje.setText("Incorrecto")
+        else:
+            self.navegacion.almMensaje.setText("Correcto")
+    
+
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1151</width>
+    <width>1182</width>
     <height>682</height>
    </rect>
   </property>
@@ -686,8 +686,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-2326</y>
-         <width>920</width>
+         <y>0</y>
+         <width>951</width>
          <height>3000</height>
         </rect>
        </property>
@@ -709,14 +709,127 @@ color: rgb(255, 255, 255);
             <height>600</height>
            </size>
           </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgba(245, 221, 178, 1.0);
 background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>0</number>
           </property>
-          <widget class="QWidget" name="predeterminada"/>
+          <widget class="QWidget" name="predeterminada">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(0, 0, 0);</string>
+           </property>
+           <widget class="QWidget" name="layoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>335</width>
+              <height>36</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="btnMostrarEventos">
+               <property name="text">
+                <string>📋 Mostrar Todos los Eventos</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnLimpiar">
+               <property name="text">
+                <string>🧹 Limpiar Horario</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="geometry">
+             <rect>
+              <x>13</x>
+              <y>170</y>
+              <width>831</width>
+              <height>511</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>📅 Horario por Fechas (7:00 PM - 10:00 PM)</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QTableWidget" name="tableHorario"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="geometry">
+             <rect>
+              <x>13</x>
+              <y>3</y>
+              <width>1194</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>📅 Configurar Fechas del Horario</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QDateEdit" name="dateFechaInicio">
+               <property name="minimumDate">
+                <date>
+                 <year>2025</year>
+                 <month>9</month>
+                 <day>26</day>
+                </date>
+               </property>
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_46">
+               <property name="text">
+                <string>Fecha Inicial (mostrar 7 días desde):</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QLabel" name="label_47">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>70</y>
+              <width>295</width>
+              <height>34</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Mostrando: [Fecha Inicial] + 6 días</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="btnActualizarFechas">
+            <property name="geometry">
+             <rect>
+              <x>370</x>
+              <y>70</y>
+              <width>394</width>
+              <height>34</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>🔄 Actualizar Horario</string>
+            </property>
+           </widget>
+          </widget>
           <widget class="QWidget" name="paginaServicio">
            <widget class="QTabWidget" name="tabWidget">
             <property name="geometry">
@@ -761,7 +874,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>6</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -2716,6 +2829,321 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             </widget>
            </widget>
           </widget>
+          <widget class="QWidget" name="paginaAlmacen">
+           <widget class="QTabWidget" name="tabWidget_5">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>911</width>
+              <height>671</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QTabWidget::pane {
+    border-top: 3px solid #9b582b;
+	color: rgb(155, 88, 43);
+    margin-top: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabBar::tab {
+    background-color: #9b582b;
+	selection-color: rgb(155, 88, 43);
+    border: 1px solid #c0c0c0;
+    padding: 8px 16px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #c67037;
+    border-bottom-color: white;
+}
+
+QTabBar::tab:hover {
+    background-color: rgb(105, 60, 29);
+}</string>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="tab_24">
+             <attribute name="title">
+              <string>Estado mobiliarios</string>
+             </attribute>
+             <widget class="QLineEdit" name="almNuevoEstado_2">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>350</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese nombre del estado nuevo</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almNum_2">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>50</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el numero del mobiliario</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almCantidad_2">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>150</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la cantidad</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="almConfirmar_2">
+              <property name="geometry">
+               <rect>
+                <x>320</x>
+                <y>450</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+              </property>
+              <property name="text">
+               <string>Confirmar</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="almMensaje_2">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>540</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almEstadoAntiguo_2">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>250</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el nombre del estado actual</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_25">
+             <attribute name="title">
+              <string>Estado equipamientos</string>
+             </attribute>
+             <widget class="QLineEdit" name="almNum">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>40</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el numero del mobiliario</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almNuevoEstado">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>340</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese nombre del estado nuevo</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almCantidad">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>140</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la cantidad</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="almConfirmar">
+              <property name="geometry">
+               <rect>
+                <x>300</x>
+                <y>440</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+              </property>
+              <property name="text">
+               <string>Confirmar</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="almMensaje">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>530</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="almEstadoAntiguo">
+              <property name="geometry">
+               <rect>
+                <x>290</x>
+                <y>240</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el nombre del estado actual</string>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </widget>
           <widget class="QWidget" name="paginaMobiliario">
            <widget class="QLabel" name="lCostoS_2">
             <property name="geometry">
@@ -3719,7 +4147,7 @@ color: rgba(155, 88, 43, 1.0);
             <property name="geometry">
              <rect>
               <x>200</x>
-              <y>480</y>
+              <y>830</y>
               <width>121</width>
               <height>26</height>
              </rect>
@@ -3734,11 +4162,14 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QCheckBox" name="cbTipoFisica">
             <property name="geometry">
              <rect>
-              <x>440</x>
-              <y>480</y>
+              <x>380</x>
+              <y>830</y>
               <width>111</width>
               <height>26</height>
              </rect>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
             </property>
             <property name="styleSheet">
              <string notr="true">color: rgb(0, 0, 0);</string>
@@ -3750,8 +4181,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLineEdit" name="reRfc">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>570</y>
+              <x>180</x>
+              <y>500</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3772,8 +4203,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="reNombre">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>710</y>
+              <x>180</x>
+              <y>640</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3795,7 +4226,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             <property name="geometry">
              <rect>
               <x>540</x>
-              <y>820</y>
+              <y>750</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3816,8 +4247,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="reApellPat">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>820</y>
+              <x>180</x>
+              <y>750</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3838,7 +4269,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="reCorreo">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>180</x>
               <y>1070</y>
               <width>291</width>
               <height>51</height>
@@ -3958,7 +4389,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="reNombreFiscal">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>180</x>
               <y>950</y>
               <width>291</width>
               <height>51</height>
@@ -4046,8 +4477,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lNombreS_3">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>530</y>
+              <x>180</x>
+              <y>460</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4067,11 +4498,11 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>RFC</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_4">
+           <widget class="QLabel" name="clNombre">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>650</y>
+              <x>180</x>
+              <y>580</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4091,12 +4522,12 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Nombre</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_5">
+           <widget class="QLabel" name="clAp">
             <property name="geometry">
              <rect>
-              <x>200</x>
-              <y>770</y>
-              <width>291</width>
+              <x>180</x>
+              <y>700</y>
+              <width>351</width>
               <height>41</height>
              </rect>
             </property>
@@ -4115,12 +4546,12 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <string>Apellido paterno</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_6">
+           <widget class="QLabel" name="clAm">
             <property name="geometry">
              <rect>
               <x>540</x>
-              <y>770</y>
-              <width>291</width>
+              <y>700</y>
+              <width>351</width>
               <height>41</height>
              </rect>
             </property>
@@ -4166,7 +4597,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lNombreS_8">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>180</x>
               <y>1020</y>
               <width>291</width>
               <height>41</height>
@@ -4190,7 +4621,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lNombreS_9">
             <property name="geometry">
              <rect>
-              <x>200</x>
+              <x>180</x>
               <y>890</y>
               <width>291</width>
               <height>41</height>
@@ -4357,12 +4788,12 @@ color: rgba(155, 88, 43, 1.0);
              <string>Resumen del coste de la reservacion</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_14">
+           <widget class="QLabel" name="reSubtotal">
             <property name="geometry">
              <rect>
               <x>240</x>
               <y>2670</y>
-              <width>111</width>
+              <width>411</width>
               <height>41</height>
              </rect>
             </property>
@@ -4378,15 +4809,15 @@ color: rgba(155, 88, 43, 1.0);
 </string>
             </property>
             <property name="text">
-             <string>Subtotal</string>
+             <string>Subtotal:</string>
             </property>
            </widget>
-           <widget class="QLabel" name="lNombreS_15">
+           <widget class="QLabel" name="reIVA">
             <property name="geometry">
              <rect>
               <x>250</x>
               <y>2730</y>
-              <width>111</width>
+              <width>391</width>
               <height>41</height>
              </rect>
             </property>
@@ -4402,7 +4833,7 @@ color: rgba(155, 88, 43, 1.0);
 </string>
             </property>
             <property name="text">
-             <string>IVA</string>
+             <string>IVA:</string>
             </property>
            </widget>
            <widget class="QLabel" name="reTotal">
@@ -4426,7 +4857,7 @@ color: rgba(155, 88, 43, 1.0);
 </string>
             </property>
             <property name="text">
-             <string>Total</string>
+             <string>Total:</string>
             </property>
            </widget>
            <widget class="QPushButton" name="reConfirmar">
