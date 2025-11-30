@@ -8,3 +8,6 @@ class TipoMontajeService:
         self.TipoMontajeRepository = TipoMontajeRepository(db)
 
     # Metodos
+    def listar_tipos_montajes(self):
+        tipos_montajes = self.TipoMontajeRepository.listar_tipos_montajes()
+        return tipos_montajes

@@ -61,12 +61,12 @@ class EstadoMobiliarioRepository:
 
             cursor.execute( """
                             SELECT codigoMob
-                            FROM descripcion
+                            FROM esta_mob
                             WHERE descripcion LIKE %s
-                            """, (f"%{descripcion}%",))
+                            """, (f"{descripcion}%",))
             
             resultado = cursor.fetchone()
-            
+            print(resultado)
             return resultado
         
         except Exception as error:
