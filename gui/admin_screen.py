@@ -138,7 +138,7 @@ class AdministradorScreen():
         self.controles_equipos = {}
         self.inputs = []
         self.inputs_tipo = []
-        
+        self.datos_finales = {} 
         self.fechas = []
         self.configurar_fechas_iniciales()
         
@@ -690,29 +690,47 @@ class AdministradorScreen():
     
 
     def cambiar_cantidad(self, nombre, cambio, numEquipa):
-
-    # 1. Actualizar la cantidad en el diccionario
         nueva_cantidad = self.cantidades[nombre] + cambio
         
-        # 2. Validar que no sea menor a 0
         if nueva_cantidad < 0:
-            return  # No hacer nada si sería negativo
+            return
         
-        # 3. Guardar la nueva cantidad
         self.cantidades[nombre] = nueva_cantidad
         
-        # 4. Actualizar los labels en la interfaz
         if nombre in self.controles_equipos:
             controles = self.controles_equipos[nombre]
-            
-            # Actualizar label de cantidad (ej: "1" → "2")
             controles['label_cantidad'].setText(str(nueva_cantidad))
-            print(nueva_cantidad)
-            print(numEquipa)
-            # Calcular y actualizar subtotal
+            
+            # ⭐⭐ GUARDAR DATOS SIMPLE ⭐⭐
+            # Guardar en un diccionario: numEquipa -> cantidad
+            self.datos_finales[numEquipa] = nueva_cantidad
+            
             nuevo_subtotal = nueva_cantidad * controles['costo']
             controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
+        
         self.calcular_total_general()
+    # # 1. Actualizar la cantidad en el diccionario
+    #     nueva_cantidad = self.cantidades[nombre] + cambio
+    #     
+    #     # 2. Validar que no sea menor a 0
+    #     if nueva_cantidad < 0:
+    #         return  # No hacer nada si sería negativo
+    #     
+    #     # 3. Guardar la nueva cantidad
+    #     self.cantidades[nombre] = nueva_cantidad
+    #     
+    # Q    # 4. Actualizar los labels en la interfaz
+    #     if nombre in self.controles_equipos:
+    #         controles = self.controles_equipos[nombre]
+    #         
+    #         # Actualizar label de cantidad (ej: "1" → "2")
+    #         controles['label_cantidad'].setText(str(nueva_cantidad))
+    #         print(nueva_cantidad)
+    #         print(numEquipa)
+    #         # Calcular y actualizar subtotal
+    #         nuevo_subtotal = nueva_cantidad * controles['costo']
+    #         controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
+    #     self.calcular_total_general()
     
     def registrar_reservacion(self):
         from gui.login import resultadoEmail
@@ -738,8 +756,8 @@ class AdministradorScreen():
             lista_servicios.append(data_servicio['nombre'])
 
         lista_equipamientos = [] # Arreglar
-        for equipamiento in algo:
-            equipa = ReserEquipamiento(equipamiento['nombre'], equipamiento['cantidad'])
+        for num_equipo,cantidad in sorted(self.datos_finales.items()):
+            equipa = ReserEquipamiento(num_equipo, cantidad)
             lista_equipamientos.append(equipa)
 
         # Falta fecha de resevacion
