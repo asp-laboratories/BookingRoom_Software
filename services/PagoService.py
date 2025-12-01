@@ -16,3 +16,6 @@ class PagoServices:
 
     def calcular_saldo(self, numReser):
         return self.PagoRepository.calcular_saldo(numReser)
+    
+    def eliminar_pago(self, numPago):
+        return self.PagoRepository.eliminar_pago(numPago)
