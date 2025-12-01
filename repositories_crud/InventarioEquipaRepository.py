@@ -22,5 +22,48 @@ class InventarioEquipaRepository:
 
             if not resultados:
                 cursor.execute( """
-                                INSERT INTO inventario_equipa 
-                                """)
+                                INSERT INTO inventario_equipa (equipamiento, esta_equipa, cantidad) values
+                                (%s, %s, %s)
+                                """, (numEquipa, new_esta, cantidad))
+                
+                cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
+
+                oldCantidad = cursor.fetchone()
+                newCantidad = oldCantidad['cantidad'] - cantidad
+
+                cursor.execute( """
+                                UPDATE inventario_equipa set
+                                cantidad = %s
+                                WHERE equipamiento = %s and esta_equipa = %s
+                                """, (newCantidad, numEquipa, esta_og))
+            else:
+                cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, new_esta))
+                oldCantidad = cursor.fetchone()
+                newCantidad = oldCantidad['cantidad'] + cantidad
+
+                cursor.execute( """
+                                UPDATE inventario_equipa set
+                                cantidad = %s
+                                WHERE equipamiento = %s and esta_equipa = %s
+                                """, (newCantidad, numEquipa, new_esta))
+                
+                cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
+
+                oldCantidad = cursor.fetchone()
+                newCantidad = oldCantidad['cantidad'] - cantidad
+
+                cursor.execute( """
+                                UPDATE inventario_equipa set
+                                cantidad = %s
+                                WHERE equipamiento = %s and esta_equipa = %s
+                                """, (newCantidad, numEquipa, esta_og))
+        
+            return True
+
+        except Exception as error:
+            print(f"Error al actualizar estado del equipamiento: {error}")
+            return False
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()

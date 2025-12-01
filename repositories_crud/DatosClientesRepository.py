@@ -71,8 +71,8 @@ class DatosClientesRepository:
                             WHERE nombreFiscal like %s
                             """, (f"{nombreFiscal}%",))
             
-            resultados = cursor.fetachone
-
+            resultados = cursor.fetchone()
+            print(resultados)
             return resultados
         
         except Exception as error:

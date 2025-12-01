@@ -4,6 +4,7 @@ from models.Equipamiento import Equipamiento as Equpo
 from repositories_crud.EstadoEquipaRepository import EstadoEquipaRepository
 from repositories_crud.TipoEquipamientoRepository import TipoEquipaRepository
 from repositories_crud.EstadoEquipaRepository import EstadoEquipaRepository
+from repositories_crud.InventarioEquipaRepository import InventarioEquipaRepository
 
 class EquipamentoService:
     # Constructor 
@@ -12,6 +13,7 @@ class EquipamentoService:
         self.equipamento_repository = EquipamentoRepository(self.db)
         self.tipo_equipamiento = TipoEquipaRepository(self.db)
         self.estado = EstadoEquipaRepository(self.db)
+        self.InventarioEquipamientoRepository = InventarioEquipaRepository(self.db)
 
     # Metodos
     def registrar_equipamento(self, nombre, descripcion, costoRenta, stock, tipo_equipa, esta_equipa = "DISPO"):
@@ -55,3 +57,28 @@ class EquipamentoService:
 
     def eliminar_estado(self, codigoEquipa):
         self.estadoEquipaRepository.eliminar_estado_equipa(codigoEquipa)
+
+    def obtener_codig_estado(self, descripcionEstado):
+        codigoEquipa = self.estado.obtener_codigo_estado(descripcionEstado)
+        if not codigoEquipa:
+            print("Estado de equipamiento no existente")
+            return None
+        return codigoEquipa['codigoEquipa']
+    
+    def obtener_codigo_equipamiento(self, equipamiento):
+        numEquipa = self.equipamento_repository.obtener_num_equipa(equipamiento)
+        if not numEquipa:
+            print("Equipamiento no valido ono existente")
+            return None
+        return numEquipa['numEquipa']
+
+    def actualizar_estado_equipamiento(self, equipamiento, estado_og, new_estado, cantidad):
+        estado_og = self.obtener_codig_estado(estado_og)
+        new_estado = self.obtener_codig_estado(new_estado)
+        equipamiento = self.equipamento_repository.obtener_num_equipa(equipamiento)
+
+        if (not estado_og) or (not new_estado) or (not equipamiento):
+            print("No procde la actualizacion de estado")
+            return 
+
+        self.InventarioEquipamientoRepository.actualizar_estado_equipamiento(equipamiento, estado_og, new_estado, cantidad)

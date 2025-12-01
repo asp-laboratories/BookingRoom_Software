@@ -21,4 +21,4 @@ class DatosClienteService:
 
     def obtener_rfc(self, nombreFiscal):
         rfc = self.cliente_repository.obtener_rfc(nombreFiscal)
-        return rfc['nomSalon']
+        return rfc['rfc']

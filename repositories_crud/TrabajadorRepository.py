@@ -63,11 +63,13 @@ class TrabajadorRepository:
             cursor.execute( """
                             SELECT rfc
                             FROM trabajador
-                            WHERE nombre = %s
-                            """, (nombre,))
+                            WHERE nombre like %s
+                            """, (f"{nombre}%",))
 
             resutlado = cursor.fetchone()
-        
+            print(resutlado)
+            return resutlado
+
         except Exception as error:
             print(f"Error al obtener el rfc del trabajador: {error}")
             return None

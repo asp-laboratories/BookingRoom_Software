@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTa
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
-from services.DatosClienteService import DatosClienteServices
+from services.DatosClienteService import DatosClienteService
 from services.ReservacionService import ReservacionService
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
@@ -26,7 +26,7 @@ servicio = ServicioService()
 salon = SalonServices()  
 equipamiento = EquipamentoService()
 trabajador = TrabajadorServices()
-cliente = DatosClienteServices()
+cliente = DatosClienteService()
 telefono = TelefonoServices()
 mobiliario = mobiliarioService()  
 tipo_montaje = TipoMontajeService()

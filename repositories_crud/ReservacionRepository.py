@@ -6,7 +6,7 @@ class ReservacionRepository:
 
     # Metodos
     def registrar_reservacion(self, reservacion):
-        if not self.db.conectar:
+        if not self.db.conectar():
             return False
         
         try:
@@ -19,8 +19,8 @@ class ReservacionRepository:
                             SELECT mo.costoRenta, mm.cantidad
                             FROM montaje_mobiliario as mm
                             INNER JOIN mobiliario as mo on mm.mobiliario = mo.numMob
-                            WHERE mm.tipo_montaje = %s
-                            """, (reservacion.tipo_montaje,))
+                            WHERE mm.datos_montaje = %s
+                            """, (reservacion.datos_montaje,))
             costosMobiliarios = cursor.fetchall()
 
             totalMobiliarios = 0
@@ -53,10 +53,11 @@ class ReservacionRepository:
 
             # Obtencion de costo de renta del salon
             cursor.execute( """
-                            SELECT costoRenta
-                            FROM datos_salon
-                            WHERE numSalon = %s
-                            """, (reservacion.datos_salon,))
+                            SELECT ds.costoRenta
+                            FROM datos_salon as ds
+                            INNER JOIN datos_montaje as dm on dm.datos_salon = numSalon
+                            WHERE dm.numDatMon = %s
+                            """, (reservacion.datos_montaje,))
             costoSalon = cursor.fetchone()
             totalSalon = costoSalon['costoRenta']
 
@@ -67,9 +68,9 @@ class ReservacionRepository:
 
             # No se tiene por default el total, toca calcularlo aparte, pero antes de hacer el insert
             cursor.execute( """INSERT INTO reservacion
-                            (fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaEvento, estimaAsistentes, subtotal, IVA, total, tipo_montaje, trabajador, datos_cliente, datos_salon)
-                            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                            """, (reservacion.fechaReser, reservacion.fechaEvento, reservacion.horaInicio, reservacion.descripEvento, reservacion.estimaAsistentes, reservacion.subtotal, reservacion.IVA, reservacion.total, reservacion.tipo_montaje, reservacion.trabajador, reservacion.datos_cliente, reservacion.datos_salon))
+                            (fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, subtotal, IVA, total, datos_montaje, trabajador, datos_cliente, esta_reser)
+                            values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            """, (reservacion.fechaReser, reservacion.fechaEvento, reservacion.horaInicio, reservacion.horaFin, reservacion.descripEvento, reservacion.estimaAsistentes, reservacion.subtotal, reservacion.IVA, reservacion.total, reservacion.datos_montaje, reservacion.trabajador, reservacion.datos_cliente, reservacion.esta_reser))
             
             numReser = cursor.lastrowid
 
@@ -87,7 +88,7 @@ class ReservacionRepository:
             if reservacion.servicios:
                 for servicio in reservacion.servicios:
                     cursor.execute( """
-                                    INSER INTO reser_servicio (reservacion, servicio)
+                                    INSERT INTO reser_servicio (reservacion, servicio)
                                     values (%s, %s)
                                     """, (numReser, servicio))
 

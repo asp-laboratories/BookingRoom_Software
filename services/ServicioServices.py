@@ -45,3 +45,7 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
 
     def eliminar_fila(self, numServicio):
         self.servicio_repository.eliminar_servicios(numServicio)
+
+    def obtener_codigo_servicio(self, servicio):
+        codigoServicio = self.servicio_repository.obtener_num_servicio(servicio)
+        return codigoServicio['numServicio']
