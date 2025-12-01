@@ -3,6 +3,7 @@ from repositories_crud.EquipamientoRepository import EquipamentoRepository
 from models.Equipamiento import Equipamiento as Equpo
 from repositories_crud.EstadoEquipaRepository import EstadoEquipaRepository
 from repositories_crud.TipoEquipamientoRepository import TipoEquipaRepository
+from repositories_crud.EstadoEquipaRepository import EstadoEquipaRepository
 
 class EquipamentoService:
     # Constructor 
@@ -48,3 +49,9 @@ class EquipamentoService:
         esta_equipa = self.estado.obtener_codigo_estado(esta_equipa)
         resultado =  self.estado.listar_equipa_por_estado(esta_equipa['codigoEquipa'])
         return resultado
+    
+    def actualizar_estado(self, codigoEquipa, descripcion):
+        self.estadoEquipaRepository.actualizar_estado_equipa(codigoEquipa, descripcion)
+
+    def eliminar_estado(self, codigoEquipa):
+        self.estadoEquipaRepository.eliminar_estado_equipa(codigoEquipa)
