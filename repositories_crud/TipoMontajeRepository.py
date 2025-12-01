@@ -111,3 +111,23 @@ class TipoMontajeRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def ingresar_datos_montaje(self, datos_montaje):
+        if not self.db.conectar():
+            return False
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+                INSERT INTO datos_montaje (capacidad, tipo_montaje, datos_salon)
+                VALUES ( %s, %s, %s)
+            """, (datos_montaje.capacidad, datos_montaje.tipo_montaje, datos_montaje.datos_salon))
+    
+            self.db.connection.commit()
+            print("Se añadio informacion a datos_montaje")
+            return True
+        except Exception as error:
+            print(f"Error al añadir informacion: {error}")
+            return False
+        finally:
+            cursor.close()
+            self.db.desconectar()
