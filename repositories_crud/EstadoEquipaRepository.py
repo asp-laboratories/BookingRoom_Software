@@ -35,7 +35,7 @@ class EstadoEquipaRepository:
             cursor = self.db.cursor()
 
             cursor.execute( """
-                            UPDATE esta_equi
+                            UPDATE esta_equipa
                             SET descripcion = %s
                             WHERE codigoEquipa = %s
                             """, (new_esta_descripcion, esta_og_codigo))
@@ -106,6 +106,52 @@ class EstadoEquipaRepository:
             print(f"Error al querer obtener el codigo de equipamiento: {error}")
             return None
         
+        finally:
+            cursor.close()
+            self.db.desconectar()
+        
+    def actualizar_estado_equipa(self, codigoEquipa, descripcion):
+        if not self.db.conectar():
+            return False
+
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+                            UPDATE esta_equipa
+                            SET descripcion = %s
+                            WHERE codigoEquipa = %s
+                            """, (descripcion, codigoEquipa))
+
+            self.db.connection.commit()
+            return True
+
+        except Exception as error:
+            print(f"Error al actualizar el estado del equipamiento: {error}")
+            return False
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+    
+    def eliminar_estado_equipa(self, codigoEquipa):
+        if not self.db.conectar():
+            return False
+
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute("""
+                            DELETE FROM esta_equipa
+                            WHERE codigoEquipa = %s
+                            """, (codigoEquipa,))
+
+            self.db.connection.commit()
+            return True
+
+        except Exception as error:
+            print(f"Error al eliminar el estado del equipamiento: {error}")
+            return False
+
         finally:
             cursor.close()
             self.db.desconectar()
