@@ -8,10 +8,14 @@ from gui.deftl import DefaultWindow
 from gui.navegacion import Navegacion
 from gui.registro import Registro
 from services.LoginService import LoginService
+from services.TrabajadorServices import TrabajadorServices
+
+trabjador = TrabajadorServices()
 
 ruta_ui = Path(__file__).parent / "login.ui"
 log = LoginService()
 
+resultadoEmail = []
 class Login():
     def __init__(self):
         self.login = uic.loadUi(str(ruta_ui))
@@ -44,15 +48,20 @@ class Login():
                     self.nav = Navegacion()
                     self.login.hide()
                 elif resultado[2] == "ADMIN":
-
+                    resultadoEmail.append(self.login.leEmail.text())
                     self.admin = AdministradorScreen()
                     # self.admin = AdminWindow()
                     self.login.hide()
 
+
+
+
     def initGUI(self):
         self.login.btnIniciar.clicked.connect(self.ingresar)
 
-
+# def enviarRfc(email):
+#     resultados = trabjador.obtener_rfc(email)
+#     return resultados["rfc"]
 
 # Método 1: Con pathlib (recomendado)
 # self.login = uic.loadUi(str(ruta_ui))

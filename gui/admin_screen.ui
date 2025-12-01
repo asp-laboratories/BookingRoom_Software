@@ -686,15 +686,15 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-1767</y>
          <width>951</width>
-         <height>3000</height>
+         <height>4000</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>3000</height>
+         <height>4000</height>
         </size>
        </property>
        <property name="styleSheet">
@@ -716,7 +716,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>10</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -5030,8 +5030,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QListWidget" name="listaServicios">
             <property name="geometry">
              <rect>
-              <x>330</x>
-              <y>1930</y>
+              <x>320</x>
+              <y>2490</y>
               <width>256</width>
               <height>192</height>
              </rect>
@@ -5046,8 +5046,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QListWidget" name="listaEquipamiento">
             <property name="geometry">
              <rect>
-              <x>330</x>
-              <y>2140</y>
+              <x>320</x>
+              <y>2700</y>
               <width>256</width>
               <height>192</height>
              </rect>
@@ -5848,8 +5848,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="label_27">
             <property name="geometry">
              <rect>
-              <x>80</x>
-              <y>2590</y>
+              <x>100</x>
+              <y>3210</y>
               <width>441</width>
               <height>21</height>
              </rect>
@@ -5873,8 +5873,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="reSubtotal">
             <property name="geometry">
              <rect>
-              <x>240</x>
-              <y>2670</y>
+              <x>260</x>
+              <y>3290</y>
               <width>411</width>
               <height>41</height>
              </rect>
@@ -5897,8 +5897,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="reIVA">
             <property name="geometry">
              <rect>
-              <x>250</x>
-              <y>2730</y>
+              <x>270</x>
+              <y>3350</y>
               <width>391</width>
               <height>41</height>
              </rect>
@@ -5921,8 +5921,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QLabel" name="reTotal">
             <property name="geometry">
              <rect>
-              <x>250</x>
-              <y>2790</y>
+              <x>270</x>
+              <y>3410</y>
               <width>381</width>
               <height>41</height>
              </rect>
@@ -5945,8 +5945,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QPushButton" name="reConfirmar">
             <property name="geometry">
              <rect>
-              <x>190</x>
-              <y>2900</y>
+              <x>210</x>
+              <y>3520</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -5962,8 +5962,8 @@ background-color: #2B9B32;</string>
            <widget class="QPushButton" name="reCancelar">
             <property name="geometry">
              <rect>
-              <x>490</x>
-              <y>2900</y>
+              <x>510</x>
+              <y>3520</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -6199,8 +6199,8 @@ font-size: 28px;</string>
            <widget class="QScrollArea" name="scrollAreaEquipamiento">
             <property name="geometry">
              <rect>
-              <x>310</x>
-              <y>2350</y>
+              <x>300</x>
+              <y>2910</y>
               <width>301</width>
               <height>201</height>
              </rect>
@@ -6223,8 +6223,8 @@ font-size: 28px;</string>
            <widget class="QLabel" name="lblTotalGeneral">
             <property name="geometry">
              <rect>
-              <x>660</x>
-              <y>2520</y>
+              <x>650</x>
+              <y>3080</y>
               <width>221</width>
               <height>41</height>
              </rect>
@@ -6242,6 +6242,54 @@ font-size: 28px;</string>
             </property>
             <property name="text">
              <string>Total:</string>
+            </property>
+           </widget>
+           <widget class="QComboBox" name="reTipoMontaje">
+            <property name="geometry">
+             <rect>
+              <x>340</x>
+              <y>1950</y>
+              <width>261</width>
+              <height>32</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border: 2px solid rgb(154, 87, 89);
+color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+           <widget class="QTextEdit" name="resultadoMontaje">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="geometry">
+             <rect>
+              <x>340</x>
+              <y>2010</y>
+              <width>261</width>
+              <height>261</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="reMontajeInfo">
+            <property name="geometry">
+             <rect>
+              <x>400</x>
+              <y>2280</y>
+              <width>141</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+            </property>
+            <property name="text">
+             <string>mostrar</string>
             </property>
            </widget>
           </widget>

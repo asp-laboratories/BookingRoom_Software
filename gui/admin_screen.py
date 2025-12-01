@@ -8,10 +8,12 @@ from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
 from services.DatosClienteService import DatosClienteServices
+from services.ReservacionService import ReservacionService
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
 from services.TelefonoServices import TelefonoServices
+from services.TipoMontajeService import TipoMontajeService
 from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
@@ -27,9 +29,8 @@ trabajador = TrabajadorServices()
 cliente = DatosClienteServices()
 telefono = TelefonoServices()
 mobiliario = mobiliarioService()  
-
-
-
+tipo_montaje = TipoMontajeService()
+reservacion = ReservacionService()
 
 
 
@@ -40,6 +41,8 @@ class AdministradorScreen():
         # self.initGUI()
         self.navegacion.show()
         self.navegacion.linkLogin.linkActivated.connect(self.volver_login)
+        
+        #Mensaje para evaluar las operaciones
         self.navegacion.sMensaje.setText("")
         self.navegacion.saMensaje.setText("")
         self.navegacion.eMensaje.setText("")
@@ -47,16 +50,19 @@ class AdministradorScreen():
         self.navegacion.atMensaje.setText("")
         self.navegacion.mobMensaje.setText("")
 
-
+        #Ocultamiento de los submenus de los tres apartados
         self.navegacion.subMenuAdministracion.setVisible(False)
         self.navegacion.subMenuAlmacen.setVisible(False)
         self.navegacion.subMenuRecepcion.setVisible(False)
         # self.navegacion.widget.layout()
+
+        #Abrir las subopciones
         self.navegacion.btnAdministracion.clicked.connect(self.abrir_opciones_admin)
         self.navegacion.btnAlmacen.clicked.connect(self.abrir_opciones_almac)
         self.navegacion.btnRecepcion.clicked.connect(self.abrir_opciones_recep)
 
 
+        #Navegacion entre paginas
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
         self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
@@ -64,6 +70,9 @@ class AdministradorScreen():
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
 
+
+
+        # Botones de los eventos de servicios
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
         self.navegacion.slBuscar.clicked.connect(self.listar_servicio) 
@@ -72,29 +81,35 @@ class AdministradorScreen():
 
         self.navegacion.buscarTipo.clicked.connect(self.buscar_tipo_ser)
         self.navegacion.tipoBuscarE.clicked.connect(self.buscar_tipoS_eli)    
-    
-
-
         self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
+
+
+        # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
 
+        # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
         self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
 
+        # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(self.generar_caracteristicas)
         self.navegacion.amConfirmar_2.clicked.connect(self.registrar_mobiliario)
         # self.navegacion.amConfirmar_2.clicked.connect(self.obtener_valores_inputs)
-        
+
+
+        # Botones para los eventos de trabajadores
         self.navegacion.atConfirmar.clicked.connect(self.establecer_rol)
         self.navegacion.atBuscar.clicked.connect(self.buscar)
        
         self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
         
+        #Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
 
-
+        
+        # Eventos del cliente dentro de reservaciones
         self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
         self.deshabilitar_telefonos()
         self.navegacion.cbTelefono2.toggled.connect(self.ingresar_segundoTel)
@@ -104,14 +119,18 @@ class AdministradorScreen():
         self.navegacion.cbTipoMoral.toggled.connect(self.seleccionar_moral)
         
         
-
+        self.cargar_seleccion_tipoMontaje()
+        self.navegacion.reMontajeInfo.clicked.connect(self.mostrar_info_montaje)
+        # Eventos de salones, equipamiento y servicios dentro de reservacion
         self.cargar_seleccion_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
         self.cargar_listas()
         self.cargar_lista_equipamiento()
         self.navegacion.listaEquipamiento.itemSelectionChanged.connect(self.mostrar_controles_cantidad)
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
-        
+         
+        #Variables utilizadas para almacenar informatcion
+
         self.subtotal_servicios = 0.0
         self.subtotal_salon = 0.0 
         self.cantidades = {}
@@ -121,7 +140,9 @@ class AdministradorScreen():
         
         self.fechas = []
         self.configurar_fechas_iniciales()
-
+        
+        
+        # Controles del calendario
         self.navegacion.btnAgregar_2.clicked.connect(self.agregar_evento)
         self.navegacion.btnMostrar_2.clicked.connect(self.mostrar_eventos)
         self.navegacion.btnLimpiar_2.clicked.connect(self.limpiar_horario)
@@ -130,12 +151,16 @@ class AdministradorScreen():
         self.navegacion.tableHorario.cellDoubleClicked.connect(self.celda_doble_clic)
         self.configurar_horario()
 
+        # Metodos para abrir las subopciones
+
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(not self.navegacion.subMenuAdministracion.isVisible())
     def abrir_opciones_almac(self):
         self.navegacion.subMenuAlmacen.setVisible(not self.navegacion.subMenuAlmacen.isVisible())
     def abrir_opciones_recep(self):
         self.navegacion.subMenuRecepcion.setVisible(not self.navegacion.subMenuRecepcion.isVisible())
+
+        # Seccion de servicios - logica de servicios
 
     def registar_servicio(self):
         nombre = self.navegacion.sNombreSer.text()
@@ -237,6 +262,8 @@ class AdministradorScreen():
                 mensaje += f"\nCodigo del tipo: {row['codigoTiSer']}\nDescripcion del tipo: {row['descripcion']}\n"
             self.navegacion.tipoResultado.setText(mensaje)
 
+    # Fin de la logica de servicios
+    # Metodos para la logica de salones
 
     def registrar_salon(self):
         largo =  float(self.navegacion.saLargo.text()) 
@@ -249,6 +276,8 @@ class AdministradorScreen():
             self.navegacion.saMensaje.setText("Incorrecto")
         else:
             self.navegacion.saMensaje.setText("Correcto")
+
+    # Metodos para la logica de equipamientos
     
     def registrar_equipamiento(self):
         resultado = equipamiento.registrar_equipamento(self.navegacion.eNombreEqui.text(),self.navegacion.eDescripcion.text(), float(self.navegacion.eCostoRenta.text()), int(self.navegacion.eStock.text()), self.navegacion.eTipoEquipamiento.text())
@@ -270,6 +299,9 @@ class AdministradorScreen():
         self.navegacion.saAltura.clear()
         self.navegacion.saResultadoM2.clear()
 
+
+    # Metodos para la logica del trabajador
+
     def buscar(self):
         resultado = trabajador.buscar_al_trabajador(self.navegacion.atBuscador.text())
         if resultado == None:
@@ -288,7 +320,10 @@ class AdministradorScreen():
             self.navegacion.atMensaR.setText("Correcto")
         else:
             self.navegacion.atMensaR.setText("Incorrecto")
+    
+    # Fin de la logica del trabajador
 
+    # Registro del Mobiliaro
 
     def registrar_mobiliario(self):
         # 1. Obtención de datos principales (SIN CAMBIOS)
@@ -300,11 +335,6 @@ class AdministradorScreen():
         except ValueError:
             self.navegacion.mobMensaje.setText("Error: Costo o Stock deben ser números válidos.")
             return
-
-        print(nombre)
-        print(costoRenta)
-        print(stock)
-        print(tipo)
 
         # 2. Recolección de textos de los inputs (SIN CAMBIOS)
         valor = []         
@@ -339,6 +369,7 @@ class AdministradorScreen():
             self.navegacion.mobMensaje.setText("Incorrecto")
         else:
             self.navegacion.mobMensaje.setText("Correcto")
+    
     def limpiar_caracteristicas(self):
         lay = self.navegacion.mobcont2.layout()
         while lay.count():
@@ -468,15 +499,22 @@ class AdministradorScreen():
             self.navegacion.clNombre.setText("Nombre del contacto")
             self.navegacion.clAp.setText("Apellido paterno del contacto")
             self.navegacion.clAm.setText("Apellido materno del contacto")
+
+
+
+
+
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
         self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
         obtener = salon.listar_salones()
         for sln in obtener:
             self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
+            print(sln["numSalon"])
     
     def mostrar_info_salon(self):
         salNumero = self.navegacion.reSalonSelecc.currentData()
+        print(salNumero)
         sali = self.buscar_usuario_por_id(salNumero)
         mensaje = "INFORMACION DEL SALON"
         mensaje += f"\n NOMBRE: {sali["nombre"]}"
@@ -491,6 +529,34 @@ class AdministradorScreen():
             if s["numSalon"] == salNumero:
                 return s
         return None
+
+    def cargar_seleccion_tipoMontaje(self):
+        self.navegacion.reTipoMontaje.clear()
+        self.navegacion.reTipoMontaje.addItem("Selecciona un montaje", None)
+        obtener = tipo_montaje.listar_tipos_montajes()
+        for tm in obtener:
+            self.navegacion.reTipoMontaje.addItem(tm["nombre"], tm["codigoMon"])
+            print(tm["codigoMon"])
+    
+    def mostrar_info_montaje(self):
+        tipoM = self.navegacion.reTipoMontaje.currentData()
+        print(tipoM)
+        tip = self.buscar_por_id(tipoM)
+        mensaje = "INFORMACION DEL SALON"
+        mensaje += f"\n NOMBRE: {tip["nombre"]}"
+        mensaje += f"\n descripcion: {tip["descripcion"]}"
+        if tip:
+            self.navegacion.resultadoMontaje.setText(mensaje)
+
+    def buscar_por_id(self, tipoM):
+        for t in tipo_montaje.listar_tipos_montajes():
+            if t["codigoMon"] == tipoM:
+                return t
+        return None
+
+
+
+
 
 
     def cargar_listas(self):
@@ -511,7 +577,10 @@ class AdministradorScreen():
         for servicios in servicios_seleccionados:
             servicio = servicios.data(Qt.ItemDataRole.UserRole)
             self.subtotal_servicios += servicio["costoRenta"]
-
+            
+            numServicio = servicio['numServicio']
+            print(numServicio)
+            #enviar(numServicio)
         return self.subtotal_servicios
 
     def cargar_lista_equipamiento(self):
@@ -521,6 +590,12 @@ class AdministradorScreen():
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, equipa)
             self.navegacion.listaEquipamiento.addItem(item)
+    
+
+
+    # Seccion del calendario
+
+
     def mostrar_controles_cantidad(self):
         self.limpiar_todos_controles()
         equipamientos_seleccionados = self.navegacion.listaEquipamiento.selectedItems()
@@ -537,15 +612,15 @@ class AdministradorScreen():
             # Extraer las claves 'nombre' y 'costoRenta' del diccionario
             nombre = equipa_data['nombre'] # Asume que 'equipa' tiene la clave 'nombre'
             costoRenta = equipa_data['costoRenta'] # Asume que 'equipa' tiene la clave 'costoRenta'
-
+            numEquipa = equipa_data['numEquipa']
             # Asegurar que el nombre no ha sido agregado ya (para evitar duplicados visuales)
             if nombre not in self.cantidades:
                 # Inicializar la cantidad en 1 si es la primera vez que se agrega
                 self.cantidades[nombre] = 1 
             
-            self.crear_control_cantidad(nombre, costoRenta)
+            self.crear_control_cantidad(nombre, costoRenta, numEquipa)
 
-    def crear_control_cantidad(self, nombre, costoRenta):
+    def crear_control_cantidad(self, nombre, costoRenta, numEquipa):
         # Widget contenedor
 
         layEqui = self.navegacion.equipamientoW.layout()
@@ -561,7 +636,7 @@ class AdministradorScreen():
         # Botón -
         btn_menos = QPushButton("-")
         btn_menos.setFixedSize(30, 30)
-        btn_menos.clicked.connect(lambda: self.cambiar_cantidad(nombre, -1))
+        btn_menos.clicked.connect(lambda: self.cambiar_cantidad(nombre, -1, numEquipa))
         btn_menos.setStyleSheet("""
             QPushButton{
                 color: #ffffff;
@@ -577,7 +652,7 @@ class AdministradorScreen():
         # Botón R
         btn_mas = QPushButton("+")
         btn_mas.setFixedSize(30, 30)
-        btn_mas.clicked.connect(lambda: self.cambiar_cantidad(nombre, 1))
+        btn_mas.clicked.connect(lambda: self.cambiar_cantidad(nombre, 1, numEquipa))
         btn_mas.setStyleSheet("""
             QPushButton{
                 color: #ffffff;
@@ -585,8 +660,11 @@ class AdministradorScreen():
             }                     
             """) 
 
-        # Label subtotal
+        # Label subtotal 
+
+        #enviar(numEquipa, self.cantidades[nombre])
         subtotal = self.cantidades[nombre] * costoRenta
+
         lbl_subtotal = QLabel(f"${subtotal:.2f}")
         lbl_subtotal.setMinimumWidth(60)
         lbl_subtotal.setStyleSheet("font-weight: bold; color: blue;")
@@ -608,7 +686,8 @@ class AdministradorScreen():
         layEqui.addWidget(sub)
         layEqui.addWidget(lbl_subtotal)
     
-    def cambiar_cantidad(self, nombre, cambio):
+
+    def cambiar_cantidad(self, nombre, cambio, numEquipa):
 
     # 1. Actualizar la cantidad en el diccionario
         nueva_cantidad = self.cantidades[nombre] + cambio
@@ -626,12 +705,27 @@ class AdministradorScreen():
             
             # Actualizar label de cantidad (ej: "1" → "2")
             controles['label_cantidad'].setText(str(nueva_cantidad))
-            
+            print(nueva_cantidad)
+            print(numEquipa)
             # Calcular y actualizar subtotal
             nuevo_subtotal = nueva_cantidad * controles['costo']
             controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
         self.calcular_total_general()
+    
+    def registrar_reservacion(self):
+        from gui.login import resultadoEmail
+        fecha = self.navegacion.refecha.date().toPyDate()
+        hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
+        hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
+        cliente = self.navegacion.reRfc.text()
+        print(resultadoEmail[0])
+        resultado = trabajador.obtener_rfc(resultadoEmail[0])
+        print(resultado["rfc"])
 
+        #resultado = reservacion.
+        
+
+    
     def calcular_total_general(self):
         """Calcula el total de todos los equipos seleccionados"""
         total = 0
@@ -651,6 +745,7 @@ class AdministradorScreen():
         return total
 
     def total_reservacion(self):
+        self.registrar_reservacion()
         subtotalServicios = self.calcular_subtotal_serv()
         subtotalEquipamiento = self.calcular_total_general()
 
