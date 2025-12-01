@@ -4,7 +4,7 @@ class EstadoEquipaRepository:
         self.db = db_configuration
     
     # Metodos
-    def crear_estado_mobiliario(self, esta_equi):
+    def crear_estado_mobiliario(self, esta_equi): #????????
         if not self.db.conectar():
             return False
         
@@ -75,9 +75,6 @@ class EstadoEquipaRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-    
-
-
 
     def listar_equipa_por_estado(self, esta_e):
         if not self.db.conectar():

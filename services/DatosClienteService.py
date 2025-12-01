@@ -3,7 +3,7 @@ from models.DatosCliente import DatosCliente
 from repositories_crud.DatosClientesRepository import DatosClientesRepository
 
 
-class DatosClienteServices:
+class DatosClienteService:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
         self.cliente_repository = DatosClientesRepository(self.db)
@@ -19,4 +19,6 @@ class DatosClienteServices:
         for row in cliente:
             print(f"{row['RFC']}\t {row['contNombre']}")
 
-
+    def obtener_rfc(self, nombreFiscal):
+        rfc = self.cliente_repository.obtener_rfc(nombreFiscal)
+        return rfc['nomSalon']

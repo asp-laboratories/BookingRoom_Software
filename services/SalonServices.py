@@ -28,4 +28,8 @@ class SalonServices:
             print(f"{row['codigoSal']}\t {row['descripcion']}")
 
     def actualizar_salon(self, numSalon, esta_salon):
-         self.salon_repository.actualizar(numSalon, esta_salon)
+        self.salon_repository.actualizar(numSalon, esta_salon)
+
+    def obtener_codigo_salon(self, nombreSalon):
+        salon = self.salon_repository.obtener_num_salon(nombreSalon)
+        return salon['numSalon']

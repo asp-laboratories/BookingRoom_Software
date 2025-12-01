@@ -30,3 +30,7 @@ class TrabajadorServices:
     
     def buscar_al_trabajador(self, buscador):
         return self.trabajador_repository.buscar_trabajadores(buscador)
+    
+    def obtener_rfc_nombre(self, nombre):
+        rfc = self.trabajador_repository.obtener_rfc(nombre)
+        return rfc['rfc']

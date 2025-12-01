@@ -81,9 +81,9 @@ class SalonRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("""SELECT numSalon FROM datos_salon WHERE nombre like %s""", (f"%{nombre}%",))
-            numSalon = cursor.fetchall()
-
+            cursor.execute("""SELECT numSalon FROM datos_salon WHERE nombre like %s""", (f"{nombre}%",))
+            numSalon = cursor.fetchone()
+            
             return numSalon
         
         except Exception as error:

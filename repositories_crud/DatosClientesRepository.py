@@ -58,3 +58,27 @@ class DatosClientesRepository:
             cursor.close()
             self.db.desconectar()
 
+    def obtener_rfc(self, nombreFiscal):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT rfc
+                            FROM datos_cliente
+                            WHERE nombreFiscal like %s
+                            """, (f"{nombreFiscal}%",))
+            
+            resultados = cursor.fetachone
+
+            return resultados
+        
+        except Exception as error:
+            print(f"Error al obtener rfc del cliente: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()

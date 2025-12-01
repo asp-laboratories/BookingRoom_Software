@@ -1,5 +1,5 @@
 class Reservacion:
-    def __init__(self, fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, tipo_montaje, trabajador, datos_cliente, datos_salon, subtotal = None, IVA = None, total = None, numReser = None, esta_reser = 'PENDI'):
+    def __init__(self, fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, trabajador, datos_cliente, datos_montaje, servicios = [], equipamientos = [] , subtotal = None, IVA = None, total = None, numReser = None, esta_reser = 'PENDI'):
         self.__numReser = numReser
         self.__fechaReser = fechaReser
         self.__fechaEvento = fechaEvento
@@ -10,13 +10,12 @@ class Reservacion:
         self.__subtotal = subtotal
         self.__IVA = IVA
         self.__total = total
-        self.__tipo_montaje = tipo_montaje
+        self.__datos_montaje = datos_montaje
         self.__trabajador = trabajador
         self.__datos_cliente = datos_cliente
         self.__esta_reser = esta_reser
-        self.__datos_salon = datos_salon
-        self.__servicios = []
-        self.__equipamientos = []
+        self.__servicios = servicios
+        self.__equipamientos = equipamientos
 
     @property
     def numReser(self):
@@ -89,13 +88,6 @@ class Reservacion:
         self.__total = total
 
     @property
-    def tipo_montaje(self):
-        return self.__tipo_montaje
-    @tipo_montaje.setter
-    def tipo_montaje(self, tipo_montaje):
-        self.__tipo_montaje = tipo_montaje
-
-    @property
     def trabajador(self):
         return self.__trabajador
     @trabajador.setter
@@ -117,11 +109,11 @@ class Reservacion:
         self.__esta_reser = esta_reser
 
     @property
-    def datos_salon(self):
-        return self.__datos_salon
-    @datos_salon.setter
-    def datos_salon(self, datos_salon):
-        self.__datos_salon = datos_salon
+    def datos_montaje(self):
+        return self.__datos_montaje
+    @datos_montaje.setter
+    def datos_montaje(self, datos_montaje):
+        self.__datos_montaje = datos_montaje
     
     @property
     def equipamientos(self):

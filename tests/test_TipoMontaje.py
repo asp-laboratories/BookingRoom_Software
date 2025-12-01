@@ -4,20 +4,24 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from services.TipoMontajeService import TipoMontajeService
 
-tipoMontaje = TipoMontajeService()
+tipo_montaje = TipoMontajeService()
 
 def crear_tipoMontaje():
     pass
 
 def listar_tipos_montajes():
-    tipos_montajes = tipoMontaje.listar_tipos_montajes()
+    tipos_montajes = tipo_montaje.listar_tipos_montajes()
     print("Codigo \t Nombre")
     for tipo in tipos_montajes:
         print(f"{tipo['codigoMon']} \t {tipo['nombre']}")
 
 def mostrar_mobiliarios_montaje(montaje):
-    tipoMontaje = TipoMontajeService()
-    return tipoMontaje.listar_mobiliarios_montaje(montaje)
+    tipoMontaje = tipo_montaje.listar_mobiliarios_montaje(montaje)
+    for montaje in tipoMontaje:
+        print(f"{montaje['tipo_montaje']} : {montaje['salon']} : {montaje['mobiliario']} : {montaje['cantidad']}")
+
+def obtener_numdatmon(tipo_motanej, salon):
+    print(tipo_montaje.obtener_datos_montaje(tipo_motanej, salon))
 
 if __name__ == "__main__":
-    mostrar_mobiliarios_montaje('banq')
+    obtener_numdatmon('teatr', 'shubber')

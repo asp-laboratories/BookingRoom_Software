@@ -85,7 +85,7 @@ class TipoMontajeRepository:
             cursor.execute( """
                             SELECT
                                 tm.nombre as tipo_montaje,
-                                ds.nombre as Salon,
+                                ds.nombre as salon,
                                 mob.nombre as mobiliario,
                                 mm.cantidad
                             FROM datos_montaje as dm
@@ -95,11 +95,6 @@ class TipoMontajeRepository:
                             INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
                             WHERE tm.codigoMon = %s
                             """, (codigoMon,))
-            
-            #4. Lista de mobiliario incluido en un tipo de montaje.
-            #a. Tipo de montaje (nombre)
-            #b. Descripción del mobiliario
-            #c. Cantidad por mobiliario
 
             resultados = cursor.fetchall()
 

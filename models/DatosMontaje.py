@@ -1,8 +1,9 @@
 class DatosMontaje:
-    def __init__(self, capacidad, tipo_montaje, datos_salon):
+    def __init__(self, tipo_montaje, datos_salon, capacidad = None, ):
         self.__capacidad = capacidad
         self.__tipo_montaje = tipo_montaje
         self.__datos_salon = datos_salon
+        self.__mobiliario = []
 
     @property
     def capacidad(self):
@@ -25,3 +26,11 @@ class DatosMontaje:
     @datos_salon.setter
     def datos_salon(self, datos_salon):
         self.__datos_salon = datos_salon
+        
+    @property
+    def mobiliario(self):
+        return self.__mobiliario
+    @mobiliario.setter
+    def mobiliario(self, mobiliario):
+        self.__mobiliario = mobiliario
+

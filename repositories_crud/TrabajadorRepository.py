@@ -53,6 +53,29 @@ class TrabajadorRepository:
             self.db.desconectar()
 
 
+    def obtener_rfc(self, nombre):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT rfc
+                            FROM trabajador
+                            WHERE nombre = %s
+                            """, (nombre,))
+
+            resutlado = cursor.fetchone()
+        
+        except Exception as error:
+            print(f"Error al obtener el rfc del trabajador: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
 
     def buscar_trabajadores(self, buscador):
         if not self.db.conectar():
