@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTa
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
+from models.ReserEquipa import ReserEquipamiento
 from services.DatosClienteService import DatosClienteService
 from services.ReservacionService import ReservacionService
 from services.SalonServices import SalonServices
@@ -492,6 +493,7 @@ class AdministradorScreen():
             self.navegacion.clNombre.setText("Nombre")
             self.navegacion.clAp.setText("Apellido paterno")
             self.navegacion.clAm.setText("Apellido materno")
+
     def seleccionar_moral(self, estado):
         if estado:
             self.navegacion.cbTipoFisica.setChecked(False)
@@ -715,15 +717,33 @@ class AdministradorScreen():
     def registrar_reservacion(self):
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
+        fechaReser = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
         cliente = self.navegacion.reRfc.text()
         print(resultadoEmail[0])
         resultado = trabajador.obtener_rfc(resultadoEmail[0])
         print(resultado["rfc"])
+        rfcTrabajador = resultado['rfc']
+        descripEvento  = self.navegacion.reDescripcion.txt()
+        estimaAsistentes = self.navegacion.reEstimadoAsistentes.txt()
+        salon = self.navegacion.reSalonSelecc.currentText()
+        tipo_montaje = self.navegacion.reTipoMontaje.currentText()
 
-        #resultado = reservacion.
-        
+        lista_servicios = []
+        servicios = self.navegacion.listaServicios.selectedItems()
+
+        for item in servicios:
+            data_servicio = item.data(Qt.ItemDataRole.UserRole)
+            lista_servicios.append(data_servicio['nombre'])
+
+        lista_equipamientos = [] # Arreglar
+        for equipamiento in algo:
+            equipa = ReserEquipamiento(equipamiento['nombre'], equipamiento['cantidad'])
+            lista_equipamientos.append(equipa)
+
+        # Falta fecha de resevacion
+        resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
 
     
     def calcular_total_general(self):
