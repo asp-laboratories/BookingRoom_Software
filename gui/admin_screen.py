@@ -70,6 +70,7 @@ class AdministradorScreen():
         self.navegacion.mobiliario_2.clicked.connect(lambda: self.mostrar_pagina(4))
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
+        self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
 
 
 
@@ -80,11 +81,11 @@ class AdministradorScreen():
         self.navegacion.slBuscar_3.clicked.connect(self.listar_servicio_act) 
         self.navegacion.slBuscar_2.clicked.connect(self.listar_servicio_del)
 
-        self.navegacion.buscarTipo.clicked.connect(self.buscar_tipo_ser)
+        self.navegacion.buscarTipo.clicked.connect(self.listar_servicio_segun_tipo)
         self.navegacion.tipoBuscarE.clicked.connect(self.buscar_tipoS_eli)    
         self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
 
-
+        self.navegacion.buscarTipo_2.clicked.connect(self.listar_reservaciones)
         # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
 
@@ -233,8 +234,30 @@ class AdministradorScreen():
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar_2.setText(mensaje)
 
+    def listar_servicios_del_mismo_tipo(self):
+        self.navegacion.sResultadoListar_2.clear()
+        resultado = servicio.servicios_tipo(self.navegacion.slIngresarBusqueda_2.text())
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---SERVICIOS---\n"
+            for st in resultado:
+                mensaje += f"\nTipo de servicio: {st["tipo_servicio"]}"
+                self.navegacion.sResultadoListar_2.setText(mensaje)
 
 
+
+
+    def listar_reservaciones(self):
+        self.navegacion.tResultadoS_2.clear()
+        resultado = reservacion.listar(int(self.navegacion.tipoBuscar_2.text()))
+        if resultado == False:
+            pass
+        else: 
+            mensaje = "\n--RESERVACIONES---\n"
+            for re in resultado:
+                mensaje += f"\nReservacion: {re['num_reser']}\nFecha: {re["fecha_reser"]}\nCliente: {re["cliente"]}\nContacto: {re['cont_nombre']}\nCorreo electronico: {re['cliente_email']}\nFecha del evento: {re['fecha_even']}\nHora inicial: {re['hora_ini']} "
+                self.navegacion.tResultadoS_2.setText(mensaje)
     def eliminar_servicio(self):
         resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
         if resultado == False:
@@ -253,7 +276,15 @@ class AdministradorScreen():
             else:
                 print(" No tiene servicios registrados")
 
-            self.navegacion.tResultadoS.setText(mensaje)
+            self.navegacion.tResultadoS.setText(mensajei)
+
+    def listar_servicio_segun_tipo(self):
+        resultado = servicio.listar_servicio_y_tipo(self.navegacion.tipoBuscar.text())
+        if resultado:
+            mensaje = f"\nTIPO DE SERVICIO: {self.navegacion.tipoBuscar.text()}\n"
+            for ts in resultado:  
+                mensaje += f"\n{ts["servicio"]}: {ts['descservicio']}\nCosto renta: {ts['costo_renta']}\n"
+                self.navegacion.tResultadoS.setText(mensaje)
 
     def buscar_tipoS_eli(self):
         resultado = tipo_servi.listar_tipos_servicio(self.navegacion.tipoBusqueda.text())
@@ -743,8 +774,8 @@ class AdministradorScreen():
         resultado = trabajador.obtener_rfc(resultadoEmail[0])
         print(resultado["rfc"])
         rfcTrabajador = resultado['rfc']
-        descripEvento  = self.navegacion.reDescripcion.txt()
-        estimaAsistentes = self.navegacion.reEstimadoAsistentes.txt()
+        descripEvento  = self.navegacion.reDescripcion.text()
+        estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
         salon = self.navegacion.reSalonSelecc.currentText()
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
 
