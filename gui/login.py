@@ -4,8 +4,10 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
 from gui.admin import AdminWindow
 from gui.admin_screen import AdministradorScreen
+from gui.almacen import Almacenista
 from gui.deftl import DefaultWindow
 from gui.navegacion import Navegacion
+from gui.recepcionista import Recepcionista
 from gui.registro import Registro
 from services.LoginService import LoginService
 from services.TrabajadorServices import TrabajadorServices
@@ -52,7 +54,11 @@ class Login():
                     self.admin = AdministradorScreen()
                     # self.admin = AdminWindow()
                     self.login.hide()
-
+                elif resultado[2] == "ALMAC":
+                    self.almacen = Almacenista()
+                elif resultado[2] == "RECEP":
+                    resultadoEmail.append(self.login.leEmail.text())
+                    self.recep = Recepcionista() 
 
 
 
