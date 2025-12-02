@@ -45,7 +45,7 @@ class ReservacionRepository:
                 for servicio in reservacion.servicios:
                     cursor.execute( """
                                     SELECT costoRenta
-        FROM servicio
+                                    FROM servicio
                                     WHERE numServicio = %s
                                     """, (servicio,))
                     costoServicio = cursor.fetchone()
@@ -102,8 +102,41 @@ class ReservacionRepository:
             cursor.close()
             self.db.desconectar()
 
-    def listar_reservacion_fecha(self):
-        pass
+    def listar_reservacion_fecha(self, fecha):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT
+                            DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha,
+                            TIME_FORMAT(re.horaInicio, '%H:%i') as horaInicio,
+                            TIME_FORMAT(re.horaFin, '%H:%i') as horaFin,
+                            ds.nombre as salon,
+                            dc.nombreFiscal,
+                            re.descripEvento,
+                            re.estimaAsistentes
+                            FROM reservacion as re
+                            INNER JOIN datos_montaje as dm on re.datos_montaje = dm.numDatMon
+                            INNER JOIN datos_salon as ds dm.datos_salon = ds.numSalon
+                            INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
+                            WHERE re.fechaEvento = %s
+                            order by re.horaInicio
+                            """, (fecha,))
+        
+            resutlados = cursor.fetchall()
+
+            return resutlados
+
+        except Exception as error:
+            print(f"Error al listar las reservaciones: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
 
     def buscar_reservaciones_cliente(self):
         pass
@@ -176,6 +209,58 @@ class ReservacionRepository:
             return resultados
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def listar_reservaciones(self):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT
+                            descripEvento,
+                            DATE_FORMAT(fechaEvento, '%d / %m / %Y') as fecha
+                            FROM reservacion
+                            order by fechaEvento
+                            """)
+        
+            resutlados = cursor.fetchall()
+
+            return resutlados
+
+        except Exception as error:
+            print(f"Error al listar las reservaciones: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+            
+    def obtener_total(self, numReser):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT total
+                            FROM reservacion
+                            WHERE numReser = %s
+                            """, (f"{numReser}%",))
+            
+            resultados = cursor.fetchone()
+
+            return resultados
+        
+        except Exception as error:
+            print(f"Error para obtener el total de reservacion: {error}")
+            return None
+        
         finally:
             cursor.close()
             self.db.desconectar()

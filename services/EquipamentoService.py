@@ -75,7 +75,7 @@ class EquipamentoService:
     def actualizar_estado_equipamiento(self, equipamiento, estado_og, new_estado, cantidad):
         estado_og = self.obtener_codig_estado(estado_og)
         new_estado = self.obtener_codig_estado(new_estado)
-        equipamiento = self.equipamento_repository.obtener_num_equipa(equipamiento)
+        equipamiento = self.obtener_codigo_equipamiento(equipamiento)
 
         if (not estado_og) or (not new_estado) or (not equipamiento):
             print("No procde la actualizacion de estado")

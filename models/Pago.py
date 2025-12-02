@@ -19,6 +19,13 @@ class Pago:
         self.__montoPago = montoPago
 
     @property
+    def saldo(self):
+        return self.__saldo
+    @saldo.setter
+    def saldo(self, saldo):
+        self.__saldo = saldo
+
+    @property
     def descripcion(self):
         return self.__descripcion
     @descripcion.setter

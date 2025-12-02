@@ -58,6 +58,7 @@ class InventarioEquipaRepository:
                                 WHERE equipamiento = %s and esta_equipa = %s
                                 """, (newCantidad, numEquipa, esta_og))
         
+            self.db.connection.commit()
             return True
 
         except Exception as error:

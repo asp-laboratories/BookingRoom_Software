@@ -60,7 +60,7 @@ class EstadoEquipaRepository:
 
             cursor.execute( """
                             SELECT codigoEquipa
-                            FROM esta_quipa
+                            FROM esta_equipa
                             WHERE descripcion LIKE %s
                             """, (f"{descripcion}%",))
             

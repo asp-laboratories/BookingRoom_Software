@@ -22,6 +22,9 @@ def registro_equipamento():
         else:
             print("No se pudo crear el equipamento intente de nuevo")
 
+def actualizar_estado():
+    equipamento.actualizar_estado_equipamiento('microfono inala', 'disponible', 'no disponible', 1)
+
 def main():
     print(f"{'':-<10}{' Menu de Equipamentos '}{'':-<10}")
     while True:
@@ -46,4 +49,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    actualizar_estado()

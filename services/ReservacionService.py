@@ -70,6 +70,9 @@ class ReservacionService:
 
         return reservacion
         
+    def reservaciones_fecha(self, fecha):
+        return self.reservacion_repository.listar_reservacion_fecha(fecha)
 
-    #def listar_reservacion_general(self,num):
-    #    return self.reservacion_repository.listar_reservaciones_informacion_general(num)
+    def obtener_total(self, numReser):
+        total = self.reservacion_repository.obtener_total(numReser)
+        return total['total']
