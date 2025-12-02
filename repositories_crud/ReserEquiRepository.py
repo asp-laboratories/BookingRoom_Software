@@ -22,12 +22,25 @@ class ReserEquiRepository:
             cursor.close()
             self.db.desconectar()
 
-    def listar__equipa(self):
+    def listar__equipa(self, numReser):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM trabajador")
+            cursor.execute("""
+
+SELECT
+    re.descripEvento as desc_reser,
+    DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha_reser,
+    dc.nombreFiscal as cliente,
+    equi.nombre as equipa,
+    req.cantidad as cantidad
+FROM reservacion as re
+INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
+INNER JOIN reser_equipa as req on req.reservacion = re.numReser
+INNER JOIN equipamiento as equi on req.equipamiento = equi.numEquipa
+WHERE re.numReser = %s
+            """, (numReser,))
             resultados = cursor.fetchall()
             return resultados
         except Exception as error:
