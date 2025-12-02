@@ -52,12 +52,16 @@ class Login():
                 elif resultado[2] == "ADMIN":
                     resultadoEmail.append(self.login.leEmail.text())
                     self.admin = AdministradorScreen()
-                    # self.admin = AdminWindow()
+
                     self.login.hide()
+                    # self.admin = AdminWindow()
                 elif resultado[2] == "ALMAC":
                     self.almacen = Almacenista()
+
+                    self.login.hide()
                 elif resultado[2] == "RECEP":
                     resultadoEmail.append(self.login.leEmail.text())
+                    self.login.hide()
                     self.recep = Recepcionista() 
 
 
