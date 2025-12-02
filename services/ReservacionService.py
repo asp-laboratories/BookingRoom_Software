@@ -11,7 +11,6 @@ from services.ServicioServices import ServicioService
 class ReservacionService:
     # Constructor
     def __init__(self):
-        db = BaseDeDatos(database='BookingRoomLocal')
         self.reservacion_repository = ReservacionRepository(db)
         self.tipo_montajeService = TipoMontajeService()
         self.TrabajadorService = TrabajadorServices()
@@ -43,3 +42,6 @@ class ReservacionService:
         reservacion = Reservacion(fechaReser=fechaReser, fechaEvento=fechaEvento, horaInicio=horaInicio, horaFin=horaFin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, datos_montaje=numDatMon, trabajador=rfcTraba, datos_cliente=rfcCliente, equipamientos=codigosEquipamientos, servicios=codigosServicios)
 
         return self.reservacion_repository.registrar_reservacion(reservacion)
+
+    def listar_reservacion_general(self,num):
+        return self.reservacion_repository.listar_reservaciones_informacion_general(num)

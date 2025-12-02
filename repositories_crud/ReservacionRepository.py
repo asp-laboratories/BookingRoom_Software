@@ -45,7 +45,7 @@ class ReservacionRepository:
                 for servicio in reservacion.servicios:
                     cursor.execute( """
                                     SELECT costoRenta
-                                    FROM servicio
+        FROM servicio
                                     WHERE numServicio = %s
                                     """, (servicio,))
                     costoServicio = cursor.fetchone()
