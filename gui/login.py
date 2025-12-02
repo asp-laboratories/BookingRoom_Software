@@ -2,10 +2,10 @@ import os
 from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
-from gui.admin import AdminWindow
+#from gui.admin import AdminWindow
 from gui.admin_screen import AdministradorScreen
 from gui.almacen import Almacenista
-from gui.deftl import DefaultWindow
+#from gui.deftl import DefaultWindow
 from gui.navegacion import Navegacion
 from gui.recepcionista import Recepcionista
 from gui.registro import Registro

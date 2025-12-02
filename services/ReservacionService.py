@@ -76,3 +76,7 @@ class ReservacionService:
     def obtener_total(self, numReser):
         total = self.reservacion_repository.obtener_total(numReser)
         return total['total']
+    
+    def reservacion_descripcion(self, numreser):
+        decripcion = self.reservacion_repository.reservacion_descripcion(numreser)
+        return decripcion['descripEvento']

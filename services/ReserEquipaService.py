@@ -8,7 +8,7 @@ class ReserEquipaService:
         self.reserE = ReserEquiRepository(self.db)
 
     
-    def equipamiento_en_reser(self, reservacion, equipamiento, cantidad):
+    def crear_equipamiento_en_reser(self, reservacion, equipamiento, cantidad):
         return self.reserE.crear_reservacion_equipa(reservacion, equipamiento, cantidad)
 
 

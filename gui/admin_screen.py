@@ -19,6 +19,7 @@ from services.TipoMontajeService import TipoMontajeService
 from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
+from services.PagoService import PagoServices
 from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
@@ -34,6 +35,7 @@ mobiliario = mobiliarioService()
 tipo_montaje = TipoMontajeService()
 reservacion = ReservacionService()
 reser_equipa = ReserEquipaService()
+pagos = PagoServices()
 
 
 
@@ -155,6 +157,11 @@ class AdministradorScreen():
         self.navegacion.tableHorario.cellDoubleClicked.connect(self.celda_doble_clic)
         self.configurar_horario()
 
+        # Botonoes modulo de pagos
+        self.navegacion.pagosBuscar.clicked.connect(self.buscar_historial_pagos)
+        self.navegacion.reNumReser.textChanged.connect(self.mostrar_descripcion_en_tiempo_real)
+        self.navegacion.reConfirmar_2.clicked.connect(self.registrar_pago)
+        self.navegacion.reCancelar_2.clicked.connect(self.limpiar_pago)
         # Metodos para abrir las subopciones
 
     def abrir_opciones_admin(self):
@@ -253,24 +260,30 @@ class AdministradorScreen():
     def listar_reservaciones(self):
         self.navegacion.tResultadoS_2.clear()
         self.navegacion.tResultadoS_3.clear()
-        resultado = reservacion.info_reservacion(int(self.navegacion.tipoBuscar_2.text()))
-        if resultado == False:
+        reserva = int(self.navegacion.tipoBuscar_2.text())
+        re = reservacion.info_reservacion(reserva)
+        if not re:
             pass
         else: 
-            mensaje = "\n--RESERVACIONES---\n"
-            for re in resultado:
-                mensaje += f"\nReservacion: {re['num_reser']}\nFecha: {re["fecha_reser"]}\nCliente: {re["cliente"]}\nContacto: {re['cont_nombre']}\nCorreo electronico: {re['cliente_email']}\nFecha del evento: {re['fecha_even']}\nHora inicial: {re['hora_ini']} "
-                self.navegacion.tResultadoS_2.setText(mensaje)
+            mensaje = f"\nReservacion: {re['numReser']}\tFecha de Reservacion: {re['fechaReser']}\nCliente: {re['cliNombreFiscal']}\tContacto: {re['cliContacto']}\nCorreo electronico: {re['cliEmail']}\nFecha del evento: {re['fechaEvento']}\tHora inicial: {re['horaInicioEvento']}\tHora de finalizacion: {re['horaFinEvento']}\nEstado de Reservacion: {re['estadoReser']}\nSalon: {re['nombreSalon']}\tTipo de montaje: {re['tipoMontaje']}\nEstimado de asistentes: {re['estiamdoAsistentes']}"
+            self.navegacion.tResultadoS_2.setText(mensaje)
 
-            resultadoE = reser_equipa.equipamiento_en_reser_listar(int(self.navegacion.tipoBuscar_2.text()))
-            mensajeEQ = "\n---EQUIPAMIENTOS---\n"
+            resultadoE = equipamiento.listar_equipamientos_reser(reserva)
+            mensajeEQ = ""
+            contador = 0
             for ree in  resultadoE:
-                mensajeEQ += f"\n Cliente {ree["cliente"]}"
-                self.navegacion.tResultadoS_3.setText(mensajeEQ)
+                contador += 1
+                mensajeEQ += f"{contador}. Un total de {ree['cantidad']} de {ree['nombre']}\n"
+            
+            self.navegacion.tResultadoS_3.setText(mensajeEQ)
 
-
-
-
+            mensaje = ''
+            contador = 0
+            for servicio in re['servicios']:
+                contador += 1
+                mensaje += f"{contador}. {servicio}"
+            
+            self.navegacion.tResultadoS_5.setText(mensaje)
 
     def eliminar_servicio(self):
         resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
@@ -855,13 +868,8 @@ class AdministradorScreen():
             self.navegacion.almMensaje.setText("Incorrecto")
         else:
             self.navegacion.almMensaje.setText("Correcto")
+   
 
-    def actualizar_estado_equipa(self):
-        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
-        if resultado == False:
-            self.navegacion.almMensaje_2.setText("Incorrecto")
-        else:
-            self.navegacion.almMensaje_2.setText("Correcto")
     def buscar_estado_mobiliario(self):
         resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
         if resultado == None:
@@ -871,7 +879,6 @@ class AdministradorScreen():
             for mob in resultado:
                 mensaje += f"\nMobiliario: {mob["Numero"]}.\nNombre: {mob["Nombre"]}.\nEstado Actual: {mob["Estado"]}\nCantidad: {mob["Cantidad"]}\n"
                 self.navegacion.almResultadoM.setText(mensaje)
-    
     
     def buscar_estado_equipamiento(self):
         self.navegacion.almResulE.clear()
@@ -922,14 +929,14 @@ class AdministradorScreen():
         
         self.navegacion.tableHorario.setHorizontalHeaderLabels(headers)
         self.navegacion.tableHorario.horizontalHeader().setStyleSheet("""
-    QHeaderView::section {
+        QHeaderView::section {
         background-color: #9b582b;
         color: white;
         font-weight: bold;
         padding: 6px;
         border: 1px solid #9b582b;
-    }
-""") 
+        }""") 
+        
     def actualizar_fechas(self):
         """Actualizar las fechas mostradas en el horario"""
         fecha_inicio = self.navegacion.dateInicio.date().toPyDate()
@@ -1113,6 +1120,128 @@ class AdministradorScreen():
             self.limpiar_tabla()
             QMessageBox.information(None, "Éxito", "Todos los eventos han sido eliminados")
     
+    def actualizar_estado_equipa(self):
+        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
+        if resultado == False:
+            self.navegacion.almMensaje_2.setText("Incorrecto")
+        else:
+            self.navegacion.almMensaje_2.setText("Correcto")
+
+    def buscar_historial_pagos(self):
+        reservacion = self.navegacion.pagosBuscador.text()
+
+        if not reservacion:
+            self.navegacion.pagosResultados.setText("Ninguna reservacion seleccionada")
+            return 
+        
+        if not permitir_ingreso(reservacion, 'numint'):
+            self.navegacion.pagosResultados.setText("Ingrese un valor numerico valido")
+            return 
+        else:
+            numReser = int(reservacion)
+
+        pagos_reservacion = pagos.pagos_reservacion(numReser)
+
+        self.navegacion.pagosResultados.clear()
+
+        if not pagos_reservacion:
+            self.navegacion.pagosResultados.setText("No se encontro la reservacion puesta (ingrese otro ]numero de reservacion)")
+            return
+
+        reporte = f" Numero de Reservacion: {pagos_reservacion[0]['numReser']}\n"
+        reporte += f" Con fecha para: {pagos_reservacion[0]['fechaEvento']}\n"
+        reporte += f" Efectuado por: {pagos_reservacion[0]['nombreFiscal']}\n"
+        reporte += f"---------------------------------------------------------------------------------------------------------\n"
+        total = 0
+        for pago in pagos_reservacion:
+            reporte += f"\tPago No.{pago['noPago']}\n"
+            reporte += f"\tFecha: {pago['tiempo_pago']} \t Metodo de Pago: {pago['metodo_pago']}\n" 
+            reporte += f"\tConcepto de Pago: {pago['concetp_pago']} \t Monto Pagado: {pago['montoPago']}\n" 
+            reporte += f"\tSaldo Pendiente: {pago['saldo']}\n"
+            reporte += "------------------------------------------------------------------------------------------------------\n"
+            total += float(pago['montoPago'])
+        
+        reporte += f"Total pagado hasta el momento: ${total}"
+
+        self.navegacion.pagosResultados.setText(reporte)
+
+    def registrar_pago(self):
+        resevacion = self.navegacion.reNumReser.text()
+        if not permitir_ingreso(resevacion, 'numint'):
+            self.navegacion.reNumReser.selectAll()
+            self.navegacion.reNumReser.setFocus()
+            return
+        else:
+            numReser = int(resevacion)
+        
+        mpago = self.navegacion.reMontoPago.text()
+        if not permitir_ingreso(mpago, 'numfloat'):
+            self.navegacion.reMontoPago.selectAll()
+            self.navegacion.reMontoPago.setFocus()
+            return
+        else:
+            montoPago = int(mpago)
+
+        descripcion = self.navegacion.reDescripcion_2.text()
+
+        concepto = ""
+        if self.navegacion.cbAbono.isChecked():
+            concepto = "ABONO"
+        elif self.navegacion.cbLIquidacion.isChecked():
+            concepto = "LIQUI"
+        elif self.navegacion.cbUnico.isChecked():
+            concepto = "PAGOU"
+        else:
+            return
+        
+        metodo = ""
+        if self.navegacion.cbEfectivo.isChecked():
+            metodo = "ABONO"
+        elif self.navegacion.cbTarjeta.isChecked():
+            metodo = "LIQUI"
+        elif self.navegacion.cbTransferencia.isChecked():
+            metodo = "PAGOU"
+        elif self.navegacion.cbNFC.isChecked():
+            metodo = "PAGOU"
+        else:
+            return
+        
+        if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
+            self.limpiar_pago()
+
+    def limpiar_pago(self):
+        self.navegacion.reNumReser.clear()
+        self.navegacion.reMontoPago.clear()
+        self.navegacion.reDescripcion_2.clear()
+
+        checks = [
+            self.navegacion.cbTransferencia, self.navegacion.cbTarjeta, self.navegacion.cbNFC, self.navegacion.cbLiquidacion, self.navegacion.cbEfectivo, self.navegacion.cbAbono, self.navegacion.cbUnico 
+        ]
+
+        for chec in checks:
+            chec.setChecked(False)
+
+    def mostrar_descripcion_en_tiempo_real(self):
+        reservac = self.navegacion.reNumReser.text().strip()
+
+        if not reservac:
+            self.navegacion.reservacionResultados.clear()
+            return
+        
+        if not permitir_ingreso(reservac, 'numint'):
+            self.navegacion.reservacionResultados.setText("Escribir solo numero de reservacion")
+            return
+        else:
+            numReser = int(reservac)
+        
+        decripcon = reservacion.reservacion_descripcion(numReser)
+
+        if decripcon:
+            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\n{decripcon}")
+        else:
+            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
+
+
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":

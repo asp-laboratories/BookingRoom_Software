@@ -57,6 +57,7 @@ class Almacenista():
             self.navegacion.almMensaje_2.setText("Incorrecto")
         else:
             self.navegacion.almMensaje_2.setText("Correcto")
+            
     def buscar_estado_mobiliario(self):
         resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
         if resultado == None:

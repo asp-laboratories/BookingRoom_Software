@@ -82,3 +82,6 @@ class EquipamentoService:
             return 
 
         self.InventarioEquipamientoRepository.actualizar_estado_equipamiento(equipamiento, estado_og, new_estado, cantidad)
+
+    def listar_equipamientos_reser(self, numReser):
+        return self.equipamento_repository.listar_equipamientos_reser(numReser)

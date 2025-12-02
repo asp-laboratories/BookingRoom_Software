@@ -640,8 +640,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>947</width>
+         <y>-60</y>
+         <width>920</width>
          <height>4000</height>
         </rect>
        </property>
@@ -670,7 +670,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -907,7 +907,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -3550,7 +3550,7 @@ font-size: 28px;</string>
              <rect>
               <x>90</x>
               <y>40</y>
-              <width>271</width>
+              <width>331</width>
               <height>41</height>
              </rect>
             </property>
@@ -4300,7 +4300,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese la colonia de la dirrecion del cliente</string>
+               <string>Ingrese la calle de la direcion del cliente</string>
               </property>
              </widget>
              <widget class="QLabel" name="label_26">
@@ -4371,7 +4371,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese el numero de la dirrecion del cliente</string>
+               <string>Ingrese el numero de la direcion del cliente</string>
               </property>
              </widget>
              <widget class="QLabel" name="clienteMen">
@@ -4417,7 +4417,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese la colonia de la dirrecion del cliente</string>
+               <string>Ingrese la colonia de la direcion del cliente</string>
               </property>
              </widget>
              <widget class="QPushButton" name="clienteConfirmar">
@@ -5274,7 +5274,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
+               <string>Buscar Informacion de una reservacion</string>
               </property>
              </widget>
              <widget class="QPushButton" name="buscarTipo_2">
@@ -6309,88 +6309,8 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
-            <widget class="QWidget" name="tab_26">
-             <attribute name="title">
-              <string>Historial pagos</string>
-             </attribute>
-             <widget class="QLineEdit" name="pagosBuscador">
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>100</y>
-                <width>521</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="pagosResultados">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>160</y>
-                <width>701</width>
-                <height>321</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pagosBuscar">
-              <property name="geometry">
-               <rect>
-                <x>650</x>
-                <y>100</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-            </widget>
             <widget class="QWidget" name="tab_27">
              <attribute name="title">
               <string>Pagar</string>
@@ -6410,46 +6330,6 @@ background-color: #CA301B;</string>
               </property>
               <property name="text">
                <string>Cancelar</string>
-              </property>
-             </widget>
-             <widget class="QDateEdit" name="refecha_2">
-              <property name="geometry">
-               <rect>
-                <x>580</x>
-                <y>210</y>
-                <width>200</width>
-                <height>50</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-</string>
-              </property>
-              <property name="minimumDate">
-               <date>
-                <year>2025</year>
-                <month>11</month>
-                <day>1</day>
-               </date>
-              </property>
-              <property name="displayFormat">
-               <string>yyyy-MM-dd</string>
-              </property>
-              <property name="calendarPopup">
-               <bool>true</bool>
-              </property>
-              <property name="date">
-               <date>
-                <year>2025</year>
-                <month>11</month>
-                <day>1</day>
-               </date>
               </property>
              </widget>
              <widget class="QLabel" name="lNombreS_26">
@@ -6476,7 +6356,7 @@ background-color: #CA301B;</string>
                <string>Concepto pago</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_5">
+             <widget class="QCheckBox" name="cbEfectivo">
               <property name="geometry">
                <rect>
                 <x>160</x>
@@ -6495,7 +6375,7 @@ background-color: #CA301B;</string>
                <string>Efectivo</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_7">
+             <widget class="QCheckBox" name="cbTransferencia">
               <property name="geometry">
                <rect>
                 <x>470</x>
@@ -6531,30 +6411,6 @@ background-color: #2B9B32;</string>
                <string>Confirmar</string>
               </property>
              </widget>
-             <widget class="QLabel" name="lNombreS_25">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>160</y>
-                <width>291</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>18</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="text">
-               <string>Fecha</string>
-              </property>
-             </widget>
              <widget class="QLabel" name="lNombreS_23">
               <property name="geometry">
                <rect>
@@ -6579,31 +6435,7 @@ background-color: #2B9B32;</string>
                <string>Numero de la reservacion</string>
               </property>
              </widget>
-             <widget class="QLabel" name="lNombreS_24">
-              <property name="geometry">
-               <rect>
-                <x>560</x>
-                <y>40</y>
-                <width>291</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>18</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="text">
-               <string>Hora</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="reRfc_2">
+             <widget class="QLineEdit" name="reNumReser">
               <property name="geometry">
                <rect>
                 <x>130</x>
@@ -6622,13 +6454,13 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese el RFC del cliente</string>
+               <string>Ingrese el numero de la reservacion a pagar</string>
               </property>
              </widget>
              <widget class="QLabel" name="lNombreS_22">
               <property name="geometry">
                <rect>
-                <x>130</x>
+                <x>290</x>
                 <y>150</y>
                 <width>291</width>
                 <height>41</height>
@@ -6649,7 +6481,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Monto a pagar</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_6">
+             <widget class="QCheckBox" name="cbTarjeta">
               <property name="geometry">
                <rect>
                 <x>320</x>
@@ -6671,7 +6503,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <widget class="QLabel" name="lNombreS_21">
               <property name="geometry">
                <rect>
-                <x>130</x>
+                <x>290</x>
                 <y>250</y>
                 <width>291</width>
                 <height>41</height>
@@ -6692,25 +6524,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Descripcion</string>
               </property>
              </widget>
-             <widget class="QTimeEdit" name="reHoraFin_2">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>90</y>
-                <width>200</width>
-                <height>50</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-             </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_8">
+             <widget class="QCheckBox" name="cbNFC">
               <property name="geometry">
                <rect>
                 <x>640</x>
@@ -6729,10 +6543,10 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>NFC</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="reRfc_4">
+             <widget class="QLineEdit" name="reDescripcion_2">
               <property name="geometry">
                <rect>
-                <x>130</x>
+                <x>290</x>
                 <y>300</y>
                 <width>291</width>
                 <height>51</height>
@@ -6748,10 +6562,10 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese el RFC del cliente</string>
+               <string>Ingrese una descripcion para el pago</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_4">
+             <widget class="QCheckBox" name="cbUnico">
               <property name="geometry">
                <rect>
                 <x>480</x>
@@ -6770,7 +6584,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Pago Unico</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_3">
+             <widget class="QCheckBox" name="cbLiquidacion">
               <property name="geometry">
                <rect>
                 <x>310</x>
@@ -6789,7 +6603,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Liquidacion</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTipoFisica_2">
+             <widget class="QCheckBox" name="cbAbono">
               <property name="geometry">
                <rect>
                 <x>170</x>
@@ -6808,10 +6622,10 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Abono</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="reRfc_3">
+             <widget class="QLineEdit" name="reMontoPago">
               <property name="geometry">
                <rect>
-                <x>130</x>
+                <x>290</x>
                 <y>200</y>
                 <width>291</width>
                 <height>51</height>
@@ -6827,7 +6641,133 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Ingrese el RFC del cliente</string>
+               <string>Ingrese el monto a pagar</string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="reservacionResultados">
+              <property name="geometry">
+               <rect>
+                <x>460</x>
+                <y>90</y>
+                <width>351</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="undoRedoEnabled">
+               <bool>true</bool>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lNombreS_27">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>470</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Metodo de Pago</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_26">
+             <attribute name="title">
+              <string>Historial pagos</string>
+             </attribute>
+             <widget class="QLineEdit" name="pagosBuscador">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>100</y>
+                <width>571</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Buscar pagos de una reservacion.</string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="pagosResultados">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>160</y>
+                <width>751</width>
+                <height>321</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pagosBuscar">
+              <property name="geometry">
+               <rect>
+                <x>670</x>
+                <y>100</y>
+                <width>161</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
               </property>
              </widget>
             </widget>

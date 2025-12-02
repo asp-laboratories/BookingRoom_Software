@@ -265,5 +265,31 @@ class ReservacionRepository:
             cursor.close()
             self.db.desconectar()
 
+    def reservacion_descripcion(self, numReser):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT descripEvento
+                            FROM reservacion
+                            WHERE numReser = %s
+                            """, (numReser,))
+
+            info = cursor.fetchone()
+
+            return info
+
+        except Exception as Error:
+            print(f"No se pudo obtener la descripcion de la reseracion: {Error}")
+            return None
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
 if __name__ == "__main__":
     pass

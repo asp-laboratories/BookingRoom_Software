@@ -15,8 +15,8 @@ class PagoServices:
         self.RservacionService = ReservacionService()
     
     def hacer_pago(self, numReser, montoPago, descripcion, concepto, metodo):
-        concepto = self.obtener_concepto(concepto)
-        metodo = self.obtener_metodo(metodo)
+        #concepto = self.obtener_concepto(concepto)
+        #metodo = self.obtener_metodo(metodo)
         fecha = date.today()
         hora = datetime.now()
         horaNow = hora.time()
@@ -55,4 +55,4 @@ class PagoServices:
         return nopago['pagos']
     
     def pagos_reservacion(self, numReser):
-        
+        return self.PagoRepository.pagos_reservacion(numReser)

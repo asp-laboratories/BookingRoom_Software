@@ -123,3 +123,31 @@ class EquipamentoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def listar_equipamientos_reser(self, numReser):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT 
+                            equi.nombre,
+                            req.cantidad
+                            FROM reser_equipa as req
+                            INNER JOIN equipamiento as equi on req.equipamiento = equi.numEquipa
+                            WHERE reservacion = %s
+                            """, (numReser,))
+            
+            resultados = cursor.fetchall()
+
+            return resultados
+        
+        except Exception as error:
+            print(f"Error al obtener el equipamiento de una reservacion: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
