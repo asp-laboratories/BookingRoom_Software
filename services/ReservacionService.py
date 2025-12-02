@@ -79,5 +79,7 @@ class ReservacionService:
     
     def reservacion_descripcion(self, numreser):
         decripcion = self.reservacion_repository.reservacion_descripcion(numreser)
-        if decripcion:
-            return decripcion['descripEvento']
+        return decripcion['descripEvento']
+
+    def fecha(self, fec):
+        return self.reservacion_repository.obtener_fecha(fec)
