@@ -68,7 +68,7 @@ class EquipamentoService:
     def obtener_codigo_equipamiento(self, equipamiento):
         numEquipa = self.equipamento_repository.obtener_num_equipa(equipamiento)
         if not numEquipa:
-            print("Equipamiento no valido ono existente")
+            print("Equipamiento no valido o no existente")
             return None
         return numEquipa['numEquipa']
 

@@ -11,7 +11,8 @@ from services.ServicioServices import ServicioService
 class ReservacionService:
     # Constructor
     def __init__(self):
-        self.reservacion_repository = ReservacionRepository(db)
+        self.db = BaseDeDatos(database='BookingRoomLocal')
+        self.reservacion_repository = ReservacionRepository(self.db)
         self.tipo_montajeService = TipoMontajeService()
         self.TrabajadorService = TrabajadorServices()
         self.DatosClienteServices = DatosClienteService()
@@ -31,6 +32,7 @@ class ReservacionService:
         if equipamientos != None:
             for equipamiento in equipamientos:
                 equipamiento.equipamiento = self.EquipamientoService.obtener_codigo_equipamiento(equipamiento.equipamiento)
+                print(equipamiento.equipamiento)
                 codigosEquipamientos.append(equipamiento)
 
         codigosServicios = []
@@ -42,6 +44,32 @@ class ReservacionService:
         reservacion = Reservacion(fechaReser=fechaReser, fechaEvento=fechaEvento, horaInicio=horaInicio, horaFin=horaFin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, datos_montaje=numDatMon, trabajador=rfcTraba, datos_cliente=rfcCliente, equipamientos=codigosEquipamientos, servicios=codigosServicios)
 
         return self.reservacion_repository.registrar_reservacion(reservacion)
+    
+    def info_reservacion(self, numReser):
+        info = self.reservacion_repository.informacion_general_reservacion(numReser) # de aca obtenemos repetidos por los servicios, a mas servicios mas repetidos, unico caso de comprobacion ahi
+        
+        reservacion = {
+                'numReser'           : info[0]['num_reser'],
+                'fechaReser'         : info[0]['fecha_reser'],
+                'cliNombreFiscal'    : info[0]['cliente'],
+                'cliContacto'        : info[0]['cont_nombre'],
+                'cliEmail'           : info[0]['cliente_email'],
+                'fechaEvento'        : info[0]['fecha_even'],
+                'horaInicioEvento'   : info[0]['hora_ini'],
+                'horaFinEvento'      : info[0]['hora_fin'],
+                'estadoReser'        : info[0]['esta_reser'],
+                'nombreSalon'        : info[0]['nombre_salon'],
+                'tipoMontaje'        : info[0]['montaje'],
+                'estiamdoAsistentes' : info[0]['asistentes'],
+                'servicios'          : []
+            }
+        
+        if len(info) > 1:
+            for registro in info:
+                reservacion['servicios'].append(registro['servi'])
 
-    def listar_reservacion_general(self,num):
-        return self.reservacion_repository.listar_reservaciones_informacion_general(num)
+        return reservacion
+        
+
+    #def listar_reservacion_general(self,num):
+    #    return self.reservacion_repository.listar_reservaciones_informacion_general(num)

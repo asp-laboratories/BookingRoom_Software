@@ -34,7 +34,7 @@ class ReservacionRepository:
                     cursor.execute( """
                                     SELECT costoRenta
                                     FROM equipamiento
-                                    WHERE eq.numEquipa = %s
+                                    WHERE numEquipa = %s
                                     """, (equipamiento.equipamiento,))
                     costoEquipa = cursor.fetchone()
                     totalEquipamientos += (costoEquipa['costoRenta'] * equipamiento.cantidad)
@@ -102,51 +102,75 @@ class ReservacionRepository:
             cursor.close()
             self.db.desconectar()
 
-    def eliminar_reservacion(self, numReser):
-        pass
-
-    # def listar_reservaciones(self):
-    #     pass
-
     def listar_reservacion_fecha(self):
         pass
 
     def buscar_reservaciones_cliente(self):
         pass
 
-
-    def listar_reservaciones_informacion_general(self, numReser):
+    def informacion_general_reservacion(self, numReser):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("""
-SELECT
-    re.numReser as num_reser,
-    DATE_FORMAT(re.fechaReser, '%d / %m / %Y') as fecha_reser,
-    dc.nombreFiscal as cliente,
-    CONCAT(dc.contNombre, ' ', dc.contPriApellido, ' ', dc.contSegApellido)
-    as cont_nombre,
-    dc.email as cliente_email,
-    DATE_FORMAT(re.fechaEVento, '%d / %m / %Y') as fecha_even,
-    TIME_FORMAT(re.horaInicio, '%H:%i') as hora_ini,
-    TIME_FORMAT(re.horaFin, '%H:%i') as hora_fin,
-    er.codigoRes as esta_reser,
-    ds.nombre as nombre_salon,
-    tm.nombre as montaje,
-    re.estimaAsistentes as asistentes,
-    ser.nombre as servi
-FROM reservacion as re
-INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC 
-INNER JOIN esta_reser as er on re.esta_reser = er.codigoRes
-INNER JOIN datos_montaje as dm on dm.numDatMon = re.datos_montaje
-INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon 
-INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon 
-INNER JOIN reser_servicio as res on res.reservacion = re.numReser 
-INNER JOIN servicio as ser on res.servicio = ser.numservicio
-WHERE re.numReser = %s
 
-        """,(numReser,))
+            cursor.execute("""SELECT * FROM reser_servicio where reservacion = %s""", (numReser,))
+
+            servicios = cursor.fetchall()
+
+            if not servicios:
+                cursor.execute( """
+                                SELECT
+                                    re.numReser as num_reser,
+                                    DATE_FORMAT(re.fechaReser, '%d / %m / %Y') as fecha_reser,
+                                    dc.nombreFiscal as cliente,
+                                    CONCAT(dc.contNombre, ' ', dc.contPriApellido, ' ', dc.contSegApellido)
+                                    as cont_nombre,
+                                    dc.email as cliente_email,
+                                    DATE_FORMAT(re.fechaEVento, '%d / %m / %Y') as fecha_even,
+                                    TIME_FORMAT(re.horaInicio, '%H:%i') as hora_ini,
+                                    TIME_FORMAT(re.horaFin, '%H:%i') as hora_fin,
+                                    er.codigoRes as esta_reser,
+                                    ds.nombre as nombre_salon,
+                                    tm.nombre as montaje,
+                                    re.estimaAsistentes as asistentes
+                                FROM reservacion as re
+                                INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC 
+                                INNER JOIN esta_reser as er on re.esta_reser = er.codigoRes
+                                INNER JOIN datos_montaje as dm on dm.numDatMon = re.datos_montaje
+                                INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon 
+                                INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon 
+                                WHERE re.numReser = %s
+                                """,(numReser,))
+
+            else:
+                cursor.execute( """
+                                SELECT
+                                    re.numReser as num_reser,
+                                    DATE_FORMAT(re.fechaReser, '%d / %m / %Y') as fecha_reser,
+                                    dc.nombreFiscal as cliente,
+                                    CONCAT(dc.contNombre, ' ', dc.contPriApellido, ' ', dc.contSegApellido)
+                                    as cont_nombre,
+                                    dc.email as cliente_email,
+                                    DATE_FORMAT(re.fechaEVento, '%d / %m / %Y') as fecha_even,
+                                    TIME_FORMAT(re.horaInicio, '%H:%i') as hora_ini,
+                                    TIME_FORMAT(re.horaFin, '%H:%i') as hora_fin,
+                                    er.codigoRes as esta_reser,
+                                    ds.nombre as nombre_salon,
+                                    tm.nombre as montaje,
+                                    re.estimaAsistentes as asistentes,
+                                    ser.nombre as servi
+                                FROM reservacion as re
+                                INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC 
+                                INNER JOIN esta_reser as er on re.esta_reser = er.codigoRes
+                                INNER JOIN datos_montaje as dm on dm.numDatMon = re.datos_montaje
+                                INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon 
+                                INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon 
+                                INNER JOIN reser_servicio as res on res.reservacion = re.numReser 
+                                INNER JOIN servicio as ser on res.servicio = ser.numservicio
+                                WHERE re.numReser = %s
+                                """,(numReser,))
+                
             resultados = cursor.fetchall()
 
             return resultados

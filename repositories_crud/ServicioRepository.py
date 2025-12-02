@@ -173,7 +173,7 @@ class ServicioRepository:
             cursor = self.db.cursor()
             cursor.execute("SELECT numServicio FROM servicio WHERE nombre like %s", (f"%{nombre}%",))
             numServicio = cursor.fetchone()
-
+            print(numServicio)
             return numServicio
 
         except Exception as error:

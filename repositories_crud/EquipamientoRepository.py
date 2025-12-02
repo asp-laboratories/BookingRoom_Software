@@ -111,7 +111,7 @@ class EquipamentoRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("SELECT numEquipa FROM equipamiento WHERE nombre LIKE %s", (f"%{nombre}%",))
+            cursor.execute("SELECT numEquipa FROM equipamiento WHERE nombre LIKE %s", (f"{nombre}%",))
             numEquipa = cursor.fetchone()
 
             return numEquipa

@@ -276,7 +276,7 @@ class AdministradorScreen():
             else:
                 print(" No tiene servicios registrados")
 
-            self.navegacion.tResultadoS.setText(mensajei)
+            self.navegacion.tResultadoS.setText(mensaje)
 
     def listar_servicio_segun_tipo(self):
         resultado = servicio.listar_servicio_y_tipo(self.navegacion.tipoBuscar.text())
@@ -731,9 +731,7 @@ class AdministradorScreen():
         if nombre in self.controles_equipos:
             controles = self.controles_equipos[nombre]
             controles['label_cantidad'].setText(str(nueva_cantidad))
-            
-            # ⭐⭐ GUARDAR DATOS SIMPLE ⭐⭐
-            # Guardar en un diccionario: numEquipa -> cantidad
+
             self.datos_finales[numEquipa] = nueva_cantidad
             
             nuevo_subtotal = nueva_cantidad * controles['costo']
@@ -786,12 +784,11 @@ class AdministradorScreen():
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
             lista_servicios.append(data_servicio['nombre'])
 
-        lista_equipamientos = [] # Arreglar
+        lista_equipamientos = [] 
         for num_equipo,cantidad in sorted(self.datos_finales.items()):
             equipa = ReserEquipamiento(num_equipo, cantidad)
             lista_equipamientos.append(equipa)
 
-        # Falta fecha de resevacion
         resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
 
     
