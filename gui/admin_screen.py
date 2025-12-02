@@ -72,7 +72,7 @@ class AdministradorScreen():
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
         self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
-
+        self.pagos.mobiliario.clicked.connect(lambda: self.mostrar_pagina(8))
 
 
         # Botones de los eventos de servicios
