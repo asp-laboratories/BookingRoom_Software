@@ -686,7 +686,7 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-109</y>
          <width>947</width>
          <height>4000</height>
         </rect>
@@ -716,7 +716,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>9</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -5857,7 +5857,7 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Numero del equipamiento</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="almNuevoEstado_2">
+              <widget class="QLineEdit" name="almEstadoO">
                <property name="geometry">
                 <rect>
                  <x>50</x>
@@ -5880,30 +5880,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                 <string>Ingrese nombre del estado nuevo</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="almNum_2">
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>130</y>
-                 <width>291</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el numero del mobiliario</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="almCantidad_2">
+              <widget class="QLineEdit" name="almCantidade">
                <property name="geometry">
                 <rect>
                  <x>50</x>
@@ -6019,7 +5996,7 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Cantidad</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="almEstadoAntiguo_2">
+              <widget class="QLineEdit" name="almEstadoE">
                <property name="geometry">
                 <rect>
                  <x>50</x>
@@ -6065,6 +6042,29 @@ font-size: 28px;</string>
                </property>
                <property name="text">
                 <string>Actualizar estado</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="numE">
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>140</y>
+                 <width>291</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Ingrese el numero</string>
                </property>
               </widget>
              </widget>
@@ -6167,6 +6167,32 @@ font-size: 28px;</string>
               </property>
               <property name="text">
                <string>Equipamientos</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="almMensaje_2">
+              <property name="geometry">
+               <rect>
+                <x>150</x>
+                <y>640</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;
+border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </widget>
@@ -6564,7 +6590,6 @@ font-size: 28px;</string>
             </widget>
            </widget>
           </widget>
-          <widget class="QWidget" name="paginaRecibo"/>
           <widget class="QWidget" name="paginaPagos">
            <widget class="QTabWidget" name="tabWidget_7">
             <property name="geometry">
@@ -7130,6 +7155,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             </widget>
            </widget>
           </widget>
+          <widget class="QWidget" name="paginaRecibo"/>
           <widget class="QWidget" name="paginaPagar"/>
          </widget>
         </item>

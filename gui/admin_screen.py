@@ -72,7 +72,7 @@ class AdministradorScreen():
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
         self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
-        self.pagos.mobiliario.clicked.connect(lambda: self.mostrar_pagina(8))
+        self.navegacion.pagos.clicked.connect(lambda: self.mostrar_pagina(8))
 
 
         # Botones de los eventos de servicios
@@ -108,6 +108,7 @@ class AdministradorScreen():
         
         #Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
+        self.navegacion.almConfirmar_2.clicked.connect(self.actualizar_estado_equipa)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
 
@@ -252,7 +253,7 @@ class AdministradorScreen():
     def listar_reservaciones(self):
         self.navegacion.tResultadoS_2.clear()
         self.navegacion.tResultadoS_3.clear()
-        resultado = reservacion.listar_reservacion_general(int(self.navegacion.tipoBuscar_2.text()))
+        resultado = reservacion.info_reservacion(int(self.navegacion.tipoBuscar_2.text()))
         if resultado == False:
             pass
         else: 
@@ -854,8 +855,13 @@ class AdministradorScreen():
             self.navegacion.almMensaje.setText("Incorrecto")
         else:
             self.navegacion.almMensaje.setText("Correcto")
-   
 
+    def actualizar_estado_equipa(self):
+        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
+        if resultado == False:
+            self.navegacion.almMensaje_2.setText("Incorrecto")
+        else:
+            self.navegacion.almMensaje_2.setText("Correcto")
     def buscar_estado_mobiliario(self):
         resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
         if resultado == None:
@@ -868,6 +874,7 @@ class AdministradorScreen():
     
     
     def buscar_estado_equipamiento(self):
+        self.navegacion.almResulE.clear()
         resultado = equipamiento.obtener_equipa_estado(self.navegacion.almBuscadorE.text())
         if resultado == None:
             pass
@@ -875,7 +882,7 @@ class AdministradorScreen():
             mensaje = "\n---EQUIPAMIENTOS---\n"
             for equi in resultado:
                 mensaje += f"\nEquipamiento: {equi["Numero"]}.\nNombre: {equi["Nombre"]}.\nEstado Actual: {equi["Estado"]}\nCantidad: {equi["Cantidad"]}\n"
-                self.navegacion.almResultadoE.setText(mensaje)
+                self.navegacion.almResulE.setText(mensaje)
 
     def configurar_fechas_iniciales(self):
         hoy = date.today()
