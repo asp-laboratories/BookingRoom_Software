@@ -5,7 +5,7 @@ from repositories_crud.TipoServiciosRepository import TipoServiciosRepository
 
 class ServicioService: #Clase que ayudara a gestionar las operaciones de la base de datos.
     def __init__(self) -> None:
-        self.db = BaseDeDatos(database='BookingRoomLocal') #Desde aqui se envia la configuracion de la base de datos a ServicioRepository, en este caso
+        self.db = BaseDeDatos(database='BookingRoomLoca') #Desde aqui se envia la configuracion de la base de datos a ServicioRepository, en este caso
          # es mi base de datos local, pero cuando se tenga la del servidor, se pondran mas parametros como lo son la contraseña, usuario y otro nombre.
         self.servicio_repository = ServicioRepository(self.db)#Pasamos la propiedad creada arriba, que en realidad es una instancia que contendra toda la informacion,
         self.tipo_repository = TipoServiciosRepository(self.db)
@@ -46,6 +46,15 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
     def eliminar_fila(self, numServicio):
         self.servicio_repository.eliminar_servicios(numServicio)
 
-    def obtener_codigo_servicio(self, servicio):
-        codigoServicio = self.servicio_repository.obtener_num_servicio(servicio)
-        return codigoServicio['numServicio']
+
+    def listar_servicio_y_tipo(self, descripcion):
+        codigo = self.tipo_repository.obtener_codigo_tipo(descripcion)
+        return self.servicio_repository.conjunto_servicios(codigo["codigoTiSer"])
+
+    # def obtener_codigo_servicio(self, servicio):
+    #     codigoServicio = self.servicio_repository.obtener_num_servicio(servicio)
+    #     return codigoServicio['numServicio']
+    #
+    # def servicios_tipo(self, descripciont):
+    #     codigoTiServicio = self.tipo_repository.obtener_codigo_tipo(descripciont)
+    #     return self.servicio_repository.servicio_mismo_tipo(codigoTiServicio)
