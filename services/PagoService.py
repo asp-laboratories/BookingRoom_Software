@@ -4,7 +4,7 @@ from repositories_crud.PagoRepository import PagoRepository
 from repositories_crud.MetodoPagoRepository import MetodoPagoRepository
 from repositories_crud.ConceptoPagoRepository import ConceptoPagoRepository
 from services.ReservacionService import ReservacionService
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 class PagoServices:
     def __init__(self):
@@ -19,14 +19,15 @@ class PagoServices:
         #metodo = self.obtener_metodo(metodo)
         fecha = date.today()
         hora = datetime.now()
-        horaNow = hora.time()
+        horak = hora.strftime("%H:%M")
+        print(fecha, horak)
         nopago = self.obtener_no_pago(numReser)
-        if nopago > 2:
+        if nopago >= 2:
             print("Maximo de pagos alcanzados")
             return
         else:
             saldo = self.RservacionService.obtener_total(numReser) - montoPago
-            pago = Pago(montoPago, descripcion, fecha, horaNow, nopago + 1, saldo, numReser, metodo, concepto)
+            pago = Pago(montoPago, descripcion, fecha, horak, nopago + 1, saldo, numReser, metodo, concepto)
             return self.PagoRepository.crear_pago(pago)
 
     def listar_pagos(self):

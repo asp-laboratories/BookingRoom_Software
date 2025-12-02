@@ -521,7 +521,31 @@ class AdministradorScreen():
         if self.navegacion.cbTipoMoral.isChecked():
             tipo_cliente= "TCLPM"
 
-        resultado = cliente.registrar_clientes(self.navegacion.reRfc.text(), self.navegacion.reNombre.text(), self.navegacion.reApellPat.text(), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), tipo_cliente)
+        rfc = self.navegacion.reRfc.text()
+        if (not permitir_ingreso(rfc, 'rfc')) or len(rfc) < 2:
+            self.registro.reRfc.selectAll()
+            self.registro.reRfc.setFocus()
+            return
+
+        nombre = self.navegacion.reNombre.text()
+        if (not permitir_ingreso(nombre, 'onlytext')) or len(nombre) < 2:
+            self.registro.reNombre.selectAll()
+            self.registro.reNombre.setFocus()
+            return
+
+        priApellido = self.navegacion.reApellPat.text()
+        if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
+            self.registro.reApellPat.selectAll()
+            self.registro.reApellPat.setFocus()
+            return
+
+        priAmater = self.navegacion.reApellMa.text()
+        if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
+            self.registro.reApellMa.selectAll()
+            self.registro.reApellMa.setFocus()
+            return
+
+        resultado = cliente.registrar_clientes(rfc, nombre, priApellido), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), tipo_cliente)
 
         telefono.registrar_telefono(self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(),None)
         telefono.registrar_telefono(self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(),None)
@@ -1196,13 +1220,13 @@ class AdministradorScreen():
         
         metodo = ""
         if self.navegacion.cbEfectivo.isChecked():
-            metodo = "ABONO"
+            metodo = "EFCTV"
         elif self.navegacion.cbTarjeta.isChecked():
-            metodo = "LIQUI"
+            metodo = "TARJT"
         elif self.navegacion.cbTransferencia.isChecked():
-            metodo = "PAGOU"
+            metodo = "TRANS"
         elif self.navegacion.cbNFC.isChecked():
-            metodo = "PAGOU"
+            metodo = "NFC"
         else:
             return
         

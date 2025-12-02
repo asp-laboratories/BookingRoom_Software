@@ -7,7 +7,7 @@ from services.PagoService import PagoServices
 pago = PagoServices()
 
 def realizar_pago():
-    return pago.hacer_pago(44, 1000, 'Pago ola,asa', 'abon', 'tarjeta')
+    return pago.hacer_pago(44, 1000, 'Pago ola,asa', 'ABONO', 'NFC')
 
 if __name__ == "__main__":
     print(realizar_pago())

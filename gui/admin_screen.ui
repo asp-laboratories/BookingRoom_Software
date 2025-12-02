@@ -640,7 +640,7 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-60</y>
+         <y>0</y>
          <width>920</width>
          <height>4000</height>
         </rect>
@@ -670,7 +670,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>8</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
