@@ -91,7 +91,7 @@ class EstadoEquipaRepository:
                             equi.descripcion as Estado
                             FROM inventario_equipa as iequ
                             INNER JOIN equipamiento as eq on iequ.equipamiento = eq.numEquipa
-                            INNER JOIN esta_quipa as equi on iequ.esta_quipa = equi.codigoEquipa
+                            INNER JOIN esta_equipa as equi on iequ.esta_equipa = equi.codigoEquipa
                             WHERE equi.codigoEquipa = %s
                             """, (esta_e,))
             

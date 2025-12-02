@@ -17,7 +17,7 @@ class LoginRepository:
             resultado = cursor.fetchone()
             
             if not resultado:
-                return None
+                return False
             
             info = []
 
