@@ -9,6 +9,7 @@ from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
 from models.ReserEquipa import ReserEquipamiento
 from services.DatosClienteService import DatosClienteService
+from services.ReserEquipaService import ReserEquipaService
 from services.ReservacionService import ReservacionService
 from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
@@ -32,7 +33,7 @@ telefono = TelefonoServices()
 mobiliario = mobiliarioService()  
 tipo_montaje = TipoMontajeService()
 reservacion = ReservacionService()
-
+reser_equipa = ReserEquipaService()
 
 
 
@@ -250,7 +251,8 @@ class AdministradorScreen():
 
     def listar_reservaciones(self):
         self.navegacion.tResultadoS_2.clear()
-        resultado = reservacion.listar(int(self.navegacion.tipoBuscar_2.text()))
+        self.navegacion.tResultadoS_3.clear()
+        resultado = reservacion.listar_reservacion_general(int(self.navegacion.tipoBuscar_2.text()))
         if resultado == False:
             pass
         else: 
@@ -258,6 +260,17 @@ class AdministradorScreen():
             for re in resultado:
                 mensaje += f"\nReservacion: {re['num_reser']}\nFecha: {re["fecha_reser"]}\nCliente: {re["cliente"]}\nContacto: {re['cont_nombre']}\nCorreo electronico: {re['cliente_email']}\nFecha del evento: {re['fecha_even']}\nHora inicial: {re['hora_ini']} "
                 self.navegacion.tResultadoS_2.setText(mensaje)
+
+            resultadoE = reser_equipa.equipamiento_en_reser_listar(int(self.navegacion.tipoBuscar_2.text()))
+            mensajeEQ = "\n---EQUIPAMIENTOS---\n"
+            for ree in  resultadoE:
+                mensajeEQ += f"\n Cliente {ree["cliente"]}"
+                self.navegacion.tResultadoS_3.setText(mensajeEQ)
+
+
+
+
+
     def eliminar_servicio(self):
         resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
         if resultado == False:

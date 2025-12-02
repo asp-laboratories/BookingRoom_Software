@@ -686,7 +686,7 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-45</y>
          <width>947</width>
          <height>4000</height>
         </rect>
@@ -716,7 +716,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -4266,11 +4266,11 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
-              <string>Tab 1</string>
+              <string>Registrar reservacion</string>
              </attribute>
              <widget class="QLabel" name="reSubtotal">
               <property name="geometry">
@@ -5540,7 +5540,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
             </widget>
             <widget class="QWidget" name="tab_23">
              <attribute name="title">
-              <string>Tab 2</string>
+              <string>Informacion de la reservacion</string>
              </attribute>
              <widget class="QTextEdit" name="tResultadoS_2">
               <property name="enabled">
@@ -5549,9 +5549,9 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <property name="geometry">
                <rect>
                 <x>110</x>
-                <y>130</y>
+                <y>150</y>
                 <width>701</width>
-                <height>411</height>
+                <height>321</height>
                </rect>
               </property>
               <property name="font">
@@ -5581,7 +5581,7 @@ border: 3px solid rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>110</x>
-                <y>60</y>
+                <y>90</y>
                 <width>521</width>
                 <height>41</height>
                </rect>
@@ -5603,7 +5603,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <property name="geometry">
                <rect>
                 <x>650</x>
-                <y>60</y>
+                <y>90</y>
                 <width>161</width>
                 <height>41</height>
                </rect>
@@ -5624,8 +5624,8 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>110</x>
-                <y>690</y>
-                <width>701</width>
+                <y>530</y>
+                <width>341</width>
                 <height>411</height>
                </rect>
               </property>
@@ -5642,7 +5642,7 @@ background-color: rgb(34, 76, 184);</string>
                <string notr="true">border: unset;
 color: rgb(0, 0, 0);
 border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
+
 </string>
               </property>
               <property name="verticalScrollBarPolicy">
@@ -5652,55 +5652,15 @@ border: 3px solid rgba(155, 88, 43, 1.0);
                <bool>true</bool>
               </property>
              </widget>
-             <widget class="QLineEdit" name="tipoBuscar_3">
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>620</y>
-                <width>521</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="buscarTipo_3">
-              <property name="geometry">
-               <rect>
-                <x>650</x>
-                <y>620</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="tResultadoS_4">
+             <widget class="QTextEdit" name="tResultadoS_5">
               <property name="enabled">
                <bool>true</bool>
               </property>
               <property name="geometry">
                <rect>
-                <x>110</x>
-                <y>1220</y>
-                <width>701</width>
+                <x>470</x>
+                <y>530</y>
+                <width>341</width>
                 <height>411</height>
                </rect>
               </property>
@@ -5717,7 +5677,8 @@ background-color: rgb(34, 76, 184);</string>
                <string notr="true">border: unset;
 color: rgb(0, 0, 0);
 border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
+
+
 </string>
               </property>
               <property name="verticalScrollBarPolicy">
@@ -5727,44 +5688,79 @@ border: 3px solid rgba(155, 88, 43, 1.0);
                <bool>true</bool>
               </property>
              </widget>
-             <widget class="QLineEdit" name="tipoBuscar_4">
+             <widget class="QLabel" name="label_46">
               <property name="geometry">
                <rect>
                 <x>110</x>
-                <y>1150</y>
-                <width>521</width>
+                <y>30</y>
+                <width>381</width>
                 <height>41</height>
                </rect>
               </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
               </property>
               <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
+               <string>Informacion de una reservacion</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="buscarTipo_4">
+             <widget class="QLabel" name="label_47">
               <property name="geometry">
                <rect>
-                <x>650</x>
-                <y>1150</y>
-                <width>161</width>
+                <x>110</x>
+                <y>480</y>
+                <width>381</width>
                 <height>41</height>
                </rect>
               </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
               </property>
               <property name="text">
-               <string>Buscar</string>
+               <string>Equipamientos</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_49">
+              <property name="geometry">
+               <rect>
+                <x>470</x>
+                <y>480</y>
+                <width>381</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Servicios</string>
               </property>
              </widget>
             </widget>
