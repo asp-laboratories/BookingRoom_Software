@@ -80,3 +80,6 @@ class ReservacionService:
     def reservacion_descripcion(self, numreser):
         decripcion = self.reservacion_repository.reservacion_descripcion(numreser)
         return decripcion['descripEvento']
+
+    def fecha(self, fec):
+        return self.reservacion_repository.obtener_fecha(fec)

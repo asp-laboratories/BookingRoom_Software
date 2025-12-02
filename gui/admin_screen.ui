@@ -640,8 +640,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-60</y>
-         <width>920</width>
+         <y>0</y>
+         <width>947</width>
          <height>4000</height>
         </rect>
        </property>
@@ -670,7 +670,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -3944,7 +3944,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -5442,6 +5442,114 @@ color: rgba(155, 88, 43, 1.0);
               </property>
              </widget>
             </widget>
+            <widget class="QWidget" name="tab">
+             <attribute name="title">
+              <string>Page</string>
+             </attribute>
+             <widget class="QTextEdit" name="tResultadoS_4">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>140</y>
+                <width>701</width>
+                <height>321</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="buscarTipo_3">
+              <property name="geometry">
+               <rect>
+                <x>660</x>
+                <y>60</y>
+                <width>161</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QDateEdit" name="refecha_2">
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>60</y>
+                <width>501</width>
+                <height>50</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+</string>
+              </property>
+              <property name="minimumDateTime">
+               <datetime>
+                <hour>0</hour>
+                <minute>0</minute>
+                <second>0</second>
+                <year>2025</year>
+                <month>4</month>
+                <day>2</day>
+               </datetime>
+              </property>
+              <property name="minimumDate">
+               <date>
+                <year>2025</year>
+                <month>4</month>
+                <day>2</day>
+               </date>
+              </property>
+              <property name="displayFormat">
+               <string>yyyy-MM-dd</string>
+              </property>
+              <property name="calendarPopup">
+               <bool>true</bool>
+              </property>
+              <property name="date">
+               <date>
+                <year>2025</year>
+                <month>11</month>
+                <day>2</day>
+               </date>
+              </property>
+             </widget>
+            </widget>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaAlmacen">
@@ -6309,7 +6417,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_27">
              <attribute name="title">

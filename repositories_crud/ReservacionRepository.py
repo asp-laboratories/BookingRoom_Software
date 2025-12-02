@@ -290,6 +290,35 @@ class ReservacionRepository:
             cursor.close()
             self.db.desconectar()
 
+    def obtener_fecha(self, fecha):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+SELECT
+DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha_evento,
+TIME_FORMAT(re.horaInicio, '%H : %m') as hra_ini,
+TIME_FORMAT(re.horaFin, '%H : %m') as hra_fin,
+dc.nombreFiscal as cliente,
+re.descripEvento as evento,
+re.estimaAsistentes as asistentes
+FROM reservacion as re
+INNER JOIN datos_montaje as dm on re.datos_montaje = dm.numDatMon
+INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
+WHERE fechaEvento = %s
+""", (fecha,))
+            
+            resultados = cursor.fetchall()
+
+            return resultados
+        
+        except Exception as error:
+            print(f"Error para obtener el total de reservacion: {error}")
+            return None
 
 if __name__ == "__main__":
     pass

@@ -136,6 +136,9 @@ class AdministradorScreen():
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
          
         #Variables utilizadas para almacenar informatcion
+        
+        self.navegacion.buscarTipo_3.clicked.connect(self.obtener_fecha_reser)
+
 
         self.subtotal_servicios = 0.0
         self.subtotal_salon = 0.0 
@@ -172,6 +175,22 @@ class AdministradorScreen():
         self.navegacion.subMenuRecepcion.setVisible(not self.navegacion.subMenuRecepcion.isVisible())
 
         # Seccion de servicios - logica de servicios
+    
+    def obtener_fecha_reser(self):
+        fecha_seleccion = self.navegacion.refecha_2.date()
+        formato = fecha_seleccion.toString('yyyy-MM-dd')
+        resultado = reservacion.fecha(formato)
+        if resultado == None:
+            pass
+        else:
+            mensaje = "\n---RESERVACIONES---\n"
+            for f in resultado:
+                mensaje += f"\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nAsistentes: {f["asistentes"]}\n"
+                self.navegacion.tResultadoS_4.setText(mensaje)
+         
+        
+
+
 
     def registar_servicio(self):
         nombre = self.navegacion.sNombreSer.text()
