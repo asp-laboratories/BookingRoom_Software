@@ -34,7 +34,6 @@ class Almacenista():
         #Abrir las subopciones
         self.navegacion.btnAlmacen.clicked.connect(self.abrir_opciones_almac)
  
-        self.navegacion.mobiliario_2.clicked.connect(lambda: self.mostrar_pagina(4))
         self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
 
         self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
@@ -42,6 +41,8 @@ class Almacenista():
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
 
+    def abrir_opciones_almac(self):
+        self.navegacion.subMenuAlmacen.setVisible(not self.navegacion.subMenuAlmacen.isVisible())
         #Variables utilizadas para almacenar informatcion
 
     def actualizar_estado_mob(self):
@@ -80,6 +81,9 @@ class Almacenista():
                 mensaje += f"\nEquipamiento: {equi["Numero"]}.\nNombre: {equi["Nombre"]}.\nEstado Actual: {equi["Estado"]}\nCantidad: {equi["Cantidad"]}\n"
                 self.navegacion.almResulE.setText(mensaje)
 
+    def mostrar_pagina(self, indice):
+        self.navegacion.scrollAreaContenido.verticalScrollBar().setValue(0)
+        self.navegacion.stackedWidget.setCurrentIndex(indice)
 
     def volver_login(self, link):
         from gui.login import Login
