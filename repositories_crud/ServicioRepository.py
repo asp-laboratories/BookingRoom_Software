@@ -185,4 +185,60 @@ class ServicioRepository:
             self.db.desconectar()
         
         
+    def conjunto_servicios(self, descripcion):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+                SELECT
+                tser.descripcion as tipo_servicio,
+                ser.nombre as servicio,
+                ser.descripcion as descservicio,
+                ser.costoRenta as costo_renta
+                FROM servicio as ser
+                INNER JOIN tipo_servicio as tser on ser.tipo_servicio = tser.codigoTiSer
+                WHERE tser.codigoTiSer = %s
+            """, (descripcion,))
+            resultado = cursor.fetchall()
+            return resultado
+        except Exception as error:
+            print(f"Error al mostrar al mostrar conjunto: {error}")
+            return None
         
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
+
+
+
+
+    # def servicio_mismo_tipo(self, descripcion):
+    #     if not self.db.conectar():
+    #         return None 
+    #     try:
+    #         cursor = self.db.cursor()
+    #         cursor.execute("""
+    #             SELECT
+    #             tser.descripcion as tipo_servicio,
+    #             ser.nombre as servicio,
+    #             ser.descripcion as descservicio,
+    #             ser.costoRenta
+    #             FROM servicio as ser
+    #             INNER JOIN tipo_servicio as tser on ser.tipo_servicio = tser.codigoTiSer
+    #             WHERE tser.codigoTiSer = %s """,(f"%{descripcion}%",))
+    #         numServicio = cursor.fetchall()
+    #
+    #         return numServicio
+    #     except Exception as error:
+    #         print(f"Error al mostrar el numero del servicio: {error}")
+    #         return None
+    #     
+    #     finally:
+    #         cursor.close()
+    #         self.db.desconectar()
+        
+

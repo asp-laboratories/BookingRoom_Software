@@ -124,9 +124,8 @@ class TipoServiciosRepository:
             cursor = self.db.cursor()
             cursor.execute(f"SELECT codigoTiSer FROM tipo_servicio WHERE descripcion = %s",(nombre,))
             numServicio = cursor.fetchone()
-
+            
             return numServicio
-
         except Exception as error:
             print(f"Error al mostrar el numero del servicio: {error}")
             return None
