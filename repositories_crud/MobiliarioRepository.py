@@ -80,14 +80,12 @@ class MobiliarioRepository:
             cursor = self.db.cursor()
             cursor.execute( """
                             SELECT 
-                                mob.*,
-                                carac.*,
-                                mcarac.numCarac,
+                                mob.numMob as mobiliario,
+                                mob.nombre as nombre,
+                                mob.stock as cantidad,
                                 mcarac.nombreCarac as caracteristica,
-                                mcarac.tipo_carac,
                                 tcarac.nombreCarac as ti_caracteristica,
-                                imobi.*,
-                                emob.*
+                                emob.descripcion as estado
                             FROM mobiliario as mob
                             INNER JOIN caracteristicas as carac on carac.mobiliario = mob.numMob
                             INNER JOIN mob_carac as mcarac on carac.mob_carac = mcarac.numCarac
@@ -353,6 +351,35 @@ class MobiliarioRepository:
             print(f"Error al obtener un estado de mobiliario: {error}")
             return None
         
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def mobiliario_por_tipo(self, codigo_tipo_mob):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+    
+            cursor.execute("""
+                            SELECT
+                            tm.descripcion as descripcion,
+                            mob.nombre as mobiliario,
+                            mob.costoRenta as costoRenta
+                            FROM mobiliario as mob
+                            INNER JOIN tipo_mob as tm on mob.tipo_mob = tm.codigoTiMob
+                            WHERE tm.codigoTiMob = %s
+                            """, (codigo_tipo_mob,))
+            
+            resultados = cursor.fetchall()
+    
+            return resultados
+        
+        except Exception as error:
+            print(f"Error al obtener mobiliario por tipo: {error}")
+            return None
+    
         finally:
             cursor.close()
             self.db.desconectar()
