@@ -138,7 +138,11 @@ class mobiliarioService:
         resultado =  self.estaMob_repository.listar_mob_por_estado(esta_mob['codigoMob'])
         return resultado
 
+    def mob_por_tipo(self, numMob):
+        return self.mobiliario_repository.mobiliario_por_tipo(numMob)
 
+    def datos_mob(self, numMob):
+        return self.mobiliario_repository.datos_especificos_mob(numMob)
 if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()
