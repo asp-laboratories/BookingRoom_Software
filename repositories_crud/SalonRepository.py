@@ -73,7 +73,7 @@ class SalonRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
+    
     def obtener_num_salon(self, nombre):
         if not self.db.conectar():
             return None
@@ -88,6 +88,38 @@ class SalonRepository:
         
         except Exception as error:
             print(f"Error al obtener el numero del salon: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def datos_montaje_salon(self, num_salon):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            
+            cursor.execute("""
+                            SELECT
+                            ds.nombre as salon,
+                            CONCAT(ds.dimenLargo,'x',ds.dimenAncho,'x',ds.dimenAltura) as dimensiones,
+                            ds.mCuadrados as metros_cuadrados,
+                            tm.nombre as montaje,
+                            tm.descripcion as descripcion_montaje,
+                            dm.capacidad as capacidad
+                            FROM datos_montaje as dm
+                            INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon
+                            INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+                            WHERE ds.numSalon = %s
+                            """, (num_salon,))
+            
+            resultados = cursor.fetchall()
+            return resultados
+            
+        except Exception as error:
+            print(f"Error al obtener datos de montaje del salón: {error}")
             return None
         
         finally:

@@ -87,7 +87,7 @@ class TipoMontajeRepository:
                                 tm.nombre as tipo_montaje,
                                 ds.nombre as salon,
                                 mob.nombre as mobiliario,
-                                mm.cantidad
+                                mm.cantidad as cantidad
                             FROM datos_montaje as dm
                             INNER JOIN montaje_mobiliario as mm on mm.datos_montaje = dm.numDatMon
                             INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon
