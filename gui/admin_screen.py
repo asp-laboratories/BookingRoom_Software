@@ -75,7 +75,7 @@ class AdministradorScreen():
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
         self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
         self.navegacion.pagos.clicked.connect(lambda: self.mostrar_pagina(8))
-
+        self.navegacion.reSalon.clicked.connect(lambda: self.mostrar_pagina(11))
 
         # Botones de los eventos de servicios
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
@@ -95,7 +95,7 @@ class AdministradorScreen():
         # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
         self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
-
+        self.navegacion.almBuscarE_4.clicked.connect(self.buscar_datos_montaje_salon)
         # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(self.generar_caracteristicas)
         self.navegacion.amConfirmar_2.clicked.connect(self.registrar_mobiliario)
@@ -115,6 +115,7 @@ class AdministradorScreen():
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
         self.navegacion.almBuscarE_2.clicked.connect(self.buscar_mobiliario_por_tipo)
         self.navegacion.almBuscarE_3.clicked.connect(self.buscar_datos_mobiliario)
+        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_tipo_montaje)
 
         
         # Eventos del cliente dentro de reservaciones
@@ -349,7 +350,7 @@ class AdministradorScreen():
         largo =  float(self.navegacion.saLargo.text()) 
         ancho = float(self.navegacion.saAncho.text())
         altura =  float(self.navegacion.saAltura.text())
-        m2 = (2*(largo+ancho)*altura)
+        m2 = largo*ancho
         self.navegacion.saResultadoM2.setText(str(m2))
         resultado = salon.registrar_salones(self.navegacion.saNombre.text(), float(self.navegacion.saCostoRenta.text()), self.navegacion.saNombrePasillo.text(), self.navegacion.saNumeroPasillo.text(), largo, ancho, altura, m2)
         if resultado == False:
@@ -366,8 +367,90 @@ class AdministradorScreen():
         else:
             self.navegacion.eMensaje.setText("Correcto")
 
+    def buscar_datos_montaje_salon(self):
+        self.navegacion.almResulE_4.clear()
+        resultado = salon.datos_montaje(self.navegacion.almBuscadorE_4.text())
+        
+        if resultado == None or len(resultado) == 0:
+            self.navegacion.almResulE_4.setText("No se encontraron resultados")
+        else:
+            primer_montaje = resultado[0]
+            
+            mensaje = "\n---INFORMACIÓN DEL SALÓN---\n"
+            mensaje += f"\nSalón: {primer_montaje['salon']}"
+            mensaje += f"\nDimensiones: {primer_montaje['dimensiones']}"
+            mensaje += f"\nMetros cuadrados: {primer_montaje['metros_cuadrados']} m²\n"
+            
+            mensaje += "\n---TIPOS DE MONTAJE DISPONIBLES---\n"
+            
+            for montaje in resultado:
+                mensaje += f"\n• {montaje['montaje']}"
+                mensaje += f"\n  Capacidad: {montaje['capacidad']} personas"
+                mensaje += f"\n  Descripción: {montaje['descripcion_montaje']}\n"
+            
+            self.navegacion.almResulE_4.setText(mensaje)
 
 
+    def buscar_mobiliario_montaje(self):
+        self.navegacion.almResulE_5.clear()
+        resultado = tipo_montaje.listar_mobiliarios_montaje(self.navegacion.almBuscadorE_5.text())
+        
+        if resultado == None or len(resultado) == 0:
+            self.navegacion.almResulE_5.setText("No se encontraron resultados")
+        else:
+            # Agrupar por salón para mejor presentación
+            salones = {}
+            for item in resultado:
+                salon = item[1]  # Índice 1 es el salón
+                if salon not in salones:
+                    salones[salon] = []
+                salones[salon].append(item)
+            
+            mensaje = "\n---MOBILIARIO POR TIPO DE MONTAJE---\n"
+            mensaje += f"\nTipo de montaje: {resultado[0][0]}\n"  # tipo_montaje del primer registro
+            
+            # Mostrar por cada salón
+            for salon, items in salones.items():
+                mensaje += f"\n\n---SALÓN: {salon}---\n"
+                
+                # Mostrar mobiliarios de este salón
+                total_items = 0
+                for item in items:
+                    mobiliario = item[2]  # Índice 2 es mobiliario
+                    cantidad = item[3]    # Índice 3 es cantidad
+                    mensaje += f"\n• {mobiliario}: {cantidad} unidades"
+                    total_items += cantidad
+                
+                mensaje += f"\n\nTotal mobiliarios en {salon}: {total_items} unidades"
+            
+            self.navegacion.almResulE_5.setText(mensaje)
+
+    def buscar_mobiliario_tipo_montaje(self):
+        self.navegacion.almResulE_5.clear()
+        resultado = tipo_montaje.listar_mobiliarios_montaje(self.navegacion.almBuscadorE_5.text())
+        
+        if resultado == None or len(resultado) == 0:
+            self.navegacion.almResulE_5.setText("No se encontraron resultados")
+        else:
+            montajes_por_salon = {}
+            
+            for item in resultado:
+                salon = item['salon']  
+                if salon not in montajes_por_salon:
+                    montajes_por_salon[salon] = []
+                montajes_por_salon[salon].append(item)
+            
+            mensaje = f"\n---MOBILIARIO PARA: {resultado[0]['tipo_montaje']}---\n"
+            
+            for salon, mobiliarios in montajes_por_salon.items():
+                mensaje += f"\n SALÓN: {salon}\n"
+                mensaje += "─" * 40 + "\n"
+                
+                for mob in mobiliarios:
+                    mensaje += f"   • {mob['mobiliario']}: {mob['cantidad']} unidades\n"
+            
+            self.navegacion.almResulE_5.setText(mensaje)
+    
 
     def limpiar_salon(self):
         self.navegacion.saNombre.clear()
