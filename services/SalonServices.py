@@ -33,3 +33,6 @@ class SalonServices:
     def obtener_codigo_salon(self, nombreSalon):
         salon = self.salon_repository.obtener_num_salon(nombreSalon)
         return salon['numSalon']
+
+    def datos_montaje(self,numero_salon):
+        return self.salon_repository.datos_montaje_salon(numero_salon)
