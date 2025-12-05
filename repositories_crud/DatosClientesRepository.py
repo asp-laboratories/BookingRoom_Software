@@ -36,6 +36,25 @@ class DatosClientesRepository:
             cursor.close()
             self.db.desconectar()
         return resultados
+    
+    def listar_cliente_busqueda(self, rfc):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+            SELECT * FROM datos_cliente WHERE RFC = %s
+            """,(rfc,))
+            resultados = cursor.fetchone()
+
+            return resultados
+        except Exception as error:
+            print(f"Error al listar los clientes: {error}")
+            return None
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
 
     def actualizar(self, RFC, codigoRol):
         if not self.db.conectar():
