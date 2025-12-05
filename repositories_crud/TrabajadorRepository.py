@@ -37,12 +37,12 @@ class TrabajadorRepository:
             self.db.desconectar()
 
 
-    def sacar_trabajador(self, email):
+    def sacar_trabajador(self, nombre):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT rfc FROM trabajador WHERE email = %s",(email,))
+            cursor.execute("SELECT nombre FROM trabajador WHERE email = %s",(nombre,))
             resultados = cursor.fetchone()
             return resultados
         except Exception as error:
