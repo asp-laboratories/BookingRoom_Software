@@ -692,7 +692,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -929,7 +929,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>5</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -5285,7 +5285,6 @@ background-color: rgb(34, 76, 184);</string>
                <string notr="true">border: unset;
 color: rgb(0, 0, 0);
 border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
 </string>
               </property>
               <property name="verticalScrollBarPolicy">
@@ -5351,6 +5350,7 @@ background-color: rgb(34, 76, 184);</string>
                <font>
                 <family>Adwaita Sans</family>
                 <pointsize>12</pointsize>
+                <bold>false</bold>
                </font>
               </property>
               <property name="cursor" stdset="0">
@@ -5386,6 +5386,7 @@ border-radius: 5px;
                <font>
                 <family>Adwaita Sans</family>
                 <pointsize>12</pointsize>
+                <bold>false</bold>
                </font>
               </property>
               <property name="cursor" stdset="0">
@@ -5633,7 +5634,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">
@@ -7089,6 +7090,36 @@ background-color: rgb(34, 76, 184);</string>
               <width>1011</width>
               <height>1741</height>
              </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QTabWidget::pane {
+    border-top: 3px solid #9b582b;
+	color: rgb(155, 88, 43);
+    margin-top: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabBar::tab {
+    background-color: #9b582b;
+	selection-color: rgb(155, 88, 43);
+    border: 1px solid #c0c0c0;
+    padding: 8px 16px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #c67037;
+    border-bottom-color: white;
+}
+
+QTabBar::tab:hover {
+    background-color: rgb(105, 60, 2)
+}</string>
             </property>
             <property name="currentIndex">
              <number>1</number>

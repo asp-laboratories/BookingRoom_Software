@@ -197,7 +197,7 @@ class AdministradorScreen():
         else:
             mensaje = "\n---RESERVACIONES---\n"
             for f in resultado:
-                mensaje += f"\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nAsistentes: {f["asistentes"]}\n"
+                mensaje += f"\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nHora: {f["hra_ini"]} a {f['hra_fin']}\nAsistentes: {f["asistentes"]}\nSalon: {f['salon']}"
                 self.navegacion.tResultadoS_4.setText(mensaje)
          
         
@@ -295,16 +295,27 @@ class AdministradorScreen():
         re = reservacion.info_reservacion(reserva)
         if not re:
             pass
-        else: 
-            mensaje = f"\nReservacion: {re['numReser']}\tFecha de Reservacion: {re['fechaReser']}\nCliente: {re['cliNombreFiscal']}\tContacto: {re['cliContacto']}\nCorreo electronico: {re['cliEmail']}\nFecha del evento: {re['fechaEvento']}\tHora inicial: {re['horaInicioEvento']}\tHora de finalizacion: {re['horaFinEvento']}\nEstado de Reservacion: {re['estadoReser']}\nSalon: {re['nombreSalon']}\tTipo de montaje: {re['tipoMontaje']}\nEstimado de asistentes: {re['estiamdoAsistentes']}"
+        else:
+            mensaje = f"\nReservacion: {re['numReser']}"
+            mensaje += f"            \nFecha de Reservacion: {re['fechaReser']}\n"
+            mensaje += f"            \nCliente: {re['cliNombreFiscal']}\n"
+            mensaje += f"            \nContacto: {re['cliContacto']}\n"
+            mensaje += f"            \nCorreo electronico: {re['cliEmail']}\n"
+            mensaje += f"            \n"
+            mensaje += f"            \nFecha del evento: {re['fechaEvento']}"
+            mensaje += f"            \nHora inicial: {re['horaInicioEvento']}\t Hora de finalizacion: {re['horaFinEvento']}\n"
+            mensaje += f"            \nSalon: {re['nombreSalon']}\tTipo de montaje: {re['tipoMontaje']}\n"
+            mensaje += f"            \nEstimado de asistentes: {re['estiamdoAsistentes']}\n"
+            mensaje += f"            \nEstado de Reservacion: {re['estadoReser']}\n"          
+            
             self.navegacion.tResultadoS_2.setText(mensaje)
-
+            
             resultadoE = equipamiento.listar_equipamientos_reser(reserva)
             mensajeEQ = ""
             contador = 0
             for ree in  resultadoE:
                 contador += 1
-                mensajeEQ += f"{contador}. Un total de {ree['cantidad']} de {ree['nombre']}\n"
+                mensajeEQ += f"\n{contador}. {ree['nombre']}, cantidad: {ree['cantidad']}\n"
             
             self.navegacion.tResultadoS_3.setText(mensajeEQ)
 
@@ -312,8 +323,8 @@ class AdministradorScreen():
             contador = 0
             for servicio in re['servicios']:
                 contador += 1
-                mensaje += f"{contador}. {servicio}"
-            
+                mensaje += f"\n{contador}. {servicio}\n"
+              
             self.navegacion.tResultadoS_5.setText(mensaje)
 
     def eliminar_servicio(self):
@@ -1089,7 +1100,7 @@ class AdministradorScreen():
         self.controles_equipos.clear()
 
     def actualizar_estado_mob(self):
-        resultado = mobiliario.actu_esta_mob(int(self.navegacion.almNum.text()),int(self.navegacion.almCantidad.text()),self.navegacion.almEstadoAntiguo.text(), self.navegacion.almNuevoEstado.text())
+        resultado = mobiliario.actu_esta_mob(int(self.navegacion.almNum.text()),int(self.navegacion.almCantidad.text()),self.navegacion.almBuscadorM.text(), self.navegacion.almNuevoEstado.text())
         if resultado == False:
             self.navegacion.almMensaje.setText("Incorrecto")
         else:
@@ -1379,7 +1390,7 @@ class AdministradorScreen():
             QMessageBox.information(None, "Éxito", "Todos los eventos han sido eliminados")
     
     def actualizar_estado_equipa(self):
-        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
+        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almBuscarE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
         if resultado == False:
             self.navegacion.almMensaje_2.setText("Incorrecto")
         else:
