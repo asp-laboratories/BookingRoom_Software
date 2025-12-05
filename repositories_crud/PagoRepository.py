@@ -10,9 +10,9 @@ class PagoRepository:
         try:
             cursor = self.db.cursor()
             cursor.execute("""
-                INSERT INTO pago (montoPago, descripcion, fecha, noPago, saldo, concepto_pago, metodo_pago, reservacion)
-                VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)
-            """, (pago.montoPago, pago.descripcion, pago.fecha, pago.noPago, pago.saldo, pago.concepto_pago, pago.metodo_pago, pago.reservacion))
+                INSERT INTO pago (montoPago, descripcion, fecha, hora, noPago, saldo, concepto_pago, metodo_pago, reservacion)
+                VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (pago.montoPago, pago.descripcion, pago.fecha, pago.hora, pago.noPago, pago.saldo, pago.concepto_pago, pago.metodo_pago, pago.reservacion))
     
             self.db.connection.commit()
             print("Se registro correctamente un pago")

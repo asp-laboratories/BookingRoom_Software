@@ -122,7 +122,7 @@ class TipoServiciosRepository:
         
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"SELECT codigoTiSer FROM tipo_servicio WHERE descripcion = %s",(nombre,))
+            cursor.execute("SELECT codigoTiSer FROM tipo_servicio WHERE descripcion like %s",(f'{nombre}%',))
             numServicio = cursor.fetchone()
             
             return numServicio
