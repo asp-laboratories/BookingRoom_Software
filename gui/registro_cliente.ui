@@ -284,8 +284,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
           <widget class="QPushButton" name="clienteConfirmar">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>1040</y>
+             <x>390</x>
+             <y>1140</y>
              <width>261</width>
              <height>61</height>
             </rect>
@@ -437,8 +437,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
           <widget class="QLabel" name="clienteMen">
            <property name="geometry">
             <rect>
-             <x>610</x>
-             <y>1130</y>
+             <x>390</x>
+             <y>1230</y>
              <width>251</width>
              <height>41</height>
             </rect>
