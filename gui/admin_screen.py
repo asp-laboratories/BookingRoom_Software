@@ -121,14 +121,8 @@ class AdministradorScreen():
         self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje_tree)
 
         
-        # Eventos del cliente dentro de reservaciones
-        self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
-        self.deshabilitar_telefonos()
-        self.navegacion.cbTelefono2.toggled.connect(self.ingresar_segundoTel)
-        self.navegacion.cbTelefono3.toggled.connect(self.ingresar_tercerTel)
-        
-        self.navegacion.cbTipoFisica.toggled.connect(self.seleccionar_fisica)
-        self.navegacion.cbTipoMoral.toggled.connect(self.seleccionar_moral)
+        self.navegacion.buscarCliente.clicked.connect(self.buscar_cliente)
+        self.navegacion.registrarCliente.setVisible(False)
         
         
         self.cargar_seleccion_tipoMontaje()
@@ -734,82 +728,23 @@ class AdministradorScreen():
     def mostrar_pagina(self, indice):
         self.navegacion.scrollAreaContenido.verticalScrollBar().setValue(0)
         self.navegacion.stackedWidget.setCurrentIndex(indice)
-
     
-    def registrar_cliente(self):
-        tipo_cliente = ""
-        if self.navegacion.cbTipoFisica.isChecked():
-            tipo_cliente = "TCLPF"
-
-        if self.navegacion.cbTipoMoral.isChecked():
-            tipo_cliente= "TCLPM"
-
-        rfc = self.navegacion.reRfc.text()
-        if (not permitir_ingreso(rfc, 'rfc')) or len(rfc) < 2:
-            self.registro.reRfc.selectAll()
-            self.registro.reRfc.setFocus()
-            return
-
-        nombre = self.navegacion.reNombre.text()
-        if (not permitir_ingreso(nombre, 'onlytext')) or len(nombre) < 2:
-            self.registro.reNombre.selectAll()
-            self.registro.reNombre.setFocus()
-            return
-
-        priApellido = self.navegacion.reApellPat.text()
-        if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
-            self.registro.reApellPat.selectAll()
-            self.registro.reApellPat.setFocus()
-            return
-
-        priAmater = self.navegacion.reApellMa.text()
-        if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
-            self.registro.reApellMa.selectAll()
-            self.registro.reApellMa.setFocus()
-            return
-
-        resultado = cliente.registrar_clientes(rfc, nombre, priApellido), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), tipo_cliente)
-
-        telefono.registrar_telefono(self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(),None)
-        telefono.registrar_telefono(self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(),None)
-        telefono.registrar_telefono(self.navegacion.reTelefono3.text(), self.navegacion.reRfc.text(),None)
-        
-        if resultado == False:
-            self.navegacion.clienteMen.setText("Incorrecto")
+    def buscar_cliente(self):
+        resultado = cliente.listar_cliente_busqueda(self.navegacion.reRfc.text())
+        resul_telefono = telefono.listar_telefonos_info(self.navegacion.reRfc.text())
+        if resultado == None:
+            self.navegacion.registrarCliente.setVisible(True)
         else:
-            self.navegacion.clienteMen.setText("Corecto")
-
-    def deshabilitar_telefonos(self):
-        self.navegacion.reTelefono2.setEnabled(False)
-        self.navegacion.reTelefono3.setEnabled(False)
-    
-    def ingresar_segundoTel(self, estado):
-        self.navegacion.reTelefono2.setEnabled(estado)
-        
-    def ingresar_tercerTel(self, estado):
-        self.navegacion.reTelefono3.setEnabled(estado)
-
-    def seleccionar_fisica(self, estado):
-        if estado:
-            self.navegacion.cbTipoMoral.setChecked(False)
-            self.navegacion.reNombreFiscal.setEnabled(False)
-            nombre_fiscal = f"{self.navegacion.reNombre.text()} {self.navegacion.reApellPat.text()} {self.navegacion.reApellMa.text()}"
-            self.navegacion.reNombreFiscal.setText(nombre_fiscal)
-            self.navegacion.clNombre.setText("Nombre")
-            self.navegacion.clAp.setText("Apellido paterno")
-            self.navegacion.clAm.setText("Apellido materno")
-
-    def seleccionar_moral(self, estado):
-        if estado:
-            self.navegacion.cbTipoFisica.setChecked(False)
-            self.navegacion.reNombreFiscal.setEnabled(True)
-            self.navegacion.clNombre.setText("Nombre del contacto")
-            self.navegacion.clAp.setText("Apellido paterno del contacto")
-            self.navegacion.clAm.setText("Apellido materno del contacto")
-
-
-
-
+            mensaje = "INFORMACION DEL CLIENTE\n"
+            mensaje += f"\nNombre completo del contacto: {resultado['contNombre']} {resultado['contPriApellido']}  {resultado['contSegApellido']}\n"
+            mensaje += f"\nNombre fiscal: {resultado['nombreFiscal']}\n"
+            mensaje += f"\nCorreo electronico: {resultado['email']}\n"
+            mensaje += f"\nTelefonos: {resul_telefono['telefono']}\n"
+            mensaje += f"\nColonia: {resultado['dirColonia']}\n"
+            mensaje += f"\nCalle: {resultado['dirCalle']}\n"
+            mensaje += f"\nNumero: {resultado['dirNumero']}\n"
+            
+            self.navegacion.cliente_info.setText(mensaje)
 
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
