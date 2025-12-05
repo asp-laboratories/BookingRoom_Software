@@ -675,7 +675,7 @@ color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1004</width>
+         <width>1031</width>
          <height>3200</height>
         </rect>
        </property>
@@ -704,7 +704,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -4035,7 +4035,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -5081,8 +5081,8 @@ background-color: rgb(34, 76, 184);</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>951</width>
-              <height>851</height>
+              <width>1041</width>
+              <height>1601</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -5116,7 +5116,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">
@@ -5901,16 +5901,51 @@ font-size: 28px;</string>
              <attribute name="title">
               <string>Listar mobiliarios</string>
              </attribute>
-             <widget class="QTextEdit" name="almResulE_2">
+             <widget class="QComboBox" name="combo_tipos_simple">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>80</y>
+                <width>581</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>10</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 2px solid rgb(155, 88, 43);
+color: rgb(0, 0, 0);</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="combo_mobiliarios">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>157</y>
+                <width>581</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 2px solid rgb(155, 88, 43);
+color: rgb(0, 0, 0);</string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="texto_detalles_simple">
               <property name="enabled">
                <bool>true</bool>
               </property>
               <property name="geometry">
                <rect>
-                <x>80</x>
-                <y>140</y>
-                <width>401</width>
-                <height>411</height>
+                <x>200</x>
+                <y>252</y>
+                <width>581</width>
+                <height>381</height>
                </rect>
               </property>
               <property name="font">
@@ -5926,7 +5961,7 @@ font-size: 28px;</string>
                <string notr="true">border: unset;
 color: rgb(0, 0, 0);
 border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
+border-top: 3px solid rgb(155, 88, 43);
 </string>
               </property>
               <property name="verticalScrollBarPolicy">
@@ -5936,121 +5971,79 @@ border: 3px solid rgba(155, 88, 43, 1.0);
                <bool>true</bool>
               </property>
              </widget>
-             <widget class="QLineEdit" name="almBuscadorE_2">
+             <widget class="QLabel" name="lCostoS_15">
               <property name="geometry">
                <rect>
-                <x>80</x>
-                <y>70</y>
-                <width>261</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="placeholderText">
-               <string>Ingresa el tipo de mobiliario</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="almBuscarE_2">
-              <property name="geometry">
-               <rect>
-                <x>360</x>
-                <y>70</y>
-                <width>111</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: none;
-border-radius: 10px;
-background-color: rgb(71, 105, 255);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="almResulE_3">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>520</x>
-                <y>140</y>
-                <width>401</width>
-                <height>411</height>
+                <x>200</x>
+                <y>30</y>
+                <width>301</width>
+                <height>41</height>
                </rect>
               </property>
               <property name="font">
                <font>
                 <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
                </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="almBuscadorE_3">
-              <property name="geometry">
-               <rect>
-                <x>520</x>
-                <y>70</y>
-                <width>261</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="placeholderText">
-               <string>Ingresa el nombre del mobiliario</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="almBuscarE_3">
-              <property name="geometry">
-               <rect>
-                <x>800</x>
-                <y>70</y>
-                <width>111</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="styleSheet">
                <string notr="true">border: none;
-border-radius: 10px;
-background-color: rgb(71, 105, 255);</string>
+color: rgba(155, 88, 43, 1.0);
+</string>
               </property>
               <property name="text">
-               <string>Buscar</string>
+               <string>Tipo de mobiliario</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lCostoS_16">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>117</y>
+                <width>301</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Mobiliario en especifico</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lCostoS_17">
+              <property name="geometry">
+               <rect>
+                <x>200</x>
+                <y>200</y>
+                <width>301</width>
+                <height>40</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Informacion del mobiliario</string>
               </property>
              </widget>
             </widget>

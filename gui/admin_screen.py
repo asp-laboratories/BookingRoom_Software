@@ -16,6 +16,7 @@ from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
 from services.TelefonoServices import TelefonoServices
+from services.TipoMobiliarioService import TipoMobiliarioService
 from services.TipoMontajeService import TipoMontajeService
 from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
@@ -37,7 +38,7 @@ tipo_montaje = TipoMontajeService()
 reservacion = ReservacionService()
 reser_equipa = ReserEquipaService()
 pagos = PagoServices()
-
+tipo_mobiliario = TipoMobiliarioService()
 
 
 class AdministradorScreen():
@@ -114,17 +115,13 @@ class AdministradorScreen():
         self.navegacion.almConfirmar_2.clicked.connect(self.actualizar_estado_equipa)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
-        self.navegacion.almBuscarE_2.clicked.connect(self.buscar_mobiliario_por_tipo)
-        self.navegacion.almBuscarE_3.clicked.connect(self.buscar_datos_mobiliario)
-        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_tipo_montaje)
-        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje2)
         self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje_tree)
 
         
         self.navegacion.buscarCliente.clicked.connect(self.buscar_cliente)
         self.navegacion.registrarCliente.setVisible(False)
         
-        
+        self.cargar_seleccion_tipoMobiliario() 
         self.cargar_seleccion_tipoMontaje()
         self.navegacion.reMontajeInfo.clicked.connect(self.mostrar_info_montaje)
         # Eventos de salones, equipamiento y servicios dentro de reservacion
@@ -136,7 +133,6 @@ class AdministradorScreen():
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
 
         self.cargar_tipos_servicios()
-         
         #Variables utilizadas para almacenar informatcion
         
         self.navegacion.buscarTipo_3.clicked.connect(self.obtener_fecha_reser)
@@ -1191,36 +1187,93 @@ class AdministradorScreen():
                 self.navegacion.almResulE.setText(mensaje)
         
 
-    def buscar_mobiliario_por_tipo(self):
-        self.navegacion.almResulE_2.clear()
-        resultado = mobiliario.mob_por_tipo(self.navegacion.almBuscadorE_2.text())
-        
-        if resultado == None:
-            pass
-        else:
-            mensaje = "\n---MOBILIARIO POR TIPO---\n"
-            for mob in resultado:
-                mensaje += f"\nTipo: {mob['descripcion']}\nNombre: {mob['mobiliario']}\nCosto Renta: ${mob['costoRenta']}\n"
-            self.navegacion.almResulE_2.setText(mensaje)
+    def cargar_seleccion_tipoMobiliario(self):
+        self.navegacion.combo_tipos_simple.clear()
+        self.navegacion.combo_tipos_simple.addItem("Selecciona un tipo de mobiliario", None)
+        self.navegacion.combo_mobiliarios.currentTextChanged.connect(self.mostrar_detalles_mobiliario)
+        obtener = tipo_mobiliario.listar_tipos_mobiliarios()
+        for tmob in obtener:
+            self.navegacion.combo_tipos_simple.addItem(tmob["descripcion"], tmob["codigoTiMob"])
+        self.navegacion.combo_tipos_simple.currentTextChanged.connect(self.cargar_mobiliarios_por_tipo)
 
-    def buscar_datos_mobiliario(self):
-        self.navegacion.almResulE_3.clear()
+    def cargar_mobiliarios_por_tipo(self, tipo_seleccionado):
+        self.navegacion.combo_mobiliarios.clear()
+        self.navegacion.combo_mobiliarios.addItem("Selecciona un mobiliario", None)
         
-        num_mob = self.navegacion.almBuscadorE_3.text()
-        if not num_mob:
+        if tipo_seleccionado == "Selecciona un tipo de mobiliario" or not tipo_seleccionado:
             return
         
-        resultado = mobiliario.datos_mob(num_mob)
-        
-        if resultado == None:
-            pass
-        elif len(resultado) == 0:
-            self.navegacion.almResulE_3.setText("No se encontraron resultados")
+        index = self.navegacion.combo_tipos_simple.currentIndex()
+        codigo_tipo = self.navegacion.combo_tipos_simple.itemData(index)
+        mobiliarios = mobiliario.mob_por_tipo(codigo_tipo)
+
+        if mobiliarios:
+            for mob in mobiliarios:
+                texto = f"{mob['mobiliario']} - ${mob['costoRenta']}"
+                self.navegacion.combo_mobiliarios.addItem(texto, mob['numero'])
         else:
-            mensaje = "\n---DATOS DEL MOBILIARIO---\n"
-            for mob in resultado:
-                mensaje += f"\nNúmero: {mob['mobiliario']}\nNombre: {mob['nombre']}\nCantidad: {mob['cantidad']}\nCaracterística: {mob['caracteristica']}\nTipo Característica: {mob['ti_caracteristica']}\nEstado: {mob['estado']}\n"
-            self.navegacion.almResulE_3.setText(mensaje)
+            self.navegacion.combo_mobiliarios.addItem("No hay mobiliarios de este tipo", None)
+    def mostrar_detalles_mobiliario(self, mob_seleccionado):
+        if mob_seleccionado == "Selecciona un mobiliario" or not mob_seleccionado:
+            self.navegacion.texto_detalles_simple.clear()
+            self.navegacion.texto_detalles_simple.setPlainText("Seleccione un mobiliario para ver detalles")
+            return
+        
+        index = self.navegacion.combo_mobiliarios.currentIndex()
+        mob_numero = self.navegacion.combo_mobiliarios.itemData(index)
+        
+        if mob_numero:
+            detalles = mobiliario.datos_mob(str(mob_numero))
+            
+            if detalles:
+                # Tomar la información básica del primer registro
+                primer_detalle = detalles[0]
+                
+                mensaje = "--- DATOS DEL MOBILIARIO ---\n\n"
+                mensaje += f"Número: {primer_detalle['mobiliario']}\n"
+                mensaje += f"Nombre: {primer_detalle['nombre']}\n"
+                mensaje += f"Cantidad total: {primer_detalle['cantidad']}\n\n"
+                
+                # Agrupar por tipo de característica
+                caracteristicas_por_tipo = {}
+                
+                for detalle in detalles:
+                    tipo = detalle['ti_caracteristica']
+                    caracteristica = detalle['caracteristica']
+                    
+                    if tipo not in caracteristicas_por_tipo:
+                        caracteristicas_por_tipo[tipo] = []
+                    
+                    if caracteristica not in caracteristicas_por_tipo[tipo]:
+                        caracteristicas_por_tipo[tipo].append(caracteristica)
+                
+                # Mostrar características agrupadas
+                mensaje += "--- CARACTERÍSTICAS ---\n\n"
+                for tipo, caracteristicas in caracteristicas_por_tipo.items():
+                    mensaje += f"• {tipo}:\n"
+                    for carac in caracteristicas:
+                        mensaje += f"  - {carac}\n"
+                    mensaje += "\n"
+                
+                # Contar estados
+                estados_count = {}
+                for detalle in detalles:
+                    estado = detalle['estado']
+                    if estado not in estados_count:
+                        estados_count[estado] = 0
+                    estados_count[estado] += 1
+                
+                # ARREGLAR
+                mensaje += "--- DISTRIBUCIÓN DE ESTADOS ---\n\n"
+                total = len(detalles)
+                for estado, cantidad in estados_count.items():
+                    porcentaje = (cantidad / total) * 100 if total > 0 else 0
+                    mensaje += f"• {estado}: {cantidad} unidades ({porcentaje:.1f}%)\n"
+                
+                self.navegacion.texto_detalles_simple.setPlainText(mensaje)
+            else:
+                self.navegacion.texto_detalles_simple.setPlainText("No se encontraron detalles para este mobiliario")
+
 
     def configurar_fechas_iniciales(self):
         hoy = date.today()
