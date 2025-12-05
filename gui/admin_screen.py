@@ -245,6 +245,7 @@ class AdministradorScreen():
         else:
             self.navegacion.sMensaje.setText("Registro concretado")
 
+
     def actualizar_servicio(self): # no lo encontre en la app asi q cuando regrese este apartado quiero hacer cambios a su funcionamiento
         resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.sNumeroServicio.text()) , self.navegacion.sNuevoValor.text())
         if resultado == False:
@@ -252,8 +253,10 @@ class AdministradorScreen():
         else:
             self.navegacion.sMensajeAct.setText("Correcto")
 
-    def listar_servicio(self):
+
+    def listar_servicio(self): # No necesaria
         self.navegacion.sResultadoListar.clear()
+        
         resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda.text())
         if resultado == False:
             pass
@@ -263,6 +266,7 @@ class AdministradorScreen():
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar.setText(mensaje)
         
+
     def listar_servicio_act(self):
         self.navegacion.sResultadoListar_3.clear()
         resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_3.text())
@@ -274,6 +278,7 @@ class AdministradorScreen():
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar_3.setText(mensaje)
         
+
     def listar_servicio_del(self):
         self.navegacion.sResultadoListar_2.clear()
         resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_2.text())
@@ -285,9 +290,16 @@ class AdministradorScreen():
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar_2.setText(mensaje)
 
+
     def listar_servicios_del_mismo_tipo(self):
         self.navegacion.sResultadoListar_2.clear()
-        resultado = servicio.servicios_tipo(self.navegacion.slIngresarBusqueda_2.text())
+
+        tposervicio = self.navegacion.slIngresarBusqueda_2.text()
+        if not permitir_ingreso(tposervicio, 'onlytext'):
+            QMessageBox.warning(self.navegacion, "Tipo de dato no valido", "Favor de ingresar el nombre del tipo de servicio")
+            return
+
+        resultado = servicio.servicios_tipo(tposervicio)
         if resultado == False:
             pass
         else:
@@ -295,8 +307,6 @@ class AdministradorScreen():
             for st in resultado:
                 mensaje += f"\nTipo de servicio: {st["tipo_servicio"]}"
                 self.navegacion.sResultadoListar_2.setText(mensaje)
-
-
 
 
     def listar_reservaciones(self):
@@ -511,6 +521,7 @@ class AdministradorScreen():
             
             self.navegacion.almResulE_5.setText(mensaje)
     
+
     def buscar_mobiliario_montaje2(self):
         # Limpiar tabla
         self.navegacion.tableWidget.clearContents()
@@ -692,6 +703,7 @@ class AdministradorScreen():
         else:
             self.navegacion.mobMensaje.setText("Correcto")
     
+
     def limpiar_caracteristicas(self):
         lay = self.navegacion.mobcont2.layout()
         while lay.count():
@@ -775,17 +787,29 @@ class AdministradorScreen():
         self.navegacion.scrollAreaContenido.verticalScrollBar().setValue(0)
         self.navegacion.stackedWidget.setCurrentIndex(indice)
     
+
     def buscar_cliente(self):
-        resultado = cliente.listar_cliente_busqueda(self.navegacion.reRfc.text())
-        resul_telefono = telefono.listar_telefonos_info(self.navegacion.reRfc.text())
+        rfc = self.navegacion.reRfc.text()
+        if not permitir_ingreso(rfc, 'rfc'):
+            QMessageBox.warning(self.navegacion, "Error al ingresar datos", "Valores no validos como RFC, ingrese valores validos")
+            return
+
+        resultado = cliente.listar_cliente_busqueda(rfc)
+        resul_telefono = telefono.listar_telefonos_info(rfc)
         if resultado == None:
             self.navegacion.registrarCliente.setVisible(True)
+
         else:
             mensaje = "INFORMACION DEL CLIENTE\n"
             mensaje += f"\nNombre completo del contacto: {resultado['contNombre']} {resultado['contPriApellido']}  {resultado['contSegApellido']}\n"
             mensaje += f"\nNombre fiscal: {resultado['nombreFiscal']}\n"
             mensaje += f"\nCorreo electronico: {resultado['email']}\n"
-            mensaje += f"\nTelefonos: {resul_telefono['telefono']}\n"
+            mensaje += f"\nTelefonos:\n"
+            contador = 0
+            for cel in resul_telefono:
+                contador += 1
+                if not cel['telefono'] == "":
+                    mensaje += f"{contador}: {cel['telefono']}\n"
             mensaje += f"\nColonia: {resultado['dirColonia']}\n"
             mensaje += f"\nCalle: {resultado['dirCalle']}\n"
             mensaje += f"\nNumero: {resultado['dirNumero']}\n"
