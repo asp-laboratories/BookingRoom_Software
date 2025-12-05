@@ -6,6 +6,7 @@ from PyQt6.QtGui import QBrush, QColor
 from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
+from gui.registro_cliente import RegistroCliente
 from models.MobCarac import MobCarac
 from models.ReserEquipa import ReserEquipamiento
 from services.DatosClienteService import DatosClienteService
@@ -170,8 +171,11 @@ class AdministradorScreen():
         self.navegacion.reNumReser.textChanged.connect(self.mostrar_descripcion_en_tiempo_real)
         self.navegacion.reConfirmar_2.clicked.connect(self.registrar_pago)
         self.navegacion.reCancelar_2.clicked.connect(self.limpiar_pago)
-        # Metodos para abrir las subopciones
+        
 
+        self.navegacion.registrarCliente.clicked.connect(self.abrir_registro_cliente)
+        # Metodos para abrir las subopciones
+        
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(not self.navegacion.subMenuAdministracion.isVisible())
     def abrir_opciones_almac(self):
@@ -179,8 +183,11 @@ class AdministradorScreen():
     def abrir_opciones_recep(self):
         self.navegacion.subMenuRecepcion.setVisible(not self.navegacion.subMenuRecepcion.isVisible())
 
+    def abrir_registro_cliente(self):
+        self.cliente = RegistroCliente()
         # Seccion de servicios - logica de servicios
     
+
     def obtener_fecha_reser(self):
         fecha_seleccion = self.navegacion.refecha_2.date()
         formato = fecha_seleccion.toString('yyyy-MM-dd')

@@ -662,7 +662,7 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1067</y>
+         <y>0</y>
          <width>1031</width>
          <height>4000</height>
         </rect>
@@ -692,7 +692,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>11</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -5235,6 +5235,24 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               </property>
               <property name="text">
                <string>Hora de cierre</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="registrarCliente">
+              <property name="geometry">
+               <rect>
+                <x>520</x>
+                <y>190</y>
+                <width>301</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Registrar cliente</string>
               </property>
              </widget>
             </widget>
