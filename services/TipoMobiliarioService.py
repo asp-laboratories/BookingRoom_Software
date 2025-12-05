@@ -20,15 +20,12 @@ class TipoMobiliarioService:
             print("Los campos no permiten nulos")
             return False
         
-        tipo_equipa = TipoMob(codigoTiEquipa= codigoTiMob,descripcion= descripcion)
+        tipo_equipa = TipoMob(codigoTiMob= codigoTiMob,descripcion= descripcion)
         return self.repository.crear_tipo_mobiliario(tipo_equipa)
 
     def listar_tipos_mobiliarios(self):
-        print("Tipos de mobiliarios:")
-        tipos_equipa = self.repository.listar_tipos_mobiliarios()
-        print("Codigo: \t Descripcion:")
-        for tmob in tipos_equipa:
-            print(f"{tmob['codigoTiMob']}\t {tmob['descripcion']}")
+        return  self.repository.listar_tipos_mobiliarios()
+
 
     def obtener_codigo(self, descripcion):
         #print("Buscando tipo de mobiliario")
