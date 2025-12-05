@@ -21,8 +21,8 @@ class TrabajadorServices:
         # for row in trabajador:
             # print(f"{row['nombre']}\t {row['rol']}")
 
-    def obtener_rfc(self, email):
-        return self.trabajador_repository.sacar_trabajador(email)
+    def obtener_nombre(self, nombre):
+        return self.trabajador_repository.sacar_trabajador(nombre)
         
     def actualizar_roles(self, RFC, codigoRolValor):
         descripcionRol = self.rol_repository.obtener_descripcion(codigoRolValor)
