@@ -364,6 +364,7 @@ class MobiliarioRepository:
     
             cursor.execute("""
                             SELECT
+                            mob.numMob as numero,
                             tm.descripcion as descripcion,
                             mob.nombre as mobiliario,
                             mob.costoRenta as costoRenta
