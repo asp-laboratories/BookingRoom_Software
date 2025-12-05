@@ -303,10 +303,11 @@ class ReservacionRepository:
             cursor.execute( """
 SELECT
 DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha_evento,
-TIME_FORMAT(re.horaInicio, '%H : %m') as hra_ini,
-TIME_FORMAT(re.horaFin, '%H : %m') as hra_fin,
+TIME_FORMAT(re.horaInicio, '%H : %i') as hra_ini,
+TIME_FORMAT(re.horaFin, '%H : %i') as hra_fin,
 dc.nombreFiscal as cliente,
 re.descripEvento as evento,
+ds.nombre as salon,
 re.estimaAsistentes as asistentes
 FROM reservacion as re
 INNER JOIN datos_montaje as dm on re.datos_montaje = dm.numDatMon
