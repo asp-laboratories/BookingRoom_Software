@@ -692,7 +692,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>11</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -5237,6 +5237,24 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Hora de cierre</string>
               </property>
              </widget>
+             <widget class="QPushButton" name="registrarCliente">
+              <property name="geometry">
+               <rect>
+                <x>520</x>
+                <y>190</y>
+                <width>301</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Registrar cliente</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab_23">
              <attribute name="title">
@@ -7069,7 +7087,7 @@ background-color: rgb(34, 76, 184);</string>
               <x>0</x>
               <y>0</y>
               <width>1011</width>
-              <height>741</height>
+              <height>1741</height>
              </rect>
             </property>
             <property name="currentIndex">
@@ -7235,6 +7253,34 @@ border: 3px solid rgba(155, 88, 43, 1.0);
               <property name="readOnly">
                <bool>true</bool>
               </property>
+             </widget>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>660</y>
+                <width>801</width>
+                <height>531</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QTreeWidget" name="treeWidget">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>1220</y>
+                <width>751</width>
+                <height>431</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
+              </property>
+              <column>
+               <property name="text">
+                <string notr="true">1</string>
+               </property>
+              </column>
              </widget>
             </widget>
            </widget>
