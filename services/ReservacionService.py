@@ -49,28 +49,31 @@ class ReservacionService:
     def info_reservacion(self, numReser):
         info = self.reservacion_repository.informacion_general_reservacion(numReser) # de aca obtenemos repetidos por los servicios, a mas servicios mas repetidos, unico caso de comprobacion ahi
         
-        reservacion = {
-                'numReser'           : info[0]['num_reser'],
-                'fechaReser'         : info[0]['fecha_reser'],
-                'cliNombreFiscal'    : info[0]['cliente'],
-                'cliContacto'        : info[0]['cont_nombre'],
-                'cliEmail'           : info[0]['cliente_email'],
-                'fechaEvento'        : info[0]['fecha_even'],
-                'horaInicioEvento'   : info[0]['hora_ini'],
-                'horaFinEvento'      : info[0]['hora_fin'],
-                'estadoReser'        : info[0]['esta_reser'],
-                'nombreSalon'        : info[0]['nombre_salon'],
-                'tipoMontaje'        : info[0]['montaje'],
-                'estiamdoAsistentes' : info[0]['asistentes'],
-                'servicios'          : []
-            }
+        if info:
+            reservacion = {
+                    'numReser'           : info[0]['num_reser'],
+                    'fechaReser'         : info[0]['fecha_reser'],
+                    'cliNombreFiscal'    : info[0]['cliente'],
+                    'cliContacto'        : info[0]['cont_nombre'],
+                    'cliEmail'           : info[0]['cliente_email'],
+                    'fechaEvento'        : info[0]['fecha_even'],
+                    'horaInicioEvento'   : info[0]['hora_ini'],
+                    'horaFinEvento'      : info[0]['hora_fin'],
+                    'estadoReser'        : info[0]['esta_reser'],
+                    'nombreSalon'        : info[0]['nombre_salon'],
+                    'tipoMontaje'        : info[0]['montaje'],
+                    'estiamdoAsistentes' : info[0]['asistentes'],
+                    'servicios'          : []
+                }
         
-        if len(info) > 1:
-            for registro in info:
-                reservacion['servicios'].append(registro['servi'])
+            if len(info) > 1:
+                for registro in info:
+                    reservacion['servicios'].append(registro['servi'])
+            return reservacion
+        else:
+            print("Valor fuera de rango")
+            return None
 
-        return reservacion
-        
     def reservaciones_fecha(self, fecha):
         return self.reservacion_repository.listar_reservacion_fecha(fecha)
 
@@ -80,6 +83,8 @@ class ReservacionService:
     
     def reservacion_descripcion(self, numreser):
         decripcion = self.reservacion_repository.reservacion_descripcion(numreser)
+        if not decripcion:
+            return None
         return decripcion['descripEvento']
 
     def fecha(self, fec):

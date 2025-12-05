@@ -27,7 +27,7 @@ class PagoServices:
             print("Maximo de pagos alcanzados")
             return
         else:
-            saldo = self.RservacionService.obtener_total(numReser) - montoPago
+            saldo = self.calcular_saldo(numReser) - montoPago
             pago = Pago(montoPago, descripcion, fecha, horak, nopago + 1, saldo, numReser, metodo, concepto)
             return self.PagoRepository.crear_pago(pago)
 

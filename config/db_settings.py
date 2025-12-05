@@ -65,7 +65,7 @@ class BaseDeDatos():
             print(f"{atributo}")
 
 if __name__ == "__main__":
-    conexion = BaseDeDatos(database="pruebas")
+    conexion = BaseDeDatos(database="bokkingroomlocal")
     conexion.conectar()
     conexion.show_tables()
     conexion.show_databases()

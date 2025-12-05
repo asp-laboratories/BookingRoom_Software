@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime, date, timedelta
 from PyQt6 import uic
 from PyQt6.QtGui import QBrush, QColor
-from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton
+from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton, QFrame, QHBoxLayout
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
 from gui.registro_cliente import RegistroCliente
@@ -134,6 +134,8 @@ class AdministradorScreen():
         self.cargar_lista_equipamiento()
         self.navegacion.listaEquipamiento.itemSelectionChanged.connect(self.mostrar_controles_cantidad)
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
+
+        self.cargar_tipos_servicios()
          
         #Variables utilizadas para almacenar informatcion
         
@@ -194,32 +196,47 @@ class AdministradorScreen():
                 mensaje += f"\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nHora: {f["hra_ini"]} a {f['hra_fin']}\nAsistentes: {f["asistentes"]}\nSalon: {f['salon']}"
                 self.navegacion.tResultadoS_4.setText(mensaje)
          
-        
 
+    def cargar_tipos_servicios(self):
+        self.navegacion.sTipoServicio.clear()
+        self.navegacion.sTipoServicio.addItem("Seleccione un tipo de servicio:", None)
 
+        tpos_servcios = tipo_servi.listar_tipos_servicios()
+
+        for tipo in tpos_servcios:
+            self.navegacion.sTipoServicio.addItem(tipo['descripcion'], tipo['codigoTiSer'])
+            
 
     def registar_servicio(self):
         nombre = self.navegacion.sNombreSer.text()
         if (len(nombre) < 2): # unica validacion?
-            self.navegacion.sMensaje.setText("Ingresar un nombre valido")
+            QMessageBox.warning(self.navegacion, "Ingresar un nombre valido", "Nombre del servicio no valido.")
             return
         
         descripcion = self.navegacion.sDescripcion.text()
         if (len(descripcion) < 2):
-            self.navegacion.sMensaje.setText("Ingresar una descripcion valida")
+            QMessageBox.warning(self.navegacion, "Ingresar una descripcion valida", "Descripcion del servicio no valida.")
             return
 
         resCostoRenta = self.navegacion.sCostoRenta.text()
         if not (permitir_ingreso(resCostoRenta, 'numfloat')):
-            self.navegacion.sMensaje.setText("Ingrese un valor valido como costo de renta")
+            QMessageBox.warning(self.navegacion, "Ingresar costo valido", "El tipo de dato no es valido.")
             return
         else:
-            costo_renta = float(resCostoRenta)
+            if float(resCostoRenta) < 1:
+                QMessageBox.warning(self.navegacion, "Ingresar costo valido", "El costo del servicio no es valido.")
+            else:
+                costo_renta = float(resCostoRenta)
         
-        tipo_servicio = self.navegacion.sTipoServicio.text() # Combo box?
-        if not (permitir_ingreso(tipo_servicio, 'onlytext')):
-            self.navegacion.sMensaje.setText("Ingrese un tipo de servicio valido")
+        tipo_servicio = self.navegacion.sTipoServicio.currentData()
+        if tipo_servicio is None:
+            QMessageBox.warning(self.navegacion, "Ingresar un tipo de servicio", "No se ha ingresado un tipo de servicio.")
             return
+
+        #tipo_servicio = self.navegacion.sTipoServicio.text() # Combo box?
+        #if not (permitir_ingreso(tipo_servicio, 'onlytext')):
+        #    self.navegacion.sMensaje.setText("Ingrese un tipo de servicio valido")
+        #    return
 
         resultado = servicio.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
 
@@ -228,7 +245,7 @@ class AdministradorScreen():
         else:
             self.navegacion.sMensaje.setText("Registro concretado")
 
-    def actualizar_servicio(self):
+    def actualizar_servicio(self): # no lo encontre en la app asi q cuando regrese este apartado quiero hacer cambios a su funcionamiento
         resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.sNumeroServicio.text()) , self.navegacion.sNuevoValor.text())
         if resultado == False:
             self.navegacion.sMensajeAct.setText("Incorrecto")
@@ -284,42 +301,71 @@ class AdministradorScreen():
 
     def listar_reservaciones(self):
         self.navegacion.tResultadoS_2.clear()
-        self.navegacion.tResultadoS_3.clear()
-        reserva = int(self.navegacion.tipoBuscar_2.text())
+        self.limpiar_contenedores()
+
+        reserva = self.navegacion.tipoBuscar_2.text()
+        if (not reserva) or (not permitir_ingreso(reserva, 'numint')):
+            QMessageBox.warning(self.navegacion, "Valor no numerico", "Favor de ingresar un valor numerico valido")
+            return
+
         re = reservacion.info_reservacion(reserva)
         if not re:
-            pass
+            self.navegacion.tResultadoS_2.setText("Reservacion no encontrada, intente otra reservacion") 
         else:
             mensaje = f"\nReservacion: {re['numReser']}"
-            mensaje += f"            \nFecha de Reservacion: {re['fechaReser']}\n"
-            mensaje += f"            \nCliente: {re['cliNombreFiscal']}\n"
-            mensaje += f"            \nContacto: {re['cliContacto']}\n"
-            mensaje += f"            \nCorreo electronico: {re['cliEmail']}\n"
-            mensaje += f"            \n"
-            mensaje += f"            \nFecha del evento: {re['fechaEvento']}"
-            mensaje += f"            \nHora inicial: {re['horaInicioEvento']}\t Hora de finalizacion: {re['horaFinEvento']}\n"
-            mensaje += f"            \nSalon: {re['nombreSalon']}\tTipo de montaje: {re['tipoMontaje']}\n"
-            mensaje += f"            \nEstimado de asistentes: {re['estiamdoAsistentes']}\n"
-            mensaje += f"            \nEstado de Reservacion: {re['estadoReser']}\n"          
+            mensaje += f"\nFecha de Reservacion: {re['fechaReser']}"
+            mensaje += f"\nCliente: {re['cliNombreFiscal']}"
+            mensaje += f"\nContacto: {re['cliContacto']}"
+            mensaje += f"\nCorreo electronico: {re['cliEmail']}"
+            mensaje += f"\n"
+            mensaje += f"\nFecha del evento: {re['fechaEvento']}"
+            mensaje += f"\nHora inicial: {re['horaInicioEvento']}\t Hora de finalizacion: {re['horaFinEvento']}"
+            mensaje += f"\nSalon: {re['nombreSalon']}\tTipo de montaje: {re['tipoMontaje']}"
+            mensaje += f"\nEstimado de asistentes: {re['estiamdoAsistentes']}"
+            mensaje += f"\nEstado de Reservacion: {re['estadoReser']}"          
             
             self.navegacion.tResultadoS_2.setText(mensaje)
             
             resultadoE = equipamiento.listar_equipamientos_reser(reserva)
-            mensajeEQ = ""
-            contador = 0
-            for ree in  resultadoE:
-                contador += 1
-                mensajeEQ += f"\n{contador}. {ree['nombre']}, cantidad: {ree['cantidad']}\n"
-            
-            self.navegacion.tResultadoS_3.setText(mensajeEQ)
 
-            mensaje = ''
-            contador = 0
-            for servicio in re['servicios']:
-                contador += 1
-                mensaje += f"\n{contador}. {servicio}\n"
-              
-            self.navegacion.tResultadoS_5.setText(mensaje)
+
+            label_titulo = QLabel("--Equipamientos--")
+            label_titulo.setStyleSheet( """
+                                        color: Black;
+                                        background-color: Gray;
+                                        border-radius: 3px;
+                                        """)
+            self.navegacion.contenedorEquipamientos.layout().addWidget(label_titulo)
+
+            if resultadoE:
+                for ree in  resultadoE:
+                    self.agregar_equipamientos(ree['nombre'], ree['cantidad'])
+            else:
+                label_vacio = QLabel("No se solicito equipamiento(s)")
+                label_vacio.setStyleSheet("color: gray;")
+                self.navegacion.contenedorEquipamientos.layout().addWidget(label_vacio)
+
+            self.navegacion.contenedorEquipamientos.layout().addStretch()
+
+
+            label_titulo = QLabel("--Servicios--")
+            label_titulo.setStyleSheet( """
+                                        color: Black;
+                                        background-color: Gray;
+                                        border-radius: 3px;
+                                        """)
+            self.navegacion.contenedorServicios.layout().addWidget(label_titulo)
+
+            if re['servicios']:
+                for ser in re['servicios']:
+                    self.agregar_servicios(ser)
+            else:
+                label_vacio = QLabel("No se solicitaron servicio(s)")
+                label_vacio.setStyleSheet("color: gray;")
+                self.navegacion.contenedorServicios.layout().addWidget(label_vacio)
+
+            self.navegacion.contenedorServicios.layout().addStretch()
+
 
     def eliminar_servicio(self):
         resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
@@ -980,18 +1026,40 @@ class AdministradorScreen():
     
     
     def registrar_reservacion(self):
+        self.registrar_cliente()
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
         fechaReserE = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
+        cliente = self.navegacion.reRfc.text()
+        if (len(cliente) < 2) or not permitir_ingreso(cliente, 'onlytext'):
+            self.navegacion.reRfc.selectAll()
+            self.navegacion.reRfc.setFocus()
+            return 
+        
         cliente = self.navegacion.reNombre.text()
         print(resultadoEmail[0])
+        resultado = trabajador.obtener_rfc(resultadoEmail[0])
+        print(resultado["rfc"])
+        rfcTrabajador = resultado['rfc']
+
         resultado = trabajador.obtener_nombre(resultadoEmail[0])
         print(resultado["nombre"])
         rfcTrabajador = resultado['nombre']
         descripEvento  = self.navegacion.reDescripcion.text()
+        if (len(descripEvento) < 2) or not permitir_ingreso(descripEvento, 'onlytext'):
+            self.navegacion.reDescripcion.selectAll()
+            self.navegacion.reDescripcion.setFocus()
+            return 
+
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
+        if not permitir_ingreso(descripEvento, 'numint'):
+            self.navegacion.reEstimadoAsistentes.selectAll()
+            self.navegacion.reEstimadoAsistentes.setFocus()
+            return 
+
+        salon = self.navegacion.reSalonSelecc.currentText()
         # salon = self.navegacion.reSalonSelecc.currentText()
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
         print(tipo_montaje)
@@ -1006,10 +1074,21 @@ class AdministradorScreen():
         servicios = []
         lista_servicios = []
         servicios = self.navegacion.listaServicios.selectedItems()
+        print(servicios)
+
         for item in servicios:
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
+            print(data_servicio)
             lista_servicios.append(data_servicio['nombre'])
 
+        lista_equipamientos = [] 
+        for num_equipo,cantidad in sorted(self.datos_finales.items()):
+            equipa = ReserEquipamiento(num_equipo, cantidad)
+            lista_equipamientos.append(equipa)
+            print(equipa.equipamiento, equipa.cantidad)
+        resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
+        print(f"{resultado} creacion")
+    
 
     
         reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, cliente, sali['nombre'], self.generar_lista_equipamiento_reservado(), lista_servicios)
@@ -1198,7 +1277,7 @@ class AdministradorScreen():
             hora_inicio = self.navegacion.timeInicio_2.time().toString("HH:mm")
             hora_fin = self.navegacion.timeFin_2.time().toString("HH:mm")
             
-            print(f"➕ Intentando agregar evento: {nombre} | {fecha} | {hora_inicio}-{hora_fin}")
+            print(f"Intentando agregar evento: {nombre} | {fecha} | {hora_inicio}-{hora_fin}")
             
             # Validaciones simples
             if not nombre:
@@ -1349,11 +1428,11 @@ class AdministradorScreen():
             QMessageBox.information(None, "Éxito", "Todos los eventos han sido eliminados")
     
     def actualizar_estado_equipa(self):
-        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almBuscarE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
-        if resultado == False:
-            self.navegacion.almMensaje_2.setText("Incorrecto")
-        else:
+        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
+        if resultado:
             self.navegacion.almMensaje_2.setText("Correcto")
+        else:
+            self.navegacion.almMensaje_2.setText("Incorrecto")
 
     def buscar_historial_pagos(self):
         reservacion = self.navegacion.pagosBuscador.text()
@@ -1409,17 +1488,22 @@ class AdministradorScreen():
             return
         else:
             montoPago = int(mpago)
+            saldo = pagos.calcular_saldo(numReser)
+            if saldo < montoPago:
+                QMessageBox.warning(self.navegacion, "Ingresar un valor valido", "Se esta ingresando una cantidad mayor a la deuda.")
+                return
 
         descripcion = self.navegacion.reDescripcion_2.text()
 
         concepto = ""
         if self.navegacion.cbAbono.isChecked():
             concepto = "ABONO"
-        elif self.navegacion.cbLIquidacion.isChecked():
-            concepto = "LIQUI"
+        #elif self.navegacion.cbLiquidacion.isChecked():
+        #    concepto = "LIQUI"
         elif self.navegacion.cbUnico.isChecked():
             concepto = "PAGOU"
-        else:
+        elif pagos.obtener_no_pago(numReser) == 2:
+            concepto = "LIQUI"
             return
         
         metodo = ""
@@ -1443,7 +1527,7 @@ class AdministradorScreen():
         self.navegacion.reDescripcion_2.clear()
 
         checks = [
-            self.navegacion.cbTransferencia, self.navegacion.cbTarjeta, self.navegacion.cbNFC, self.navegacion.cbLiquidacion, self.navegacion.cbEfectivo, self.navegacion.cbAbono, self.navegacion.cbUnico 
+            self.navegacion.cbTransferencia, self.navegacion.cbTarjeta, self.navegacion.cbNFC, self.navegacion.cbEfectivo, self.navegacion.cbAbono, self.navegacion.cbUnico 
         ]
 
         for chec in checks:
@@ -1463,11 +1547,123 @@ class AdministradorScreen():
             numReser = int(reservac)
         
         decripcon = reservacion.reservacion_descripcion(numReser)
+        saldo = pagos.calcular_saldo(numReser)
+        if saldo:
+            saldo = round(saldo, 2)
+        else:
+            saldo = 0
+
+        if saldo < 0.1:
+            saldo = 0
 
         if decripcon:
-            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\n{decripcon}")
+            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser} \n{decripcon} \nSaldo Pendiente: {saldo}")
         else:
             self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
+
+    
+    def limpiar_contenedores(self):
+        layout1 = self.navegacion.contenedorEquipamientos.layout()
+        layout2 = self.navegacion.contenedorServicios.layout()
+
+        if layout1 is None:
+            layout1 = QVBoxLayout()
+            self.navegacion.contenedorEquipamientos.setLayout(layout1)
+
+        if layout2 is None:
+            layout2 = QVBoxLayout()
+            self.navegacion.contenedorServicios.setLayout(layout2)
+
+        while layout1.count():
+            item = layout1.takeAt(0)
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+        while layout2.count():
+            item = layout2.takeAt(0)
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+
+    def agregar_equipamientos(self, nombre, cantidad):
+        layout = self.navegacion.contenedorEquipamientos.layout()
+
+        tarjeta = QFrame()
+        tarjeta.setStyleSheet("""
+        QFrame {
+            color: Black;
+            border: 1px solid #dcdcdc;
+            border-right: 6px solid #9b542b;
+            border-radius: 5px;
+        }
+        """)
+
+        layoutTarjeta = QHBoxLayout()
+        tarjeta.setLayout(layoutTarjeta)
+
+        layoutDatos = QVBoxLayout()
+
+        label_nombre = QLabel(nombre)
+        label_nombre.setStyleSheet("""
+            color: rgb(0, 0, 0);
+            border-radius: 5px;
+            border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+            border-right: 3px solid  rgba(155, 88, 43, 1.0);
+        """)
+
+        label_cantidad = QLabel(f"Cantidad: {cantidad}")
+        label_cantidad.setStyleSheet("""
+            color: rgb(0, 0, 0);
+            border-radius: 5px;
+            border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+            border-right: 3px solid  rgba(155, 88, 43, 1.0);
+        """)
+        label_cantidad.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+
+        layoutDatos.addWidget(label_nombre)
+
+        layoutTarjeta.addLayout(layoutDatos)
+        layoutTarjeta.addWidget(label_cantidad)
+
+        layout.addWidget(tarjeta)
+
+
+    def agregar_servicios(self, nombre):
+            layout = self.navegacion.contenedorServicios.layout()
+
+            tarjeta = QFrame()
+            tarjeta.setStyleSheet("""
+            QFrame {
+                color: Black;
+                border: 1px solid #dcdcdc;
+                border-right: 6px solid #9b542b;
+                border-radius: 5px;
+            }
+            """)
+
+            layoutTarjeta = QHBoxLayout()
+            tarjeta.setLayout(layoutTarjeta)
+
+            layoutDatos = QVBoxLayout()
+
+            label_nombre = QLabel(nombre)
+            label_nombre.setStyleSheet("""
+                color: rgb(0, 0, 0);
+                border-radius: 5px;
+                border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+                border-right: 3px solid  rgba(155, 88, 43, 1.0);
+            """)
+            label_nombre.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+
+            layoutDatos.addWidget(label_nombre)
+
+            layoutTarjeta.addLayout(layoutDatos)
+
+            layout.addWidget(tarjeta)
 
 
     def volver_login(self, link):
@@ -1475,6 +1671,7 @@ class AdministradorScreen():
         if link == "cerrar":
             self.navegacion.hide()
             self.login = Login()
+
 
     # def initGUI(self):
     #     self.login.btnIniciar.clicked.connect(self.ingresar)

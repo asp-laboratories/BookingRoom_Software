@@ -9,9 +9,9 @@ from models.ReserEquipa import ReserEquipamiento
 reservacion = ReservacionService()
 
 def crear_reservacion():
-    equipam1 = ReserEquipamiento('TV', 1)
-    equipam2 = ReserEquipamiento('Computadora', 2)
-    equipamientos = [equipam1, equipam2]
+    equipam1 = ReserEquipamiento('microfono inalambr', 1)
+    equipam2 = ReserEquipamiento('tv', 2)
+    equipamientos = []
     servicios = []
     reservacion.crear_reservacion('2020-01-02', '2020-02-03', '10:10:10', '10:10:10', "Cosa", 10, 'montaje imperial', 'María', 'hector mendoza', 'chopin', equipamientos, servicios)
 

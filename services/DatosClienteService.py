@@ -16,7 +16,7 @@ class DatosClienteService:
     def listar_cliente_busqueda(self, rfc):
         return self.cliente_repository.listar_cliente_busqueda(rfc)
     def listar_clientes(self):
-        print("clientees: ")
+        print("clientes: ")
         cliente = self.cliente_repository.listar_cliente()
         print("RFC:\t Nombre:\t")
         for row in cliente:

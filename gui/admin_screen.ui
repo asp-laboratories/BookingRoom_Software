@@ -20,6 +20,12 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QFrame" name="sidebar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>220</width>
@@ -28,7 +34,7 @@
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
+        <width>220</width>
         <height>16777215</height>
        </size>
       </property>
@@ -44,6 +50,12 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QFrame" name="sideBar_2">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>200</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">border: none;
 background-color: rgba(155, 88, 43, 1.0);</string>
@@ -663,7 +675,7 @@ color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1031</width>
+         <width>1004</width>
          <height>3200</height>
         </rect>
        </property>
@@ -896,7 +908,7 @@ color: rgb(255, 255, 255);
              </rect>
             </property>
             <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
+             <cursorShape>ArrowCursor</cursorShape>
             </property>
             <property name="styleSheet">
              <string notr="true">QTabWidget::pane {
@@ -1621,6 +1633,9 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                 <height>61</height>
                </rect>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">border-radius: 10px;
 background-color: #2B9B32;</string>
@@ -1638,34 +1653,15 @@ background-color: #2B9B32;</string>
                 <height>61</height>
                </rect>
               </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
               <property name="styleSheet">
                <string notr="true">border-radius: 10px;
 background-color: #CA301B;</string>
               </property>
               <property name="text">
                <string>Cancelar</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="sTipoServicio">
-              <property name="geometry">
-               <rect>
-                <x>150</x>
-                <y>300</y>
-                <width>291</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Ingrese descripcion del tipo de servicio</string>
               </property>
              </widget>
              <widget class="QLineEdit" name="sDescripcion">
@@ -1830,6 +1826,79 @@ font-size: 28px;</string>
               </property>
               <property name="text">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="sTipoServicio">
+              <property name="geometry">
+               <rect>
+                <x>150</x>
+                <y>303</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::ContextMenuPolicy::ActionsContextMenu</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox {
+    background-color: #f5ddb9; 
+    color: #9b582b;         
+    border: 2px solid #9b582b; 
+    border-radius: 5px;  
+    padding: 5px; 
+    font-size: 14px;
+    font-family: &quot;Adwaita Sans&quot;; 
+}
+
+
+QComboBox:hover {
+    border: 2px solid #c7837c; 
+    background-color: #fff0d9; 
+}
+
+
+QComboBox:on { 
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left-width: 1px;
+    border-left-color: #9b582b;
+    border-left-style: solid;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #9b582b;
+}
+
+QComboBox::down-arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white; 
+    margin-top: 2px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #f5ddb9; 
+    color: #5c3519;    
+    border: 1px solid #9b582b;
+    selection-background-color: #9b582b; 
+    selection-color: white; 
+    outline: 0px;  
+}</string>
+              </property>
+              <property name="placeholderText">
+               <string>Seleccione el tipo de servicio</string>
               </property>
              </widget>
             </widget>
@@ -3966,7 +4035,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -4706,8 +4775,8 @@ background-color: rgb(34, 76, 184);</string>
                <rect>
                 <x>110</x>
                 <y>150</y>
-                <width>701</width>
-                <height>321</height>
+                <width>761</width>
+                <height>211</height>
                </rect>
               </property>
               <property name="font">
@@ -4772,79 +4841,6 @@ background-color: rgb(34, 76, 184);</string>
                <string>Buscar</string>
               </property>
              </widget>
-             <widget class="QTextEdit" name="tResultadoS_3">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>530</y>
-                <width>341</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="tResultadoS_5">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>470</x>
-                <y>530</y>
-                <width>341</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-
-
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
              <widget class="QLabel" name="label_46">
               <property name="geometry">
                <rect>
@@ -4874,8 +4870,8 @@ color: rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>110</x>
-                <y>480</y>
-                <width>381</width>
+                <y>380</y>
+                <width>361</width>
                 <height>41</height>
                </rect>
               </property>
@@ -4898,8 +4894,8 @@ color: rgba(155, 88, 43, 1.0);
              <widget class="QLabel" name="label_49">
               <property name="geometry">
                <rect>
-                <x>470</x>
-                <y>480</y>
+                <x>520</x>
+                <y>380</y>
                 <width>381</width>
                 <height>41</height>
                </rect>
@@ -4920,10 +4916,58 @@ color: rgba(155, 88, 43, 1.0);
                <string>Servicios</string>
               </property>
              </widget>
+             <widget class="QScrollArea" name="scrollareaEquipamientosReservacion">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>430</y>
+                <width>371</width>
+                <height>341</height>
+               </rect>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="contenedorEquipamientos">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>369</width>
+                 <height>339</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_6"/>
+              </widget>
+             </widget>
+             <widget class="QScrollArea" name="scrollAreaServiciosReservacion">
+              <property name="geometry">
+               <rect>
+                <x>520</x>
+                <y>430</y>
+                <width>371</width>
+                <height>341</height>
+               </rect>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="contenedorServicios">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>369</width>
+                 <height>339</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7"/>
+              </widget>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab">
              <attribute name="title">
-              <string>Page</string>
+              <string>Fecha especifica</string>
              </attribute>
              <widget class="QTextEdit" name="tResultadoS_4">
               <property name="enabled">
@@ -5072,7 +5116,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">
@@ -6100,44 +6144,6 @@ background-color: #CA301B;</string>
                <string>Concepto pago</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbEfectivo">
-              <property name="geometry">
-               <rect>
-                <x>160</x>
-                <y>530</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Efectivo</string>
-              </property>
-             </widget>
-             <widget class="QCheckBox" name="cbTransferencia">
-              <property name="geometry">
-               <rect>
-                <x>470</x>
-                <y>530</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Transferencia</string>
-              </property>
-             </widget>
              <widget class="QPushButton" name="reConfirmar_2">
               <property name="geometry">
                <rect>
@@ -6225,25 +6231,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Monto a pagar</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbTarjeta">
-              <property name="geometry">
-               <rect>
-                <x>320</x>
-                <y>530</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Tarjeta</string>
-              </property>
-             </widget>
              <widget class="QLabel" name="lNombreS_21">
               <property name="geometry">
                <rect>
@@ -6268,25 +6255,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Descripcion</string>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cbNFC">
-              <property name="geometry">
-               <rect>
-                <x>640</x>
-                <y>530</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>NFC</string>
-              </property>
-             </widget>
              <widget class="QLineEdit" name="reDescripcion_2">
               <property name="geometry">
                <rect>
@@ -6307,63 +6275,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               </property>
               <property name="placeholderText">
                <string>Ingrese una descripcion para el pago</string>
-              </property>
-             </widget>
-             <widget class="QCheckBox" name="cbUnico">
-              <property name="geometry">
-               <rect>
-                <x>480</x>
-                <y>430</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Pago Unico</string>
-              </property>
-             </widget>
-             <widget class="QCheckBox" name="cbLiquidacion">
-              <property name="geometry">
-               <rect>
-                <x>310</x>
-                <y>430</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Liquidacion</string>
-              </property>
-             </widget>
-             <widget class="QCheckBox" name="cbAbono">
-              <property name="geometry">
-               <rect>
-                <x>170</x>
-                <y>430</y>
-                <width>111</width>
-                <height>26</height>
-               </rect>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);</string>
-              </property>
-              <property name="text">
-               <string>Abono</string>
               </property>
              </widget>
              <widget class="QLineEdit" name="reMontoPago">
@@ -6392,16 +6303,17 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <property name="geometry">
                <rect>
                 <x>460</x>
-                <y>90</y>
+                <y>70</y>
                 <width>351</width>
-                <height>51</height>
+                <height>71</height>
                </rect>
               </property>
               <property name="styleSheet">
                <string notr="true">color: rgb(0, 0, 0);
 border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+border-bottom: 3px solid rgb(0, 0, 0);
+border-right: 3px solid  rgb(0, 0, 0);
+</string>
               </property>
               <property name="undoRedoEnabled">
                <bool>true</bool>
@@ -6433,6 +6345,218 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <property name="text">
                <string>Metodo de Pago</string>
               </property>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>410</y>
+                <width>681</width>
+                <height>59</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QGroupBox{
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);
+}</string>
+              </property>
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>118</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="0" column="4">
+                <widget class="QRadioButton" name="cbUnico">
+                 <property name="styleSheet">
+                  <string notr="true">color: Black</string>
+                 </property>
+                 <property name="text">
+                  <string>Pago Unico</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QRadioButton" name="cbAbono">
+                 <property name="styleSheet">
+                  <string notr="true">QRadioButton{
+	color: Black;
+}
+
+QRadioButton::indicator{
+	color:rgba(155, 88, 43, 1.0)
+	width: 16px;            
+    height: 16px;           
+    border-radius: 9px;   
+    border: 2px solid #9b582b;
+}
+
+QRadioButton::indicator:hover{
+	border: 2px solid #c7837c;
+	background-color: rgb(149, 191, 255);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Abono</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="0" column="0">
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="0" column="5">
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="geometry">
+               <rect>
+                <x>130</x>
+                <y>530</y>
+                <width>681</width>
+                <height>59</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QGroupBox{
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);
+}</string>
+              </property>
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_2">
+               <item row="1" column="7">
+                <widget class="QRadioButton" name="cbNFC">
+                 <property name="styleSheet">
+                  <string notr="true">color: Black</string>
+                 </property>
+                 <property name="text">
+                  <string>NFC</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QRadioButton" name="cbEfectivo">
+                 <property name="styleSheet">
+                  <string notr="true">color: Black</string>
+                 </property>
+                 <property name="text">
+                  <string>Efectivo</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="5">
+                <widget class="QRadioButton" name="cbTransferencia">
+                 <property name="styleSheet">
+                  <string notr="true">color: Black</string>
+                 </property>
+                 <property name="text">
+                  <string>Transferencia</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QRadioButton" name="cbTarjeta">
+                 <property name="styleSheet">
+                  <string notr="true">color: Black</string>
+                 </property>
+                 <property name="text">
+                  <string>Tarjeta</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4">
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="2">
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="6">
+                <spacer name="horizontalSpacer_7">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
              </widget>
             </widget>
             <widget class="QWidget" name="tab_26">

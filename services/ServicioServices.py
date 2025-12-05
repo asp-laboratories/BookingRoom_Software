@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from config.db_settings import BaseDeDatos
 from models.Servicios import Servicio
 from repositories_crud.ServicioRepository import ServicioRepository
@@ -60,3 +64,7 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
     # def servicios_tipo(self, descripciont):
     #     codigoTiServicio = self.tipo_repository.obtener_codigo_tipo(descripciont)
     #     return self.servicio_repository.servicio_mismo_tipo(codigoTiServicio)
+
+if __name__ == "__main__":
+    tporsrv = ServicioService()
+    tporsrv.actualizar_campos('nombre', 1, 'Cerrajeros')

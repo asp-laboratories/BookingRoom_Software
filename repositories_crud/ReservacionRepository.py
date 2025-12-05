@@ -18,6 +18,7 @@ class ReservacionRepository:
             cursor.execute( """
                             SELECT mo.costoRenta, mm.cantidad
                             FROM montaje_mobiliario as mm
+                            INNER JOIN datos_montaje as dm on mm.datos_montaje = dm.numDatMon
                             INNER JOIN mobiliario as mo on mm.mobiliario = mo.numMob
                             WHERE mm.datos_montaje = %s
                             """, (reservacion.datos_montaje,))
@@ -101,9 +102,6 @@ class ReservacionRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
-
-
 
     def listar_reservacion_fecha(self, fecha):
         if not self.db.conectar():

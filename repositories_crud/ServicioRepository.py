@@ -35,6 +35,7 @@ class ServicioRepository:
             #ejecutara.
             self.db.desconectar()
 
+
     def listar_servicio(self):#Metodo para traer todos los datos de una tabla.
         if not self.db.conectar(): # La misma explicacion la conexion de arriba pero en esta ocasion retorna None, significa que si no pudo conectarse devuelva NADA.
             return False
@@ -68,26 +69,22 @@ class ServicioRepository:
             self.db.desconectar()
         return resultados # Retornamos el resultado, tenemos que recordar que es un diccionario, importante.
 
+
     def actualizar_servicios(self, campo, numServicio, valor):
         if not self.db.conectar():
             return False
-        CAMPOS = {
-            "Nombre": "nombre",
-            "Costo renta": "costoRenta",
-            "Tipo de servicio": "tipo_servicio",
-            "Descripcion" : "descripcion"
-        }
+        
+        CAMPOS = ['nombre','costoRenta', 'tipo_servicio', 'descripcion']
         
         if campo not in CAMPOS:
             print("Error: Nombre de campo no válido o no permitido para actualización.")
             return False
-        campo_act = CAMPOS[campo]
 
         try:
            cursor = self.db.cursor(dictionary=True)
            cursor.execute(f"""
                 UPDATE servicio
-                SET {campo_act} = %s 
+                SET {campo} = %s 
                 WHERE numServicio =%s
            """,(valor, numServicio, ))
            self.db.connection.commit()
@@ -98,8 +95,6 @@ class ServicioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
-
 
 
     def eliminar_servicios(self, numServicio):
@@ -118,9 +113,8 @@ class ServicioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
-
     
+
     def obtener_servicios_inner(self): #Metodo para traer mucha informacion en un inner join.
         if not self.db.conectar():
             return None # Misma explicacion de arriba.
@@ -165,6 +159,7 @@ class ServicioRepository:
         finally:
             self.db.desconectar() #desconectar base de datos y cursor.
 
+
     def obtener_num_servicio(self, nombre):
         if not self.db.conectar():
             return None
@@ -183,7 +178,7 @@ class ServicioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-        
+     
         
     def conjunto_servicios(self, descripcion):
         if not self.db.conectar():

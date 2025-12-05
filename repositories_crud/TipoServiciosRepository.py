@@ -70,8 +70,6 @@ class TipoServiciosRepository:
             cursor.close()
             self.db.desconectar()
  
-
-
     def obtener_servicios_de_tipo(self, tipo_servicio):
         if not self.db.conectar():
             return None
@@ -113,8 +111,6 @@ class TipoServiciosRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-    
-    
      
     def obtener_codigo_tipo(self, nombre):
         if not self.db.conectar():
@@ -134,3 +130,27 @@ class TipoServiciosRepository:
             cursor.close()
             self.db.desconectar()
 
+    def listar_tipos_sevicios(self):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT *
+                            FROM tipo_servicio
+                            """)
+            
+            resultados = cursor.fetchall()
+
+            return resultados
+        
+        except Exception as error:
+            print(f"Error al listar los tipos de servicios: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+    
