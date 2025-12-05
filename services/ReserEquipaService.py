@@ -5,6 +5,7 @@ from repositories_crud.ReserEquiRepository import ReserEquiRepository
 class ReserEquipaService:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.reserE = ReserEquiRepository(self.db)
 
     

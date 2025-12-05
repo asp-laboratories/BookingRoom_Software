@@ -6,6 +6,7 @@ from repositories_crud.TelefonoRepository import TelefonoRepository
 class TelefonoServices:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.telefono_repository = TelefonoRepository(self.db)
        
     def registrar_telefono(self, tel, datos_cliente, trabajador):
@@ -18,4 +19,7 @@ class TelefonoServices:
         print("Telefono:\t Cliente:\t Trabajador:")
         for row in telefono:
             print(f"{row['telefono']}\t\t\t {row['datos_cliente']}\t\t\t {row['trabajador']}")
+
+    def listar_telefonos_info(self,rfc):
+        return self.telefono_repository.listar_telefono_informacion(rfc)
 

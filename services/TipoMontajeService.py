@@ -8,6 +8,7 @@ class TipoMontajeService:
     # Constructor
     def __init__(self):
         db = BaseDeDatos(database='BookingRoomLocal')
+        # db = BaseDeDatos(database='BookingRoomLoca')
         self.TipoMontajeRepository = TipoMontajeRepository(db)
         self.DatosMontajeRepository = DatosMontajeRepository(db)
         self.SalonServices = SalonServices()

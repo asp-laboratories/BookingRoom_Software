@@ -16,6 +16,7 @@ class mobiliarioService:
     # Constructor
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.mobiliario_repository = MobiliarioRepository(self.db)
         self.tipoMobiliario_repository = TipoMobiliarioRepository(self.db)
         self.estaMob_repository = EstadoMobiliarioRepository(self.db)

@@ -12,6 +12,7 @@ class ReservacionService:
     # Constructor
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.reservacion_repository = ReservacionRepository(self.db)
         self.tipo_montajeService = TipoMontajeService()
         self.TrabajadorService = TrabajadorServices()

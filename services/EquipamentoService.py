@@ -10,6 +10,7 @@ class EquipamentoService:
     # Constructor 
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.equipamento_repository = EquipamentoRepository(self.db)
         self.tipo_equipamiento = TipoEquipaRepository(self.db)
         self.estado = EstadoEquipaRepository(self.db)

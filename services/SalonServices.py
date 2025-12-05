@@ -6,6 +6,7 @@ from repositories_crud.SalonRepository import SalonRepository
 class SalonServices:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.salon_repository = SalonRepository(self.db)
        
     def registrar_salones(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2):

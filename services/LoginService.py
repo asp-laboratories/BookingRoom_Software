@@ -7,6 +7,7 @@ from utils.horario import horario
 class LoginService:
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
+        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.login_repository = LoginRepository(self.db)
 
     def registrar_trabajadores(self, email, numTrabajador):
