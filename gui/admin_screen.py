@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime, date, timedelta
 from PyQt6 import uic
 from PyQt6.QtGui import QBrush, QColor
-from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QVBoxLayout, QPushButton
+from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
@@ -116,6 +116,8 @@ class AdministradorScreen():
         self.navegacion.almBuscarE_2.clicked.connect(self.buscar_mobiliario_por_tipo)
         self.navegacion.almBuscarE_3.clicked.connect(self.buscar_datos_mobiliario)
         self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_tipo_montaje)
+        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje2)
+        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje_tree)
 
         
         # Eventos del cliente dentro de reservaciones
@@ -451,7 +453,106 @@ class AdministradorScreen():
             
             self.navegacion.almResulE_5.setText(mensaje)
     
+    def buscar_mobiliario_montaje2(self):
+        # Limpiar tabla
+        self.navegacion.tableWidget.clearContents()
+        self.navegacion.tableWidget.setRowCount(0)
+        
+        resultado = tipo_montaje.listar_mobiliarios_montaje(self.navegacion.almBuscadorE_5.text())
 
+        
+        if not resultado:
+            # Opcional: Mostrar mensaje en la misma tabla
+            self.navegacion.tableWidget.setRowCount(1)
+            self.navegacion.tableWidget.setColumnCount(4)
+            self.navegacion.tableWidget.setHorizontalHeaderLabels(["Resultado"])
+            self.navegacion.tableWidget.setSpan(0, 0, 1, 4)
+            self.navegacion.tableWidget.setItem(0, 0, QTableWidgetItem("No se encontraron resultados"))
+            return
+        
+        # Configurar tabla
+        headers = ["Tipo de Montaje", "Salón", "Mobiliario", "Cantidad"]
+        self.navegacion.tableWidget.setColumnCount(len(headers))
+        self.navegacion.tableWidget.setHorizontalHeaderLabels(headers)
+        self.navegacion.tableWidget.setRowCount(len(resultado))
+        
+        # Llenar tabla
+        for row, item in enumerate(resultado):
+            for col in range(4):
+                if isinstance(item, dict):
+                    # Mapeo de diccionario
+                    valores = [
+                        item.get('tipo_montaje', ''),
+                        item.get('salon', ''),
+                        item.get('mobiliario', ''),
+                        str(item.get('cantidad', ''))
+                    ]
+                else:
+                    # Mapeo de tupla
+                    valores = [
+                        str(item[0]) if len(item) > 0 else '',
+                        str(item[1]) if len(item) > 1 else '',
+                        str(item[2]) if len(item) > 2 else '',
+                        str(item[3]) if len(item) > 3 else ''
+                    ]
+                
+                table_item = QTableWidgetItem(valores[col])
+                self.navegacion.tableWidget.setItem(row, col, table_item)
+        
+        # Ajustar columnas automáticamente
+        self.navegacion.tableWidget.resizeColumnsToContents()
+        
+        # Opcional: Hacer que las filas alternen colores
+        self.navegacion.tableWidget.setAlternatingRowColors(True)
+    def buscar_mobiliario_montaje_tree(self):
+        # Usar QTreeWidget en lugar de QTableWidget
+        self.navegacion.treeWidget.clear()  # Cambia tableWidget por treeWidget
+        
+        resultado = tipo_montaje.listar_mobiliarios_montaje(self.navegacion.almBuscadorE_5.text())
+        
+        if not resultado:
+            return
+        
+        es_diccionario = isinstance(resultado[0], dict)
+        
+        # Agrupar por tipo_montaje -> salón -> mobiliario
+        estructura = {}
+        
+        for item in resultado:
+            if es_diccionario:
+                tipo = item['tipo_montaje']
+                salon = item['salon']
+                mobiliario = item['mobiliario']
+                cantidad = item['cantidad']
+            else:
+                tipo = item[0]
+                salon = item[1]
+                mobiliario = item[2]
+                cantidad = item[3]
+            
+            if tipo not in estructura:
+                estructura[tipo] = {}
+            
+            if salon not in estructura[tipo]:
+                estructura[tipo][salon] = []
+            
+            estructura[tipo][salon].append(f"{mobiliario}: {cantidad} unidades")
+        
+        # Construir árbol
+        for tipo, salones in estructura.items():
+            tipo_item = QTreeWidgetItem(self.navegacion.treeWidget)
+            tipo_item.setText(0, f"Tipo: {tipo}")
+            
+            for salon, mobiliarios in salones.items():
+                salon_item = QTreeWidgetItem(tipo_item)
+                salon_item.setText(0, f"Salón: {salon}")
+                
+                for mob in mobiliarios:
+                    mob_item = QTreeWidgetItem(salon_item)
+                    mob_item.setText(0, mob)
+        
+        # Expandir todos los items
+        self.navegacion.treeWidget.expandAll() 
     def limpiar_salon(self):
         self.navegacion.saNombre.clear()
         self.navegacion.saCostoRenta.clear()
@@ -678,11 +779,13 @@ class AdministradorScreen():
     
     def mostrar_info_salon(self):
         salNumero = self.navegacion.reSalonSelecc.currentData()
-        print(salNumero)
+        print("ESTE ES EL NUMERO DEL SALONESTE ES EL NUMERO DEL SALON::",salNumero)
         sali = self.buscar_usuario_por_id(salNumero)
         mensaje = "INFORMACION DEL SALON"
         mensaje += f"\n NOMBRE: {sali["nombre"]}"
         mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
+        print("Es el nombre:",sali["nombre"])
+        
         self.subtotal_salon = 0.0
         self.subtotal_salon = sali["costoRenta"]
         if sali:
@@ -869,60 +972,72 @@ class AdministradorScreen():
             controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
         
         self.calcular_total_general()
-    # # 1. Actualizar la cantidad en el diccionario
-    #     nueva_cantidad = self.cantidades[nombre] + cambio
-    #     
-    #     # 2. Validar que no sea menor a 0
-    #     if nueva_cantidad < 0:
-    #         return  # No hacer nada si sería negativo
-    #     
-    #     # 3. Guardar la nueva cantidad
-    #     self.cantidades[nombre] = nueva_cantidad
-    #     
-    # Q    # 4. Actualizar los labels en la interfaz
-    #     if nombre in self.controles_equipos:
-    #         controles = self.controles_equipos[nombre]
-    #         
-    #         # Actualizar label de cantidad (ej: "1" → "2")
-    #         controles['label_cantidad'].setText(str(nueva_cantidad))
-    #         print(nueva_cantidad)
-    #         print(numEquipa)
-    #         # Calcular y actualizar subtotal
-    #         nuevo_subtotal = nueva_cantidad * controles['costo']
-    #         controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
-    #     self.calcular_total_general()
+    
+    def generar_lista_equipamiento_reservado(self):
+        # Lista para almacenar los objetos ReserEquipamiento
+        lista_objetos_reservados = []
+        
+        # Obtener solo los items que están actualmente seleccionados en la GUI
+        equipamientos_seleccionados = self.navegacion.listaEquipamiento.selectedItems()
+        
+        for item in equipamientos_seleccionados:
+            # 1. Obtener los datos del ítem
+            equipa_data = item.data(Qt.ItemDataRole.UserRole)
+            nombre = equipa_data.get('nombre')
+            # Opcional: Si la clase ReserEquipamiento requiere el ID único (numEquipa)
+            # numEquipa = equipa_data.get('numEquipa') 
+    
+            # 2. Consultar la cantidad final en el diccionario de estado
+            cantidad_final = self.cantidades.get(nombre, 0)
+            
+            # 3. Crear el objeto SÓLO si la cantidad es mayor a cero
+            if cantidad_final > 0:
+                # Crear la instancia de la clase ReserEquipamiento
+                nuevo_objeto = ReserEquipamiento(nombre, cantidad_final)
+                
+                # Agregar el objeto a la lista final
+                lista_objetos_reservados.append(nuevo_objeto)
+    
+        # El resultado final es una lista de objetos, idéntica a tu prueba de funcionamiento.
+        return lista_objetos_reservados
+    
     
     def registrar_reservacion(self):
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
-        fechaReser = date.today()
+        fechaReserE = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
-        cliente = self.navegacion.reRfc.text()
+        cliente = self.navegacion.reNombre.text()
         print(resultadoEmail[0])
-        resultado = trabajador.obtener_rfc(resultadoEmail[0])
-        print(resultado["rfc"])
-        rfcTrabajador = resultado['rfc']
+        resultado = trabajador.obtener_nombre(resultadoEmail[0])
+        print(resultado["nombre"])
+        rfcTrabajador = resultado['nombre']
         descripEvento  = self.navegacion.reDescripcion.text()
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
-        salon = self.navegacion.reSalonSelecc.currentText()
+        # salon = self.navegacion.reSalonSelecc.currentText()
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
-
+        print(tipo_montaje)
+        salNumero = self.navegacion.reSalonSelecc.currentData()
+        sali = self.buscar_usuario_por_id(salNumero)
+        print("Es el nombre MIRA W:",sali["nombre"])
+        
+        
+        equipam1 = ReserEquipamiento('TV', 1)
+        equipam2 = ReserEquipamiento('Computadora', 2)
+        equipamientos = [equipam1, equipam2]
+        servicios = []
         lista_servicios = []
         servicios = self.navegacion.listaServicios.selectedItems()
-
         for item in servicios:
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
             lista_servicios.append(data_servicio['nombre'])
 
-        lista_equipamientos = [] 
-        for num_equipo,cantidad in sorted(self.datos_finales.items()):
-            equipa = ReserEquipamiento(num_equipo, cantidad)
-            lista_equipamientos.append(equipa)
-
-        resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
 
     
+        reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, cliente, sali['nombre'], self.generar_lista_equipamiento_reservado(), lista_servicios)
+
+ 
     def calcular_total_general(self):
         """Calcula el total de todos los equipos seleccionados"""
         total = 0
