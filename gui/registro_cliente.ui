@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1059</width>
     <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Registro del cliente</string>
+  </property>
+  <property name="accessibleName">
+   <string/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -24,8 +27,8 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>1016</width>
+         <y>-309</y>
+         <width>1051</width>
          <height>1350</height>
         </rect>
        </property>
@@ -67,7 +70,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <property name="geometry">
             <rect>
              <x>230</x>
-             <y>620</y>
+             <y>604</y>
              <width>291</width>
              <height>51</height>
             </rect>
@@ -88,10 +91,10 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
           <widget class="QLabel" name="lNombreS_12">
            <property name="geometry">
             <rect>
-             <x>600</x>
-             <y>920</y>
+             <x>590</x>
+             <y>893</y>
              <width>291</width>
-             <height>41</height>
+             <height>40</height>
             </rect>
            </property>
            <property name="font">
@@ -239,7 +242,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <property name="geometry">
             <rect>
              <x>230</x>
-             <y>840</y>
+             <y>839</y>
              <width>291</width>
              <height>41</height>
             </rect>
@@ -262,8 +265,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
           <widget class="QLineEdit" name="reCalle">
            <property name="geometry">
             <rect>
-             <x>600</x>
-             <y>960</y>
+             <x>587</x>
+             <y>940</y>
              <width>291</width>
              <height>51</height>
             </rect>
@@ -284,8 +287,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
           <widget class="QPushButton" name="clienteConfirmar">
            <property name="geometry">
             <rect>
-             <x>390</x>
-             <y>1140</y>
+             <x>410</x>
+             <y>1150</y>
              <width>261</width>
              <height>61</height>
             </rect>
@@ -348,7 +351,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <property name="geometry">
             <rect>
              <x>230</x>
-             <y>690</y>
+             <y>677</y>
              <width>291</width>
              <height>41</height>
             </rect>
@@ -432,30 +435,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            </property>
            <property name="placeholderText">
             <string>Ingrese el numero de la direcion del cliente</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="clienteMen">
-           <property name="geometry">
-            <rect>
-             <x>390</x>
-             <y>1230</y>
-             <width>251</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <family>Adwaita Sans</family>
-             <pointsize>-1</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
           <widget class="QLineEdit" name="reRfc">
@@ -635,7 +614,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <property name="geometry">
             <rect>
              <x>230</x>
-             <y>740</y>
+             <y>727</y>
              <width>291</width>
              <height>51</height>
             </rect>
@@ -682,7 +661,7 @@ color: rgba(155, 88, 43, 1.0);
            <property name="geometry">
             <rect>
              <x>230</x>
-             <y>560</y>
+             <y>551</y>
              <width>291</width>
              <height>41</height>
             </rect>

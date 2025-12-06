@@ -37,26 +37,26 @@ class RegistroCliente():
 
         rfc = self.registro_cliente.reRfc.text()
         if (not permitir_ingreso(rfc, 'rfc')) or len(rfc) < 2:
-            self.registro.reRfc.selectAll()
-            self.registro.reRfc.setFocus()
+            self.registro_cliente.reRfc.selectAll()
+            self.registro_cliente.reRfc.setFocus()
             return
 
         nombre = self.registro_cliente.reNombre.text()
         if (not permitir_ingreso(nombre, 'onlytext')) or len(nombre) < 2:
-            self.registro.reNombre.selectAll()
-            self.registro.reNombre.setFocus()
+            self.registro_cliente.reNombre.selectAll()
+            self.registro_cliente.reNombre.setFocus()
             return
 
         priApellido = self.registro_cliente.reApellPat.text()
         if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
-            self.registro.reApellPat.selectAll()
-            self.registro.reApellPat.setFocus()
+            self.registro_cliente.reApellPat.selectAll()
+            self.registro_cliente.reApellPat.setFocus()
             return
 
         priAmater = self.registro_cliente.reApellMa.text()
         if (not permitir_ingreso(nombre, 'onlytext')) or len(priApellido) < 2:
-            self.registro.reApellMa.selectAll()
-            self.registro.reApellMa.setFocus()
+            self.registro_cliente.reApellMa.selectAll()
+            self.registro_cliente.reApellMa.setFocus()
             return
 
         resultado = cliente.registrar_clientes(rfc, nombre, priApellido, self.registro_cliente.reApellMa.text(), self.registro_cliente.reNombreFiscal.text(), self.registro_cliente.reCorreo.text(), self.registro_cliente.reColonia.text(), self.registro_cliente.reCalle.text(), int(self.registro_cliente.reNumero.text()), tipo_cliente)
@@ -65,11 +65,11 @@ class RegistroCliente():
         telefono.registrar_telefono(self.registro_cliente.reTelefono2.text(), self.registro_cliente.reRfc.text(),None)
         telefono.registrar_telefono(self.registro_cliente.reTelefono3.text(), self.registro_cliente.reRfc.text(),None)
         
-        if resultado == False:
-            self.registro_cliente.clienteMen.setText("Incorrecto")
+        if resultado == None:
+            QMessageBox.information(self.registro_cliente, "Error al crear cliente",  f"No se pudo registrar el cliente:")
         else:
-            self.registro_cliente.clienteMen.setText("Corecto")
-
+            QMessageBox.information(self.registro_cliente, "Cliente registrado",  f"Cliente registrado: {nombre} {priApellido} {priAmater}")
+    
     def deshabilitar_telefonos(self):
         self.registro_cliente.reTelefono2.setEnabled(False)
         self.registro_cliente.reTelefono3.setEnabled(False)
