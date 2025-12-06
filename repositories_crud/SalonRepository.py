@@ -81,7 +81,7 @@ class SalonRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("""SELECT numSalon FROM datos_salon WHERE nombre like %s""", (f"{nombre}%",))
+            cursor.execute("""SELECT numSalon FROM datos_salon WHERE nombre = %s""", (nombre,))
             numSalon = cursor.fetchone()
             
             return numSalon
