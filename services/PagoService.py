@@ -27,6 +27,8 @@ class PagoServices:
             print("Maximo de pagos alcanzados")
             return
         else:
+            if nopago ==2:
+                concepto = 'LIQUI'
             saldo = self.calcular_saldo(numReser) - montoPago
             pago = Pago(montoPago, descripcion, fecha, horak, nopago + 1, saldo, numReser, metodo, concepto)
             return self.PagoRepository.crear_pago(pago)

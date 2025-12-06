@@ -88,12 +88,12 @@ class TipoMontajeRepository:
                                 ds.nombre as salon,
                                 mob.nombre as mobiliario,
                                 mm.cantidad as cantidad
-                            FROM datos_montaje as dm
-                            INNER JOIN montaje_mobiliario as mm on mm.datos_montaje = dm.numDatMon
-                            INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon
-                            INNER JOIN mobiliario as mob on mm.mobiliario = mob.numMob
-                            INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
-                            WHERE tm.codigoMon = %s
+                                FROM datos_montaje as dm
+                                INNER JOIN montaje_mobiliario as mm on mm.datos_montaje = dm.numDatMon
+                                INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon
+                                INNER JOIN mobiliario as mob on mm.mobiliario = mob.numMob
+                                INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+                                WHERE tm.codigoMon = %s
                             """, (codigoMon,))
 
             resultados = cursor.fetchall()

@@ -115,7 +115,7 @@ class AdministradorScreen():
         self.navegacion.almConfirmar_2.clicked.connect(self.actualizar_estado_equipa)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
-        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje_tree)
+        self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje)
 
         
         self.navegacion.buscarCliente.clicked.connect(self.buscar_cliente)
@@ -189,7 +189,7 @@ class AdministradorScreen():
         else:
             mensaje = "\n---RESERVACIONES---\n"
             for f in resultado:
-                mensaje += f"\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nHora: {f["hra_ini"]} a {f['hra_fin']}\nAsistentes: {f["asistentes"]}\nSalon: {f['salon']}"
+                mensaje += f"\n\nCliente: {f["cliente"]}\nEvento: {f["evento"]}\nHora: {f["hra_ini"]} a {f['hra_fin']}\nAsistentes: {f["asistentes"]}\nSalon: {f['salon']}"
                 self.navegacion.tResultadoS_4.setText(mensaje)
          
 
@@ -464,30 +464,16 @@ class AdministradorScreen():
         if resultado == None or len(resultado) == 0:
             self.navegacion.almResulE_5.setText("No se encontraron resultados")
         else:
-            # Agrupar por salón para mejor presentación
-            salones = {}
-            for item in resultado:
-                salon = item[1]  # Índice 1 es el salón
-                if salon not in salones:
-                    salones[salon] = []
-                salones[salon].append(item)
             
-            mensaje = "\n---MOBILIARIO POR TIPO DE MONTAJE---\n"
-            mensaje += f"\nTipo de montaje: {resultado[0][0]}\n"  # tipo_montaje del primer registro
+            mensaje = "\n---MOBILIARIO POR TIPO DE MONTAJE---"
             
-            # Mostrar por cada salón
-            for salon, items in salones.items():
-                mensaje += f"\n\n---SALÓN: {salon}---\n"
-                
-                # Mostrar mobiliarios de este salón
-                total_items = 0
-                for item in items:
-                    mobiliario = item[2]  # Índice 2 es mobiliario
-                    cantidad = item[3]    # Índice 3 es cantidad
-                    mensaje += f"\n• {mobiliario}: {cantidad} unidades"
-                    total_items += cantidad
-                
-                mensaje += f"\n\nTotal mobiliarios en {salon}: {total_items} unidades"
+            for salon in resultado:
+                mensaje += f"\n\n----Salon {salon['nombre']}----"
+                mensaje += f"\nMobiliarios necesarios:"
+                contador = 0
+                for mobiliario in salon['mobiliarios']:
+                    contador += 1
+                    mensaje += f"\n{contador}. {mobiliario.mobiliario}\tCantidad: {mobiliario.cantidad}"
             
             self.navegacion.almResulE_5.setText(mensaje)
 
@@ -517,7 +503,6 @@ class AdministradorScreen():
             
             self.navegacion.almResulE_5.setText(mensaje)
     
-
     def buscar_mobiliario_montaje2(self):
         # Limpiar tabla
         self.navegacion.tableWidget.clearContents()
@@ -569,6 +554,7 @@ class AdministradorScreen():
         
         # Opcional: Hacer que las filas alternen colores
         self.navegacion.tableWidget.setAlternatingRowColors(True)
+
     def buscar_mobiliario_montaje_tree(self):
         # Usar QTreeWidget en lugar de QTableWidget
         self.navegacion.treeWidget.clear()  # Cambia tableWidget por treeWidget
@@ -618,16 +604,16 @@ class AdministradorScreen():
         
         # Expandir todos los items
         self.navegacion.treeWidget.expandAll() 
+
     def limpiar_salon(self):
         self.navegacion.saNombre.clear()
         self.navegacion.saCostoRenta.clear()
         self.navegacion.saNombrePasillo.clear()
-        self.navegacion.saNumeroPasillo.    clear()
+        self.navegacion.saNumeroPasillo.clear()
         self.navegacion.saLargo.clear()
         self.navegacion.saAncho.clear()
         self.navegacion.saAltura.clear()
         self.navegacion.saResultadoM2.clear()
-
 
     # Metodos para la logica del trabajador
 
@@ -1213,6 +1199,7 @@ class AdministradorScreen():
                 self.navegacion.combo_mobiliarios.addItem(texto, mob['numero'])
         else:
             self.navegacion.combo_mobiliarios.addItem("No hay mobiliarios de este tipo", None)
+
     def mostrar_detalles_mobiliario(self, mob_seleccionado):
         if mob_seleccionado == "Selecciona un mobiliario" or not mob_seleccionado:
             self.navegacion.texto_detalles_simple.clear()

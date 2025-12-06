@@ -3,6 +3,7 @@ from models.DatosMontaje import DatosMontaje
 from repositories_crud.TipoMontajeRepository import TipoMontajeRepository
 from repositories_crud.DatosMontajeRepository import DatosMontajeRepository
 from services.SalonServices import SalonServices
+from models.MontajeMobiliario import MontajeMobilario
 
 class TipoMontajeService:
     # Constructor
@@ -21,7 +22,27 @@ class TipoMontajeService:
     def listar_mobiliarios_montaje(self, montaje):
         montaje = self.TipoMontajeRepository.obtener_codigo_montaje(montaje) 
         resultado = self.TipoMontajeRepository.mobiliarios_por_montaje(montaje['codigoMon'])
-        return resultado
+        salonesMobiliarios = [] # Dentro de esto van los diccionarios con la info
+        nombresSalones = []
+        for registro in resultado: # Se recorre el reusltado de la consulta
+            if registro['salon'] not in nombresSalones:
+                nombresSalones.append(registro['salon'])
+        
+        for nombreSalon in nombresSalones:
+            salon = {
+                'nombre'     : nombreSalon,
+                'mobiliarios': []
+                    }
+            
+            for reg in resultado:
+                if reg['salon'] == nombreSalon:
+                    mobiliario = MontajeMobilario(reg['mobiliario'], reg['cantidad'])
+                    salon['mobiliarios'].append(mobiliario)
+
+            salonesMobiliarios.append(salon)
+                    
+            
+        return salonesMobiliarios
 
     def registrar_datos_montaje(self, cantidad, tipos_montaje, datos_salon):
         datos = DatosMontaje(cantidad, tipos_montaje, datos_salon)
