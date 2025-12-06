@@ -61,8 +61,8 @@ class TipoMontajeRepository:
             cursor.execute( """
                             SELECT codigoMon
                             FROM tipo_montaje
-                            WHERE nombre LIKE %s
-                            """, (f"{nombreTipo}%",))
+                            WHERE nombre = %s
+                            """, (nombreTipo,))
 
             resultado = cursor.fetchone()
 

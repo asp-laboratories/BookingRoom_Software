@@ -42,9 +42,7 @@ class Login():
         else:
             self.login.mensaje.setText("")
             resultado = log.registrar_trabajadores(self.login.leEmail.text(), self.login.leNumero.text())
-            if resultado == None:
-                self.login.mensaje.setText("Incorrecto")
-            else:
+            if resultado:
                 self.login.mensaje.setText("Correcto")
                 if resultado[2] == "DEFLT":
                     self.nav = Navegacion()
@@ -63,6 +61,8 @@ class Login():
                     resultadoEmail.append(self.login.leEmail.text())
                     self.login.hide()
                     self.recep = Recepcionista() 
+            elif resultado == None:
+                self.login.mensaje.setText("Incorrecto")
 
 
 

@@ -4,7 +4,7 @@ class DatosClientesRepository:
 
     def crear_cliente(self, cliente):
         if not self.db.conectar():
-            return False
+            return None
         try:
             cursor = self.db.cursor()
             cursor.execute("""
@@ -17,7 +17,7 @@ class DatosClientesRepository:
             return True
         except Exception as error:
             print(f"Error al crear un cliente: {error}")
-            return False
+            return None
         finally:
             cursor.close()
             self.db.desconectar()

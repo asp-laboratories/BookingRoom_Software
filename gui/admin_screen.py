@@ -6,6 +6,7 @@ from PyQt6.QtGui import QBrush, QColor
 from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton, QFrame, QHBoxLayout
 from PyQt6.QtCore import QDate, Qt
 from database_simulada import DatabaseSimulada
+from gui.pago import Pago
 from gui.registro_cliente import RegistroCliente
 from models.MobCarac import MobCarac
 from models.ReserEquipa import ReserEquipamiento
@@ -778,15 +779,19 @@ class AdministradorScreen():
 
         resultado = cliente.listar_cliente_busqueda(rfc)
         resul_telefono = telefono.listar_telefonos_info(rfc)
+        
         if resultado == None:
             self.navegacion.registrarCliente.setVisible(True)
+            QMessageBox.information(self.navegacion, "Cliente no encontrado",  f"No se encontró ningún cliente con el RFC: {self.navegacion.reRfc.text()}")
 
+            self.navegacion.cliente_info.setText(f"No se encontro ningun cliente con el RFC: {self.navegacion.reRfc.text()}, debes registrarlo.")
         else:
             mensaje = "INFORMACION DEL CLIENTE\n"
             mensaje += f"\nNombre completo del contacto: {resultado['contNombre']} {resultado['contPriApellido']}  {resultado['contSegApellido']}\n"
             mensaje += f"\nNombre fiscal: {resultado['nombreFiscal']}\n"
             mensaje += f"\nCorreo electronico: {resultado['email']}\n"
             mensaje += f"\nTelefonos:\n"
+            self.clienteNombre = f"{resultado['nombreFiscal']}"
             contador = 0
             for cel in resul_telefono:
                 contador += 1
@@ -810,9 +815,11 @@ class AdministradorScreen():
         salNumero = self.navegacion.reSalonSelecc.currentData()
         print("ESTE ES EL NUMERO DEL SALONESTE ES EL NUMERO DEL SALON::",salNumero)
         sali = self.buscar_usuario_por_id(salNumero)
-        mensaje = "INFORMACION DEL SALON"
-        mensaje += f"\n NOMBRE: {sali["nombre"]}"
-        mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
+        mensaje = "INFORMACION DEL SALON\n"
+        mensaje += f"\n -Nombre: {sali["nombre"]}"
+        mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
+        mensaje += f"\n -Dimensiones: {str(sali["dimenLargo"])}x{str(sali['dimenAncho'])}x{str(sali['dimenAltura'])}"
+        mensaje += f"\n -Ubicado en el pasillo {sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
         print("Es el nombre:",sali["nombre"])
         
         self.subtotal_salon = 0.0
@@ -838,9 +845,9 @@ class AdministradorScreen():
         tipoM = self.navegacion.reTipoMontaje.currentData()
         print(tipoM)
         tip = self.buscar_por_id(tipoM)
-        mensaje = "INFORMACION DEL SALON"
-        mensaje += f"\n NOMBRE: {tip["nombre"]}"
-        mensaje += f"\n descripcion: {tip["descripcion"]}"
+        mensaje = "INFORMACION DEL SALON\n"
+        mensaje += f"\n -Nombre: {tip["nombre"]}"
+        mensaje += f"\n -Descripcion: {tip["descripcion"]}"
         if tip:
             self.navegacion.resultadoMontaje.setText(mensaje)
 
@@ -1032,74 +1039,51 @@ class AdministradorScreen():
     
     
     def registrar_reservacion(self):
-        self.registrar_cliente()
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
         fechaReserE = date.today()
-        hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
+        hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm") 
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
-        cliente = self.navegacion.reRfc.text()
-        if (len(cliente) < 2) or not permitir_ingreso(cliente, 'onlytext'):
-            self.navegacion.reRfc.selectAll()
-            self.navegacion.reRfc.setFocus()
-            return 
-        
-        cliente = self.navegacion.reNombre.text()
-        print(resultadoEmail[0])
-        resultado = trabajador.obtener_rfc(resultadoEmail[0])
-        print(resultado["rfc"])
-        rfcTrabajador = resultado['rfc']
-
         resultado = trabajador.obtener_nombre(resultadoEmail[0])
         print(resultado["nombre"])
+        print(self.clienteNombre)
+
         rfcTrabajador = resultado['nombre']
+
         descripEvento  = self.navegacion.reDescripcion.text()
-        if (len(descripEvento) < 2) or not permitir_ingreso(descripEvento, 'onlytext'):
-            self.navegacion.reDescripcion.selectAll()
-            self.navegacion.reDescripcion.setFocus()
-            return 
 
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
-        if not permitir_ingreso(descripEvento, 'numint'):
-            self.navegacion.reEstimadoAsistentes.selectAll()
-            self.navegacion.reEstimadoAsistentes.setFocus()
-            return 
-
-        salon = self.navegacion.reSalonSelecc.currentText()
-        # salon = self.navegacion.reSalonSelecc.currentText()
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
+
+        
+
         print(tipo_montaje)
+
         salNumero = self.navegacion.reSalonSelecc.currentData()
         sali = self.buscar_usuario_por_id(salNumero)
-        print("Es el nombre MIRA W:",sali["nombre"])
-        
-        
-        equipam1 = ReserEquipamiento('TV', 1)
-        equipam2 = ReserEquipamiento('Computadora', 2)
-        equipamientos = [equipam1, equipam2]
-        servicios = []
-        lista_servicios = []
-        servicios = self.navegacion.listaServicios.selectedItems()
-        print(servicios)
 
+
+        print("Es el nombre MIRA W:",sali["nombre"])
+
+        equipam1 = ReserEquipamiento('TV', 1)
+
+
+        equipam2 = ReserEquipamiento('Computadora', 2)
+
+
+        equipamientos = [equipam1, equipam2]
+
+
+        lista_servicios = []
+
+        servicios = self.navegacion.listaServicios.selectedItems()
+        
         for item in servicios:
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
-            print(data_servicio)
             lista_servicios.append(data_servicio['nombre'])
+        reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, self.clienteNombre, sali['nombre'], self.generar_lista_equipamiento_reservado(), lista_servicios)
 
-        lista_equipamientos = [] 
-        for num_equipo,cantidad in sorted(self.datos_finales.items()):
-            equipa = ReserEquipamiento(num_equipo, cantidad)
-            lista_equipamientos.append(equipa)
-            print(equipa.equipamiento, equipa.cantidad)
-        resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
-        print(f"{resultado} creacion")
-    
-
-    
-        reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, cliente, sali['nombre'], self.generar_lista_equipamiento_reservado(), lista_servicios)
-
- 
+            
     def calcular_total_general(self):
         """Calcula el total de todos los equipos seleccionados"""
         total = 0
@@ -1122,12 +1106,14 @@ class AdministradorScreen():
         self.registrar_reservacion()
         subtotalServicios = self.calcular_subtotal_serv()
         subtotalEquipamiento = self.calcular_total_general()
-
+        
         total = subtotalServicios + subtotalEquipamiento + self.subtotal_salon
         
         self.navegacion.reSubtotal.setText(f"Subtotal: {total}")
         self.navegacion.reIVA.setText(f"IVA: {total*0.16}")
         self.navegacion.reTotal.setText(f"Total: {total+(total*0.16)}")
+
+        self.pago = Pago() 
         return total
 
     def limpiar_todos_controles(self):
