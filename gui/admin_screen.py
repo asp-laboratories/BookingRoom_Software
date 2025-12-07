@@ -23,6 +23,7 @@ from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
 from services.PagoService import PagoServices
+from services.DatosMontajeService import DatosMontajeService
 from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
@@ -33,6 +34,7 @@ salon = SalonServices()
 equipamiento = EquipamentoService()
 trabajador = TrabajadorServices()
 cliente = DatosClienteService()
+datosMontaje = DatosMontajeService()
 telefono = TelefonoServices()
 mobiliario = mobiliarioService()  
 tipo_montaje = TipoMontajeService()
@@ -129,7 +131,7 @@ class AdministradorScreen():
         self.navegacion.registrarCliente.setVisible(False)
         
         self.cargar_seleccion_tipoMobiliario() 
-        self.cargar_seleccion_tipoMontaje()
+        #self.cargar_seleccion_tipoMontaje()
         self.navegacion.reMontajeInfo.clicked.connect(self.mostrar_info_montaje)
         # Eventos de salones, equipamiento y servicios dentro de reservacion
         self.cargar_seleccion_salon()
@@ -163,6 +165,9 @@ class AdministradorScreen():
         self.navegacion.reNumReser.textChanged.connect(self.mostrar_descripcion_en_tiempo_real)
         self.navegacion.reConfirmar_2.clicked.connect(self.registrar_pago)
         self.navegacion.reCancelar_2.clicked.connect(self.limpiar_pago)
+
+        # Combobox del tipo de montaje en reservacion
+        self.navegacion.reSalonSelecc.currentIndexChanged.connect(self.cargar_seleccion_tipoMontaje)
         
 
         self.navegacion.registrarCliente.clicked.connect(self.abrir_registro_cliente)
@@ -273,7 +278,7 @@ class AdministradorScreen():
             for ser in resultado:
                 mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
                 self.navegacion.sResultadoListar_3.setText(mensaje)
-        
+
 
     def listar_servicio_del(self):
         self.navegacion.sResultadoListar_2.clear()
@@ -903,53 +908,82 @@ class AdministradorScreen():
     
     def mostrar_info_salon(self):
         salNumero = self.navegacion.reSalonSelecc.currentData()
-        print("ESTE ES EL NUMERO DEL SALONESTE ES EL NUMERO DEL SALON::",salNumero)
-        sali = self.buscar_usuario_por_id(salNumero)
-        mensaje = "INFORMACION DEL SALON\n"
-        mensaje += f"\n -Nombre: {sali["nombre"]}"
-        mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
-        mensaje += f"\n -Dimensiones: {str(sali["dimenLargo"])}x{str(sali['dimenAncho'])}x{str(sali['dimenAltura'])}"
-        mensaje += f"\n -Ubicado en el pasillo {sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
-        print("Es el nombre:",sali["nombre"])
+        if salNumero:
+            print("ESTE ES EL NUMERO DEL SALONESTE ES EL NUMERO DEL SALON::",salNumero)
+            sali = self.buscar_usuario_por_id(salNumero)
+            mensaje = "INFORMACION DEL SALON\n"
+            mensaje += f"\n -Nombre: {sali["nombre"]}"
+            mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
+            mensaje += f"\n -Dimensiones: {str(sali["dimenLargo"])}x{str(sali['dimenAncho'])}x{str(sali['dimenAltura'])}"
+            mensaje += f"\n -Ubicado en el pasillo {sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
+            print("Es el nombre:",sali["nombre"])
         
-        self.subtotal_salon = 0.0
-        self.subtotal_salon = sali["costoRenta"]
-        if sali:
-            self.navegacion.resultadoSalon.setText(mensaje)
+            self.subtotal_salon = 0.0
+            self.subtotal_salon = sali["costoRenta"]
+            if sali:
+                self.navegacion.resultadoSalon.setText(mensaje)
+        else:
+            self.navegacion.resultadoSalon.setText("Seleccione un salon")
     
     def buscar_usuario_por_id(self, salNumero):
         for s in salon.listar_salones():
             if s["numSalon"] == salNumero:
                 return s
         return None
+    
 
     def cargar_seleccion_tipoMontaje(self):
         self.navegacion.reTipoMontaje.clear()
         self.navegacion.reTipoMontaje.addItem("Selecciona un montaje", None)
-        obtener = tipo_montaje.listar_tipos_montajes()
-        for tm in obtener:
-            self.navegacion.reTipoMontaje.addItem(tm["nombre"], tm["codigoMon"])
-            print(tm["codigoMon"])
+        slon_especifico = self.navegacion.reSalonSelecc.currentText()
+        if not slon_especifico == None:
+            montajes = tipo_montaje.listar_mobiliarios_salon(slon_especifico)
+            for datoSalon in montajes:
+                bol = True
+                for datosMobiliario in datoSalon['mobiliarios']:
+                    if not mobiliario.stock_disponible(datosMobiliario.mobiliario, datosMobiliario.cantidad):
+                        bol = False
+                if bol:
+                    self.navegacion.reTipoMontaje.addItem(datoSalon["nombre"], None)
+            
+            if self.navegacion.reTipoMontaje.count() <= 1:
+                self.navegacion.resultadoMontaje.setText("No es posible usar el salon seleccionado")
+        else:
+            self.navegacion.resultadoMontaje.setText("Seleccione un salon")
+
     
     def mostrar_info_montaje(self):
-        tipoM = self.navegacion.reTipoMontaje.currentData()
+        tipoM = self.navegacion.reTipoMontaje.currentText()
         print(tipoM)
         tip = self.buscar_por_id(tipoM)
-        mensaje = "INFORMACION DEL SALON\n"
-        mensaje += f"\n -Nombre: {tip["nombre"]}"
-        mensaje += f"\n -Descripcion: {tip["descripcion"]}"
         if tip:
+            mensaje = "INFORMACION DEL SALON\n"
+            mensaje += f"\n -Nombre: {tip["nombre"]}"
+            mensaje += f"\n -Descripcion: {tip["descripcion"]}"
             self.navegacion.resultadoMontaje.setText(mensaje)
+        else:
+            self.navegacion.resultadoMontaje.setText("Seleccione un tipo de montaje")
+            return
+
+        self.mostrar_mobiliarios_reservacion()
+
+    def mostrar_mobiliarios_reservacion(self):
+        salon = self.navegacion.reSalonSelecc.currentData()
+        montaje = self.navegacion.reTipoMontaje.currentText()
+
+        mobiliarios = datosMontaje.mobiliarios_montaje(montaje, salon)
+
+        mensaje = "\n----Mobiliarios Necesarios-----\n"
+        for mobi in mobiliarios:
+            mensaje += f"\nMobiliario: {mobi['nombre']}\tCantidad: {mobi['cantidad']}"
+
+        self.navegacion.reMobiliarioDatosMontaje.setText(mensaje)
 
     def buscar_por_id(self, tipoM):
         for t in tipo_montaje.listar_tipos_montajes():
-            if t["codigoMon"] == tipoM:
+            if t["nombre"] == tipoM:
                 return t
         return None
-
-
-
-
 
 
     def cargar_listas(self):
@@ -1135,33 +1169,35 @@ class AdministradorScreen():
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm") 
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
         resultado = trabajador.obtener_nombre(resultadoEmail[0])
-        print(resultado["nombre"])
-        print(self.clienteNombre)
+
+        #print(resultado["nombre"])
+        #print(self.clienteNombre)
 
         rfcTrabajador = resultado['nombre']
 
         descripEvento  = self.navegacion.reDescripcion.text()
+        if len(descripEvento) < 5:
+            QMessageBox.warning(self.navegacion, 'Error en Descripcion', 'Ingrese una descripcion verdadera')
+            return
 
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
+        if not permitir_ingreso(estimaAsistentes, 'numint'):
+            QMessageBox.warning(self.navegacion, 'Error en Asistentes', 'Ingrese un valor valido para el estimado de asistentes')
+            return
+
+
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
 
-        
-
-        print(tipo_montaje)
+        #print(tipo_montaje)
 
         salNumero = self.navegacion.reSalonSelecc.currentData()
         sali = self.buscar_usuario_por_id(salNumero)
 
 
-        print("Es el nombre MIRA W:",sali["nombre"])
-
-        equipam1 = ReserEquipamiento('TV', 1)
-
-
-        equipam2 = ReserEquipamiento('Computadora', 2)
-
-
-        equipamientos = [equipam1, equipam2]
+        #print("Es el nombre MIRA W:",sali["nombre"])
+        #equipam1 = ReserEquipamiento('TV', 1)
+        #equipam2 = ReserEquipamiento('Computadora', 2)
+        #equipamientos = [equipam1, equipam2]
 
 
         lista_servicios = []
@@ -1171,7 +1207,16 @@ class AdministradorScreen():
         for item in servicios:
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
             lista_servicios.append(data_servicio['nombre'])
-        reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, self.clienteNombre, sali['nombre'], self.generar_lista_equipamiento_reservado(), lista_servicios)
+        
+        equipas = self.generar_lista_equipamiento_reservado()
+        for equipa in equipas:
+            if equipamiento.comprobar_stock(equipa.equipamiento, equipa.cantidad):
+                QMessageBox.warning(self.navegacion, 'Stock insuficiente', f"No existe suficiente disponibilidad del equipamiento {equipa.equipamiento}")
+                return 
+            
+        
+
+        reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, self.clienteNombre, sali['nombre'], equipas, lista_servicios)
 
             
     def calcular_total_general(self):

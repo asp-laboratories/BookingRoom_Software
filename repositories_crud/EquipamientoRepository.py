@@ -183,3 +183,28 @@ class EquipamentoRepository:
             cursor.close()
             self.db.desconectar()
 
+
+    def obtener_disponibles(self, numEquipa):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT cantidad
+                            FROM inventario_equipa
+                            WHERE equipamiento = %s and esta_equipa = 'DISPO'
+                            """, (numEquipa,))
+            
+            resultado = cursor.fetchone()
+
+            return resultado
+        
+        except Exception as error:
+            print(f"Error al obtener la cantidad disponible del equipamiento: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()

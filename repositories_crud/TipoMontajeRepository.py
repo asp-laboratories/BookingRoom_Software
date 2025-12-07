@@ -107,6 +107,37 @@ class TipoMontajeRepository:
             cursor.close()
             self.db.desconectar()
 
+    def mobiliarios_por_salon(self, numSalon):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+            cursor.execute( """
+                            SELECT
+                                tm.nombre as tipo_montaje,
+                                ds.nombre as salon,
+                                mob.nombre as mobiliario,
+                                mm.cantidad as cantidad
+                                FROM datos_montaje as dm
+                                INNER JOIN montaje_mobiliario as mm on mm.datos_montaje = dm.numDatMon
+                                INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon
+                                INNER JOIN mobiliario as mob on mm.mobiliario = mob.numMob
+                                INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+                                WHERE ds.numSalon = %s
+                            """, (numSalon,))
+
+            resultados = cursor.fetchall()
+
+            return resultados
+
+        except Exception as error:
+            print(f"Error al listar los tipos de montaje: {error}")
+            return None
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
     def ingresar_datos_montaje(self, datos_montaje):
         if not self.db.conectar():
             return False

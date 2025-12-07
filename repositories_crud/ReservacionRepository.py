@@ -1,8 +1,14 @@
 
+from repositories_crud.MobiliarioRepository import MobiliarioRepository
+from repositories_crud.InventarioEquipaRepository import InventarioEquipaRepository
+
+
 class ReservacionRepository:
     # Constructor
     def __init__(self, db_configuration):
         self.db = db_configuration
+        self.mobRepository = MobiliarioRepository(self.db)
+        self.InvenEquipamiento = InventarioEquipaRepository(self.db)
 
     # Metodos
     def registrar_reservacion(self, reservacion):
@@ -16,7 +22,7 @@ class ReservacionRepository:
 
             # Obtencion de costo del mobiliario
             cursor.execute( """
-                            SELECT mo.costoRenta, mm.cantidad
+                            SELECT mob.numMob, mo.costoRenta, mm.cantidad
                             FROM montaje_mobiliario as mm
                             INNER JOIN datos_montaje as dm on mm.datos_montaje = dm.numDatMon
                             INNER JOIN mobiliario as mo on mm.mobiliario = mo.numMob
@@ -27,6 +33,8 @@ class ReservacionRepository:
             totalMobiliarios = 0
             for mobiliario in costosMobiliarios:
                 totalMobiliarios += (mobiliario['costoRenta'] * mobiliario['cantidad'])
+
+                self.mobRepository.actu_mob_esta(mobiliario['numMob'], mobiliario['cantidad'], 'DISPO', 'RESER')
             
             # Obtencion de costos de equipamientos
             totalEquipamientos = 0
@@ -37,7 +45,11 @@ class ReservacionRepository:
                                     FROM equipamiento
                                     WHERE numEquipa = %s
                                     """, (equipamiento.equipamiento,))
+                    
                     costoEquipa = cursor.fetchone()
+
+                    self.InvenEquipamiento.actualizar_estado_equipamiento(equipamiento.equipamiento, 'DISPO', 'RESER', equipamiento.cantidad)
+
                     totalEquipamientos += (costoEquipa['costoRenta'] * equipamiento.cantidad)
 
             # Obtencion de costos de servicios

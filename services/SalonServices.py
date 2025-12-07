@@ -1,6 +1,8 @@
 from config.db_settings import BaseDeDatos
 from models.DatosSalon import DatosSalon
+from models.MontajeMobiliario import MontajeMobilario
 from repositories_crud.SalonRepository import SalonRepository
+
 
 
 class SalonServices:
@@ -44,7 +46,7 @@ class SalonServices:
         salon = self.salon_repository.obtener_num_salon(nombreSalon)
         return salon['numSalon']
 
-    def datos_montaje(self,numero_salon):
+    def datos_montaje(self, numero_salon):
         return self.salon_repository.datos_montaje_salon(numero_salon)
 
     def eliminar_salones(self, numSalon):

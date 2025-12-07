@@ -10,7 +10,6 @@ class EquipamentoService:
     # Constructor 
     def __init__(self):
         self.db = BaseDeDatos(database='BookingRoomLocal')
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.equipamento_repository = EquipamentoRepository(self.db)
         self.tipo_equipamiento = TipoEquipaRepository(self.db)
         self.estado = EstadoEquipaRepository(self.db)
@@ -89,6 +88,16 @@ class EquipamentoService:
 
     def listar_equipamientos_reser(self, numReser):
         return self.equipamento_repository.listar_equipamientos_reser(numReser)
+    
+    def comprobar_stock(self, numEquipa, cantidad):
+        disponibles = self.equipamento_repository.obtener_disponibles(numEquipa)
+
+        if cantidad > disponibles:
+            print("No hay suficientes equipamientos disponibles")
+            return False
+        else:
+            print("Suficientes equipamientos disponibles")
+            return True
 
     def eliminar_registro(self,numEquipa):
         return self.equipamento_repository.eliminar_registro_equipamiento(numEquipa)
