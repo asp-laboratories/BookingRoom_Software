@@ -105,9 +105,9 @@ background-color: rgb(255, 255, 255,0);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(154, 87, 89);
+      <string notr="true">background-color:  rgb(209, 138, 91);
 border-radius: 10px;
-</string>
+border: 3px solid rgb(155, 88, 43)</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Shape::StyledPanel</enum>
@@ -125,7 +125,8 @@ border-radius: 10px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -145,7 +146,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -165,7 +167,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -185,7 +188,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -205,7 +209,9 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">
+border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -225,7 +231,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -245,7 +252,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -267,7 +275,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -287,7 +296,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(255, 255, 255);
+       <string notr="true">border: unset;
+background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
@@ -307,7 +317,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(199, 131, 124);
+       <string notr="true">background-color: rgb(155, 88, 43);
 border-radius: 5px;</string>
       </property>
       <property name="text">
@@ -324,7 +334,8 @@ border-radius: 5px;</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: #000000;</string>
+       <string notr="true">color: #000000;
+border: unset;</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;iniciar&quot;&gt;&lt;span style=&quot; font-weight:400; text-decoration: underline; color:#ffffff;&quot;&gt;regresar&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -341,7 +352,8 @@ border-radius: 5px;</string>
       </property>
       <property name="styleSheet">
        <string notr="true">color: rgb(154, 87, 89);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+border: unset;</string>
       </property>
       <property name="text">
        <string>+2 telefono</string>
@@ -357,7 +369,8 @@ color: rgb(255, 255, 255);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: rgb(255, 255, 255);</string>
+       <string notr="true">color: rgb(255, 255, 255);
+border: unset;</string>
       </property>
       <property name="text">
        <string>+1 telefono</string>
@@ -378,6 +391,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>14</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>RFC:</string>
       </property>
@@ -396,6 +413,10 @@ color: rgb(255, 255, 255);</string>
         <family>Adwaita Sans</family>
         <pointsize>14</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>Numero de trabajador</string>
@@ -416,6 +437,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>14</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Nombre </string>
       </property>
@@ -434,6 +459,11 @@ color: rgb(255, 255, 255);</string>
         <family>Adwaita Sans</family>
         <pointsize>14</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);
+</string>
       </property>
       <property name="text">
        <string>Apellido paterno</string>
@@ -454,6 +484,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>14</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Apellido materno</string>
       </property>
@@ -472,6 +506,10 @@ color: rgb(255, 255, 255);</string>
         <family>Adwaita Sans</family>
         <pointsize>14</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
        <string>Corrreo electronico</string>
@@ -492,6 +530,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>14</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border: unset;
+color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Telefono(s)</string>
       </property>
@@ -511,6 +553,10 @@ color: rgb(255, 255, 255);</string>
         <pointsize>18</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+border: unset;</string>
       </property>
       <property name="text">
        <string>REGISTRO DE TRABAJADORES</string>
