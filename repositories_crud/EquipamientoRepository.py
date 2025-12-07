@@ -25,16 +25,17 @@ class EquipamentoRepository:
             self.db.desconectar()    
         return True
 
-    def listar_equipamiento(self):
+    def listar_equipamiento_informacion(self, numEquipa):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM equipamiento")
-            resultados = cursor.fetchall()
+            cursor.execute("SELECT * FROM equipamiento WHERE numEquipa = %s", (numEquipa,))
+            resultados = cursor.fetchone()
 
         except Exception as error:
             print(f"Error al listar los equipamentos: {error}")
+            return None
         finally:
             cursor.close()
             self.db.desconectar()
@@ -42,7 +43,7 @@ class EquipamentoRepository:
     
     def listar_equipamiento(self):
         if not self.db.conectar(): 
-            return None
+            return False
         try:
 
             cursor = self.db.cursor(dictionary=True)
@@ -59,28 +60,40 @@ class EquipamentoRepository:
 
         return valores_equipamiento
     
-    def actualizar_equipamiento(self, numEquipa, cambiodato):
+    def actualizar_equipamientos(self, campo, numEquipa, valor):
         if not self.db.conectar():
             return False
+        
+        CAMPOS = {
+            'Nombre': 'nombre', 
+            'Costo de renta': 'costoRenta', 
+            'Descripcion': 'descripcion', 
+            'Cantidad': 'stock',
+            'Tipo de equipamiento': 'tipo_equipa'
+        }
+        
+        if campo not in CAMPOS:
+            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            return False
+
+        transformar_campo = CAMPOS[campo] 
+
 
         try:
-            cursor = self.db.cursor()
-            cursor.execute("""
-                UPDATE equipamiento SET
-                nombre = %s
-                WHERE numEquipa = %s
-                    """,(cambiodato, numEquipa))
-            self.db.connection.commit()
-            print(f"Se actualizo el equipamiento: {cambiodato}")
-
+           cursor = self.db.cursor(dictionary=True)
+           cursor.execute(f"""
+                UPDATE equipamiento
+                SET {transformar_campo} = %s 
+                WHERE numEquipa =%s
+           """,(valor, numEquipa, ))
+           self.db.connection.commit()
+           print("Servicio actualizado correctamente")
+           return True
         except Exception as error:
-            print(f"Ocurrio un error actualizar: {error}")
-            return False
-        
+            print(f"Error al actualizar: {error}")
         finally:
             cursor.close()
-            self.db.desconectar()
-        return True
+            self.db.desconectar() 
     
     def eliminar_equipamiento(self, esta_equipa):
         if not self.db.conectar():
@@ -151,3 +164,22 @@ class EquipamentoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+
+    def eliminar_registro_equipamiento(self, numEquipa):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+                DELETE FROM equipamiento
+                WHERE numEquipa = %s
+            """, (numEquipa,))
+            self.db.connection.commit()
+            print("Equipamiento eliminado correctamente")
+        except Exception as error:
+            print(f"Error al eliminar equipamiento: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+

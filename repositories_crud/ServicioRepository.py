@@ -53,12 +53,12 @@ class ServicioRepository:
         return resultados # Retornamos el resultado, tenemos que recordar que es un diccionario, importante.
 
 
-    def listar_servicio_buscar(self, nombre):#Metodo para traer todos los datos de una tabla.
+    def listar_servicio_buscar(self, numServicio):#Metodo para traer todos los datos de una tabla.
         if not self.db.conectar(): # La misma explicacion la conexion de arriba pero en esta ocasion retorna None, significa que si no pudo conectarse devuelva NADA.
             return False
         try:
             cursor = self.db.cursor(dictionary=True) #Obtenemos el cursor para poder hacer consultas, pero convertimos el cursor a diccioario.
-            cursor.execute(f"SELECT * FROM servicio WHERE nombre LIKE '%{nombre}%'") #Hacemos la consulta para traer todos los servicios.
+            cursor.execute(f"SELECT * FROM servicio WHERE numServicio = %s",(numServicio,)) #Hacemos la consulta para traer todos los servicios.
             resultados = cursor.fetchall() #Guardamos en una variable cursor.fetchall() que basicamente significa que trae todos los resultados existe otro que es
             #cursor.fetchone() que solo trae una solo fila es aplicable para casos donde se utilize un where.
 
@@ -74,17 +74,25 @@ class ServicioRepository:
         if not self.db.conectar():
             return False
         
-        CAMPOS = ['nombre','costoRenta', 'tipo_servicio', 'descripcion']
+        CAMPOS = {
+            'Nombre': 'nombre', 
+            'Costo de renta': 'costoRenta', 
+            'Descripcion': 'descripcion', 
+            'Tipo de servicio': 'tipo_servicio', 
+        }
         
         if campo not in CAMPOS:
             print("Error: Nombre de campo no válido o no permitido para actualización.")
             return False
 
+        transformar_campo = CAMPOS[campo] 
+
+
         try:
            cursor = self.db.cursor(dictionary=True)
            cursor.execute(f"""
                 UPDATE servicio
-                SET {campo} = %s 
+                SET {transformar_campo} = %s 
                 WHERE numServicio =%s
            """,(valor, numServicio, ))
            self.db.connection.commit()

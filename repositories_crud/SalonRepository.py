@@ -22,9 +22,25 @@ class SalonRepository:
             cursor.close()
             self.db.desconectar()
 
-    def listar_salones(self):
+    def listar_salones_2(self, numSalon):
         if not self.db.conectar():
             return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("SELECT * FROM datos_salon WHERE numSalon = %s",(numSalon,))
+            resultados = cursor.fetchone()
+
+            return resultados
+        except Exception as error:
+            print(f"Error al listar los datos del salon: {error}")
+            return None
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def listar_salones(self):
+        if not self.db.conectar():
+            return False
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("SELECT * FROM datos_salon")
@@ -32,11 +48,12 @@ class SalonRepository:
 
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
+            return False
         finally:
             cursor.close()
             self.db.desconectar()
-        return resultados
 
+        return resultados
     def listar_estados(self):
         if not self.db.conectar():
             return None
@@ -52,6 +69,45 @@ class SalonRepository:
             self.db.desconectar()
         return resultados
 
+
+     
+    def actualizar_salones(self, campo, numSalon, valor):
+        if not self.db.conectar():
+            return False
+        
+        CAMPOS = {
+            'Nombre': 'nombre', 
+            'Costo de renta': 'costoRenta', 
+            'Nombre del pasillo': 'ubiNombrePas', 
+            'Numero del pasillo': 'ubiNumeroPas', 
+            'Largo del salon': 'dimenLargo', 
+            'Ancho del salon': 'dimenAncho', 
+            'Altura del salon': 'dimenAltura', 
+            'Metros cuadrados': 'mCuadrados'
+        }
+        
+        if campo not in CAMPOS:
+            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            return False
+
+        transformar_campo = CAMPOS[campo]
+
+        try:
+           cursor = self.db.cursor(dictionary=True)
+           cursor.execute(f"""
+                UPDATE datos_salon
+                SET {transformar_campo} = %s 
+                WHERE numSalon =%s
+           """,(valor, numSalon, ))
+           self.db.connection.commit()
+           print("Servicio actualizado correctamente")
+           return True
+        except Exception as error:
+            print(f"Error al actualizar: {error}")
+            return False
+        finally:
+            cursor.close()
+            self.db.desconectar()
 
     def actualizar(self, numSalon, esta_salon):
         if not self.db.conectar():
@@ -122,6 +178,23 @@ class SalonRepository:
             print(f"Error al obtener datos de montaje del salón: {error}")
             return None
         
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def eliminar_salon(self, numSalon):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+                DELETE FROM datos_salon
+                WHERE numSalon = %s
+            """, (numSalon,))
+            self.db.connection.commit()
+            print("Salon eliminado correctamente")
+        except Exception as error:
+            print(f"Error al eliminar salon: {error}")
         finally:
             cursor.close()
             self.db.desconectar()
