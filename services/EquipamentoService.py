@@ -25,6 +25,9 @@ class EquipamentoService:
         equipamento = Equpo(nombre, descripcion, costoRenta, stock, esta_equipa, descripcionte.codigoTiEquipa)
         return self.equipamento_repository.crear_equipamiento(equipamento)
 
+    def listar_equipamentos_informacion(self,numEquipa):
+        print("Equipamentos registrados:")
+        return self.equipamento_repository.listar_equipamiento_informacion(numEquipa)
 
     def listar_equipamentos(self):
         print("Equipamentos registrados:")
@@ -41,8 +44,8 @@ class EquipamentoService:
         for equipamento in equipamentos:
             print(f"{equipamento['numEquipa']}\t {equipamento['nombre']}\t {equipamento['descripcion']}")
     
-    def actualizar_equipamento(self, numEquipa, nombre):
-        self.equipamento_repository.actualizar_equipamiento(numEquipa,nombre)
+    def actualizar_equipamento(self, campo, numEquipa, valor):
+        self.equipamento_repository.actualizar_equipamientos(campo,numEquipa,valor)
     
     def aliminar_equipamento(self,numEquipa):
         self.equipamento_repository.eliminar_equipamiento(numEquipa)
@@ -86,3 +89,6 @@ class EquipamentoService:
 
     def listar_equipamientos_reser(self, numReser):
         return self.equipamento_repository.listar_equipamientos_reser(numReser)
+
+    def eliminar_registro(self,numEquipa):
+        return self.equipamento_repository.eliminar_registro_equipamiento(numEquipa)

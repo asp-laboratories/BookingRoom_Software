@@ -9,6 +9,7 @@ from repositories_crud.TipoServiciosRepository import TipoServiciosRepository
 
 class ServicioService: #Clase que ayudara a gestionar las operaciones de la base de datos.
     def __init__(self) -> None:
+        
         self.db = BaseDeDatos(database='BookingRoomLocal') #Desde aqui se envia la configuracion de la base de datos a ServicioRepository, en este caso
          # es mi base de datos local, pero cuando se tenga la del servidor, se pondran mas parametros como lo son la contraseña, usuario y otro nombre.
         
@@ -26,9 +27,9 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
 
          #Opcional retornar ya que con el simple hecho de llamar a la funcion del repository es funcional.
 
-    def listar_servicio_busqueda(self, nombre): #Metodo para listar los datos a pantalla.
+    def listar_servicio_busqueda(self, numServicio): #Metodo para listar los datos a pantalla.
         print("Servicios: ")
-        return self.servicio_repository.listar_servicio_buscar(nombre) #Recordando que devuelve un diccionario
+        return self.servicio_repository.listar_servicio_buscar(numServicio) #Recordando que devuelve un diccionario
         # print("Numero:\t Nombre:\t Descripcion:\t Costo:\t Tipo: ")#\t para tabulacion
         # for row in servicio:
         #     print(f"{row['numServicio']}\t {row['nombre']}\t {row['descripcion']}\t {row['costoRenta']}\t") #row es como si fuera i de esta manera regresara todo lo que 

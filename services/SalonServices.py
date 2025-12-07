@@ -12,11 +12,17 @@ class SalonServices:
     def registrar_salones(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2):
         salon = DatosSalon( nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2)
         return self.salon_repository.crear_salon(salon)
+    
+
+    def listar_salones_informacion(self, numSalon):
+        print("Salones: ")
+        salon = self.salon_repository.listar_salones_2(numSalon)
+        return salon
 
     def listar_salones(self):
         print("Salones: ")
-        salon = self.salon_repository.listar_salones()
-        return salon
+        return  self.salon_repository.listar_salones()
+        
         # print("Numero de salon:\t Nombre:\t Estado:")
         # for row in salon:
         #     print(f"{row['numSalon']}\t\t\t {row['nombre']}\t\t\t {row['esta_salon']}")
@@ -28,6 +34,9 @@ class SalonServices:
         for row in estado:
             print(f"{row['codigoSal']}\t {row['descripcion']}")
 
+    def actualizar_campos(self, campo, numSalon, valor):
+        return self.salon_repository.actualizar_salones(campo, numSalon, valor)
+
     def actualizar_salon(self, numSalon, esta_salon):
         self.salon_repository.actualizar(numSalon, esta_salon)
 
@@ -37,3 +46,6 @@ class SalonServices:
 
     def datos_montaje(self,numero_salon):
         return self.salon_repository.datos_montaje_salon(numero_salon)
+
+    def eliminar_salones(self, numSalon):
+        self.salon_repository.eliminar_salon(numSalon)
