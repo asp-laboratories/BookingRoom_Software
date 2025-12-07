@@ -144,6 +144,17 @@ class mobiliarioService:
 
     def datos_mob(self, numMob):
         return self.mobiliario_repository.datos_especificos_mob(numMob)
+    
+    def stock_disponible(self, nombre, cantidad):
+        numMob = self.mobiliario_repository.obtener_num_mob(nombre)
+        disponiobles = self.mobiliario_repository.mobiliario_disponible(numMob['numMob'])
+        if disponiobles == None:
+            return False
+        elif disponiobles['cantidad'] > cantidad:
+            return True
+        else:
+            return False
+
 if __name__ == "__main__":
     prueba = mobiliarioService()
     #prueba.listar_tipo_carac()

@@ -16,7 +16,7 @@ def listar_tipos_montajes():
         print(f"{tipo['codigoMon']} \t {tipo['nombre']}")
 
 def mostrar_mobiliarios_montaje(montaje):
-    tipoMontaje = tipo_montaje.listar_mobiliarios_montaje(montaje)
+    tipoMontaje = tipo_montaje.listar_mobiliarios_salon(montaje)
     for montaje in tipoMontaje:
         print(montaje['nombre'])
         for mobi in montaje['mobiliarios']:
@@ -27,4 +27,4 @@ def obtener_numdatmon(tipo_motanej, salon):
     print(tipo_montaje.obtener_datos_montaje(tipo_motanej, salon))
 
 if __name__ == "__main__":
-    mostrar_mobiliarios_montaje('Banquete')
+    mostrar_mobiliarios_montaje('Vivaldi V')

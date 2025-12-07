@@ -693,8 +693,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>1031</width>
+         <y>-1080</y>
+         <width>1004</width>
          <height>3500</height>
         </rect>
        </property>
@@ -4783,10 +4783,10 @@ color: rgba(155, 88, 43, 1.0);
               </property>
               <property name="geometry">
                <rect>
-                <x>250</x>
-                <y>1715</y>
+                <x>240</x>
+                <y>1570</y>
                 <width>501</width>
-                <height>261</height>
+                <height>111</height>
                </rect>
               </property>
               <property name="font">
@@ -4818,8 +4818,8 @@ color: rgba(155, 88, 43, 1.0);
              <widget class="QPushButton" name="reMontajeInfo">
               <property name="geometry">
                <rect>
-                <x>250</x>
-                <y>1990</y>
+                <x>240</x>
+                <y>1710</y>
                 <width>231</width>
                 <height>41</height>
                </rect>
@@ -4836,8 +4836,8 @@ background-color: rgb(34, 76, 184);</string>
              <widget class="QPushButton" name="reSalonInfo">
               <property name="geometry">
                <rect>
-                <x>250</x>
-                <y>1530</y>
+                <x>240</x>
+                <y>1410</y>
                 <width>221</width>
                 <height>41</height>
                </rect>
@@ -4854,8 +4854,8 @@ background-color: rgb(34, 76, 184);</string>
              <widget class="QComboBox" name="reTipoMontaje">
               <property name="geometry">
                <rect>
-                <x>250</x>
-                <y>1655</y>
+                <x>240</x>
+                <y>1530</y>
                 <width>501</width>
                 <height>32</height>
                </rect>
@@ -4888,7 +4888,7 @@ color: rgb(0, 0, 0);</string>
                 <x>250</x>
                 <y>1258</y>
                 <width>501</width>
-                <height>261</height>
+                <height>121</height>
                </rect>
               </property>
               <property name="font">
@@ -5366,8 +5366,8 @@ background-color: rgb(34, 76, 184);</string>
              <widget class="QLabel" name="lNombreS_5">
               <property name="geometry">
                <rect>
-                <x>250</x>
-                <y>1608</y>
+                <x>240</x>
+                <y>1480</y>
                 <width>291</width>
                 <height>41</height>
                </rect>
@@ -5433,6 +5433,28 @@ background-color: rgb(34, 76, 184);</string>
               </property>
               <property name="text">
                <string>Seleccionar equipamientos</string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="reMobiliarioDatosMontaje">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>240</x>
+                <y>1760</y>
+                <width>501</width>
+                <height>221</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);</string>
               </property>
              </widget>
             </widget>

@@ -29,3 +29,30 @@ class DatosMontajeRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def mobiliarios_montaje(self, numDatMon):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT mo.numMob, mo.nombre, mm.cantidad
+                            FROM mobiliario as mo
+                            INNER JOIN montaje_mobiliario as mm on mm.mobiliario = mo.numMob
+                            WHERE mm.datos_montaje = %s
+                            """, (numDatMon,))
+            
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        except Exception as error:
+            print(f"Error al obtener mobiliario de un montaje: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+            

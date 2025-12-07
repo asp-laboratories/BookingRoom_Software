@@ -163,7 +163,7 @@ class MobiliarioRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute(f"SELECT numMob FROM mobiliario WHERE descripcion like '%{nombre}%'")
+            cursor.execute(f"SELECT numMob FROM mobiliario WHERE nombre like '%{nombre}%'")
             resultado = cursor.fetchone()
 
             return resultado
@@ -384,6 +384,33 @@ class MobiliarioRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def mobiliario_disponible(self, numMob):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT cantidad
+                            FROM inventario_mob
+                            WHERE mobiliario = %s and esta_mob = 'DISPO'
+                            """, (numMob,))
+            
+            resultado = cursor.fetchone()
+
+            return resultado
+        
+        except Exception as error:
+            print(f"Error al encontrar los mobiliarios disponibles: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
 
 if __name__ == "__main__":
     conexcion = BaseDeDatos(database='BookingRoomLocal')
