@@ -723,7 +723,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>7</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -922,7 +922,7 @@ color: rgb(255, 255, 255);
              <rect>
               <x>10</x>
               <y>10</y>
-              <width>911</width>
+              <width>981</width>
               <height>661</height>
              </rect>
             </property>
@@ -960,7 +960,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>5</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -1063,533 +1063,6 @@ border: 3px solid rgba(155, 88, 43, 1.0);
               </property>
               <property name="readOnly">
                <bool>true</bool>
-              </property>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_8">
-             <attribute name="title">
-              <string>Actualizar tipo</string>
-             </attribute>
-             <widget class="QTextEdit" name="tisaResultado">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>60</x>
-                <y>130</y>
-                <width>461</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="tisaBuscar">
-              <property name="geometry">
-               <rect>
-                <x>390</x>
-                <y>60</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="tisaBusqueda">
-              <property name="geometry">
-               <rect>
-                <x>60</x>
-                <y>60</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_7">
-              <property name="geometry">
-               <rect>
-                <x>580</x>
-                <y>50</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="seCancelar_3">
-               <property name="geometry">
-                <rect>
-                 <x>150</x>
-                 <y>370</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="seConfirmar_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>370</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);
-border: none;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_57">
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>31</y>
-                 <width>201</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar tipo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_58">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>100</y>
-                 <width>261</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar descripcion</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="seMensajeE_3">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>430</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="seEliminarInput_3">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>150</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del servicio</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="tisIngresar_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>280</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del servicio</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_59">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>230</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Codigo del tipo</string>
-               </property>
-              </widget>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_9">
-             <attribute name="title">
-              <string>Eliminar tipo</string>
-             </attribute>
-             <widget class="QFrame" name="frame_6">
-              <property name="geometry">
-               <rect>
-                <x>590</x>
-                <y>50</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="seCancelar_2">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="tisConfirmar">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);
-border: none;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_55">
-               <property name="geometry">
-                <rect>
-                 <x>80</x>
-                 <y>30</y>
-                 <width>151</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Eliminar tipo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_56">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>140</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Codigo del tipo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="seMensajeE_2">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>430</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="tisIngresar">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>190</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del servicio</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QTextEdit" name="tipoResultado">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>120</y>
-                <width>461</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="tipoBusqueda">
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>50</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="tipoBuscarE">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>50</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
               </property>
              </widget>
             </widget>
@@ -1925,134 +1398,14 @@ QComboBox QAbstractItemView {
              <attribute name="title">
               <string>Listar</string>
              </attribute>
-             <widget class="QLineEdit" name="slIngresarBusqueda">
-              <property name="geometry">
-               <rect>
-                <x>100</x>
-                <y>60</y>
-                <width>521</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar">
-              <property name="geometry">
-               <rect>
-                <x>640</x>
-                <y>60</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="sResultadoListar">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>100</x>
-                <y>130</y>
-                <width>701</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_5">
-             <attribute name="title">
-              <string>Eliminar</string>
-             </attribute>
-             <widget class="QLineEdit" name="slIngresarBusqueda_2">
-              <property name="geometry">
-               <rect>
-                <x>40</x>
-                <y>50</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_2">
-              <property name="geometry">
-               <rect>
-                <x>370</x>
-                <y>50</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
              <widget class="QTextEdit" name="sResultadoListar_2">
               <property name="enabled">
                <bool>true</bool>
               </property>
               <property name="geometry">
                <rect>
-                <x>40</x>
-                <y>120</y>
+                <x>80</x>
+                <y>170</y>
                 <width>461</width>
                 <height>411</height>
                </rect>
@@ -2080,11 +1433,29 @@ border: 3px solid rgba(155, 88, 43, 1.0);
                <bool>true</bool>
               </property>
              </widget>
+             <widget class="QPushButton" name="slBuscar_2">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>100</y>
+                <width>461</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
              <widget class="QFrame" name="frame_2">
               <property name="geometry">
                <rect>
-                <x>580</x>
-                <y>40</y>
+                <x>620</x>
+                <y>90</y>
                 <width>301</width>
                 <height>501</height>
                </rect>
@@ -2241,6 +1612,30 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                </property>
               </widget>
              </widget>
+             <widget class="QLabel" name="label_11">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>30</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Listar servicios</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab_6">
              <attribute name="title">
@@ -2249,8 +1644,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <widget class="QFrame" name="frame_3">
               <property name="geometry">
                <rect>
-                <x>560</x>
-                <y>40</y>
+                <x>570</x>
+                <y>100</y>
                 <width>301</width>
                 <height>501</height>
                </rect>
@@ -2269,7 +1664,7 @@ border-radius: 10px;</string>
                <property name="geometry">
                 <rect>
                  <x>160</x>
-                 <y>400</y>
+                 <y>350</y>
                  <width>121</width>
                  <height>41</height>
                 </rect>
@@ -2287,7 +1682,7 @@ background-color: #CA301B;</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>400</y>
+                 <y>350</y>
                  <width>121</width>
                  <height>41</height>
                 </rect>
@@ -2305,7 +1700,7 @@ background-color: #2B9B32;</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>330</y>
+                 <y>250</y>
                  <width>261</width>
                  <height>51</height>
                 </rect>
@@ -2328,7 +1723,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>280</y>
+                 <y>200</y>
                  <width>221</width>
                  <height>41</height>
                 </rect>
@@ -2353,7 +1748,7 @@ color: rgba(155, 88, 43, 1.0);
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>220</y>
+                 <y>140</y>
                  <width>261</width>
                  <height>51</height>
                 </rect>
@@ -2376,7 +1771,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>170</y>
+                 <y>90</y>
                  <width>131</width>
                  <height>41</height>
                 </rect>
@@ -2397,34 +1792,11 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Campo:</string>
                </property>
               </widget>
-              <widget class="QLineEdit" name="sNumeroServicio">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>110</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Servicio de copiado</string>
-               </property>
-              </widget>
               <widget class="QLabel" name="sMensajeAct">
                <property name="geometry">
                 <rect>
                  <x>20</x>
-                 <y>450</y>
+                 <y>400</y>
                  <width>251</width>
                  <height>41</height>
                 </rect>
@@ -2443,31 +1815,6 @@ font-size: 28px;</string>
                </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_11">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>60</y>
-                 <width>261</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Numero del servicio</string>
                </property>
               </widget>
               <widget class="QLabel" name="label_31">
@@ -2502,10 +1849,10 @@ color: rgba(155, 88, 43, 1.0);
               </property>
               <property name="geometry">
                <rect>
-                <x>60</x>
-                <y>130</y>
+                <x>70</x>
+                <y>170</y>
                 <width>461</width>
-                <height>411</height>
+                <height>431</height>
                </rect>
               </property>
               <property name="font">
@@ -2534,8 +1881,8 @@ border: 3px solid rgba(155, 88, 43, 1.0);
              <widget class="QLineEdit" name="slIngresarBusqueda_3">
               <property name="geometry">
                <rect>
-                <x>60</x>
-                <y>60</y>
+                <x>70</x>
+                <y>100</y>
                 <width>311</width>
                 <height>41</height>
                </rect>
@@ -2556,8 +1903,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <widget class="QPushButton" name="slBuscar_3">
               <property name="geometry">
                <rect>
-                <x>390</x>
-                <y>60</y>
+                <x>400</x>
+                <y>100</y>
                 <width>131</width>
                 <height>41</height>
                </rect>
@@ -2571,712 +1918,921 @@ background-color: rgb(34, 76, 184);</string>
                <string>Buscar</string>
               </property>
              </widget>
+             <widget class="QLabel" name="label_66">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>30</y>
+                <width>471</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Actualizar informacion del servicio</string>
+              </property>
+             </widget>
             </widget>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaEquipamiento">
-           <widget class="QLineEdit" name="eTipoEquipamiento">
+           <widget class="QTabWidget" name="tabWidget_4">
             <property name="geometry">
              <rect>
-              <x>190</x>
-              <y>410</y>
-              <width>311</width>
-              <height>51</height>
+              <x>0</x>
+              <y>0</y>
+              <width>1011</width>
+              <height>761</height>
              </rect>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+             <string notr="true">QTabWidget::pane {
+    border-top: 3px solid #9b582b;
+	color: rgb(155, 88, 43);
+    margin-top: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabBar::tab {
+    background-color: #9b582b;
+	selection-color: rgb(155, 88, 43);
+    border: 1px solid #c0c0c0;
+    padding: 8px 16px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #c67037;
+    border-bottom-color: white;
+}
+
+QTabBar::tab:hover {
+    background-color: rgb(105, 60, 29);
+}</string>
             </property>
-            <property name="text">
-             <string/>
+            <property name="currentIndex">
+             <number>2</number>
             </property>
-            <property name="placeholderText">
-             <string>Ingrese la descripcion del tipo de equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="eDescripcion">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>300</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese la descripcion del equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="eStock">
-            <property name="geometry">
-             <rect>
-              <x>510</x>
-              <y>300</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese la cantidad del equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_14">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>240</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Descripcion</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_16">
-            <property name="geometry">
-             <rect>
-              <x>510</x>
-              <y>250</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Stock</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_17">
-            <property name="geometry">
-             <rect>
-              <x>510</x>
-              <y>120</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Costo de renta</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="eMensaje">
-            <property name="geometry">
-             <rect>
-              <x>440</x>
-              <y>580</y>
-              <width>131</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
+            <widget class="QWidget" name="tab_8">
+             <attribute name="title">
+              <string>Registrar equipamiento</string>
+             </attribute>
+             <widget class="QLabel" name="label_18">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>40</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
 font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>Mensaje</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_13">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>360</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
+              </property>
+              <property name="text">
+               <string>Equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_16">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>240</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
 </string>
-            </property>
-            <property name="text">
-             <string>Tipo de equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_15">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>120</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Nombre</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="eNombreEqui">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>170</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
+              </property>
+              <property name="text">
+               <string>Stock</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="eDescripcion">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>290</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el nombre del equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="eCostoRenta">
-            <property name="geometry">
-             <rect>
-              <x>510</x>
-              <y>170</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la descripcion del equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_13">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>350</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Tipo de equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="eNombreEqui">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>160</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
 border-radius: 5px;
 border-bottom: 3px solid rgba(155, 88, 43, 1.0);
 border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="eConfirmar">
-            <property name="geometry">
-             <rect>
-              <x>210</x>
-              <y>500</y>
-              <width>261</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border-radius: 10px;
-background-color: #2B9B32;</string>
-            </property>
-            <property name="text">
-             <string>Confirmar</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_18">
-            <property name="geometry">
-             <rect>
-              <x>50</x>
-              <y>50</y>
-              <width>251</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el nombre del equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="eCostoRenta">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>160</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el costo de renta</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="eMensaje">
+              <property name="geometry">
+               <rect>
+                <x>440</x>
+                <y>570</y>
+                <width>131</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
 font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>Equipamiento</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="eCancelar">
-            <property name="geometry">
-             <rect>
-              <x>510</x>
-              <y>500</y>
-              <width>261</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border-radius: 10px;
+              </property>
+              <property name="text">
+               <string>Mensaje</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="eCancelar">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>490</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
 background-color: #CA301B;</string>
-            </property>
-            <property name="text">
-             <string>Cancelar</string>
-            </property>
+              </property>
+              <property name="text">
+               <string>Cancelar</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_14">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>230</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Descripcion</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="eStock">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>290</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la cantidad del equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="eConfirmar">
+              <property name="geometry">
+               <rect>
+                <x>210</x>
+                <y>490</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+              </property>
+              <property name="text">
+               <string>Confirmar</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_17">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>110</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Costo de renta</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="eTipoEquipamiento">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>400</y>
+                <width>311</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la descripcion del tipo de equipamiento</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_15">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>110</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Nombre</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_9">
+             <attribute name="title">
+              <string>Actualizar equipamiento</string>
+             </attribute>
+             <widget class="QPushButton" name="slBuscar_5">
+              <property name="geometry">
+               <rect>
+                <x>420</x>
+                <y>80</y>
+                <width>131</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QFrame" name="frame_9">
+              <property name="geometry">
+               <rect>
+                <x>620</x>
+                <y>80</y>
+                <width>321</width>
+                <height>501</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 3px solid rgb(155, 88, 43);
+border-radius: 10px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="sCancelarAct_3">
+               <property name="geometry">
+                <rect>
+                 <x>170</x>
+                 <y>360</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+border-radius: 10px;
+background-color: #CA301B;</string>
+               </property>
+               <property name="text">
+                <string>Cancelar</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="sConfirmarAct_3">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>360</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+border-radius: 10px;
+background-color: #2B9B32;</string>
+               </property>
+               <property name="text">
+                <string>Confirmar</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="sNuevoValor_3">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>250</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Ingrese el nuevo valor</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_67">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>200</y>
+                 <width>221</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Nuevo valor:</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="sCampo_3">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>140</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Ingrese el nombre del campo</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_68">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>90</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Campo:</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="sMensajeAct_3">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>440</y>
+                 <width>251</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>-1</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_69">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>291</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Actualizar equipamientos</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QLineEdit" name="slIngresarBusqueda_5">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>80</y>
+                <width>311</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Buscar servicio </string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="sResultadoListar_5">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>150</y>
+                <width>461</width>
+                <height>431</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_16">
+             <attribute name="title">
+              <string>Listar</string>
+             </attribute>
+             <widget class="QLabel" name="label_58">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>70</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Listar equipamientos</string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="sResultadoListar_7">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>210</y>
+                <width>461</width>
+                <height>411</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="slBuscar_7">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>140</y>
+                <width>461</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QFrame" name="frame_7">
+              <property name="geometry">
+               <rect>
+                <x>630</x>
+                <y>130</y>
+                <width>301</width>
+                <height>501</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 3px solid rgb(155, 88, 43);
+border-radius: 10px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="seCancelar_3">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>300</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+border-radius: 10px;
+background-color: #CA301B;</string>
+               </property>
+               <property name="text">
+                <string>Cancelar</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="seConfirmar_3">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>300</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+border: none;
+border-radius: 10px;
+background-color: #2B9B32;</string>
+               </property>
+               <property name="text">
+                <string>confirmar</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_59">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>30</y>
+                 <width>271</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Eliminar equipamiento</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_70">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>150</y>
+                 <width>271</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>16</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Numero del  equipamiento</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="seMensajeE_3">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>430</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>-1</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="seEliminarInput_3">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>190</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="placeholderText">
+                <string>Ingresa el numero del equipamiento</string>
+               </property>
+              </widget>
+             </widget>
+            </widget>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaSalon">
-           <widget class="QLabel" name="lNombreS">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>100</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Nombre del salon</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saResultadoM2">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>550</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Metros cuadrados</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saNombrePasillo">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>280</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el nombre del pasillo donde esta</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lNombreP">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>230</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Nombre del pasillo</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saAncho">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>410</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el ancho del salon</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lCostoS">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>100</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Costo de renta</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saAltura">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>550</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese la altura del salon</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_8">
-            <property name="geometry">
-             <rect>
-              <x>60</x>
-              <y>40</y>
-              <width>251</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>Salon</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saNumeroPasillo">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>280</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el numero del pasillo donde esta</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saLargo">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>410</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el largo del salon</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="saConfirmar">
-            <property name="geometry">
-             <rect>
-              <x>200</x>
-              <y>660</y>
-              <width>261</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">border-radius: 10px;
-background-color: #2B9B32;</string>
-            </property>
-            <property name="text">
-             <string>Confirmar</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saNombre">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>150</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese nombre del salon</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lMetrosS">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>490</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Metros cuadrados</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lAnchoS">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>360</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Ancho</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lLargoS">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>360</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Largo</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="saCostoRenta">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>150</y>
-              <width>291</width>
-              <height>51</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el costo de renta</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="lNumeroP">
-            <property name="geometry">
-             <rect>
-              <x>500</x>
-              <y>230</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-</string>
-            </property>
-            <property name="text">
-             <string>Numero del pasillo</string>
-            </property>
-           </widget>
            <widget class="QLabel" name="saMensaje">
             <property name="geometry">
              <rect>
@@ -3301,47 +2857,1034 @@ font-size: 28px;</string>
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="saCancelar">
+           <widget class="QTabWidget" name="tabWidget_3">
             <property name="geometry">
              <rect>
-              <x>500</x>
-              <y>660</y>
-              <width>261</width>
-              <height>61</height>
+              <x>0</x>
+              <y>0</y>
+              <width>1021</width>
+              <height>881</height>
              </rect>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-radius: 10px;
-background-color: #CA301B;</string>
+             <string notr="true">QTabWidget::pane {
+    border-top: 3px solid #9b582b;
+	color: rgb(155, 88, 43);
+    margin-top: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
+QTabBar::tab {
+    background-color: #9b582b;
+	selection-color: rgb(155, 88, 43);
+    border: 1px solid #c0c0c0;
+    padding: 8px 16px;
+    margin-right: 2px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #c67037;
+    border-bottom-color: white;
+}
+
+QTabBar::tab:hover {
+    background-color: rgb(105, 60, 29);
+}</string>
             </property>
-            <property name="text">
-             <string>Cancelar</string>
+            <property name="currentIndex">
+             <number>2</number>
             </property>
-           </widget>
-           <widget class="QLabel" name="lAlturaS">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>490</y>
-              <width>291</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>18</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
+            <widget class="QWidget" name="tab_14">
+             <attribute name="title">
+              <string>Registrar salon</string>
+             </attribute>
+             <widget class="QPushButton" name="saConfirmar">
+              <property name="geometry">
+               <rect>
+                <x>210</x>
+                <y>650</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: #2B9B32;</string>
+              </property>
+              <property name="text">
+               <string>Confirmar</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saNombre">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>140</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese nombre del salon</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saLargo">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>400</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el largo del salon</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saAltura">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>540</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese la altura del salon</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lMetrosS">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>480</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
 </string>
-            </property>
-            <property name="text">
-             <string>Altura</string>
-            </property>
+              </property>
+              <property name="text">
+               <string>Metros cuadrados</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lCostoS">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>90</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Costo de renta</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saNombrePasillo">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>270</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el nombre del pasillo donde esta</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lNumeroP">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>220</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Numero del pasillo</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_8">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>20</y>
+                <width>261</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Registrar salon</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lLargoS">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>350</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Largo</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lNombreP">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>220</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Nombre del pasillo</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lAlturaS">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>480</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Altura</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lNombreS">
+              <property name="geometry">
+               <rect>
+                <x>180</x>
+                <y>90</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Nombre del salon</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saCostoRenta">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>140</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el costo de renta</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saResultadoM2">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>540</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Metros cuadrados</string>
+              </property>
+             </widget>
+             <widget class="QLabel" name="lAnchoS">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>350</y>
+                <width>291</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Ancho</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saAncho">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>400</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el ancho del salon</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="saCancelar">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>650</y>
+                <width>261</width>
+                <height>61</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: #CA301B;</string>
+              </property>
+              <property name="text">
+               <string>Cancelar</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="saNumeroPasillo">
+              <property name="geometry">
+               <rect>
+                <x>510</x>
+                <y>270</y>
+                <width>291</width>
+                <height>51</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Ingrese el numero del pasillo donde esta</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_15">
+             <attribute name="title">
+              <string>Actualizar salon</string>
+             </attribute>
+             <widget class="QFrame" name="frame_8">
+              <property name="geometry">
+               <rect>
+                <x>620</x>
+                <y>90</y>
+                <width>301</width>
+                <height>501</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 3px solid rgb(155, 88, 43);
+border-radius: 10px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="sCancelarAct_2">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>370</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+border-radius: 10px;
+background-color: #CA301B;</string>
+               </property>
+               <property name="text">
+                <string>Cancelar</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="sConfirmarAct_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>370</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+border-radius: 10px;
+background-color: #2B9B32;</string>
+               </property>
+               <property name="text">
+                <string>Confirmar</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="sNuevoValor_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>250</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Ingrese el nuevo valor</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_62">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>200</y>
+                 <width>221</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Nuevo valor:</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="sCampo_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>140</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Ingrese el nombre del campo</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_63">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>90</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Campo:</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="sMensajeAct_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>440</y>
+                 <width>251</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>-1</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_65">
+               <property name="geometry">
+                <rect>
+                 <x>40</x>
+                 <y>10</y>
+                 <width>221</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Actualizar salones</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QPushButton" name="slBuscar_4">
+              <property name="geometry">
+               <rect>
+                <x>420</x>
+                <y>90</y>
+                <width>131</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="slIngresarBusqueda_4">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>90</y>
+                <width>311</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Buscar servicio </string>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="sResultadoListar_4">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>160</y>
+                <width>461</width>
+                <height>431</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QLabel" name="label_64">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>20</y>
+                <width>471</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Actualizar informacion del salon</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_5">
+             <attribute name="title">
+              <string>Listar salones</string>
+             </attribute>
+             <widget class="QTextEdit" name="sResultadoListar_6">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>180</y>
+                <width>461</width>
+                <height>411</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border: 3px solid rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="slBuscar_6">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>110</y>
+                <width>461</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QFrame" name="frame_6">
+              <property name="geometry">
+               <rect>
+                <x>630</x>
+                <y>100</y>
+                <width>301</width>
+                <height>501</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 3px solid rgb(155, 88, 43);
+border-radius: 10px;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="seCancelar_2">
+               <property name="geometry">
+                <rect>
+                 <x>160</x>
+                 <y>300</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+border-radius: 10px;
+background-color: #CA301B;</string>
+               </property>
+               <property name="text">
+                <string>Cancelar</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="seConfirmar_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>300</y>
+                 <width>131</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);
+border: none;
+border-radius: 10px;
+background-color: #2B9B32;</string>
+               </property>
+               <property name="text">
+                <string>confirmar</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_55">
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>30</y>
+                 <width>201</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Eliminar salon</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_56">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>140</y>
+                 <width>251</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>18</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+               </property>
+               <property name="text">
+                <string>Numero del salon</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="seMensajeE_2">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>430</y>
+                 <width>121</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Adwaita Sans</family>
+                 <pointsize>-1</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="seEliminarInput_2">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>190</y>
+                 <width>261</width>
+                 <height>51</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: unset;
+color: rgb(0, 0, 0);
+border-radius: 5px;
+border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
+               </property>
+               <property name="placeholderText">
+                <string>Ingresa el numero del salon</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QLabel" name="label_57">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>40</y>
+                <width>251</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>-1</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgba(155, 88, 43, 1.0);
+font-size: 28px;</string>
+              </property>
+              <property name="text">
+               <string>Listar salones</string>
+              </property>
+             </widget>
+            </widget>
            </widget>
+           <zorder>tabWidget_3</zorder>
+           <zorder>saMensaje</zorder>
           </widget>
           <widget class="QWidget" name="paginaMobiliario">
            <widget class="QLabel" name="lCostoS_2">
@@ -4054,7 +4597,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -5271,7 +5814,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">

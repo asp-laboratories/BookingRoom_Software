@@ -83,22 +83,28 @@ class AdministradorScreen():
         # Botones de los eventos de servicios
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
-        self.navegacion.slBuscar.clicked.connect(self.listar_servicio) 
         self.navegacion.slBuscar_3.clicked.connect(self.listar_servicio_act) 
         self.navegacion.slBuscar_2.clicked.connect(self.listar_servicio_del)
 
         self.navegacion.buscarTipo.clicked.connect(self.listar_servicio_segun_tipo)
-        self.navegacion.tipoBuscarE.clicked.connect(self.buscar_tipoS_eli)    
         self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
 
         self.navegacion.buscarTipo_2.clicked.connect(self.listar_reservaciones)
         # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
+        self.navegacion.slBuscar_5.clicked.connect(self.desplegar_informacion_equipamiento)
+        self.navegacion.sConfirmarAct_3.clicked.connect(self.actualizar_equipamiento)
+        self.navegacion.slBuscar_7.clicked.connect(self.listar_equipamentos_del)
+        self.navegacion.seConfirmar_3.clicked.connect(self.eliminar_equipamiento)
 
         # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
         self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
         self.navegacion.almBuscarE_4.clicked.connect(self.buscar_datos_montaje_salon)
+        self.navegacion.sConfirmarAct_2.clicked.connect(self.actualizar_salon)
+        self.navegacion.slBuscar_4.clicked.connect(self.desplegar_informacion_salon) 
+        self.navegacion.slBuscar_6.clicked.connect(self.listar_salones_del) 
+        self.navegacion.seConfirmar_2.clicked.connect(self.eliminar_salon) 
         # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(self.generar_caracteristicas)
         self.navegacion.amConfirmar_2.clicked.connect(self.registrar_mobiliario)
@@ -244,7 +250,7 @@ class AdministradorScreen():
 
 
     def actualizar_servicio(self): # no lo encontre en la app asi q cuando regrese este apartado quiero hacer cambios a su funcionamiento
-        resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.sNumeroServicio.text()) , self.navegacion.sNuevoValor.text())
+        resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.slIngresarBusqueda_3.text()) , self.navegacion.sNuevoValor.text())
         if resultado == False:
             self.navegacion.sMensajeAct.setText("Incorrecto")
         else:
@@ -254,7 +260,7 @@ class AdministradorScreen():
     def listar_servicio(self): # No necesaria
         self.navegacion.sResultadoListar.clear()
         
-        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda.text())
+        resultado = servicio.listar_servicio_busqueda(int(self.navegacion.slIngresarBusqueda.text()))
         if resultado == False:
             pass
         else:
@@ -266,7 +272,7 @@ class AdministradorScreen():
 
     def listar_servicio_act(self):
         self.navegacion.sResultadoListar_3.clear()
-        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_3.text())
+        resultado = servicio.listar_servicio_busqueda(int(self.navegacion.slIngresarBusqueda_3.text()))
         if resultado == False:
             pass
         else:
@@ -278,7 +284,7 @@ class AdministradorScreen():
 
     def listar_servicio_del(self):
         self.navegacion.sResultadoListar_2.clear()
-        resultado = servicio.listar_servicio_busqueda(self.navegacion.slIngresarBusqueda_2.text())
+        resultado = servicio.listar_servicio()
         if resultado == False:
             pass
         else:
@@ -424,6 +430,56 @@ class AdministradorScreen():
             self.navegacion.saMensaje.setText("Incorrecto")
         else:
             self.navegacion.saMensaje.setText("Correcto")
+    
+    def actualizar_salon(self): # no lo encontre en la app asi q cuando regrese este apartado quiero hacer cambios a su funcionamiento
+        resultado = salon.actualizar_campos(self.navegacion.sCampo_2.text(), int(self.navegacion.slIngresarBusqueda_4.text()) , self.navegacion.sNuevoValor_2.text())
+        if resultado == False:
+            self.navegacion.sMensajeAct_2.setText("Incorrecto")
+        else:
+            self.navegacion.sMensajeAct_2.setText("Correcto")
+
+    def listar_salones_del(self):
+
+        resultado = salon.listar_salones()
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---SALONES---\n"
+            for sali in resultado:
+                mensaje += f"\nNumero: {sali["numSalon"]}.\nNombre: {sali["nombre"]}.\n"
+                self.navegacion.sResultadoListar_6.setText(mensaje)
+
+
+    def eliminar_salon(self):
+        resultado = salon.eliminar_salones(int(self.navegacion.seEliminarInput_2.text()))
+        if resultado == False:
+            pass
+        else:
+            self.navegacion.seMensajeE.setText("Correcto")
+
+
+    def desplegar_informacion_salon(self):
+        self.navegacion.sResultadoListar_4.clear()
+        
+        sali = salon.listar_salones_informacion(self.navegacion.slIngresarBusqueda_4.text())
+        if sali == False:
+            pass
+        else:
+            mensaje = "INFORMACION DEL SALON\n"
+            mensaje += f"\n -Nombre: {sali["nombre"]}"
+            mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
+            mensaje += f"\n -Dimensiones:"
+            mensaje += f"\n -Largo del salon: {str(sali["dimenLargo"])}"
+            mensaje += f"\n -Ancho del salon: {str(sali['dimenAncho'])}"
+            mensaje += f"\n -Altura del salon: {str(sali['dimenAltura'])}"
+            mensaje += f"\n -Metros cuadrados: {str(sali["mCuadrados"])}"
+            mensaje += f"\n -Ubicado en:{sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
+            mensaje += f"\n -Nombre del pasillo: {sali["ubiNombrePas"]}"
+            mensaje += f"\n -Numero del pasillo: {sali['ubiNumeroPas']}"
+            self.navegacion.sResultadoListar_4.setText(mensaje)
+
+    
+
 
     # Metodos para la logica de equipamientos
     
@@ -434,6 +490,47 @@ class AdministradorScreen():
         else:
             self.navegacion.eMensaje.setText("Correcto")
 
+    def actualizar_equipamiento(self): 
+        resultado = equipamiento.actualizar_equipamento(self.navegacion.sCampo_3.text(), int(self.navegacion.slIngresarBusqueda_5.text()) , self.navegacion.sNuevoValor_3.text())
+        if resultado == False:
+            self.navegacion.sMensajeAct.setText("Incorrecto")
+        else:
+            self.navegacion.sMensajeAct.setText("Correcto")
+
+
+    def desplegar_informacion_equipamiento(self):
+        self.navegacion.sResultadoListar_5.clear()
+        
+        resultado = equipamiento.listar_equipamentos_informacion(int(self.navegacion.slIngresarBusqueda_5.text()))
+        if resultado == None:
+            pass
+        else:
+            mensaje = "INFORMACION DEL EQUIPAMIENTO\n"
+            mensaje += f"\n -Nombre: {resultado["nombre"]}"
+            mensaje += f"\n -Descripcion: {resultado["descripcion"]}"
+            mensaje += f"\n -Costo de renta: {str(resultado["costoRenta"])}"
+            mensaje += f"\n -Cantidad: {str(resultado["stock"])}"
+            self.navegacion.sResultadoListar_5.setText(mensaje)
+    
+
+    def listar_equipamentos_del(self):
+
+        resultado = equipamiento.listar_equipamentos()
+        if resultado == False:
+            pass
+        else:
+            mensaje = "\n---EQUIPAMIENTOS------\n"
+            for e in resultado:
+                mensaje += f"\nNumero: {e["numEquipa"]}.\nNombre: {e["nombre"]}.\nDescripcion: {e["descripcion"]}.\n"
+                self.navegacion.sResultadoListar_7.setText(mensaje)
+
+
+    def eliminar_equipamiento(self):
+        resultado = equipamiento.eliminar_registro(int(self.navegacion.seEliminarInput_3.text()))
+        if resultado == False:
+            pass
+        else:
+            self.navegacion.seMensajeE.setText("Correcto")
     def buscar_datos_montaje_salon(self):
         self.navegacion.almResulE_4.clear()
         resultado = salon.datos_montaje(self.navegacion.almBuscadorE_4.text())
