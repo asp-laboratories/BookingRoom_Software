@@ -8,7 +8,7 @@ from datetime import date, datetime, time
 
 class PagoServices:
     def __init__(self):
-        self.db = BaseDeDatos(database='BookingRoomLocal')
+        self.db = BaseDeDatos(database='BookingRoomLoca')
         # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.PagoRepository = PagoRepository(self.db)
         self.MetodoPagoRepository = MetodoPagoRepository(self.db)
@@ -60,3 +60,6 @@ class PagoServices:
     
     def pagos_reservacion(self, numReser):
         return self.PagoRepository.pagos_reservacion(numReser)
+
+    def recibo(self, numReser, nopago):
+        return self.PagoRepository.generar_recibo(numReser, nopago)

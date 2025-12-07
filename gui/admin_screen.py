@@ -6,6 +6,7 @@ from PyQt6.QtGui import QBrush, QColor
 from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton, QFrame, QHBoxLayout
 from PyQt6.QtCore import QDate, Qt
 from gui.pago import Pago
+from gui.recibo import Recibo
 from gui.registro_cliente import RegistroCliente
 from models.MobCarac import MobCarac
 from models.ReserEquipa import ReserEquipamiento
@@ -41,7 +42,7 @@ reser_equipa = ReserEquipaService()
 pagos = PagoServices()
 tipo_mobiliario = TipoMobiliarioService()
 
-
+obtenerNumeroReservacion = []
 class AdministradorScreen():
     def __init__(self):
         self.navegacion = uic.loadUi(str(ruta_ui))
@@ -50,11 +51,6 @@ class AdministradorScreen():
         self.navegacion.linkLogin.linkActivated.connect(self.volver_login)
         
         #Mensaje para evaluar las operaciones
-        self.navegacion.sMensaje.setText("")
-        self.navegacion.eMensaje.setText("")
-        self.navegacion.atMensaR.setText("")
-        self.navegacion.atMensaje.setText("")
-        self.navegacion.mobMensaje.setText("")
 
         #Ocultamiento de los submenus de los tres apartados
         self.navegacion.subMenuAdministracion.setVisible(False)
@@ -1566,14 +1562,14 @@ class AdministradorScreen():
             return
         else:
             numReser = int(resevacion)
-        
+            obtenerNumeroReservacion.append(numReser)
         mpago = self.navegacion.reMontoPago.text()
         if not permitir_ingreso(mpago, 'numfloat'):
             self.navegacion.reMontoPago.selectAll()
             self.navegacion.reMontoPago.setFocus()
             return
         else:
-            montoPago = int(mpago)
+            montoPago = float(mpago)
             saldo = pagos.calcular_saldo(numReser)
             if saldo < montoPago:
                 QMessageBox.warning(self.navegacion, "Ingresar un valor valido", "Se esta ingresando una cantidad mayor a la deuda.")
@@ -1605,6 +1601,7 @@ class AdministradorScreen():
             return
         
         if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
+            self.recibo = Recibo(numReser)
             self.limpiar_pago()
 
     def limpiar_pago(self):
