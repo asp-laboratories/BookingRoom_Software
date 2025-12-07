@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>876</width>
-    <height>741</height>
+    <width>873</width>
+    <height>942</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,19 +16,19 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(245, 221, 185);</string>
   </property>
-  <widget class="QLabel" name="label_15">
+  <widget class="QLabel" name="labelFecha">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>50</y>
-     <width>291</width>
+     <x>540</x>
+     <y>10</y>
+     <width>141</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -37,22 +37,22 @@
 </string>
    </property>
    <property name="text">
-    <string>Fecha de creacion</string>
+    <string>Fecha:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_16">
+  <widget class="QLabel" name="labelHotel">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>110</y>
-     <width>291</width>
+     <x>60</x>
+     <y>130</y>
+     <width>141</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -61,14 +61,14 @@
 </string>
    </property>
    <property name="text">
-    <string>Nombre del hotel</string>
+    <string>Nombre del hotel:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_17">
+  <widget class="QLabel" name="labelTrabajador">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>170</y>
+     <x>60</x>
+     <y>180</y>
      <width>291</width>
      <height>41</height>
     </rect>
@@ -76,7 +76,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -85,22 +85,22 @@
 </string>
    </property>
    <property name="text">
-    <string>Trabajador</string>
+    <string>Atendido por:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_18">
+  <widget class="QLabel" name="labelNombreCliente">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>240</y>
-     <width>241</width>
+     <x>430</x>
+     <y>130</y>
+     <width>501</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -112,11 +112,11 @@
     <string>Nombre del cliente</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_19">
+  <widget class="QLabel" name="labelSalon">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>290</y>
+     <x>60</x>
+     <y>440</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -124,7 +124,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -136,11 +136,11 @@
     <string>Salon</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_20">
+  <widget class="QLabel" name="labelEquipamiento">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>350</y>
+     <x>480</x>
+     <y>520</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -148,7 +148,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -160,11 +160,11 @@
     <string>Equipamiento</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_21">
+  <widget class="QLabel" name="labelServicio">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>410</y>
+     <x>70</x>
+     <y>520</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -172,7 +172,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -184,11 +184,11 @@
     <string>Servicio</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_22">
+  <widget class="QLabel" name="labelMontaje">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>460</y>
+     <x>470</x>
+     <y>440</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -196,7 +196,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -208,11 +208,11 @@
     <string>Montaje</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_23">
+  <widget class="QLabel" name="labelSub">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>520</y>
+     <x>600</x>
+     <y>700</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -220,7 +220,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -232,11 +232,11 @@
     <string>Subtotal:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_24">
+  <widget class="QLabel" name="labelIVA">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>580</y>
+     <x>610</x>
+     <y>760</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -244,7 +244,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -256,11 +256,11 @@
     <string>IVA:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_25">
+  <widget class="QLabel" name="labelTotal">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>630</y>
+     <x>610</x>
+     <y>810</y>
      <width>241</width>
      <height>41</height>
     </rect>
@@ -268,7 +268,7 @@
    <property name="font">
     <font>
      <family>Adwaita Sans</family>
-     <pointsize>18</pointsize>
+     <pointsize>10</pointsize>
      <bold>false</bold>
     </font>
    </property>
@@ -280,20 +280,361 @@
     <string>TOTAL:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="hotel">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>111</y>
+     <x>210</x>
+     <y>130</y>
      <width>211</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(0, 0, 0);</string>
    </property>
    <property name="text">
     <string>Jacinto</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelSaldo">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>830</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Monto</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelMonto">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>760</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Saldo</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>RECIBO DE PAGO DE RESERVACION</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="hora">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>10</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Hora:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="corrreoElectronico">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>280</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Corrreo electronico</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_4">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>380</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Elementos de la reservacion</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_5">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>80</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Datos del cliente</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_6">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>80</y>
+     <width>191</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Hotel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="telefonos">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>230</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Telefonos</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_7">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>640</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Coste de la reservacion</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelFecha_8">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>640</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>14</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Estado del pago</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="num">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>700</y>
+     <width>241</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Pago </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="con">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>180</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Nombre del cliente</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Ubicacion">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>330</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Adwaita Sans</family>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgba(155, 88, 43, 1.0);
+</string>
+   </property>
+   <property name="text">
+    <string>Nombre del cliente</string>
    </property>
   </widget>
  </widget>
