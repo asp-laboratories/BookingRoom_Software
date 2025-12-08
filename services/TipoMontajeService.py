@@ -22,7 +22,10 @@ class TipoMontajeService:
     
     def listar_mobiliarios_montaje(self, montaje):
         montaje = self.TipoMontajeRepository.obtener_codigo_montaje(montaje) 
-        resultado = self.TipoMontajeRepository.mobiliarios_por_montaje(montaje['codigoMon'])
+        if montaje:
+            resultado = self.TipoMontajeRepository.mobiliarios_por_montaje(montaje['codigoMon'])
+        else:
+            return None
         salonesMobiliarios = [] # Dentro de esto van los diccionarios con la info
         nombresSalones = []
         for registro in resultado: # Se recorre el reusltado de la consulta
@@ -75,7 +78,7 @@ class TipoMontajeService:
         return self.TipoMontajeRepository.ingresar_datos_montaje(datos)
     
     def obtener_datos_montaje(self, tipo_montaje, datos_salon):
-        #datos_salon = self.SalonServices.obtener_codigo_salon(datos_salon)
+        datos_salon = self.SalonServices.obtener_codigo_salon(datos_salon)
         tipo_montaje = self.TipoMontajeRepository.obtener_codigo_montaje(tipo_montaje)
         datos_montaje = DatosMontaje(tipo_montaje=tipo_montaje['codigoMon'], datos_salon=datos_salon)
         numDatMon =  self.DatosMontajeRepository.obtener_codigo_datos_montaje(datos_montaje)

@@ -39,12 +39,12 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
     def listar_servicio(self): 
         return self.servicio_repository.listar_servicio()
 
-    def listar_servicio_y_tipo(self):
-        servicios = self.servicio_repository.obtener_servicios_inner() # Recordando que devuelve un arreglo.
-        if servicios: #Si servicios existe entonces:
-            for ser in servicios:
-                print(f"Informacion de: {ser.nombre}:\n{ser.descripcion}\n{ser.costo_renta}\n{ser.tipo_nombre}") #ser es como si fuera i, solo que ser contiene los
-                #objetos que encuentre mediante el . accede a la informacion.
+    #def listar_servicio_y_tipo(self):
+    #    servicios = self.servicio_repository.obtener_servicios_inner() # Recordando que devuelve un arreglo.
+    #    if servicios: #Si servicios existe entonces:
+    #        for ser in servicios:
+    #            print(f"Informacion de: {ser.nombre}:\n{ser.descripcion}\n{ser.costo_renta}\n{ser.tipo_nombre}") #ser es como si fuera i, solo que ser contiene los
+    #            #objetos que encuentre mediante el . accede a la informacion.
 
 
     def actualizar_campos(self, campo, numServicio, valor):
@@ -56,8 +56,10 @@ class ServicioService: #Clase que ayudara a gestionar las operaciones de la base
 
     def listar_servicio_y_tipo(self, descripcion):
         codigo = self.tipo_repository.obtener_codigo_tipo(descripcion)
-        return self.servicio_repository.conjunto_servicios(codigo["codigoTiSer"])
-
+        if len(codigo) == 1:
+            return self.servicio_repository.conjunto_servicios(codigo[0]["codigoTiSer"])
+        else:
+            return None
     def obtener_codigo_servicio(self, servicio):
         codigoServicio = self.servicio_repository.obtener_num_servicio(servicio)
         return codigoServicio['numServicio']

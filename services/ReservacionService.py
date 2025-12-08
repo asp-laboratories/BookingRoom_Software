@@ -26,14 +26,16 @@ class ReservacionService:
         # Comprobaciones del tipo de montaje, servicios, equipamientos, datos_salon, trabajador
         # Se tienen que agregar como pk
         numDatMon = self.tipo_montajeService.obtener_datos_montaje(tipo_montaje=tipo_montaje, datos_salon=datos_salon)
+        rfcTraba = trabajador
         rfcTraba = self.TrabajadorService.obtener_rfc_nombre(trabajador)
         rfcCliente = self.DatosClienteServices.obtener_rfc(datos_cliente)
 
         codigosEquipamientos = []
         if equipamientos != None:
             for equipamiento in equipamientos:
-                equipamiento.equipamiento = self.EquipamientoService.obtener_codigo_equipamiento(equipamiento.equipamiento)
-                print(equipamiento.equipamiento)
+                #print(f"checa este pedo q rollo pq no esta funcionando lol {equipamiento.equipamiento}")
+                #equipamiento.equipamiento = self.EquipamientoService.obtener_codigo_equipamiento(equipamiento.equipamiento)
+                #print(f"checa este pedo q rollo pq no esta funcionando lol {equipamiento.equipamiento}")
                 codigosEquipamientos.append(equipamiento)
 
         codigosServicios = []

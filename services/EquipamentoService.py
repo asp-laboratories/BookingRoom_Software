@@ -92,7 +92,7 @@ class EquipamentoService:
     def comprobar_stock(self, numEquipa, cantidad):
         disponibles = self.equipamento_repository.obtener_disponibles(numEquipa)
 
-        if cantidad > disponibles:
+        if cantidad < disponibles['cantidad']:
             print("No hay suficientes equipamientos disponibles")
             return False
         else:
