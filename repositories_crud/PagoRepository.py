@@ -248,13 +248,16 @@ CONCAT(t.priApellido, ' ', IFNULL(t.segApellido, ''), ' ', t.nombre) as trabajad
 ds.nombre as salon,
 tm.nombre as montaje,
 s.nombre as servicio,
+s.costoRenta as servicio_costo,
 e.nombre as equipamiento,
+e.costoRenta as equipamiento_costo,
 r.total as total,
 r.subtotal as subtotal,
 r.IVA as IVA,
 p.montoPago as monto,
 p.saldo as saldo,
 p.descripcion as descripcion,
+te.telefono as telefonos,
 DATE_FORMAT(p.fecha, '%d / %m / %Y') as fecha,
 TIME_FORMAT(p.hora, '%H : %i') as hora
 from pago as p 
@@ -268,6 +271,7 @@ inner join datos_salon as ds on dm.datos_salon = ds.numSalon
 inner join `tipo_montaje` as tm on dm.tipo_montaje = tm.codigoMon
 inner join `servicio` as s on rs.servicio = s.numServicio
 inner join `equipamiento` as e on re.equipamiento = e.numEquipa
+inner join `telefonos` as te on te.datos_cliente = dc.RFC
 where r.numReser = %s and p.noPago = %s
 """, (numReser,noPago,))
 
