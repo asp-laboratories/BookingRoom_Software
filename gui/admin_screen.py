@@ -104,7 +104,7 @@ class AdministradorScreen():
 
         # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(self.generar_caracteristicas)
-        self.navegacion.amConfirmar_2.clicked.connect(self.registrar_mobiliario)
+        self.navegacion.amConfirmar_2.clicked.connect(self.intentar_registrar_mobiliario)
         # self.navegacion.amConfirmar_2.clicked.connect(self.obtener_valores_inputs)
 
 
@@ -969,51 +969,73 @@ class AdministradorScreen():
     # Fin de la logica del trabajador
 
     # Registro del Mobiliaro
-
-    def registrar_mobiliario(self):
-        # 1. Obtención de datos principales (SIN CAMBIOS)
+    def registrar_mobiliario_ejecutar(self, nombre, costoRenta, stock, tipo, caracteristicas):
         try:
-            nombre = self.navegacion.mobNombre.text()
-            costoRenta = float(self.navegacion.mobCostoRenta.text())
-            stock = int(self.navegacion.mobStock.text())
-            tipo = self.navegacion.mobTipo.text()
-        except ValueError:
-            self.navegacion.mobMensaje.setText("Error: Costo o Stock deben ser números válidos.")
-            return
-
-        # 2. Recolección de textos de los inputs (SIN CAMBIOS)
-        valor = []         
-        for caracteristica_input in self.inputs:
-            valor.append(caracteristica_input.text())
-
-        valor_tipo = []
-        for tipo_input in self.inputs_tipo:
-            valor_tipo.append(tipo_input.text())
-        
-        # 3. CORRECCIÓN: Iterar para crear TODOS los objetos MobCarac
-        caracteristicas = []
-        # El número de características es la longitud de cualquiera de las listas (deben ser iguales)
-        num_caracteristicas = len(valor) 
-
-        for i in range(num_caracteristicas):
-            nombre_carac = valor[i]
-            tipo_carac = valor_tipo[i]
-
-            # Verificación simple para evitar crear características vacías
-            if nombre_carac.strip() and tipo_carac.strip():
-                caracteristica = MobCarac(nombre_carac, tipo_carac)
-                print(f"Característica creada: {caracteristica}")
-                caracteristicas.append(caracteristica)
-            else:
-                 print(f"Omitiendo característica {i+1} porque está vacía.")
+            resultado = mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo, caracteristicas)
             
-        # 4. Llamada a la función de registro (SIN CAMBIOS, AHORA CON LA LISTA COMPLETA)
-        resultado = mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo, caracteristicas)
-        
-        if resultado == False:
-            self.navegacion.mobMensaje.setText("Incorrecto")
-        else:
-            self.navegacion.mobMensaje.setText("Correcto")
+            if resultado == False:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Registro", 
+                    f"No se pudo registrar el mobiliario '{nombre}'. Verifique si ya existe o hay un problema en la base de datos."
+                )
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Registro Exitoso", 
+                    f"El mobiliario '{nombre}' ha sido registrado correctamente."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error de Ejecución", 
+                f"Ocurrió un error de base de datos durante el registro: {e}"
+            )
+    # def registrar_mobiliario(self):
+    #     # 1. Obtención de datos principales (SIN CAMBIOS)
+    #     try:
+    #         nombre = self.navegacion.mobNombre.text()
+    #         costoRenta = float(self.navegacion.mobCostoRenta.text())
+    #         stock = int(self.navegacion.mobStock.text())
+    #         tipo = self.navegacion.mobTipo.text()
+    #     except ValueError:
+    #         self.navegacion.mobMensaje.setText("Error: Costo o Stock deben ser números válidos.")
+    #         return
+    #
+    #     # 2. Recolección de textos de los inputs (SIN CAMBIOS)
+    #     valor = []         
+    #     for caracteristica_input in self.inputs:
+    #         valor.append(caracteristica_input.text())
+    #
+    #     valor_tipo = []
+    #     for tipo_input in self.inputs_tipo:
+    #         valor_tipo.append(tipo_input.text())
+    #     
+    #     # 3. CORRECCIÓN: Iterar para crear TODOS los objetos MobCarac
+    #     caracteristicas = []
+    #     # El número de características es la longitud de cualquiera de las listas (deben ser iguales)
+    #     num_caracteristicas = len(valor) 
+    #
+    #     for i in range(num_caracteristicas):
+    #         nombre_carac = valor[i]
+    #         tipo_carac = valor_tipo[i]
+    #
+    #         # Verificación simple para evitar crear características vacías
+    #         if nombre_carac.strip() and tipo_carac.strip():
+    #             caracteristica = MobCarac(nombre_carac, tipo_carac)
+    #             print(f"Característica creada: {caracteristica}")
+    #             caracteristicas.append(caracteristica)
+    #         else:
+    #              print(f"Omitiendo característica {i+1} porque está vacía.")
+    #         
+    #     # 4. Llamada a la función de registro (SIN CAMBIOS, AHORA CON LA LISTA COMPLETA)
+    #     resultado = mobiliario.registrar_mobiliario(nombre, costoRenta, stock, tipo, caracteristicas)
+    #     
+    #     if resultado == False:
+    #         self.navegacion.mobMensaje.setText("Incorrecto")
+    #     else:
+    #         self.navegacion.mobMensaje.setText("Correcto")
     
 
     def limpiar_caracteristicas(self):
@@ -1090,7 +1112,6 @@ class AdministradorScreen():
             self.inputs.append(input_caracteristica)
             self.inputs_tipo.append(input_tipo_carac)
 
-            print("Yes")
 
 
 
@@ -2355,15 +2376,7 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error al procesar los datos: {e}"
             )
-    def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
-        reply = QMessageBox.question(
-            None, 
-            titulo, 
-            mensaje,
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-        
-        return reply == QMessageBox.StandardButton.Yes
+
 
     def intentar_actualizar_estado_equipa(self):
         try:
@@ -2414,6 +2427,101 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error al procesar los datos: {e}"
             )
+
+
+    def intentar_registrar_mobiliario(self):
+        try:
+            nombre = self.navegacion.mobNombre.text().strip()
+            tipo = self.navegacion.mobTipo.text().strip()
+            
+            if not nombre:
+                raise ValueError("Nombre del Mobiliario")
+            if not tipo:
+                raise ValueError("Tipo de Mobiliario")
+    
+            costoRenta = float(self.navegacion.mobCostoRenta.text())
+            stock = int(self.navegacion.mobStock.text())
+            
+            if costoRenta <= 0 or stock <= 0:
+                raise ValueError("Valores Numéricos")
+                
+            caracteristicas = []
+            num_caracteristicas = len(self.inputs)
+            
+            for i in range(num_caracteristicas):
+                nombre_carac = self.inputs[i].text().strip()
+                tipo_carac = self.inputs_tipo[i].text().strip()
+    
+                if nombre_carac and tipo_carac:
+                    caracteristica = MobCarac(nombre_carac, tipo_carac)
+                    caracteristicas.append(caracteristica)
+                elif nombre_carac or tipo_carac:
+                    raise ValueError(f"Característica Incompleta: Faltó el Nombre o el Tipo de la Característica {i+1}")
+            
+            if self.navegacion.seleccionCaracteristicas.value() > 0 and len(caracteristicas) == 0:
+                 if QMessageBox.question(
+                    None, 
+                    "Advertencia de Característica",
+                    "Ha indicado que desea características, pero no ingresó ninguna. ¿Desea continuar con el registro sin características?"
+                ) == QMessageBox.StandardButton.No:
+                     return 
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Registro de Mobiliario", 
+                f"¿Deseas registrar el mobiliario '{nombre}' (Stock: {stock}, Costo: ${costoRenta})?"
+            ):
+                self.registrar_mobiliario_ejecutar(nombre, costoRenta, stock, tipo, caracteristicas)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Registro Cancelado", 
+                    "La operación de registro de mobiliario ha sido cancelada."
+                )
+    
+        except ValueError as e:
+            error_type = str(e)
+            
+            if "float" in error_type or "int" in error_type:
+                 QMessageBox.warning(
+                    None, "Datos Inválidos", "El Costo de Renta y el Stock deben ser números enteros o decimales válidos."
+                )
+            elif "Valores Numéricos" in error_type:
+                QMessageBox.warning(
+                    None, "Datos Inválidos", "El Costo de Renta y el Stock deben ser mayores que cero."
+                )
+            elif "Nombre del Mobiliario" in error_type:
+                 QMessageBox.warning(
+                    None, "Datos Faltantes", "Debes ingresar el Nombre del mobiliario."
+                )
+            elif "Tipo de Mobiliario" in error_type:
+                 QMessageBox.warning(
+                    None, "Datos Faltantes", "Debes ingresar el Tipo de mobiliario."
+                )
+            elif "Característica Incompleta" in error_type:
+                 QMessageBox.warning(
+                    None, "Datos Incompletos", f"Corrija la entrada: {error_type}."
+                )
+            else:
+                 QMessageBox.critical(
+                    None, "Error de Validación", f"Ocurrió un error inesperado al validar: {e}"
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error grave durante el pre-registro: {e}"
+            )
+
+    def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
+        reply = QMessageBox.question(
+            None, 
+            titulo, 
+            mensaje,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        return reply == QMessageBox.StandardButton.Yes
+
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":
@@ -2422,4 +2530,4 @@ class AdministradorScreen():
 
 
     # def initGUI(self):
-        #     self.login.btnIniciar.clicked.connect(self.ingresar)
+            #     self.login.btnIniciar.clicked.connect(self.ingresar)
