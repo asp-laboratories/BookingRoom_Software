@@ -1604,6 +1604,7 @@ class AdministradorScreen():
         
         try:
             estado_buscado = self.navegacion.almBuscadorE.text().strip()
+            print(estado_buscado)
             
             if not estado_buscado:
                 QMessageBox.warning(
@@ -1622,6 +1623,7 @@ class AdministradorScreen():
                     f"No se encontró equipamiento en el estado '{estado_buscado}' o el estado no es válido."
                 )
                 self.navegacion.almResulE.setText(f"Estado '{estado_buscado}' sin equipamiento registrado.")
+                return
     
             else:
                 mensaje = f"\n--- EQUIPAMIENTOS EN ESTADO: {estado_buscado.upper()} ---\n"
@@ -1633,7 +1635,7 @@ class AdministradorScreen():
                     mensaje += f"Cantidad: {equi['Cantidad']}\n"
                     mensaje += "--------------------"
                     
-                self.pago.almResulE.setText(mensaje)
+                self.navegacion.almResulE.setText(mensaje)
             
         except Exception as e:
             QMessageBox.critical(
@@ -1684,48 +1686,24 @@ class AdministradorScreen():
             
             if detalles:
                 # Tomar la información básica del primer registro
-                primer_detalle = detalles[0]
                 
                 mensaje = "--- DATOS DEL MOBILIARIO ---\n\n"
-                mensaje += f"Número: {primer_detalle['mobiliario']}\n"
-                mensaje += f"Nombre: {primer_detalle['nombre']}\n"
-                mensaje += f"Cantidad total: {primer_detalle['cantidad']}\n\n"
-                
-                # Agrupar por tipo de característica
-                caracteristicas_por_tipo = {}
-                
-                for detalle in detalles:
-                    tipo = detalle['ti_caracteristica']
-                    caracteristica = detalle['caracteristica']
-                    
-                    if tipo not in caracteristicas_por_tipo:
-                        caracteristicas_por_tipo[tipo] = []
-                    
-                    if caracteristica not in caracteristicas_por_tipo[tipo]:
-                        caracteristicas_por_tipo[tipo].append(caracteristica)
+                mensaje += f"Número: {detalles['numMob']}\n"
+                mensaje += f"Nombre: {detalles['nombre']}\n"
+                mensaje += f"Cantidad total: {detalles['stockTotal']}\n\n"
                 
                 # Mostrar características agrupadas
                 mensaje += "--- CARACTERÍSTICAS ---\n\n"
-                for tipo, caracteristicas in caracteristicas_por_tipo.items():
-                    mensaje += f"• {tipo}:\n"
-                    for carac in caracteristicas:
-                        mensaje += f"  - {carac}\n"
+                for caracteristica in detalles['caracteristicas']:
+                    mensaje += f"• {caracteristica['tipo_carac']}:\n"
+                    mensaje += f"  - {caracteristica['caracteristica']}\n"
                     mensaje += "\n"
-                
-                # Contar estados
-                estados_count = {}
-                for detalle in detalles:
-                    estado = detalle['estado']
-                    if estado not in estados_count:
-                        estados_count[estado] = 0
-                    estados_count[estado] += 1
                 
                 # ARREGLAR
                 mensaje += "--- DISTRIBUCIÓN DE ESTADOS ---\n\n"
-                total = len(detalles)
-                for estado, cantidad in estados_count.items():
-                    porcentaje = (cantidad / total) * 100 if total > 0 else 0
-                    mensaje += f"• {estado}: {cantidad} unidades ({porcentaje:.1f}%)\n"
+                for estado in detalles['estados']:
+                    porcentaje = (estado['cantidad'] / detalles['stockTotal']) * 100 if estado['cantidad'] > 0 else 0
+                    mensaje += f"• {estado['estado']}: {estado['cantidad']} unidades ({porcentaje:.1f}%)\n"
                 
                 self.navegacion.texto_detalles_simple.setPlainText(mensaje)
             else:

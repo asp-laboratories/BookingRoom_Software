@@ -40,7 +40,7 @@ class Pago():
                 self.pago.reMontoPago.setFocus()
                 return
             else:
-                montoPago = int(mpago)
+                montoPago = float(mpago)
                 saldo = pagos.calcular_saldo(numReser)
                 if saldo < montoPago:
                     QMessageBox.warning(self.pago, "Ingresar un valor valido", "Se esta ingresando una cantidad mayor a la deuda.")
