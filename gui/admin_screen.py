@@ -116,7 +116,7 @@ class AdministradorScreen():
         
         #Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmar.clicked.connect(self.intentar_actualizar_estado_mob)
-        self.navegacion.almConfirmar_2.clicked.connect(self.actualizar_estado_equipa)
+        self.navegacion.almConfirmar_2.clicked.connect(self.intentar_actualizar_estado_equipa)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
         self.navegacion.almBuscarE_5.clicked.connect(self.buscar_mobiliario_montaje)
@@ -298,7 +298,6 @@ class AdministradorScreen():
 
     def listar_servicios_del_mismo_tipo(self):
         self.navegacion.sResultadoListar_2.clear()
-
         tposervicio = self.navegacion.slIngresarBusqueda_2.text()
         if not permitir_ingreso(tposervicio, 'onlytext'):
             QMessageBox.warning(self.navegacion, "Tipo de dato no valido", "Favor de ingresar el nombre del tipo de servicio")
@@ -424,12 +423,48 @@ class AdministradorScreen():
             self.navegacion.tResultadoS.setText(mensaje)
 
     def listar_servicio_segun_tipo(self):
-        resultado = servicio.listar_servicio_y_tipo(self.navegacion.tipoBuscar.text())
-        if resultado:
-            mensaje = f"\nTIPO DE SERVICIO: {self.navegacion.tipoBuscar.text()}\n"
-            for ts in resultado:  
-                mensaje += f"\n{ts["servicio"]}: {ts['descservicio']}\nCosto renta: {ts['costo_renta']}\n"
+
+        self.navegacion.tResultadoS.clear() # Limpiar resultados anteriores
+        
+        try:
+            tipo_buscado = self.navegacion.tipoBuscar.text().strip()
+            
+            if not tipo_buscado:
+                QMessageBox.warning(
+                    None,  # Usando None como parent
+                    "Búsqueda Inválida", 
+                    "Por favor, ingresa el **nombre del tipo de servicio** para realizar la búsqueda."
+                )
+                return
+    
+            resultado = servicio.listar_servicio_y_tipo(tipo_buscado)
+            
+            if resultado and isinstance(resultado, list) and len(resultado) > 0:
+                mensaje = f"\n--- SERVICIOS ENCONTRADOS PARA: {tipo_buscado.upper()} ---\n"
+                
+                for ts in resultado:
+                    mensaje += f"\nServicio: {ts.get('servicio', 'N/D')}\n"
+                    mensaje += f"Descripción: {ts.get('descservicio', 'N/D')}\n"
+                    mensaje += f"Costo Renta: {ts.get('costo_renta', 'N/D')}\n"
+                    mensaje += "--------------------------------------"
+    
                 self.navegacion.tResultadoS.setText(mensaje)
+            
+            else:
+                QMessageBox.information(
+                    None, # Usando None como parent
+                    "Sin Resultados", 
+                    f"No se encontraron servicios registrados para el tipo: **{tipo_buscado}**."
+                )
+                self.navegacion.tResultadoS.setText(f"Tipo '{tipo_buscado}' sin servicios.")
+    
+        except Exception as e:
+            QMessageBox.critical(
+                None, # Usando None como parent
+                "Error Inesperado", 
+                f"Ocurrió un error al intentar listar los servicios: {e}"
+            )
+
 
     def buscar_tipoS_eli(self):
         resultado = tipo_servi.listar_tipos_servicio(self.navegacion.tipoBusqueda.text())
@@ -897,16 +932,16 @@ class AdministradorScreen():
     # Metodos para la logica del trabajador
 
     def buscar(self):
+
+        self.navegacion.atResultadoText.clear()
         resultado = trabajador.buscar_al_trabajador(self.navegacion.atBuscador.text())
         if resultado == None:
-            self.navegacion.atMensaje.setText("Incorrecto")
+            self.navegacion.atResultadoText.setText("No se encontro nada") 
         else:
             mensaje = "\n---TRABAJADORES---\n"
             for traba in resultado:
                 mensaje += f"\nRFC: {traba["RFC"]}.\nNombre completo: {traba["nombre"]}.\nRol: {traba["rol"]}\n"
-                self.navegacion.atResultadoText.setText(mensaje)
-            self.navegacion.atMensaje.setText("Correcto")
-         
+                self.navegacion.atResultadoText.setText(mensaje) 
     def establecer_rol(self, rfc: str, nombre_rol: str):
         try:
             resultado = trabajador.actualizar_roles(rfc, nombre_rol)
@@ -1491,26 +1526,94 @@ class AdministradorScreen():
    
 
     def buscar_estado_mobiliario(self):
-        resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
-        if resultado == None:
-            pass
-        else:
-            mensaje = "\n---MOBILIARIOS---\n"
-            for mob in resultado:
-                mensaje += f"\nMobiliario: {mob["Numero"]}.\nNombre: {mob["Nombre"]}.\nEstado Actual: {mob["Estado"]}\nCantidad: {mob["Cantidad"]}\n"
+        self.navegacion.almResultadoM.clear() 
+        
+        try:
+            estado_buscado = self.navegacion.almBuscadorM.text().strip()
+            
+            if not estado_buscado:
+                QMessageBox.warning(
+                    None, 
+                    "Búsqueda Inválida", 
+                    "Por favor, ingresa el **estado de mobiliario** que deseas buscar (ej. 'Disponible', 'Dañado')."
+                )
+                return
+    
+            resultado = mobiliario.obtener_mob_estado(estado_buscado)
+            
+            if resultado is None or not resultado: 
+                QMessageBox.information(
+                    None, 
+                    "Sin Resultados", 
+                    f"No se encontró mobiliario en el estado '{estado_buscado}' o el estado no es válido."
+                )
+                self.navegacion.almResultadoM.setText(f"Estado '{estado_buscado}' sin mobiliario registrado.")
+    
+            else:
+                mensaje = f"\n--- MOBILIARIOS EN ESTADO: {estado_buscado.upper()} ---\n"
+                
+                for mob in resultado:
+                    mensaje += f"\nNúmero: {mob['Numero']}\n"
+                    mensaje += f"Nombre: {mob['Nombre']}\n"
+                    mensaje += f"Estado Actual: {mob['Estado']}\n"
+                    mensaje += f"Cantidad: {mob['Cantidad']}\n"
+                    mensaje += "--------------------"
+                    
                 self.navegacion.almResultadoM.setText(mensaje)
+            
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error al intentar buscar el mobiliario: {e}"
+            )
+            self.navegacion.almResultadoM.setText("Error interno del sistema.")
+
     
     def buscar_estado_equipamiento(self):
-        self.navegacion.almResulE.clear()
-        resultado = equipamiento.obtener_equipa_estado(self.navegacion.almBuscadorE.text())
-        if resultado == None:
-            pass
-        else:
-            mensaje = "\n---EQUIPAMIENTOS---\n"
-            for equi in resultado:
-                mensaje += f"\nEquipamiento: {equi["Numero"]}.\nNombre: {equi["Nombre"]}.\nEstado Actual: {equi["Estado"]}\nCantidad: {equi["Cantidad"]}\n"
-                self.navegacion.almResulE.setText(mensaje)
+
+        self.navegacion.almResulE.clear() # Limpiar resultados anteriores
         
+        try:
+            estado_buscado = self.navegacion.almBuscadorE.text().strip()
+            
+            if not estado_buscado:
+                QMessageBox.warning(
+                    None, 
+                    "Búsqueda Inválida", 
+                    "Por favor, ingresa el **estado de equipamiento** que deseas buscar (ej. 'Operativo', 'En Reparación')."
+                )
+                return
+    
+            resultado = equipamiento.obtener_equipa_estado(estado_buscado)
+            
+            if resultado is None or not resultado: 
+                QMessageBox.information(
+                    None, 
+                    "Sin Resultados", 
+                    f"No se encontró equipamiento en el estado '{estado_buscado}' o el estado no es válido."
+                )
+                self.navegacion.almResulE.setText(f"Estado '{estado_buscado}' sin equipamiento registrado.")
+    
+            else:
+                mensaje = f"\n--- EQUIPAMIENTOS EN ESTADO: {estado_buscado.upper()} ---\n"
+                
+                for equi in resultado:
+                    mensaje += f"\nNúmero: {equi['Numero']}\n"
+                    mensaje += f"Nombre: {equi['Nombre']}\n"
+                    mensaje += f"Estado Actual: {equi['Estado']}\n"
+                    mensaje += f"Cantidad: {equi['Cantidad']}\n"
+                    mensaje += "--------------------"
+                    
+                self.pago.almResulE.setText(mensaje)
+            
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error al intentar buscar el equipamiento: {e}"
+            )
+
 
     def cargar_seleccion_tipoMobiliario(self):
         self.navegacion.combo_tipos_simple.clear()
@@ -1601,13 +1704,33 @@ class AdministradorScreen():
                 self.navegacion.texto_detalles_simple.setPlainText("No se encontraron detalles para este mobiliario")
 
 
-       
-    def actualizar_estado_equipa(self):
-        resultado = equipamiento.actualizar_estado_equipamiento(int(self.navegacion.numE.text()),self.navegacion.almEstadoE.text(), self.navegacion.almEstadoO.text(),int(self.navegacion.almCantidade.text()))
-        if resultado:
-            self.navegacion.almMensaje_2.setText("Correcto")
-        else:
-            self.navegacion.almMensaje_2.setText("Incorrecto")
+    def actualizar_estado_equipa(self, num_equipo: int, estado_nuevo: str, estado_origen: str, cantidad: int):
+        try:
+            # Ejecutar la función de negocio
+            resultado = equipamiento.actualizar_estado_equipamiento(
+                num_equipo, estado_nuevo, estado_origen, cantidad
+            )
+            
+            if resultado:
+                QMessageBox.information(
+                    None, 
+                    "Actualización Exitosa", 
+                    f"Se han movido {cantidad} unidades del equipo {num_equipo} al estado '{estado_nuevo}'."
+                )
+            else:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Actualización", 
+                    f"No se pudo actualizar el estado del equipo {num_equipo}. Verifique la existencia del numero, la cantidad disponible en el estado origen o si los estados son válidos."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error de conexión/base de datos: {e}"
+            )
+
 
     def buscar_historial_pagos(self):
         reservacion = self.navegacion.pagosBuscador.text()
@@ -2242,6 +2365,55 @@ class AdministradorScreen():
         
         return reply == QMessageBox.StandardButton.Yes
 
+    def intentar_actualizar_estado_equipa(self):
+        try:
+            num_equipo = int(self.navegacion.numE.text()) 
+            cantidad = int(self.navegacion.almCantidade.text())
+    
+            estado_nuevo = self.navegacion.almEstadoO.text().strip()
+            estado_origen = self.navegacion.almEstadoE.text().strip()
+            
+            if not estado_nuevo or not estado_origen:
+                raise ValueError("Campos de estado vacíos")
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Actualización de Estado", 
+                f"¿Deseas mover {cantidad} unidades del equipo {num_equipo} desde el estado '{estado_origen}' al nuevo estado '{estado_nuevo}'?"
+            ):
+                self.actualizar_estado_equipa(num_equipo, estado_nuevo, estado_origen, cantidad)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Actualización Cancelada", 
+                    "La operación de actualización del estado ha sido cancelada."
+                )
+    
+        except ValueError as e:
+            error_msg = str(e)
+            if "invalid literal for int()" in error_msg:
+                QMessageBox.warning(
+                    None, 
+                    "Datos Inválidos", 
+                    "Asegúrate de que los campos de numero y cantidad contengan valores numéricos enteros válidos."
+                )
+            elif "Campos de estado vacíos" in error_msg:
+                 QMessageBox.warning(
+                    None, 
+                    "Datos Faltantes", 
+                    "Los campos Estado Nuevo' y Estado Origen' no pueden estar vacíos."
+                )
+            else:
+                 QMessageBox.critical(
+                    None, 
+                    "Error de Pre-Validación", 
+                    f"Ocurrió un error inesperado al validar los datos: {e}"
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error al procesar los datos: {e}"
+            )
     def volver_login(self, link):
         from gui.login import Login
         if link == "cerrar":
