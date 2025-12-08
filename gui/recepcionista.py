@@ -5,7 +5,6 @@ from PyQt6 import uic
 from PyQt6.QtGui import QBrush, QColor
 from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QVBoxLayout, QPushButton
 from PyQt6.QtCore import QDate, Qt
-from database_simulada import DatabaseSimulada
 from models.MobCarac import MobCarac
 from models.ReserEquipa import ReserEquipamiento
 from services.DatosClienteService import DatosClienteService
@@ -23,7 +22,6 @@ from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "recepcionista.ui"
 
 tipo_servi = TipoServicioService()
-db = DatabaseSimulada()
 servicio = ServicioService()
 salon = SalonServices()  
 equipamiento = EquipamentoService()
