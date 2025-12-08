@@ -119,7 +119,7 @@ class TipoServiciosRepository:
         try:
             cursor = self.db.cursor()
             cursor.execute("SELECT codigoTiSer FROM tipo_servicio WHERE descripcion like %s",(f'{nombre}%',))
-            numServicio = cursor.fetchone()
+            numServicio = cursor.fetchall()
             
             return numServicio
         except Exception as error:

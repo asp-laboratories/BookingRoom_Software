@@ -22,7 +22,6 @@ class SalonServices:
         return salon
 
     def listar_salones(self):
-        print("Salones: ")
         return  self.salon_repository.listar_salones()
         
         # print("Numero de salon:\t Nombre:\t Estado:")
@@ -51,3 +50,6 @@ class SalonServices:
 
     def eliminar_salones(self, numSalon):
         self.salon_repository.eliminar_salon(numSalon)
+
+    def salon_disponible(self):
+        return self.salon_repository.salon_disponible()

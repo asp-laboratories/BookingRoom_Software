@@ -22,7 +22,7 @@ class ReservacionRepository:
 
             # Obtencion de costo del mobiliario
             cursor.execute( """
-                            SELECT mob.numMob, mo.costoRenta, mm.cantidad
+                            SELECT mo.numMob, mo.costoRenta, mm.cantidad
                             FROM montaje_mobiliario as mm
                             INNER JOIN datos_montaje as dm on mm.datos_montaje = dm.numDatMon
                             INNER JOIN mobiliario as mo on mm.mobiliario = mo.numMob
@@ -34,28 +34,97 @@ class ReservacionRepository:
             for mobiliario in costosMobiliarios:
                 totalMobiliarios += (mobiliario['costoRenta'] * mobiliario['cantidad'])
 
-                self.mobRepository.actu_mob_esta(mobiliario['numMob'], mobiliario['cantidad'], 'DISPO', 'RESER')
+                numMob = mobiliario['numMob']
+                esta_mob1 = 'DISPO'
+                esta_mob2 = 'RESER'
+                cantidad = mobiliario['cantidad']
+                cursor.execute(f"""SELECT * FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'""")
+                resultados = cursor.fetchall()
+                
+                cursor.execute(f"""SELECT cantidad FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
+                canti = cursor.fetchone()
+    
+                stockA = canti['cantidad']
+    
+                if not resultados:
+                    cursor.execute(f"""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})""")
+    
+                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
+    
+                else:
+                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {resultados[0]['cantidad'] + cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'""")
+    
+                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
+
             
             # Obtencion de costos de equipamientos
             totalEquipamientos = 0
             if reservacion.equipamientos:
                 for equipamiento in reservacion.equipamientos:
+                    print(f"Antes del cursor {equipamiento.equipamiento} y {equipamiento.cantidad}")
                     cursor.execute( """
                                     SELECT costoRenta
                                     FROM equipamiento
                                     WHERE numEquipa = %s
                                     """, (equipamiento.equipamiento,))
-                    
                     costoEquipa = cursor.fetchone()
-
-                    self.InvenEquipamiento.actualizar_estado_equipamiento(equipamiento.equipamiento, 'DISPO', 'RESER', equipamiento.cantidad)
-
                     totalEquipamientos += (costoEquipa['costoRenta'] * equipamiento.cantidad)
+
+                    numEquipa = equipamiento.equipamiento
+                    new_esta = 'RESER'
+                    esta_og = 'DISPO'
+                    cantidad = equipamiento.cantidad
+                    cursor.execute( """
+                                    SELECT *
+                                    FROM inventario_equipa
+                                    WHERE equipamiento = %s and esta_equipa = %s
+                                    """, (numEquipa, new_esta))
+                    
+                    resultados = cursor.fetchall()
+        
+                    if not resultados:
+                        cursor.execute( """
+                                        INSERT INTO inventario_equipa (equipamiento, esta_equipa, cantidad) values
+                                        (%s, %s, %s)
+                                        """, (numEquipa, new_esta, cantidad))
+                        
+                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
+        
+                        oldCantidad = cursor.fetchone()
+                        newCantidad = oldCantidad['cantidad'] - cantidad
+        
+                        cursor.execute( """
+                                        UPDATE inventario_equipa set
+                                        cantidad = %s
+                                        WHERE equipamiento = %s and esta_equipa = %s
+                                        """, (newCantidad, numEquipa, esta_og))
+                    else:
+                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, new_esta))
+                        oldCantidad = cursor.fetchone()
+                        newCantidad = oldCantidad['cantidad'] + cantidad
+        
+                        cursor.execute( """
+                                        UPDATE inventario_equipa set
+                                        cantidad = %s
+                                        WHERE equipamiento = %s and esta_equipa = %s
+                                        """, (newCantidad, numEquipa, new_esta))
+                        
+                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
+        
+                        oldCantidad = cursor.fetchone()
+                        newCantidad = oldCantidad['cantidad'] - cantidad
+        
+                        cursor.execute( """
+                                        UPDATE inventario_equipa set
+                                        cantidad = %s
+                                        WHERE equipamiento = %s and esta_equipa = %s
+                                        """, (newCantidad, numEquipa, esta_og))
 
             # Obtencion de costos de servicios
             totalServicios = 0
             if reservacion.servicios:
                 for servicio in reservacion.servicios:
+                    print()
                     cursor.execute( """
                                     SELECT costoRenta
                                     FROM servicio
@@ -65,6 +134,7 @@ class ReservacionRepository:
                     totalServicios += costoServicio['costoRenta']
 
             # Obtencion de costo de renta del salon
+            print("punto de control antes de obtener el costo de renta")
             cursor.execute( """
                             SELECT ds.costoRenta
                             FROM datos_salon as ds
@@ -104,8 +174,26 @@ class ReservacionRepository:
                                     INSERT INTO reser_servicio (reservacion, servicio)
                                     values (%s, %s)
                                     """, (numReser, servicio))
+                    
+            # Para guardar el cambio de estado en el salon reservado de la base de datos
+            cursor.execute( """
+                            SELECT ds.numSalon
+                            FROM datos_montaje as dm
+                            INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
+                            WHERE dm.numDatMon = %s
+                            """, (reservacion.datos_montaje,))
+            
+            resultado = cursor.fetchone()
+            numSalon = resultado['numSalon']
+
+            cursor.execute( """
+                            UPDATE datos_salon set
+                            esta_salon = 'RESER'
+                            WHERE numSalon = %s
+                            """, (numSalon,))
 
             self.db.connection.commit()
+            return True
 
         except Exception as error:
             print(f"Error al registrar la reservacion: {error}")

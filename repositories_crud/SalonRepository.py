@@ -54,6 +54,7 @@ class SalonRepository:
             self.db.desconectar()
 
         return resultados
+    
     def listar_estados(self):
         if not self.db.conectar():
             return None
@@ -195,6 +196,32 @@ class SalonRepository:
             print("Salon eliminado correctamente")
         except Exception as error:
             print(f"Error al eliminar salon: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def salon_disponible(self):
+        if not self.db.conectar():
+            return None
+        
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+                            SELECT ds.numSalon, DATE_FORMAT(re.fechaEvento, "%Y-%m-%d") as fecha
+                            FROM reservacion as re
+                            INNER JOIN datos_montaje as dm on re.datos_montaje = dm.numDatMon
+                            INNER JOIN datos_salon as ds on dm.datos_salon= ds.numSalon
+                            """)
+            
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        except Exception as error:
+            print(f"Error al listar los salones reservados: {error}")
+            return None
+        
         finally:
             cursor.close()
             self.db.desconectar()

@@ -911,7 +911,6 @@ class AdministradorScreen():
         obtener = salon.listar_salones()
         for sln in obtener:
             self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
-            print(sln["numSalon"])
     
     def mostrar_info_salon(self):
         salNumero = self.navegacion.reSalonSelecc.currentData()
@@ -975,7 +974,7 @@ class AdministradorScreen():
         self.mostrar_mobiliarios_reservacion()
 
     def mostrar_mobiliarios_reservacion(self):
-        salon = self.navegacion.reSalonSelecc.currentData()
+        salon = self.navegacion.reSalonSelecc.currentText()
         montaje = self.navegacion.reTipoMontaje.currentText()
 
         mobiliarios = datosMontaje.mobiliarios_montaje(montaje, salon)
@@ -1172,6 +1171,7 @@ class AdministradorScreen():
     def registrar_reservacion(self):
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
+        print(fecha)
         fechaReserE = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm") 
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
@@ -1217,11 +1217,18 @@ class AdministradorScreen():
         
         equipas = self.generar_lista_equipamiento_reservado()
         for equipa in equipas:
+            print(equipa.equipamiento)
+            equipa.equipamiento = equipamiento.obtener_codigo_equipamiento(equipa.equipamiento)
+            print(equipa.equipamiento)
             if equipamiento.comprobar_stock(equipa.equipamiento, equipa.cantidad):
                 QMessageBox.warning(self.navegacion, 'Stock insuficiente', f"No existe suficiente disponibilidad del equipamiento {equipa.equipamiento}")
                 return 
             
-        
+        disponibilidad = salon.salon_disponible()
+        for salon_disponible in disponibilidad:
+            if (sali['numSalon']) == (salon_disponible['numSalon']) and str(fecha) == str(salon_disponible['fecha']):
+                QMessageBox.warning(self.navegacion, 'Salon ocupado en dia seleccionado', 'El salon seleccionado ya tiene una reservacion el dia seleccionado')
+                return
 
         reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, self.clienteNombre, sali['nombre'], equipas, lista_servicios)
 
@@ -1644,7 +1651,7 @@ class AdministradorScreen():
         self.navegacion.pagosResultados.clear()
 
         if not pagos_reservacion:
-            self.navegacion.pagosResultados.setText("No se encontro la reservacion puesta (ingrese otro ]numero de reservacion)")
+            self.navegacion.pagosResultados.setText("No se encontro la reservacion puesta (ingrese otro numero de reservacion)")
             return
 
         reporte = f" Numero de Reservacion: {pagos_reservacion[0]['numReser']}\n"
