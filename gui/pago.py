@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox 
+from gui.recibo import Recibo
 from services.PagoService import PagoServices
 from services.ReservacionService import ReservacionService
 
@@ -11,6 +12,8 @@ ruta_ui = Path(__file__).parent / "pago.ui"
 
 pagos = PagoServices()
 reservacion = ReservacionService()
+
+numeroReservacion = []
 
 class Pago():
     def __init__(self):
@@ -23,6 +26,7 @@ class Pago():
         
     def registrar_pago(self):
             resevacion = self.pago.reNumReser.text()
+            numeroReservacion.append(resevacion)
             if not permitir_ingreso(resevacion, 'numint'):
                 self.pago.reNumReser.selectAll()
                 self.pago.reNumReser.setFocus()
@@ -68,6 +72,7 @@ class Pago():
                 return
             
             if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
+                self.recibo = Recibo()
                 self.limpiar_pago()
     
     def limpiar_pago(self):

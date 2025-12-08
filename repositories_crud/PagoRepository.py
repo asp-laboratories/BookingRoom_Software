@@ -230,3 +230,60 @@ class PagoRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def generar_recibo(self, numReser,noPago):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+
+            cursor.execute( """
+select
+dc.nombreFiscal as cliente,
+dc.email as correo,
+CONCAT(dc.dirColonia,' ', dc.dirCalle, ' ', dc.dirNumero) as dirrecion,
+CONCAT(dc.contPriApellido, ' ', IFNULL(dc.contSegApellido, ''), ' ', dc.contNombre) as contacto,
+CONCAT(t.priApellido, ' ', IFNULL(t.segApellido, ''), ' ', t.nombre) as trabajador,
+ds.nombre as salon,
+tm.nombre as montaje,
+s.nombre as servicio,
+s.costoRenta as servicio_costo,
+e.nombre as equipamiento,
+e.costoRenta as equipamiento_costo,
+r.total as total,
+r.subtotal as subtotal,
+r.IVA as IVA,
+p.montoPago as monto,
+p.saldo as saldo,
+p.descripcion as descripcion,
+te.telefono as telefonos,
+DATE_FORMAT(p.fecha, '%d / %m / %Y') as fecha,
+TIME_FORMAT(p.hora, '%H : %i') as hora
+from pago as p 
+inner join `reservacion` as r on p.reservacion = r.numReser
+inner join `datos_cliente` as dc on r.datos_cliente = dc.RFC
+inner join `trabajador` as t on r.trabajador = t.RFC 
+inner join `reser_equipa` as re on re.reservacion = r.numReser
+inner join `reser_servicio` as rs on rs.reservacion = r.numReser
+inner join datos_montaje as dm on r.datos_montaje = dm.numDatMon
+inner join datos_salon as ds on dm.datos_salon = ds.numSalon
+inner join `tipo_montaje` as tm on dm.tipo_montaje = tm.codigoMon
+inner join `servicio` as s on rs.servicio = s.numServicio
+inner join `equipamiento` as e on re.equipamiento = e.numEquipa
+inner join `telefonos` as te on te.datos_cliente = dc.RFC
+where r.numReser = %s and p.noPago = %s
+""", (numReser,noPago,))
+
+            info = cursor.fetchall()
+
+            return info
+
+        except Exception as Error:
+            print(f"No se pudieron obtener los pagos: {Error}")
+            return None
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+

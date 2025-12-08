@@ -60,3 +60,6 @@ class PagoServices:
     
     def pagos_reservacion(self, numReser):
         return self.PagoRepository.pagos_reservacion(numReser)
+
+    def recibo(self, numReser, nopago):
+        return self.PagoRepository.generar_recibo(numReser, nopago)

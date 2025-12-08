@@ -693,8 +693,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-1080</y>
-         <width>1004</width>
+         <y>-405</y>
+         <width>1031</width>
          <height>3500</height>
         </rect>
        </property>
@@ -723,7 +723,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -960,7 +960,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -1296,30 +1296,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string>Costo de renta</string>
               </property>
              </widget>
-             <widget class="QLabel" name="sMensaje">
-              <property name="geometry">
-               <rect>
-                <x>340</x>
-                <y>510</y>
-                <width>251</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
              <widget class="QComboBox" name="sTipoServicio">
               <property name="geometry">
                <rect>
@@ -1566,31 +1542,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Numero del servicio</string>
                </property>
               </widget>
-              <widget class="QLabel" name="seMensajeE">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>430</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLineEdit" name="seEliminarInput">
                <property name="geometry">
                 <rect>
@@ -1792,31 +1743,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Campo:</string>
                </property>
               </widget>
-              <widget class="QLabel" name="sMensajeAct">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>400</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLabel" name="label_31">
                <property name="geometry">
                 <rect>
@@ -1986,7 +1912,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_8">
              <attribute name="title">
@@ -2128,30 +2054,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               </property>
               <property name="placeholderText">
                <string>Ingrese el costo de renta</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="eMensaje">
-              <property name="geometry">
-               <rect>
-                <x>440</x>
-                <y>570</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>Mensaje</string>
               </property>
              </widget>
              <widget class="QPushButton" name="eCancelar">
@@ -2478,31 +2380,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Campo:</string>
                </property>
               </widget>
-              <widget class="QLabel" name="sMensajeAct_3">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>440</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLabel" name="label_69">
                <property name="geometry">
                 <rect>
@@ -2783,31 +2660,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Numero del  equipamiento</string>
                </property>
               </widget>
-              <widget class="QLabel" name="seMensajeE_3">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>430</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLineEdit" name="seEliminarInput_3">
                <property name="geometry">
                 <rect>
@@ -2833,30 +2685,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaSalon">
-           <widget class="QLabel" name="saMensaje">
-            <property name="geometry">
-             <rect>
-              <x>350</x>
-              <y>1200</y>
-              <width>251</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
            <widget class="QTabWidget" name="tabWidget_3">
             <property name="geometry">
              <rect>
@@ -2897,7 +2725,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_14">
              <attribute name="title">
@@ -3488,31 +3316,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Campo:</string>
                </property>
               </widget>
-              <widget class="QLabel" name="sMensajeAct_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>440</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLabel" name="label_65">
                <property name="geometry">
                 <rect>
@@ -3576,7 +3379,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <string/>
               </property>
               <property name="placeholderText">
-               <string>Buscar servicio </string>
+               <string>Buscar salon</string>
               </property>
              </widget>
              <widget class="QTextEdit" name="sResultadoListar_4">
@@ -3811,31 +3614,6 @@ color: rgba(155, 88, 43, 1.0);
                 <string>Numero del salon</string>
                </property>
               </widget>
-              <widget class="QLabel" name="seMensajeE_2">
-               <property name="geometry">
-                <rect>
-                 <x>90</x>
-                 <y>430</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>-1</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
               <widget class="QLineEdit" name="seEliminarInput_2">
                <property name="geometry">
                 <rect>
@@ -3883,15 +3661,13 @@ font-size: 28px;</string>
              </widget>
             </widget>
            </widget>
-           <zorder>tabWidget_3</zorder>
-           <zorder>saMensaje</zorder>
           </widget>
           <widget class="QWidget" name="paginaMobiliario">
            <widget class="QLabel" name="lCostoS_2">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>110</y>
+              <x>170</x>
+              <y>120</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -3914,8 +3690,8 @@ font-size: 28px;</string>
            <widget class="QLineEdit" name="mobNombre">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>160</y>
+              <x>170</x>
+              <y>170</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3936,8 +3712,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lCostoS_3">
             <property name="geometry">
              <rect>
-              <x>420</x>
-              <y>110</y>
+              <x>500</x>
+              <y>120</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -3960,8 +3736,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="mobCostoRenta">
             <property name="geometry">
              <rect>
-              <x>420</x>
-              <y>160</y>
+              <x>500</x>
+              <y>170</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -3982,8 +3758,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lCostoS_4">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>230</y>
+              <x>170</x>
+              <y>240</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4006,8 +3782,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="mobStock">
             <property name="geometry">
              <rect>
-              <x>90</x>
-              <y>280</y>
+              <x>170</x>
+              <y>290</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -4028,8 +3804,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLineEdit" name="mobTipo">
             <property name="geometry">
              <rect>
-              <x>430</x>
-              <y>280</y>
+              <x>510</x>
+              <y>290</y>
               <width>291</width>
               <height>51</height>
              </rect>
@@ -4050,8 +3826,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lCostoS_5">
             <property name="geometry">
              <rect>
-              <x>430</x>
-              <y>230</y>
+              <x>510</x>
+              <y>240</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4074,8 +3850,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QLabel" name="lCostoS_6">
             <property name="geometry">
              <rect>
-              <x>270</x>
-              <y>350</y>
+              <x>280</x>
+              <y>370</y>
               <width>291</width>
               <height>41</height>
              </rect>
@@ -4098,15 +3874,16 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
            <widget class="QPushButton" name="amConfirmar">
             <property name="geometry">
              <rect>
-              <x>280</x>
-              <y>780</y>
+              <x>370</x>
+              <y>790</y>
               <width>261</width>
               <height>61</height>
              </rect>
             </property>
             <property name="styleSheet">
              <string notr="true">border-radius: 10px;
-background-color: #2B9B32;</string>
+background-color: #2B9B32;
+background-color: rgb(71, 105, 255);</string>
             </property>
             <property name="text">
              <string>Generar campos</string>
@@ -4116,8 +3893,8 @@ background-color: #2B9B32;</string>
             <property name="geometry">
              <rect>
               <x>290</x>
-              <y>410</y>
-              <width>241</width>
+              <y>420</y>
+              <width>421</width>
               <height>32</height>
              </rect>
             </property>
@@ -4136,8 +3913,8 @@ border-radius: 3px;</string>
            <widget class="QPushButton" name="amConfirmar_2">
             <property name="geometry">
              <rect>
-              <x>310</x>
-              <y>1030</y>
+              <x>370</x>
+              <y>940</y>
               <width>261</width>
               <height>61</height>
              </rect>
@@ -4153,8 +3930,8 @@ background-color: #2B9B32;</string>
            <widget class="QScrollArea" name="scrollAreaMobiliario2">
             <property name="geometry">
              <rect>
-              <x>210</x>
-              <y>460</y>
+              <x>290</x>
+              <y>470</y>
               <width>421</width>
               <height>301</height>
              </rect>
@@ -4174,34 +3951,10 @@ background-color: #2B9B32;</string>
              <layout class="QVBoxLayout" name="verticalLayout_4"/>
             </widget>
            </widget>
-           <widget class="QLabel" name="mobMensaje">
-            <property name="geometry">
-             <rect>
-              <x>390</x>
-              <y>1100</y>
-              <width>131</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>Mensaje</string>
-            </property>
-           </widget>
            <widget class="QLabel" name="label_28">
             <property name="geometry">
              <rect>
-              <x>90</x>
+              <x>60</x>
               <y>40</y>
               <width>331</width>
               <height>41</height>
@@ -4323,30 +4076,6 @@ color: rgba(155, 88, 43, 1.0);
             </property>
             <property name="text">
              <string>Roles</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="atMensaje">
-            <property name="geometry">
-             <rect>
-              <x>140</x>
-              <y>580</y>
-              <width>251</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Adwaita Sans</family>
-              <pointsize>-1</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-            </property>
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
            <widget class="QFrame" name="frame">
@@ -4487,31 +4216,6 @@ color: rgba(155, 88, 43, 1.0);
              </property>
              <property name="text">
               <string>Nombre de rol</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="atMensaR">
-             <property name="geometry">
-              <rect>
-               <x>90</x>
-               <y>430</y>
-               <width>121</width>
-               <height>41</height>
-              </rect>
-             </property>
-             <property name="font">
-              <font>
-               <family>Adwaita Sans</family>
-               <pointsize>-1</pointsize>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:21pt;&quot;&gt;Mensaje&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
             <widget class="QLineEdit" name="atRfc">
@@ -5836,7 +5540,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">
@@ -6054,7 +5758,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                <rect>
                 <x>370</x>
                 <y>90</y>
-                <width>111</width>
+                <width>121</width>
                 <height>51</height>
                </rect>
               </property>
@@ -6099,7 +5803,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                 <x>90</x>
                 <y>160</y>
                 <width>401</width>
-                <height>411</height>
+                <height>501</height>
                </rect>
               </property>
               <property name="font">
