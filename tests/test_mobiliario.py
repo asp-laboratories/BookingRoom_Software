@@ -83,7 +83,7 @@ def mostrar_mobiliario_tipo():
     pass
 
 def main():
-    registrar_mobilario()
+    print(mobiliario.datos_mob(1))
 
 if __name__ == "__main__":
     main()

@@ -82,10 +82,11 @@ class MobiliarioRepository:
                             SELECT 
                                 mob.numMob as mobiliario,
                                 mob.nombre as nombre,
-                                mob.stock as cantidad,
+                                mob.stock,
                                 mcarac.nombreCarac as caracteristica,
                                 tcarac.nombreCarac as ti_caracteristica,
-                                emob.descripcion as estado
+                                emob.descripcion as estado,
+                                imobi.cantidad as cantidad
                             FROM mobiliario as mob
                             INNER JOIN caracteristicas as carac on carac.mobiliario = mob.numMob
                             INNER JOIN mob_carac as mcarac on carac.mob_carac = mcarac.numCarac

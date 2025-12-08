@@ -143,8 +143,38 @@ class mobiliarioService:
         return self.mobiliario_repository.mobiliario_por_tipo(numMob)
 
     def datos_mob(self, numMob):
-        return self.mobiliario_repository.datos_especificos_mob(numMob)
-    
+        info_mob =  self.mobiliario_repository.datos_especificos_mob(numMob)
+        MobInfo = {
+            'numMob'            :info_mob[0]['mobiliario'],
+            'nombre'            :info_mob[0]['nombre'],
+            'stockTotal'        :info_mob[0]['stock'],
+            'caracteristicas'   : [],
+            'estados'           : []
+        }
+
+        caracs = []
+        for carac in info_mob:
+            if carac['caracteristica'] not in caracs:
+                caracs.append(carac['caracteristica'])
+                caracteristica = {
+                    'caracteristica': carac['caracteristica'],
+                    'tipo_carac'    : carac['ti_caracteristica']
+                }
+                MobInfo['caracteristicas'].append(caracteristica)
+
+        estados = []
+        for carac in info_mob:
+            if carac['estado'] not in estados:
+                estados.append(carac['estado'])
+                estado = {
+                    'estado': carac['estado'],
+                    'cantidad'    : carac['cantidad']
+                }
+                MobInfo['estados'].append(estado)
+
+        return MobInfo
+
+
     def stock_disponible(self, nombre, cantidad):
         numMob = self.mobiliario_repository.obtener_num_mob(nombre)
         disponiobles = self.mobiliario_repository.mobiliario_disponible(numMob['numMob'])
