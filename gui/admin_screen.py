@@ -76,15 +76,16 @@ class AdministradorScreen():
         self.navegacion.reSalon.clicked.connect(lambda: self.mostrar_pagina(11))
 
         # Botones de los eventos de servicios
-        self.navegacion.sConfirmar.clicked.connect(self.registar_servicio) 
-        self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
+        self.navegacion.sConfirmar.clicked.connect(self.intentar_registrar_servicio) 
+        self.navegacion.sConfirmarAct.clicked.connect(self.intentar_actualizar_servicio)
         self.navegacion.slBuscar_3.clicked.connect(self.listar_servicio_act) 
         self.navegacion.slBuscar_2.clicked.connect(self.listar_servicio_del)
 
         self.navegacion.buscarTipo.clicked.connect(self.listar_servicio_segun_tipo)
-        self.navegacion.seConfirmar.clicked.connect(self.eliminar_servicio)
+        self.navegacion.seConfirmar.clicked.connect(self.intentar_eliminar_servicio)
 
         self.navegacion.buscarTipo_2.clicked.connect(self.listar_reservaciones)
+        
         # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(self.intentar_registrar_equipamiento)
         self.navegacion.slBuscar_5.clicked.connect(self.desplegar_informacion_equipamiento)
@@ -108,13 +109,13 @@ class AdministradorScreen():
 
 
         # Botones para los eventos de trabajadores
-        self.navegacion.atConfirmar.clicked.connect(self.establecer_rol)
+        self.navegacion.atConfirmar.clicked.connect(self.intentar_establecer_rol)
         self.navegacion.atBuscar.clicked.connect(self.buscar)
        
         self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
         
         #Botones para los eventos de actualizacion de roles por parte del almacenista
-        self.navegacion.almConfirmar.clicked.connect(self.actualizar_estado_mob)
+        self.navegacion.almConfirmar.clicked.connect(self.intentar_actualizar_estado_mob)
         self.navegacion.almConfirmar_2.clicked.connect(self.actualizar_estado_equipa)
         self.navegacion.almBuscarM.clicked.connect(self.buscar_estado_mobiliario)
         self.navegacion.almBuscarE.clicked.connect(self.buscar_estado_equipamiento)
@@ -202,52 +203,55 @@ class AdministradorScreen():
             self.navegacion.sTipoServicio.addItem(tipo['descripcion'], tipo['codigoTiSer'])
 
 
-    def registar_servicio(self):
-        nombre = self.navegacion.sNombreSer.text()
-        if (len(nombre) < 2): # unica validacion?
-            QMessageBox.warning(self.navegacion, "Ingresar un nombre valido", "Nombre del servicio no valido.")
-            return
-
-        descripcion = self.navegacion.sDescripcion.text()
-        if (len(descripcion) < 2):
-            QMessageBox.warning(self.navegacion, "Ingresar una descripcion valida", "Descripcion del servicio no valida.")
-            return
-
-        resCostoRenta = self.navegacion.sCostoRenta.text()
-        if not (permitir_ingreso(resCostoRenta, 'numfloat')):
-            QMessageBox.warning(self.navegacion, "Ingresar costo valido", "El tipo de dato no es valido.")
-            return
-        else:
-            if float(resCostoRenta) < 1:
-                QMessageBox.warning(self.navegacion, "Ingresar costo valido", "El costo del servicio no es valido.")
+    def registrar_servicio(self, nombre, descripcion, costo_renta, tipo_servicio):
+        try:
+            resultado = servicio.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
+    
+            if not resultado:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Registro", 
+                    f"El servicio '{nombre}' no pudo ser registrado. Puede que ya exista o haya un error de base de datos."
+                )
             else:
-                costo_renta = float(resCostoRenta)
-
-        tipo_servicio = self.navegacion.sTipoServicio.currentData()
-        if tipo_servicio is None:
-            QMessageBox.warning(self.navegacion, "Ingresar un tipo de servicio", "No se ha ingresado un tipo de servicio.")
-            return
-
-        #tipo_servicio = self.navegacion.sTipoServicio.text() # Combo box?
-        #if not (permitir_ingreso(tipo_servicio, 'onlytext')):
-        #    self.navegacion.sMensaje.setText("Ingrese un tipo de servicio valido")
-        #    return
-
-        resultado = servicio.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
-
-        if not resultado:
-            self.navegacion.sMensaje.setText("Registro fallido")
-        else:
-            self.navegacion.sMensaje.setText("Registro concretado")
+                QMessageBox.information(
+                    None, 
+                    "Registro Exitoso", 
+                    f"El servicio '{nombre}' ha sido registrado correctamente."
+                )
+    
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error de conexión/base de datos durante el registro: {e}"
+            )
 
 
-    def actualizar_servicio(self): # no lo encontre en la app asi q cuando regrese este apartado quiero hacer cambios a su funcionamiento
-        resultado = servicio.actualizar_campos(self.navegacion.sCampo.text(), int(self.navegacion.slIngresarBusqueda_3.text()) , self.navegacion.sNuevoValor.text())
-        if resultado == False:
-            self.navegacion.sMensajeAct.setText("Incorrecto")
-        else:
-            self.navegacion.sMensajeAct.setText("Correcto")
 
+    def actualizar_servicio(self, campo: str, id_busqueda: int, nuevo_valor: str):
+        try:
+            resultado = servicio.actualizar_campos(campo, id_busqueda, nuevo_valor)
+            
+            if resultado == False:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Actualización", 
+                    f"No se pudo actualizar el campo '{campo}' del serviciO{id_busqueda}. Verifique los datos, el numero o el tipo de valor nuevo."
+                )
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Actualización Exitosa", 
+                    f"El servicio {id_busqueda} ha sido actualizado correctamente."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error de conexión/base de datos: {e}"
+            )
 
     def listar_servicio(self): # No necesaria
         self.navegacion.sResultadoListar.clear()
@@ -264,15 +268,21 @@ class AdministradorScreen():
 
     def listar_servicio_act(self):
         self.navegacion.sResultadoListar_3.clear()
-        resultado = servicio.listar_servicio_busqueda(int(self.navegacion.slIngresarBusqueda_3.text()))
-        if resultado == False:
-            pass
-        else:
-            mensaje = "\n---SERVICIOS---\n"
-            for ser in resultado:
-                mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
-                self.navegacion.sResultadoListar_3.setText(mensaje)
-
+        try:
+            resultado = servicio.listar_servicio_busqueda(int(self.navegacion.slIngresarBusqueda_3.text()))
+            if resultado == False:
+                pass
+            else:
+                mensaje = "\n---SERVICIOS---\n"
+                for ser in resultado:
+                    mensaje += f"\nNumero: {ser["numServicio"]}.\nNombre: {ser["nombre"]}.\nCosto Renta: {ser["costoRenta"]}\n"
+                    self.navegacion.sResultadoListar_3.setText(mensaje)
+        except ValueError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El numero de servicio a eliminar debe ser un número entero válido."
+            )
 
     def listar_servicio_del(self):
         self.navegacion.sResultadoListar_2.clear()
@@ -302,6 +312,8 @@ class AdministradorScreen():
             for st in resultado:
                 mensaje += f"\nTipo de servicio: {st["tipo_servicio"]}"
                 self.navegacion.sResultadoListar_2.setText(mensaje)
+    
+
 
 
     def listar_reservaciones(self):
@@ -371,13 +383,32 @@ class AdministradorScreen():
 
             self.navegacion.contenedorServicios.layout().addStretch()
 
+    
 
-    def eliminar_servicio(self):
-        resultado = servicio.eliminar_fila(int(self.navegacion.seEliminarInput.text()))
-        if resultado == False:
-            pass
-        else:
-            self.navegacion.seMensajeE.setText("Correcto")
+
+    def eliminar_servicio(self, id_servicio: int):
+        try:
+            resultado = servicio.eliminar_fila(id_servicio)
+            
+            if resultado == False:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Eliminación", 
+                    f"No se pudo eliminar el servicio {id_servicio}. Verifique que el numero exista o haya un error en la base de datos."
+                )
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Eliminación Exitosa", 
+                    f"El servicio {id_servicio} ha sido eliminado correctamente."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error grave de base de datos durante la eliminación: {e}"
+            )
 
     
     def buscar_tipo_ser(self):
@@ -530,23 +561,36 @@ class AdministradorScreen():
 
     def desplegar_informacion_salon(self):
         self.navegacion.sResultadoListar_4.clear()
-        
-        sali = salon.listar_salones_informacion(self.navegacion.slIngresarBusqueda_4.text())
-        if sali == False:
-            pass
-        else:
-            mensaje = "INFORMACION DEL SALON\n"
-            mensaje += f"\n -Nombre: {sali["nombre"]}"
-            mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
-            mensaje += f"\n -Dimensiones:"
-            mensaje += f"\n -Largo del salon: {str(sali["dimenLargo"])}"
-            mensaje += f"\n -Ancho del salon: {str(sali['dimenAncho'])}"
-            mensaje += f"\n -Altura del salon: {str(sali['dimenAltura'])}"
-            mensaje += f"\n -Metros cuadrados: {str(sali["mCuadrados"])}"
-            mensaje += f"\n -Ubicado en:{sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
-            mensaje += f"\n -Nombre del pasillo: {sali["ubiNombrePas"]}"
-            mensaje += f"\n -Numero del pasillo: {sali['ubiNumeroPas']}"
-            self.navegacion.sResultadoListar_4.setText(mensaje)
+        try: 
+            sali = salon.listar_salones_informacion(self.navegacion.slIngresarBusqueda_4.text())
+            if sali == False:
+                pass
+            else:
+                mensaje = "INFORMACION DEL SALON\n"
+                mensaje += f"\n -Nombre: {sali["nombre"]}"
+                mensaje += f"\n -Costo de renta: {str(sali["costoRenta"])}"
+                mensaje += f"\n -Dimensiones:"
+                mensaje += f"\n -Largo del salon: {str(sali["dimenLargo"])}"
+                mensaje += f"\n -Ancho del salon: {str(sali['dimenAncho'])}"
+                mensaje += f"\n -Altura del salon: {str(sali['dimenAltura'])}"
+                mensaje += f"\n -Metros cuadrados: {str(sali["mCuadrados"])}"
+                mensaje += f"\n -Ubicado en:{sali["ubiNombrePas"]} y numero {sali['ubiNumeroPas']}"
+                mensaje += f"\n -Nombre del pasillo: {sali["ubiNombrePas"]}"
+                mensaje += f"\n -Numero del pasillo: {sali['ubiNumeroPas']}"
+                self.navegacion.sResultadoListar_4.setText(mensaje)
+        except ValueError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El numero de salon debe ser un número entero válido."
+            )
+
+        except TypeError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El numero de salon debe ser un número entero válido."
+            )
 
     
 
@@ -608,17 +652,31 @@ class AdministradorScreen():
     def desplegar_informacion_equipamiento(self):
         self.navegacion.sResultadoListar_5.clear()
         
-        resultado = equipamiento.listar_equipamentos_informacion(int(self.navegacion.slIngresarBusqueda_5.text()))
-        if resultado == None:
-            pass
-        else:
-            mensaje = "INFORMACION DEL EQUIPAMIENTO\n"
-            mensaje += f"\n -Nombre: {resultado["nombre"]}"
-            mensaje += f"\n -Descripcion: {resultado["descripcion"]}"
-            mensaje += f"\n -Costo de renta: {str(resultado["costoRenta"])}"
-            mensaje += f"\n -Cantidad: {str(resultado["stock"])}"
-            self.navegacion.sResultadoListar_5.setText(mensaje)
-    
+        try:
+            resultado = equipamiento.listar_equipamentos_informacion(int(self.navegacion.slIngresarBusqueda_5.text()))
+            if resultado == None:
+                pass
+            else:
+                mensaje = "INFORMACION DEL EQUIPAMIENTO\n"
+                mensaje += f"\n -Nombre: {resultado["nombre"]}"
+                mensaje += f"\n -Descripcion: {resultado["descripcion"]}"
+                mensaje += f"\n -Costo de renta: {str(resultado["costoRenta"])}"
+                mensaje += f"\n -Cantidad: {str(resultado["stock"])}"
+                self.navegacion.sResultadoListar_5.setText(mensaje)
+        
+        except ValueError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El numero de equipamiento debe ser un número entero válido."
+            )
+
+        except TypeError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El numero de equipamiento debe ser un número entero válido."
+            )
 
     def listar_equipamentos_del(self):
 
@@ -849,13 +907,29 @@ class AdministradorScreen():
                 self.navegacion.atResultadoText.setText(mensaje)
             self.navegacion.atMensaje.setText("Correcto")
          
-        
-    def establecer_rol(self):
-        resultado = trabajador.actualizar_roles(self.navegacion.atRfc.text(), self.navegacion.atNombreR.text())
-        if resultado == None:
-            self.navegacion.atMensaR.setText("Correcto")
-        else:
-            self.navegacion.atMensaR.setText("Incorrecto")
+    def establecer_rol(self, rfc: str, nombre_rol: str):
+        try:
+            resultado = trabajador.actualizar_roles(rfc, nombre_rol)
+            
+            if resultado is None:
+                QMessageBox.information(
+                    None, 
+                    "Asignación Exitosa", 
+                    f"El rol '{nombre_rol}' ha sido asignado correctamente al trabajador con RFC {rfc}."
+                )
+            else:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Asignación", 
+                    f"No se pudo asignar el rol '{nombre_rol}'. Verifique que el RFC ({rfc}) exista o que el nombre del rol sea válido."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error grave de base de datos durante la asignación de rol: {e}"
+            )
     
     # Fin de la logica del trabajador
 
@@ -1288,6 +1362,7 @@ class AdministradorScreen():
     
     
     def registrar_reservacion(self):
+
         from gui.login import resultadoEmail
         fecha = self.navegacion.refecha.date().toPyDate()
         fechaReserE = date.today()
@@ -1388,13 +1463,31 @@ class AdministradorScreen():
         
         # Limpiar diccionario de controles
         self.controles_equipos.clear()
+    
+    def actualizar_estado_mob(self, num_mob: int, cantidad: int, buscador: str, nuevo_estado: str):
+        try:
+            resultado = mobiliario.actu_esta_mob(num_mob, cantidad, buscador, nuevo_estado)
+            
+            if resultado == False:
+                QMessageBox.critical(
+                    None, 
+                    "Error de Actualización", 
+                    f"No se pudo actualizar el estado del mobiliario '{buscador}'. Verifique que el ID o el nombre de búsqueda existan."
+                )
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Actualización Exitosa", 
+                    f"El estado de **{cantidad}** unidades de '{buscador}' ha sido actualizado a '{nuevo_estado}'."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error de conexión/base de datos: {e}"
+            )
 
-    def actualizar_estado_mob(self):
-        resultado = mobiliario.actu_esta_mob(int(self.navegacion.almNum.text()),int(self.navegacion.almCantidad.text()),self.navegacion.almBuscadorM.text(), self.navegacion.almNuevoEstado.text())
-        if resultado == False:
-            self.navegacion.almMensaje.setText("Incorrecto")
-        else:
-            self.navegacion.almMensaje.setText("Correcto")
    
 
     def buscar_estado_mobiliario(self):
@@ -1918,6 +2011,227 @@ class AdministradorScreen():
                 "Error de Pre-Validación", 
                 f"Ocurrió un error al intentar leer el ID: {e}"
             )
+    
+    # Metodos confirmacion de servicios
+
+    def intentar_registrar_servicio(self):
+        try:
+    
+            nombre = self.navegacion.sNombreSer.text()
+            if len(nombre) < 2:
+                raise ValueError("Nombre")
+    
+            descripcion = self.navegacion.sDescripcion.text()
+            if len(descripcion) < 2:
+                raise ValueError("Descripción")
+    
+            resCostoRenta = self.navegacion.sCostoRenta.text()
+            costo_renta = float(resCostoRenta)
+    
+            if costo_renta < 1:
+                 raise ValueError("Costo Inválido")
+    
+            tipo_servicio = self.navegacion.sTipoServicio.currentText()
+            if not tipo_servicio: 
+                raise ValueError("Tipo de Servicio")
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Registro de Servicio", 
+                f"¿Deseas registrar el servicio '{nombre}' con un costo de ${costo_renta}?"
+            ):
+                self.registrar_servicio(nombre, descripcion, costo_renta, tipo_servicio)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Registro Cancelado", 
+                    "La operación de registro de servicio ha sido cancelada."
+                )
+    
+        except ValueError as e:
+            error_type = str(e)
+            if "float" in error_type:
+                QMessageBox.warning(
+                    None, "Datos Inválidos", "El costo de renta debe ser un valor numérico."
+                )
+            elif "Nombre" in error_type:
+                 QMessageBox.warning(
+                    None, "Validación de Datos", "El nombre del servicio no es válido (mínimo 2 caracteres)."
+                )
+            elif "Descripción" in error_type:
+                 QMessageBox.warning(
+                    None, "Validación de Datos", "La descripción del servicio no es válida (mínimo 2 caracteres)."
+                )
+            elif "Costo Inválido" in error_type:
+                QMessageBox.warning(
+                    None, "Validación de Datos", "El costo del servicio debe ser mayor o igual a 1."
+                )
+            elif "Tipo de Servicio" in error_type:
+                 QMessageBox.warning(
+                    None, "Validación de Datos", "Debes seleccionar un tipo de servicio válido."
+                )
+            else:
+                 QMessageBox.critical(
+                    None, "Error de Validación", f"Ocurrió un error inesperado en los datos: {e}"
+                )
+
+    def intentar_actualizar_servicio(self):
+        try:
+            campo = self.navegacion.sCampo.text()
+            id_busqueda = int(self.navegacion.slIngresarBusqueda_3.text()) # Puede lanzar ValueError
+            nuevo_valor = self.navegacion.sNuevoValor.text()
+            
+            if not campo or not nuevo_valor:
+                raise ValueError("Campos Vacíos")
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Actualización de Servicio", 
+                f"¿Estás seguro de actualizar el campo '{campo}' del servicio {id_busqueda} al nuevo valor '{nuevo_valor}'?"
+            ):
+                self.actualizar_servicio(campo, id_busqueda, nuevo_valor)
+            else:
+                QMessageBox.information(
+                    self, 
+                    "Actualización Cancelada", 
+                    "La operación de actualización del servicio ha sido cancelada."
+                )
+    
+        except ValueError as e:
+            error_msg = str(e)
+            if "invalid literal for int()" in error_msg:
+                QMessageBox.warning(
+                    None, 
+                    "Datos Inválidos", 
+                    "Asegúrate de que el numero de búsqueda contenga un valor numérico entero válido."
+                )
+            elif "Campos Vacíos" in error_msg:
+                 QMessageBox.warning(
+                    None, 
+                    "Datos Inválidos", 
+                    "Los campos 'Campo', 'busqueda' y 'Nuevo Valor' no pueden estar vacíos."
+                )
+            else:
+                 QMessageBox.critical(
+                    None, 
+                    "Error de Pre-Validación", 
+                    f"Ocurrió un error inesperado: {e}"
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error de Pre-Validación", 
+                f"Ocurrió un error al procesar los datos: {e}"
+            )
+
+
+
+
+    def intentar_eliminar_servicio(self):
+        try:
+            id_servicio_a_eliminar = int(self.navegacion.seEliminarInput.text()) 
+            
+            if self.mostrar_confirmacion(
+                "Confirmar Eliminación", 
+                f"⚠️ **Advertencia:** ¿Estás seguro de ELIMINAR el servicio: {id_servicio_a_eliminar}? Esta acción es irreversible."
+            ):
+                self.eliminar_servicio(id_servicio_a_eliminar)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Operación Cancelada", 
+                    "La eliminación del servicio ha sido cancelada por el usuario."
+                )
+    
+        except ValueError:
+            QMessageBox.warning(
+                None, 
+                "Datos Inválidos", 
+                "El ID de servicio a eliminar debe ser un número entero válido."
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error de Pre-Validación", 
+                f"Ocurrió un error al intentar leer el ID: {e}"
+            )
+
+    # Metodos para confirmar roles
+
+    def intentar_establecer_rol(self):
+        rfc = self.navegacion.atRfc.text()
+        nombre_rol = self.navegacion.atNombreR.text()
+        
+        if not rfc or not nombre_rol:
+            QMessageBox.warning(
+                None, 
+                "Datos Faltantes", 
+                "Asegúrate de ingresar el **RFC** del trabajador y el **Nombre del Rol**."
+            )
+            return
+    
+        if self.mostrar_confirmacion(
+            "Confirmar Asignación de Rol", 
+            f"¿Estás seguro de asignar el rol '{nombre_rol}' al trabajador con RFC: {rfc}?"
+        ):
+            self.establecer_rol(rfc, nombre_rol)
+        else:
+            QMessageBox.information(
+                None, 
+                "Operación Cancelada", 
+                "La asignación de rol ha sido cancelada por el usuario."
+            )
+    
+    #Metodos para confirmar operaciones del almacenar
+
+
+    def intentar_actualizar_estado_mob(self):
+        try:
+            num_mob = int(self.navegacion.almNum.text()) 
+            cantidad = int(self.navegacion.almCantidad.text())
+    
+            buscador = self.navegacion.almBuscadorM.text()
+            nuevo_estado = self.navegacion.almNuevoEstado.text()
+            
+            if not buscador or not nuevo_estado:
+                raise ValueError("Campos de texto vacíos")
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Actualización de Mobiliario", 
+                f"¿Deseas actualizar el estado de **{cantidad}** unidades del mobiliario '{buscador}' (ID: {num_mob}) al estado **'{nuevo_estado}'**?"
+            ):
+                self.actualizar_estado_mob(num_mob, cantidad, buscador, nuevo_estado)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Actualización Cancelada", 
+                    "La operación de actualización del estado de mobiliario ha sido cancelada."
+                )
+    
+        except ValueError as e:
+            error_msg = str(e)
+            if "invalid literal for int()" in error_msg:
+                QMessageBox.warning(
+                    None, 
+                    "Datos Inválidos", 
+                    "Asegúrate de que los campos **'Número'** y **'Cantidad'** contengan valores numéricos enteros válidos."
+                )
+            elif "Campos de texto vacíos" in error_msg:
+                 QMessageBox.warning(
+                    None, 
+                    "Datos Faltantes", 
+                    "Los campos de **'Buscador'** y **'Nuevo Estado'** no pueden estar vacíos."
+                )
+            else:
+                 QMessageBox.critical(
+                    None, 
+                    "Error de Pre-Validación", 
+                    f"Ocurrió un error inesperado al validar los datos: {e}"
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error al procesar los datos: {e}"
+            )
     def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
         reply = QMessageBox.question(
             None, 
@@ -1936,4 +2250,4 @@ class AdministradorScreen():
 
 
     # def initGUI(self):
-    #     self.login.btnIniciar.clicked.connect(self.ingresar)
+        #     self.login.btnIniciar.clicked.connect(self.ingresar)
