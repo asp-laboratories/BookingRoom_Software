@@ -21,98 +21,176 @@ class Pago():
         # self.initGUI()
         self.pago.show()
         self.pago.reNumReser.textChanged.connect(self.mostrar_descripcion_en_tiempo_real)
-        self.pago.reConfirmar_2.clicked.connect(self.registrar_pago)
+        self.pago.reConfirmar_2.clicked.connect(self.intentar_registrar_pago)
         self.pago.reCancelar_2.clicked.connect(self.limpiar_pago)
         
-    def registrar_pago(self):
-            resevacion = self.pago.reNumReser.text()
-            numeroReservacion.append(resevacion)
-            if not permitir_ingreso(resevacion, 'numint'):
-                self.pago.reNumReser.selectAll()
-                self.pago.reNumReser.setFocus()
-                return
+        
+    def registrar_pago_ejecutar(self, numReser: int, montoPago: float, descripcion: str, concepto: str, metodo: str):
+        try:
+            if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
+                QMessageBox.information(
+                    None, 
+                    "Pago Registrado", 
+                    f"El pago de ${montoPago:.2f} para la Reservación #{numReser} ha sido registrado correctamente."
+                )
+                
+                # Lógica posterior al pago (emisión de recibo y limpieza)
+                self.recibo = Recibo(numReser)
+                self.limpiar_pago()
             else:
-                numReser = int(resevacion)
-            
-            mpago = self.pago.reMontoPago.text()
-            if not permitir_ingreso(mpago, 'numfloat'):
-                self.pago.reMontoPago.selectAll()
-                self.pago.reMontoPago.setFocus()
-                return
-            else:
-                montoPago = int(mpago)
-                saldo = pagos.calcular_saldo(numReser)
-                if saldo < montoPago:
-                    QMessageBox.warning(self.pago, "Ingresar un valor valido", "Se esta ingresando una cantidad mayor a la deuda.")
-                    return
+                QMessageBox.critical(
+                    None, 
+                    "Error de Transacción", 
+                    f"No se pudo completar el pago para la Reservación #{numReser}. Verifique la conexión o el estado de la reserva."
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                None, 
+                "Error de Ejecución", 
+                f"Ocurrió un error de base de datos durante el registro del pago: {e}"
+            )
+
     
-            descripcion = self.pago.reDescripcion_2.text()
+    def limpiar_pago(self):
+        self.navegacion.reNumReser.clear()
+        self.navegacion.reMontoPago.clear()
+        self.navegacion.reDescripcion_2.clear()
+
+        checks = [
+            self.navegacion.cbTransferencia, self.navegacion.cbTarjeta, self.navegacion.cbNFC, self.navegacion.cbEfectivo, self.navegacion.cbAbono, self.navegacion.cbUnico 
+        ]
+
+        for chec in checks:
+            chec.setChecked(False)
+    
+    def mostrar_descripcion_en_tiempo_real(self):
+        reservac = self.navegacion.reNumReser.text().strip()
+
+        if not reservac:
+            self.navegacion.reservacionResultados.clear()
+            return
+        
+        if not permitir_ingreso(reservac, 'numint'):
+            self.navegacion.reservacionResultados.setText("Escribir solo numero de reservacion")
+            return
+        else:
+            numReser = int(reservac)
+        
+        decripcon = reservacion.reservacion_descripcion(numReser)
+        saldo = pagos.calcular_saldo(numReser)
+        if saldo:
+            saldo = round(saldo, 2)
+        else:
+            saldo = 0
+
+        if saldo < 0.1:
+            saldo = 0
+
+        if decripcon:
+            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser} \n{decripcon} \nSaldo Pendiente: {saldo}")
+        else:
+            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
+    def intentar_registrar_pago(self):
+        try:
+            
+            resevacion_txt = self.navegacion.reNumReser.text().strip()
+            numReser = int(resevacion_txt) # Lanza ValueError si no es int
+    
+            mpago_txt = self.navegacion.reMontoPago.text().strip()
+            montoPago = float(mpago_txt) # Lanza ValueError si no es float
+            
+            if montoPago <= 0:
+                raise ValueError("Monto Inválido")
+    
+            saldo = pagos.calcular_saldo(numReser)
+            if saldo < montoPago:
+                raise ValueError("Monto Excede Saldo")
+            
+            obtenerNumeroReservacion.append(numReser)
+            
+            
+            descripcion = self.navegacion.reDescripcion_2.text().strip()
     
             concepto = ""
-            if self.pago.cbAbono.isChecked():
+            if self.navegacion.cbAbono.isChecked():
                 concepto = "ABONO"
-            #elif self.pago.cbLiquidacion.isChecked():
-            #    concepto = "LIQUI"
-            elif self.pago.cbUnico.isChecked():
+            elif self.navegacion.cbUnico.isChecked():
                 concepto = "PAGOU"
             elif pagos.obtener_no_pago(numReser) == 2:
                 concepto = "LIQUI"
-                return
             
+            if not concepto:
+                raise ValueError("Concepto Faltante")
+                
             metodo = ""
-            if self.pago.cbEfectivo.isChecked():
+            if self.navegacion.cbEfectivo.isChecked():
                 metodo = "EFCTV"
-            elif self.pago.cbTarjeta.isChecked():
+            elif self.navegacion.cbTarjeta.isChecked():
                 metodo = "TARJT"
-            elif self.pago.cbTransferencia.isChecked():
+            elif self.navegacion.cbTransferencia.isChecked():
                 metodo = "TRANS"
-            elif self.pago.cbNFC.isChecked():
+            elif self.navegacion.cbNFC.isChecked():
                 metodo = "NFC"
-            else:
-                return
             
-            if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
-                self.recibo = Recibo()
-                self.limpiar_pago()
+            if not metodo:
+                raise ValueError("Método Faltante")
     
-    def limpiar_pago(self):
-            self.pago.reNumReser.clear()
-            self.pago.reMontoPago.clear()
-            self.pago.reDescripcion_2.clear()
+            if self.mostrar_confirmacion(
+                "Confirmar Registro de Pago", 
+                f"¿Deseas registrar un pago de ${montoPago:.2f} (Concepto: {concepto}, Método: {metodo}) para la Reservación #{numReser}?"
+            ):
+                self.registrar_pago_ejecutar(numReser, montoPago, descripcion, concepto, metodo)
+            else:
+                QMessageBox.information(
+                    None, 
+                    "Pago Cancelado", 
+                    "La operación de registro de pago ha sido cancelada."
+                )
     
-            checks = [
-                self.pago.cbTransferencia, self.pago.cbTarjeta, self.pago.cbNFC, self.pago.cbEfectivo, self.pago.cbAbono, self.pago.cbUnico 
-            ]
-    
-            for chec in checks:
-                chec.setChecked(False)
-    
-    def mostrar_descripcion_en_tiempo_real(self):
-            reservac = self.pago.reNumReser.text().strip()
-    
-            if not reservac:
-                self.pago.reservacionResultados.clear()
-                return
+        except ValueError as e:
+            error_type = str(e)
             
-            if not permitir_ingreso(reservac, 'numint'):
-                self.pago.reservacionResultados.setText("Escribir solo numero de reservacion")
-                return
+            if "invalid literal for int()" in error_type:
+                QMessageBox.warning(
+                    None, "Datos Inválidos", "El Número de Reservación debe ser un número entero válido."
+                )
+            elif "invalid literal for float()" in error_type:
+                QMessageBox.warning(
+                    None, "Datos Inválidos", "El Monto de Pago debe ser un valor numérico válido."
+                )
+            elif "Monto Inválido" in error_type:
+                 QMessageBox.warning(
+                    None, "Datos Inválidos", "El Monto de Pago debe ser mayor que cero."
+                )
+            elif "Monto Excede Saldo" in error_type:
+                 QMessageBox.warning(
+                    None, "Valor Inválido", "Se está ingresando una cantidad mayor a la deuda restante (Saldo)."
+                )
+            elif "Concepto Faltante" in error_type:
+                 QMessageBox.warning(
+                    None, "Faltan Opciones", "Debes seleccionar un concepto de pago (Abono, Único, etc.)."
+                )
+            elif "Método Faltante" in error_type:
+                 QMessageBox.warning(
+                    None, "Faltan Opciones", "Debes seleccionar un método de pago."
+                )
             else:
-                numReser = int(reservac)
-            
-            decripcon = reservacion.reservacion_descripcion(numReser)
-            saldo = pagos.calcular_saldo(numReser)
-            if saldo:
-                saldo = round(saldo, 2)
-            else:
-                saldo = 0
-    
-            if saldo < 0.1:
-                saldo = 0
-    
-            if decripcon:
-                self.pago.reservacionResultados.setText(f"Reservacion no.{numReser} \n{decripcon} \nSaldo Pendiente: {saldo}")
-            else:
-                self.pago.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
-    
-    
+                 QMessageBox.critical(
+                    None, "Error de Validación", f"Ocurrió un error inesperado al validar: {e}"
+                )
+        except Exception as e:
+            # Manejo de cualquier otro error inesperado (ej. error en pagos.calcular_saldo)
+            QMessageBox.critical(
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error grave durante el pre-registro: {e}"
+            )
+    def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
+        reply = QMessageBox.question(
+            None, 
+            titulo, 
+            mensaje,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        return reply == QMessageBox.StandardButton.Yes
