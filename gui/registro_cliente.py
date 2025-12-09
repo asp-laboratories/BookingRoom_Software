@@ -83,6 +83,7 @@ class RegistroCliente():
             nombre = self.registro_cliente.reNombre.text().strip()
             priApellido = self.registro_cliente.reApellPat.text().strip()
             priAmater = self.registro_cliente.reApellMa.text().strip()
+            correo = self.registro_cliente.reCorreo.text().strip()
             
             # Validaciones específicas respetando 'permitir_ingreso' y longitud
             if (not permitir_ingreso(rfc, 'rfc')) or len(rfc) < 2:
