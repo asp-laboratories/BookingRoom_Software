@@ -102,6 +102,39 @@ class TrabajadorRepository:
             cursor.close()
             self.db.desconectar()
 
+
+    def buscar_trabajadores_por_reservacion(self, buscador):
+        if not self.db.conectar():
+            return None
+
+        try:
+            like = f"%{buscador}%"
+            print(like)
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute(f"""
+select 
+CONCAT(t.nombre, ' ',t.priApellido,' ', IFNULL(t.segApellido, ' ')) as trabajador,
+dc.nombreFiscal as cliente,
+r.numReser as reservacion,
+DATE_FORMAT(r.fechaReser, '%d-%m-%Y ')as fecha,
+r.descripEvento as descripcion
+from reservacion as r
+inner join trabajador as t on r.trabajador = t.RFC
+inner join datos_cliente as dc on r.datos_cliente = dc.RFC
+WHERE t.nombre LIKE "%{buscador}%" 
+""")
+            resultadoTraba = cursor.fetchall()
+
+            return resultadoTraba
+        except Exception as error:
+            print(f"Error: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+
+
+
     def actualizar_rol(self, RFC, codigoRol):
         if not self.db.conectar():
             return False
