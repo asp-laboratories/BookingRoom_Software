@@ -119,3 +119,29 @@ class TipoEquipaRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def conjunto_equipamientos(self, descripcion):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("""
+select
+te.descripcion as tipo_equipamiento,
+e.nombre as equipamiento,
+e.descripcion as descripcion,
+e.costoRenta as costo
+from equipamiento as e
+inner join tipo_equipa as te on e.tipo_equipa = te.codigoTiEquipa
+WHERE te.codigoTiEquipa = %s
+            """, (descripcion,))
+            resultado = cursor.fetchall()
+            return resultado
+        except Exception as error:
+            print(f"Error al mostrar al mostrar conjunto: {error}")
+            return None
+        
+        finally:
+            cursor.close()
+            self.db.desconectar()
