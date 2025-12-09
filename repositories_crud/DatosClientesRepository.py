@@ -10,7 +10,7 @@ class DatosClientesRepository:
             cursor.execute("""
                 INSERT INTO datos_cliente (RFC, contNombre, contPriApellido, contSegApellido, nombreFiscal, email, dirCalle, dirColonia, dirNumero, tipo_cliente)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s ,%s)
-            """, (cliente.RFC, cliente.contNombre, cliente.contPriApellido, cliente.contSegApellido ,cliente.nombreFiscal, cliente.email, cliente.dirColonia, cliente.dirCalle,cliente.dirNumero, cliente.tipo_cliente))
+            """, (cliente.RFC, cliente.contNombre, cliente.contPriApellido, cliente.contSegApellido ,cliente.nombreFiscal, cliente.email, cliente.dirCalle, cliente.dirColonia,cliente.dirNumero, cliente.tipo_cliente))
     
             self.db.connection.commit()
             print("Se añadio un cliente")

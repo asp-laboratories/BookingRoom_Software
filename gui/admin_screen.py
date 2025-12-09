@@ -123,7 +123,7 @@ class AdministradorScreen():
         self.navegacion.atBuscar.clicked.connect(self.buscar)
         #self.navegacion.atBuscar_2.clicked.connect(self.buscar_sus_reservaciones)
        
-        self.navegacion.reConfirmar.clicked.connect(self.registrar_reservacion)
+        self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
         
         #Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmar.clicked.connect(self.intentar_actualizar_estado_mob)
@@ -141,7 +141,7 @@ class AdministradorScreen():
         self.navegacion.reMontajeInfo.clicked.connect(self.mostrar_info_montaje)
         # Eventos de salones, equipamiento y servicios dentro de reservacion
         self.cargar_seleccion_salon()
-        self.cargar_seleccion_estado_salon()
+        #self.cargar_seleccion_estado_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
         self.cargar_listas()
         self.cargar_lista_equipamiento()
@@ -647,27 +647,28 @@ class AdministradorScreen():
                 "El numero de salon debe ser un número entero válido."
             )
 
-    def cargar_seleccion_estado_salon(self):
-        self.navegacion.reSalonSelecc_2.clear()
-        self.navegacion.reSalonSelecc_2.addItem("Seleccione un estado:", None)
-        self.navegacion.reSalonSelecc_3.addItem("Seleccione un estado:", None)
-        estado = salon.listar_estados()
-
-        for es in estado:
-            self.navegacion.reSalonSelecc_2.addItem(es['descripcion'], es['codigoSal'])
-            self.navegacion.reSalonSelecc_3.addItem(es['descripcion'], es['codigoSal'])
-
-    def buscar_estado_salon(self):
-        self.navegacion.almResulE_6.setText("")
-        estado = self.navegacion.reSalonSelecc_2.currentText()
-        resultado = salon.salon_en_estado(estado)
-        if resultado:
-
-            mensaje = ""
-            for bes in resultado:
-                mensaje += f"\n{bes["numero"]}. {bes["salon"]}\n"
-                self.navegacion.almResulE_6.setText(mensaje)
+    #def cargar_seleccion_estado_salon(self):
+    #    self.navegacion.reSalonSelecc_2.clear()
+    #    self.navegacion.reSalonSelecc_2.addItem("Seleccione un estado:", None)
+    #    self.navegacion.reSalonSelecc_3.addItem("Seleccione un estado:", None)
+    #    estado = salon.listar_estados()
+    #
+    #    for es in estado:
+    #        self.navegacion.reSalonSelecc_2.addItem(es['descripcion'], es['codigoSal'])
+    #        self.navegacion.reSalonSelecc_3.addItem(es['descripcion'], es['codigoSal'])
+    #
+    #def buscar_estado_salon(self):
+    #    self.navegacion.almResulE_6.setText("")
+    #    estado = self.navegacion.reSalonSelecc_2.currentText()
+    #    resultado = salon.salon_en_estado(estado)
+    #    if resultado:
+    #
+    #        mensaje = ""
+    #        for bes in resultado:
+    #            mensaje += f"\n{bes["numero"]}. {bes["salon"]}\n"
+    #            self.navegacion.almResulE_6.setText(mensaje)
     # Metodos para la logica de equipamientos
+    
     def cambiar_estado_salon_ejecutar(self, numSalon: int, estado: str):
         try:
             # 1. Llamada a la función de negocio
@@ -1546,7 +1547,7 @@ class AdministradorScreen():
     
         # El resultado final es una lista de objetos, idéntica a tu prueba de funcionamiento.
         return lista_objetos_reservados
-    
+     
     #def registrar_reservacion_ejecutar(self, fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, 
     #                             estimaAsistentes, tipo_montaje, rfcTrabajador, clienteNombre, 
     #                              nombreSalon, equipas, lista_servicios):
@@ -1653,7 +1654,7 @@ class AdministradorScreen():
         return total
 
     def total_reservacion(self):
-        self.intentar_registrar_reservacion()
+        self.registrar_reservacion()
         subtotalServicios = self.calcular_subtotal_serv()
         subtotalEquipamiento = self.calcular_total_general()
         
@@ -1840,20 +1841,19 @@ class AdministradorScreen():
             if detalles:
                 # Tomar la información básica del primer registro
                 
-                mensaje = "--- DATOS DEL MOBILIARIO ---\n\n"
+                mensaje = "\n--- DATOS DEL MOBILIARIO ---\n\n"
                 mensaje += f"Número: {detalles['numMob']}\n"
                 mensaje += f"Nombre: {detalles['nombre']}\n"
                 mensaje += f"Cantidad total: {detalles['stockTotal']}\n\n"
                 
                 # Mostrar características agrupadas
-                mensaje += "--- CARACTERÍSTICAS ---\n\n"
+                mensaje += "\n--- CARACTERÍSTICAS ---\n\n"
                 for caracteristica in detalles['caracteristicas']:
                     mensaje += f"• {caracteristica['tipo_carac']}:\n"
                     mensaje += f"  - {caracteristica['caracteristica']}\n"
-                    mensaje += "\n"
-                
+
                 # ARREGLAR
-                mensaje += "--- DISTRIBUCIÓN DE ESTADOS ---\n\n"
+                mensaje += "\n--- DISTRIBUCIÓN DE ESTADOS ---\n\n"
                 for estado in detalles['estados']:
                     porcentaje = (estado['cantidad'] / detalles['stockTotal']) * 100 if estado['cantidad'] > 0 else 0
                     mensaje += f"• {estado['estado']}: {estado['cantidad']} unidades ({porcentaje:.1f}%)\n"
@@ -1862,11 +1862,12 @@ class AdministradorScreen():
             else:
                 self.navegacion.texto_detalles_simple.setPlainText("No se encontraron detalles para este mobiliario")
 
+
     def actualizar_estado_equipa(self, num_equipo: int, estado_nuevo: str, estado_origen: str, cantidad: int):
         try:
             # Ejecutar la función de negocio
             resultado = equipamiento.actualizar_estado_equipamiento(
-                num_equipo, estado_nuevo, estado_origen, cantidad
+                num_equipo, estado_origen, estado_nuevo, cantidad
             )
             
             if resultado:
@@ -2497,15 +2498,14 @@ class AdministradorScreen():
             cantidad = int(self.navegacion.almCantidade.text())
     
             estado_nuevo = self.navegacion.almEstadoO.text().strip()
-            estado_origen = self.navegacion.almEstadoE.text().strip()
+            estado_origen = self.navegacion.almBuscadorE.text().strip()
             
             if not estado_nuevo or not estado_origen:
                 raise ValueError("Campos de estado vacíos")
     
             if self.mostrar_confirmacion(
                 "Confirmar Actualización de Estado", 
-                f"¿Deseas mover {cantidad} unidades del equipo {num_equipo} desde el estado '{estado_origen}' al nuevo estado '{estado_nuevo}'?"
-            ):
+                f"¿Deseas mover {cantidad} unidades del equipo {num_equipo} desde el estado '{estado_origen}' al nuevo estado '{estado_nuevo}'?"):
                 self.actualizar_estado_equipa(num_equipo, estado_nuevo, estado_origen, cantidad)
             else:
                 QMessageBox.information(
@@ -2625,6 +2625,7 @@ class AdministradorScreen():
                 f"Ocurrió un error grave durante el pre-registro: {e}"
             )
 
+
     def intentar_registrar_pago(self):
         try:
             # --- 1. VALIDACIÓN NUMÉRICA Y MONTO ---
@@ -2741,6 +2742,7 @@ class AdministradorScreen():
             fechaReserE = date.today()
             hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
             hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
+            from gui.login import resultadoEmail
             
             email_trabajador = resultadoEmail[0]
             resultado_trabajador = trabajador.obtener_nombre(email_trabajador)
@@ -2884,6 +2886,7 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error grave durante el proceso: {e}"
             )
+
 
     def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
         reply = QMessageBox.question(

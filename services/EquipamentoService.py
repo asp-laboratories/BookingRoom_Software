@@ -78,13 +78,15 @@ class EquipamentoService:
     def actualizar_estado_equipamiento(self, equipamiento, estado_og, new_estado, cantidad):
         estado_og = self.obtener_codig_estado(estado_og)
         new_estado = self.obtener_codig_estado(new_estado)
-        equipamiento = self.obtener_codigo_equipamiento(equipamiento)
+        print(f"{estado_og} {new_estado} {equipamiento}")
+        #equipamiento = self.obtener_codigo_equipamiento(equipamiento)
 
         if (not estado_og) or (not new_estado) or (not equipamiento):
-            print("No procde la actualizacion de estado")
-            return 
+            print("No procede la actualizacion de estado")
+            return False
 
         self.InventarioEquipamientoRepository.actualizar_estado_equipamiento(equipamiento, estado_og, new_estado, cantidad)
+        return True
 
     def listar_equipamientos_reser(self, numReser):
         return self.equipamento_repository.listar_equipamientos_reser(numReser)

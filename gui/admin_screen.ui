@@ -4089,7 +4089,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_12">
              <attribute name="title">
@@ -4442,82 +4442,6 @@ font: 12pt &quot;Segoe UI&quot;;</string>
              <attribute name="title">
               <string>Reservaciones hechas</string>
              </attribute>
-             <widget class="QPushButton" name="atBuscar_2">
-              <property name="geometry">
-               <rect>
-                <x>790</x>
-                <y>100</y>
-                <width>111</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: none;
-border-radius: 10px;
-background-color: rgb(71, 105, 255);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="atBuscador_2">
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>100</y>
-                <width>651</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="placeholderText">
-               <string>Ingresa el nombre del trabajador</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="atResultadoText_2">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>170</y>
-                <width>801</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
             </widget>
            </widget>
           </widget>
@@ -4703,7 +4627,7 @@ color: rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>2400</y>
+                <y>2380</y>
                 <width>501</width>
                 <height>221</height>
                </rect>
@@ -4749,9 +4673,9 @@ color: rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>240</x>
-                <y>1560</y>
+                <y>1570</y>
                 <width>501</width>
-                <height>161</height>
+                <height>111</height>
                </rect>
               </property>
               <property name="font">
@@ -4768,7 +4692,7 @@ color: rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>2130</y>
+                <y>2110</y>
                 <width>501</width>
                 <height>211</height>
                </rect>
@@ -4784,7 +4708,7 @@ color: rgba(155, 88, 43, 1.0);
               <property name="geometry">
                <rect>
                 <x>240</x>
-                <y>1730</y>
+                <y>1710</y>
                 <width>231</width>
                 <height>41</height>
                </rect>
@@ -4801,7 +4725,7 @@ background-color: rgb(34, 76, 184);</string>
              <widget class="QPushButton" name="reSalonInfo">
               <property name="geometry">
                <rect>
-                <x>250</x>
+                <x>240</x>
                 <y>1410</y>
                 <width>221</width>
                 <height>41</height>
@@ -4820,7 +4744,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>240</x>
-                <y>1520</y>
+                <y>1530</y>
                 <width>501</width>
                 <height>32</height>
                </rect>
@@ -4834,7 +4758,7 @@ color: rgb(0, 0, 0);</string>
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>1168</y>
+                <y>1208</y>
                 <width>501</width>
                 <height>32</height>
                </rect>
@@ -4851,9 +4775,9 @@ color: rgb(0, 0, 0);</string>
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>1218</y>
+                <y>1258</y>
                 <width>501</width>
-                <height>181</height>
+                <height>121</height>
                </rect>
               </property>
               <property name="font">
@@ -5308,7 +5232,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>1120</y>
+                <y>1160</y>
                 <width>291</width>
                 <height>41</height>
                </rect>
@@ -5332,7 +5256,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>240</x>
-                <y>1470</y>
+                <y>1480</y>
                 <width>291</width>
                 <height>41</height>
                </rect>
@@ -5356,7 +5280,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>2080</y>
+                <y>2060</y>
                 <width>291</width>
                 <height>41</height>
                </rect>
@@ -5380,7 +5304,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>250</x>
-                <y>2351</y>
+                <y>2331</y>
                 <width>321</width>
                 <height>41</height>
                </rect>
@@ -5407,7 +5331,7 @@ background-color: rgb(34, 76, 184);</string>
               <property name="geometry">
                <rect>
                 <x>240</x>
-                <y>1780</y>
+                <y>1760</y>
                 <width>501</width>
                 <height>221</height>
                </rect>
@@ -7324,231 +7248,8 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
-            <widget class="QWidget" name="tab_17">
-             <attribute name="title">
-              <string>Estado del salon</string>
-             </attribute>
-             <widget class="QComboBox" name="reSalonSelecc_2">
-              <property name="geometry">
-               <rect>
-                <x>60</x>
-                <y>71</y>
-                <width>341</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 2px solid rgb(155, 88, 43);
-color: rgb(0, 0, 0);</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="almResulE_6">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>60</x>
-                <y>140</y>
-                <width>471</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="almBuscarE_6">
-              <property name="geometry">
-               <rect>
-                <x>420</x>
-                <y>70</y>
-                <width>111</width>
-                <height>51</height>
-               </rect>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: none;
-border-radius: 10px;
-background-color: rgb(71, 105, 255);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_10">
-              <property name="geometry">
-               <rect>
-                <x>630</x>
-                <y>60</y>
-                <width>321</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="sCancelarAct_4">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>320</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="sConfirmarAct_4">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>320</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>Confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sCampo_4">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>180</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el nombre del campo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_72">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>130</y>
-                 <width>211</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Numero del salon</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_73">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>291</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar estado salon</string>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="reSalonSelecc_3">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>250</y>
-                 <width>271</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid rgb(155, 88, 43);
-color: rgb(0, 0, 0);</string>
-               </property>
-              </widget>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_28">
-             <attribute name="title">
-              <string>Page</string>
-             </attribute>
-            </widget>
             <widget class="QWidget" name="tab_10">
              <attribute name="title">
               <string>Montaje de salones</string>
