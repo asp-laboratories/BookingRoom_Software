@@ -30,10 +30,10 @@ class SalonServices:
 
     def listar_estados(self):
         print("Estados: ")
-        estado = self.salon_repository.listar_estados()
-        print("Codigo:\t Descripcion:\t")
-        for row in estado:
-            print(f"{row['codigoSal']}\t {row['descripcion']}")
+        return self.salon_repository.listar_estados()
+        # print("Codigo:\t Descripcion:\t")
+        # for row in estado:
+        #     print(f"{row['codigoSal']}\t {row['descripcion']}")
 
     def actualizar_campos(self, campo, numSalon, valor):
         return self.salon_repository.actualizar_salones(campo, numSalon, valor)
@@ -53,3 +53,6 @@ class SalonServices:
 
     def salon_disponible(self):
         return self.salon_repository.salon_disponible()
+
+    def salon_en_estado(self, estadoD):
+        return self.salon_repository.listar_salones_en_estado(estadoD)
