@@ -1,7 +1,8 @@
 
 # Ingreso de datos dentro del registro
 def permitir_ingreso(texto, formato : str): 
-    permitidoLe = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    permitidoLe = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ"
+    permitidoNF = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ."
     permitidoNu = "0123456789"
     PermitidoCaEs = "-_."
     
@@ -38,6 +39,16 @@ def permitir_ingreso(texto, formato : str):
                     return False # Salida False
             print(f"Todo correcto: {texto}")
             return True
+
+        case 'nombreFiscal': # Letras, numeros, puntos, guiones bajos y altos, y un solo arroba
+            texto = texto.replace(" ", "")
+            for c in texto:
+                if (c not in permitidoNF):
+                    print("Hay un caracter especial:", c)
+                    return False # Salida False
+            print(f"Todo correcto: {texto}")
+            return True # Salida True
+        
 
         case 'numtraba': # Numeros de trabajador -> una letra, un guion y solo numeros
             contador_guiones = 0
