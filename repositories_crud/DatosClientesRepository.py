@@ -55,7 +55,6 @@ class DatosClientesRepository:
             cursor.close()
             self.db.desconectar()
 
-
     def actualizar(self, RFC, codigoRol):
         if not self.db.conectar():
             return None

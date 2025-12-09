@@ -3,8 +3,8 @@ from pathlib import Path
 from datetime import datetime, date, timedelta
 from PyQt6 import uic
 from PyQt6.QtGui import QBrush, QColor
-from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton, QFrame, QHBoxLayout
-from PyQt6.QtCore import QDate, Qt
+from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QTreeWidgetItem, QVBoxLayout, QPushButton, QFrame, QHBoxLayout, QWidget
+from PyQt6.QtCore import QDate, Qt, QSize
 from gui.pago import Pago
 from gui.recibo import Recibo
 from gui.registro_cliente import RegistroCliente
@@ -24,6 +24,8 @@ from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
 from services.PagoService import PagoServices
 from services.DatosMontajeService import DatosMontajeService
+from services.RolService import RolService
+from services.TipoClienteService import TipoClienteService
 from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
@@ -41,6 +43,8 @@ reservacion = ReservacionService()
 reser_equipa = ReserEquipaService()
 pagos = PagoServices()
 tipo_mobiliario = TipoMobiliarioService()
+TrabajadorRol = RolService()
+TipoCliente = TipoClienteService()
 
 obtenerNumeroReservacion = []
 class AdministradorScreen():
@@ -141,6 +145,13 @@ class AdministradorScreen():
         
         self.navegacion.buscarTipo_3.clicked.connect(self.obtener_fecha_reser)
 
+        self.llenar_combox_roles()
+        self.navegacion.rolBuscarTrabajadores.clicked.connect(self.llenar_lista_trabajadores)
+        self.navegacion.rolTrabajadores.itemClicked.connect(self.detalles_trabajador)
+
+
+        self.navegacion.clPersonaFisica.toggled.connect(self.mostrar_clientes_por_tipo)
+        self.navegacion.clClientesTipo.itemClicked.connect(self.detalle_cliente)
 
         self.subtotal_servicios = 0.0
         self.subtotal_salon = 0.0 
@@ -2588,6 +2599,186 @@ class AdministradorScreen():
         )
         
         return reply == QMessageBox.StandardButton.Yes
+    
+    # Mostrar trabajadores por rol y detalles del propio trabajador
+    def llenar_combox_roles(self):
+        self.navegacion.rolBuscadorTrabajadores.clear()
+
+        self.navegacion.rolBuscadorTrabajadores.addItem("Selecciona un rol", None)
+
+        roles = TrabajadorRol.listar_rol()
+        
+        for rol in roles:
+            self.navegacion.rolBuscadorTrabajadores.addItem(rol['descripcion'], rol['descripcion'])
+
+
+    def tarjeta_trabajador(self, trabajador): #aca se pone el diccionario q contenga la info del trabajador
+        widget = QWidget()
+        layoutTar = QVBoxLayout()
+        widget.setLayout(layoutTar)
+
+        widget.setStyleSheet("""
+        QWidget {
+            background-color: transparent;
+        }
+        QLabel {
+            background-color: transparent;
+        }
+        """)
+
+        label_nombre = QLabel(trabajador['nombre'])
+        label_nombre.setStyleSheet("""
+                color: rgb(0, 0, 0);
+                border-radius: 5px;
+                border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+                border-right: 3px solid  rgba(155, 88, 43, 1.0);
+                """)
+        
+        label_id = QLabel(f"ID: {trabajador['numTraba']}")
+        label_id.setStyleSheet("""
+                color: rgb(0, 0, 0);
+                border-radius: 5px;
+                border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+                border-right: 3px solid  rgba(155, 88, 43, 1.0);
+                """)
+        
+        layoutTar.addWidget(label_nombre)
+        layoutTar.addWidget(label_id)
+
+        return widget
+    
+    def llenar_lista_trabajadores(self):
+        self.navegacion.rolTrabajadores.clear()
+        self.navegacion.rolDetalleTrabajador.clear()
+
+        rol_obtenido = self.navegacion.rolBuscadorTrabajadores.currentText()
+        if not rol_obtenido:
+            QMessageBox.warning(self.navegacion, "Rol no seleccionado", "Favor de seleccionar un rol para buscar")
+            return
+
+        trabajadores = TrabajadorRol.obtener_trabajadores_rol(rol_obtenido)
+
+        for traba in trabajadores:
+            item = QListWidgetItem(self.navegacion.rolTrabajadores)
+
+            item.setSizeHint(QSize(0, 60))
+
+            item.setData(Qt.ItemDataRole.UserRole, traba)
+
+            tarjeta = self.tarjeta_trabajador(traba)
+
+            self.navegacion.rolTrabajadores.setItemWidget(item, tarjeta)
+
+    def detalles_trabajador(self, item):
+        self.navegacion.rolDetalleTrabajador.clear()
+
+        traba = item.data(Qt.ItemDataRole.UserRole)
+
+        print(f"El usuario eligio al trabajador {traba['nombre']}")
+
+        infoTrabajador = f"\n---{traba['nombre']}---\n"
+
+        infoTrabajador += f"Numero de trabajador: {traba['numTraba']}\n"
+        infoTrabajador += f"RFC: {traba['RFC']}\n"
+        infoTrabajador += f"\n---CONTACTO---\n"
+        infoTrabajador += f"Correo Electronico: {traba['email']}\n"
+        infoTrabajador += f"--Telefonos:\n"
+        contador = 0
+        for telef in traba['telefonos']:
+            contador += 1
+            infoTrabajador += f"{contador}. {telef}\n"
+
+        self.navegacion.rolDetalleTrabajador.setText(infoTrabajador)
+    # ACa terminar toda la brocna de los trabajadores por rol
+
+    # Inicia logica para filtrar clientes por tipo de cliente
+    def mostrar_clientes_por_tipo(self):
+        self.navegacion.clClientesTipo.clear()
+        self.navegacion.clDetalleCliente.clear()
+
+        tipo_cliente = ''
+        if self.navegacion.clPersonaFisica.isChecked():
+            tipo_cliente = 'Persona fisica'
+        elif self.navegacion.clPersonaMoral.isChecked():
+            tipo_cliente = 'Persona moral'
+
+        clientes = TipoCliente.listar_clientes_por_tipo(tipo_cliente)
+
+        for cliente in clientes:
+            item = QListWidgetItem(self.navegacion.clClientesTipo)
+
+            item.setSizeHint(QSize(0, 60))
+
+            item.setData(Qt.ItemDataRole.UserRole, cliente)
+
+            tarjeta = self.tarjeta_cliente(cliente)
+
+            self.navegacion.clClientesTipo.setItemWidget(item, tarjeta)
+
+    def tarjeta_cliente(self, cliente): 
+        widget = QWidget()
+        layoutTar = QVBoxLayout()
+        widget.setLayout(layoutTar)
+
+        widget.setStyleSheet("""
+        QWidget {
+            background-color: transparent;
+        }
+        QLabel {
+            background-color: transparent;
+        }
+        """)
+
+        label_nombre = QLabel(cliente['contacto'])
+        label_nombre.setStyleSheet("""
+                color: rgb(0, 0, 0);
+                border-radius: 5px;
+                border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+                border-right: 3px solid  rgba(155, 88, 43, 1.0);
+                """)
+        
+        label_id = QLabel(f"ID: {cliente['RFC']}")
+        label_id.setStyleSheet("""
+                color: rgb(0, 0, 0);
+                border-radius: 5px;
+                border-bottom: 3px solid rgba(155, 88, 43, 1.0);
+                border-right: 3px solid  rgba(155, 88, 43, 1.0);
+                """)
+        
+        layoutTar.addWidget(label_nombre)
+        layoutTar.addWidget(label_id)
+
+        return widget
+
+    def detalle_cliente(self, item):
+        self.navegacion.clDetalleCliente.clear()
+
+        clien = item.data(Qt.ItemDataRole.UserRole)
+
+        print(f"El usuario eligio al trabajador {clien['contacto']}")
+
+        infoTrabajador = f"\n---{clien['nombreFiscal']}---\n"
+
+        infoTrabajador += f"Contacto: {clien['contacto']}\n"
+        infoTrabajador += f"RFC: {clien['RFC']}\n"
+        infoTrabajador += f"\n---CONTACTO---\n"
+        infoTrabajador += f"Direccion: {clien['direccion']}\n"
+        infoTrabajador += f"Correo Electronico: {clien['email']}\n"
+        infoTrabajador += f"--Telefonos:\n"
+        contador = 0
+        for telef in clien['telefonos']:
+            contador += 1
+            infoTrabajador += f"{contador}. {telef}\n"
+
+        self.navegacion.clDetalleCliente.setText(infoTrabajador)
+
+    # Aca termina toda la bronca de los tipos de clientes
+
+    # Aca empieza la logica para buscar reservaciones en un rango determinado de fechas
+
+
+
+    # aca termina toda la bronca de la busqueda de reservaciones en un rango
 
     def volver_login(self, link):
         from gui.login import Login
