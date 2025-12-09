@@ -18,6 +18,7 @@ from services.SalonServices import SalonServices
 from services.ServicioServices import ServicioService
 from services.EquipamentoService import EquipamentoService
 from services.TelefonoServices import TelefonoServices
+from services.TipoEquipamientoService import TipoEquipamentoService
 from services.TipoMobiliarioService import TipoMobiliarioService
 from services.TipoMontajeService import TipoMontajeService
 from services.TipoServicioService import TipoServicioService
@@ -46,6 +47,8 @@ pagos = PagoServices()
 tipo_mobiliario = TipoMobiliarioService()
 TrabajadorRol = RolService()
 TipoCliente = TipoClienteService()
+tipo_equipamiento = TipoEquipamentoService()
+
 
 obtenerNumeroReservacion = []
 class AdministradorScreen():
@@ -97,6 +100,7 @@ class AdministradorScreen():
         self.navegacion.sConfirmarAct_3.clicked.connect(self.intentar_actualizar_equipamiento)
         self.navegacion.slBuscar_7.clicked.connect(self.listar_equipamentos_del)
         self.navegacion.seConfirmar_3.clicked.connect(self.intentar_eliminar_equipamiento)
+        self.navegacion.buscarTipo_4.clicked.connect(self.buscar_tipo_equipo)
 
         # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(self.intentar_registrar_salon)
@@ -145,6 +149,7 @@ class AdministradorScreen():
         #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
 
         self.cargar_tipos_servicios()
+        self.cargar_tipos_equipamiento()
         #Variables utilizadas para almacenar informatcion
         
         self.navegacion.buscarTipo_3.clicked.connect(self.obtener_fecha_reser)
@@ -398,7 +403,7 @@ class AdministradorScreen():
             self.navegacion.contenedorServicios.layout().addStretch()
 
     
-
+    
 
     def eliminar_servicio(self, id_servicio: int):
         try:
@@ -801,6 +806,27 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error grave de base de datos durante la eliminación: {e}"
             )
+    
+    def cargar_tipos_equipamiento(self):
+        self.navegacion.sEquipamiento.clear()
+        self.navegacion.sEquipamiento.addItem("Seleccione un tipo de servicio:", None)
+        
+        tpos_equipa = tipo_equipamiento.listar_tipos_equipamentos()
+
+        for tipo in tpos_equipa:
+            self.navegacion.sEquipamiento.addItem(tipo['descripcion'], tipo['codigoTiEquipa'])
+
+
+    def buscar_tipo_equipo(self):
+        self.navegacion.tResultadoS_3.setText("")
+        descripcion = self.navegacion.sEquipamiento.currentData()
+        resultado = equipamiento.listar_equipamiento_tipo(descripcion)
+        if resultado:
+            mensaje = ""
+            for bes in resultado:
+                mensaje += f"\n{bes["numero"]}. {bes["equipamiento"]}\n"
+                self.navegacion.tResultadoS_3.setText(mensaje)
+            
     def buscar_datos_montaje_salon(self):
         self.navegacion.almResulE_4.clear()
         resultado = salon.datos_montaje(self.navegacion.almBuscadorE_4.text())
