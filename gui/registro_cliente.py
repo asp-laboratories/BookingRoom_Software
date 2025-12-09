@@ -26,6 +26,7 @@ class RegistroCliente():
         self.registro_cliente.cbTipoFisica.toggled.connect(self.seleccionar_fisica)
         self.registro_cliente.cbTipoMoral.toggled.connect(self.seleccionar_moral)
         self.registro_cliente.reNombreFiscal.setEnabled(False)
+        
     def registrar_cliente_ejecutar(self, rfc, nombre, priApellido, priAmater, nombreFiscal, correo, 
                               colonia, calle, numero, tipo_cliente, 
                               telefono1, telefono2, telefono3):
@@ -168,6 +169,7 @@ class RegistroCliente():
                 QMessageBox.critical(None, "Error de Validación", f"Ocurrió un error inesperado al validar datos: {e}")
         except Exception as e:
             QMessageBox.critical(None, "Error Inesperado", f"Ocurrió un error grave durante el pre-registro: {e}")
+            
     def deshabilitar_telefonos(self):
         self.registro_cliente.reTelefono2.setEnabled(False)
         self.registro_cliente.reTelefono3.setEnabled(False)
