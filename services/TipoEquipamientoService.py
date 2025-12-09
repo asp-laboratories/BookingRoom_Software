@@ -19,11 +19,8 @@ class TipoEquipamentoService:
         return self.repository.crear_tipo_equipamento(tipo_equipa)
 
     def listar_tipos_equipamentos(self):
-        print("Tipos de equipamentos:")
-        tipos_equipa = self.repository.listar_tipo_equipamentos()
-        print("Codigo: \t Descripcion:")
-        for equipamento in tipos_equipa:
-            print(f"{equipamento['codigoTiEquipa']}\t {equipamento['descripcion']}")
+        return self.repository.listar_tipo_equipamentos()
+
 
     def mostrar_equipamentos_tipo(self, tipo_equipa):
         tipo = self.repository.obtener_equipamentos_de_tipo(tipo_equipa)

@@ -101,3 +101,6 @@ class EquipamentoService:
 
     def eliminar_registro(self,numEquipa):
         return self.equipamento_repository.eliminar_registro_equipamiento(numEquipa)
+
+    def listar_equipamiento_tipo(self, descripcion):
+        return self.tipo_equipamiento.conjunto_equipamientos(descripcion)
