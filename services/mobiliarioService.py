@@ -184,6 +184,8 @@ class mobiliarioService:
             return True
         else:
             return False
+    def datos_mob_2(self, numMob):
+        return self.mobiliario_repository.datos_especificos_mob(numMob)
 
 if __name__ == "__main__":
     prueba = mobiliarioService()
