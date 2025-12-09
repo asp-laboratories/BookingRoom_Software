@@ -110,8 +110,8 @@ class AdministradorScreen():
         self.navegacion.slBuscar_4.clicked.connect(self.desplegar_informacion_salon) 
         self.navegacion.slBuscar_6.clicked.connect(self.listar_salones_del) 
         self.navegacion.seConfirmar_2.clicked.connect(self.intentar_eliminar_salon)
-        self.navegacion.almBuscarE_6.clicked.connect(self.buscar_estado_salon)
-        self.navegacion.sConfirmarAct_4.clicked.connect(self.intentar_cambiar_estado_salon)
+        #self.navegacion.almBuscarE_6.clicked.connect(self.buscar_estado_salon)
+        #self.navegacion.sConfirmarAct_4.clicked.connect(self.intentar_cambiar_estado_salon)
         # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(self.generar_caracteristicas)
         self.navegacion.amConfirmar_2.clicked.connect(self.intentar_registrar_mobiliario)
@@ -121,9 +121,9 @@ class AdministradorScreen():
         # Botones para los eventos de trabajadores
         self.navegacion.atConfirmar.clicked.connect(self.intentar_establecer_rol)
         self.navegacion.atBuscar.clicked.connect(self.buscar)
-        self.navegacion.atBuscar_2.clicked.connect(self.buscar_sus_reservaciones)
+        #self.navegacion.atBuscar_2.clicked.connect(self.buscar_sus_reservaciones)
        
-        self.navegacion.reConfirmar.clicked.connect(self.intentar_registrar_reservacion)
+        self.navegacion.reConfirmar.clicked.connect(self.registrar_reservacion)
         
         #Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmar.clicked.connect(self.intentar_actualizar_estado_mob)
@@ -1547,81 +1547,94 @@ class AdministradorScreen():
         # El resultado final es una lista de objetos, idéntica a tu prueba de funcionamiento.
         return lista_objetos_reservados
     
-    def registrar_reservacion_ejecutar(self, fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, 
-                                 estimaAsistentes, tipo_montaje, rfcTrabajador, clienteNombre, 
-                                  nombreSalon, equipas, lista_servicios):
-        try:
-            reservacion.crear_reservacion(
-                fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, 
-                estimaAsistentes, tipo_montaje, rfcTrabajador, clienteNombre, 
-                nombreSalon, equipas, lista_servicios
-            )
-            
-            QMessageBox.information(
-                None, 
-                "Reservación Exitosa", 
-                f"Reservación creada con éxito para el salón '{nombreSalon}' el día {fecha}."
-            )
-            self.pago = Pago() 
-    
-        except Exception as e:
-            QMessageBox.critical(
-                None, 
-                "Error de Ejecución de DB", 
-                f"Ocurrió un error al intentar crear la reservación en la base de datos: {e}. La operación ha fallado."
-            )
-    # def registrar_reservacion(self):
+    #def registrar_reservacion_ejecutar(self, fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, 
+    #                             estimaAsistentes, tipo_montaje, rfcTrabajador, clienteNombre, 
+    #                              nombreSalon, equipas, lista_servicios):
+    #    try:
+    #        reservacion.crear_reservacion(
+    #            fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, 
+    #            estimaAsistentes, tipo_montaje, rfcTrabajador, clienteNombre, 
+    #            nombreSalon, equipas, lista_servicios
+    #        )
+    #        
+    #        QMessageBox.information(
+    #            None, 
+    #            "Reservación Exitosa", 
+    #            f"Reservación creada con éxito para el salón '{nombreSalon}' el día {fecha}."
+    #        )
+    #        self.pago = Pago() 
     #
-    #     from gui.login import resultadoEmail
-    #     fecha = self.navegacion.refecha.date().toPyDate()
-    #     print(fecha)
-    #     fechaReserE = date.today()
-    #     hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm") 
-    #     hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
-    #     resultado = trabajador.obtener_nombre(resultadoEmail[0])
-    #     rfcTrabajador = resultado['nombre']
-    #
-    #     descripEvento  = self.navegacion.reDescripcion.text()
-    #     if len(descripEvento) < 5:
-    #         QMessageBox.warning(self.navegacion, 'Error en Descripcion', 'Ingrese una descripcion verdadera')
-    #         return
-    #
-    #     estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
-    #     if not permitir_ingreso(estimaAsistentes, 'numint'):
-    #         QMessageBox.warning(self.navegacion, 'Error en Asistentes', 'Ingrese un valor valido para el estimado de asistentes')
-    #         return
-    #
-    #     tipo_montaje = self.navegacion.reTipoMontaje.currentText()
-    #
-    #
-    #     salNumero = self.navegacion.reSalonSelecc.currentData()
-    #     sali = self.buscar_usuario_por_id(salNumero)
-    #
-    #     lista_servicios = []
-    #     servicios = self.navegacion.listaServicios.selectedItems()
-    #     
-    #     for item in servicios:
-    #         data_servicio = item.data(Qt.ItemDataRole.UserRole)
-    #         lista_servicios.append(data_servicio['nombre'])
-    #     
-    #     equipas = self.generar_lista_equipamiento_reservado()
-    #     for equipa in equipas:
-    #         print(equipa.equipamiento)
-    #         equipa.equipamiento = equipamiento.obtener_codigo_equipamiento(equipa.equipamiento)
-    #         print(equipa.equipamiento)
-    #         if equipamiento.comprobar_stock(equipa.equipamiento, equipa.cantidad):
-    #             QMessageBox.warning(self.navegacion, 'Stock insuficiente', f"No existe suficiente disponibilidad del equipamiento {equipa.equipamiento}")
-    #             return 
-    #         
-    #     disponibilidad = salon.salon_disponible()
-    #     for salon_disponible in disponibilidad:
-    #         if (sali['numSalon']) == (salon_disponible['numSalon']) and str(fecha) == str(salon_disponible['fecha']):
-    #             QMessageBox.warning(self.navegacion, 'Salon ocupado en dia seleccionado', 'El salon seleccionado ya tiene una reservacion el dia seleccionado')
-    #             return
-    #
-    #     reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, self.clienteNombre, sali['nombre'], equipas, lista_servicios)
+    #    except Exception as e:
+    #        QMessageBox.critical(
+    #            None, 
+    #            "Error de Ejecución de DB", 
+    #            f"Ocurrió un error al intentar crear la reservación en la base de datos: {e}. La operación ha fallado."
+    #        )
+    def registrar_reservacion(self):
 
+        from gui.login import resultadoEmail
+        fecha = self.navegacion.refecha.date().toPyDate()
+        print(fecha)
+        fechaReserE = date.today()
+        hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm") 
+        hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
+        resultado = trabajador.obtener_nombre(resultadoEmail[0])
+        rfcTrabajador = resultado['nombre']
+
+        descripEvento  = self.navegacion.reDescripcion.text()
+        if len(descripEvento) < 5:
+            QMessageBox.warning(self.navegacion, 'Error en Descripcion', 'Ingrese una descripcion verdadera')
+            return
+
+        estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
+        if not permitir_ingreso(estimaAsistentes, 'numint'):
+            QMessageBox.warning(self.navegacion, 'Error en Asistentes', 'Ingrese un valor valido para el estimado de asistentes')
+            return
+
+        salNumero = self.navegacion.reSalonSelecc.currentData()
+        if not salNumero:
+            QMessageBox.warning(self.navegacion, "Error Salon Seleccionado", "No se ha seleccionado un salon")
+            return
+
+        sali = self.buscar_usuario_por_id(salNumero)
+
+        tipo_montaje = self.navegacion.reTipoMontaje.currentText()
+        if not tipo_montaje:
+            QMessageBox.warning(self.navegacion, "Error Tipo de Montaje", "No se ha seleccionado un tipo de montaje")
+            return
+
+        lista_servicios = []
+        servicios = self.navegacion.listaServicios.selectedItems()
+        
+        for item in servicios:
+            data_servicio = item.data(Qt.ItemDataRole.UserRole)
+            lista_servicios.append(data_servicio['nombre'])
+        
+        equipas = self.generar_lista_equipamiento_reservado()
+        for equipa in equipas:
+            print(equipa.equipamiento)
+            equipa.equipamiento = equipamiento.obtener_codigo_equipamiento(equipa.equipamiento)
+            print(equipa.equipamiento)
+            if equipamiento.comprobar_stock(equipa.equipamiento, equipa.cantidad):
+                QMessageBox.warning(self.navegacion, 'Stock insuficiente', f"No existe suficiente disponibilidad del equipamiento {equipa.equipamiento}")
+                return 
             
+        disponibilidad = salon.salon_disponible()
+        for salon_disponible in disponibilidad:
+            if (sali['numSalon']) == (salon_disponible['numSalon']) and str(fecha) == str(salon_disponible['fecha']):
+                QMessageBox.warning(self.navegacion, 'Salon ocupado en dia seleccionado', 'El salon seleccionado ya tiene una reservacion el dia seleccionado')
+                return
+
+        try:    
+            clienteReservacion = self.clienteNombre
+        except:
+            QMessageBox.warning(self.navegacion, "Error Cliente", "No se ha seleccionado un cliente para la reservacion")
+            return
+
+        respuesta = self.mostrar_confirmacion("Confirmacion de Reservacion", "¿Seguro de continuar con la resevacion?")
+        if respuesta:
+            reservacion.crear_reservacion(fechaReserE, fecha, hora_inicio, hora_fin, descripEvento, estimaAsistentes, tipo_montaje, rfcTrabajador, clienteReservacion, sali['nombre'], equipas, lista_servicios)
+        
     def calcular_total_general(self):
         total = 0
         
@@ -1822,56 +1835,33 @@ class AdministradorScreen():
         mob_numero = self.navegacion.combo_mobiliarios.itemData(index)
         
         if mob_numero:
-            detalles = mobiliario.datos_mob_2(str(mob_numero))
+            detalles = mobiliario.datos_mob(str(mob_numero))
             
             if detalles:
                 # Tomar la información básica del primer registro
-                primer_detalle = detalles[0]
                 
                 mensaje = "--- DATOS DEL MOBILIARIO ---\n\n"
-                mensaje += f"Número: {primer_detalle['mobiliario']}\n"
-                mensaje += f"Nombre: {primer_detalle['nombre']}\n"
-                mensaje += f"Cantidad total: {primer_detalle['cantidad']}\n\n"
-                
-                # Agrupar por tipo de característica
-                caracteristicas_por_tipo = {}
-                
-                for detalle in detalles:
-                    tipo = detalle['ti_caracteristica']
-                    caracteristica = detalle['caracteristica']
-                    
-                    if tipo not in caracteristicas_por_tipo:
-                        caracteristicas_por_tipo[tipo] = []
-                    
-                    if caracteristica not in caracteristicas_por_tipo[tipo]:
-                        caracteristicas_por_tipo[tipo].append(caracteristica)
+                mensaje += f"Número: {detalles['numMob']}\n"
+                mensaje += f"Nombre: {detalles['nombre']}\n"
+                mensaje += f"Cantidad total: {detalles['stockTotal']}\n\n"
                 
                 # Mostrar características agrupadas
                 mensaje += "--- CARACTERÍSTICAS ---\n\n"
-                for tipo, caracteristicas in caracteristicas_por_tipo.items():
-                    mensaje += f"• {tipo}:\n"
-                    for carac in caracteristicas:
-                        mensaje += f"  - {carac}\n"
+                for caracteristica in detalles['caracteristicas']:
+                    mensaje += f"• {caracteristica['tipo_carac']}:\n"
+                    mensaje += f"  - {caracteristica['caracteristica']}\n"
                     mensaje += "\n"
-                
-                # Contar estados
-                estados_count = {}
-                for detalle in detalles:
-                    estado = detalle['estado']
-                    if estado not in estados_count:
-                        estados_count[estado] = 0
-                    estados_count[estado] += 1
                 
                 # ARREGLAR
                 mensaje += "--- DISTRIBUCIÓN DE ESTADOS ---\n\n"
-                total = len(detalles)
-                for estado, cantidad in estados_count.items():
-                    porcentaje = (cantidad / total) * 100 if total > 0 else 0
-                    mensaje += f"• {estado}: {cantidad} unidades ({porcentaje:.1f}%)\n"
+                for estado in detalles['estados']:
+                    porcentaje = (estado['cantidad'] / detalles['stockTotal']) * 100 if estado['cantidad'] > 0 else 0
+                    mensaje += f"• {estado['estado']}: {estado['cantidad']} unidades ({porcentaje:.1f}%)\n"
                 
                 self.navegacion.texto_detalles_simple.setPlainText(mensaje)
             else:
                 self.navegacion.texto_detalles_simple.setPlainText("No se encontraron detalles para este mobiliario")
+
     def actualizar_estado_equipa(self, num_equipo: int, estado_nuevo: str, estado_origen: str, cantidad: int):
         try:
             # Ejecutar la función de negocio
@@ -2634,6 +2624,7 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error grave durante el pre-registro: {e}"
             )
+
     def intentar_registrar_pago(self):
         try:
             # --- 1. VALIDACIÓN NUMÉRICA Y MONTO ---
@@ -2741,7 +2732,6 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error grave durante el pre-registro: {e}"
             )
-    
 
     # Recepcionista intentar
 
@@ -2820,7 +2810,6 @@ class AdministradorScreen():
                 QMessageBox.information(None, "Reservación Cancelada", "La operación de registro de reservación ha sido cancelada por el usuario.")
     
         except ValueError as e:
-            # Manejo centralizado de errores de validación y conversión ⚠️
             error_type = str(e)
             
             if "Descripcion Corta" in error_type:
@@ -2841,8 +2830,6 @@ class AdministradorScreen():
         except Exception as e:
             # Manejo de cualquier error inesperado
             QMessageBox.critical(None, 'Error Inesperado', f"Ocurrió un error grave durante el pre-registro: {e}")
-
-
 
     def intentar_cambiar_estado_salon(self):
         try:
@@ -2897,6 +2884,7 @@ class AdministradorScreen():
                 "Error Inesperado", 
                 f"Ocurrió un error grave durante el proceso: {e}"
             )
+
     def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
         reply = QMessageBox.question(
             None, 
