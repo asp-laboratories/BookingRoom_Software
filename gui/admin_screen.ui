@@ -694,7 +694,7 @@ color: rgb(255, 255, 255);
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1031</width>
+         <width>1004</width>
          <height>3500</height>
         </rect>
        </property>
@@ -723,7 +723,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -2797,7 +2797,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_14">
              <attribute name="title">
@@ -4089,7 +4089,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_12">
              <attribute name="title">
@@ -4382,6 +4382,61 @@ color: rgba(155, 88, 43, 1.0);
              <attribute name="title">
               <string>Rol</string>
              </attribute>
+             <widget class="QPushButton" name="rolBuscarTrabajadores">
+              <property name="geometry">
+               <rect>
+                <x>650</x>
+                <y>50</y>
+                <width>161</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border-radius: 10px;
+background-color: rgb(38, 96, 255);
+background-color: rgb(34, 76, 184);</string>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="rolBuscadorTrabajadores">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>53</y>
+                <width>581</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: Black;</string>
+              </property>
+             </widget>
+             <widget class="QListWidget" name="rolTrabajadores">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>110</y>
+                <width>481</width>
+                <height>501</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="rolDetalleTrabajador">
+              <property name="geometry">
+               <rect>
+                <x>560</x>
+                <y>110</y>
+                <width>391</width>
+                <height>361</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: Black;
+font: 12pt &quot;Segoe UI&quot;;</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab_18">
              <attribute name="title">
@@ -4507,7 +4562,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -6863,7 +6918,29 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="0" column="4">
                 <widget class="QRadioButton" name="cbUnico">
                  <property name="styleSheet">
-                  <string notr="true">color: Black</string>
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
                  </property>
                  <property name="text">
                   <string>Pago Unico</string>
@@ -6873,21 +6950,28 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="0" column="1">
                 <widget class="QRadioButton" name="cbAbono">
                  <property name="styleSheet">
-                  <string notr="true">QRadioButton{
-	color: Black;
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
 }
 
-QRadioButton::indicator{
-	color:rgba(155, 88, 43, 1.0)
-	width: 16px;            
-    height: 16px;           
-    border-radius: 9px;   
-    border: 2px solid #9b582b;
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
 }
 
-QRadioButton::indicator:hover{
-	border: 2px solid #c7837c;
-	background-color: rgb(149, 191, 255);
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
 }</string>
                  </property>
                  <property name="text">
@@ -6960,7 +7044,29 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="1" column="7">
                 <widget class="QRadioButton" name="cbNFC">
                  <property name="styleSheet">
-                  <string notr="true">color: Black</string>
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
                  </property>
                  <property name="text">
                   <string>NFC</string>
@@ -6970,7 +7076,29 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="1" column="1">
                 <widget class="QRadioButton" name="cbEfectivo">
                  <property name="styleSheet">
-                  <string notr="true">color: Black</string>
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
                  </property>
                  <property name="text">
                   <string>Efectivo</string>
@@ -6980,7 +7108,29 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="1" column="5">
                 <widget class="QRadioButton" name="cbTransferencia">
                  <property name="styleSheet">
-                  <string notr="true">color: Black</string>
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
                  </property>
                  <property name="text">
                   <string>Transferencia</string>
@@ -6990,7 +7140,29 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);
                <item row="1" column="3">
                 <widget class="QRadioButton" name="cbTarjeta">
                  <property name="styleSheet">
-                  <string notr="true">color: Black</string>
+                  <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
                  </property>
                  <property name="text">
                   <string>Tarjeta</string>
@@ -7123,6 +7295,106 @@ background-color: rgb(34, 76, 184);</string>
              <attribute name="title">
               <string>Clientes</string>
              </attribute>
+             <widget class="QRadioButton" name="clPersonaFisica">
+              <property name="geometry">
+               <rect>
+                <x>270</x>
+                <y>50</y>
+                <width>92</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
+              </property>
+              <property name="text">
+               <string>Persona Fisica</string>
+              </property>
+             </widget>
+             <widget class="QRadioButton" name="clPersonaMoral">
+              <property name="geometry">
+               <rect>
+                <x>480</x>
+                <y>50</y>
+                <width>92</width>
+                <height>20</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QRadioButton {
+    color: Black;          
+    font-size: 10px;
+    spacing: 5px; 
+}
+
+QRadioButton::indicator {
+    width: 16px;     
+    height: 16px;       
+    border-radius: 10px;    
+    border: 2px solid Black; 
+    background-color: transparent; 
+}
+
+QRadioButton::indicator:hover {
+    background-color: Grey; 
+    border: 2px solid Gray; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: Gray; 
+    outline: 1px solid #9b582b;
+}</string>
+              </property>
+              <property name="text">
+               <string>Persona Moral</string>
+              </property>
+             </widget>
+             <widget class="QListWidget" name="clClientesTipo">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>100</y>
+                <width>481</width>
+                <height>571</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QTextEdit" name="clDetalleCliente">
+              <property name="geometry">
+               <rect>
+                <x>530</x>
+                <y>100</y>
+                <width>401</width>
+                <height>311</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: Black;
+font: 12pt &quot;Segoe UI&quot;;</string>
+              </property>
+             </widget>
             </widget>
            </widget>
           </widget>

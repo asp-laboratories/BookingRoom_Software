@@ -73,6 +73,35 @@ class Registro():
             self.registro.leEmail.selectAll()
             self.registro.leEmail.setFocus()
             return
+        
+        telefono1 = self.registro.leTelefono.text()
+        if (not len(telefono1) == 10) or (not permitir_ingreso(telefono1, 'numint')):
+            self.registro.mensaje.setText("Ingrese un numero telefono 1 valido")
+            self.registro.leTelefono.selectAll()
+            self.registro.leTelefono.setFocus()
+            return
+        
+        telefono2 = self.registro.leTelefono2.text()
+        if telefono2:
+            hay_telefono2 = True
+            if (not len(telefono2) == 10) or (not permitir_ingreso(telefono2, 'numint')):
+                self.registro.mensaje.setText("Ingrese un numero de telefono 2 valido")
+                self.registro.leTelefono2.selectAll()
+                self.registro.leTelefono2.setFocus()
+                return
+        else:
+            hay_telefono2 = False
+        
+        telefono3 = self.registro.leTelefono3.text()
+        if telefono3:
+            hay_telefono3 = True
+            if (not len(telefono3) == 10) or (not permitir_ingreso(telefono3, 'numint')):
+                self.registro.mensaje.setText("Ingrese un numero de telefono 3 valido")
+                self.registro.leTelefono3.selectAll()
+                self.registro.leTelefono3.setFocus()
+                return
+        else:
+            hay_telefono3 = False
 
         resultado = trabajador.registrar_trabajadores(rfc, numTrabajador, nombre, apePater, apeMater, email)
 
@@ -80,9 +109,12 @@ class Registro():
             self.registro.mensaje.setText("Error al registrar trabajador")
         else:
             self.registro.mensaje.setText("Trabajador registrado")            
-            telefono.registrar_telefono(self.registro.leTelefono.text(), None, rfc)
-            telefono.registrar_telefono(self.registro.leTelefono2.text(), None, rfc)
-            telefono.registrar_telefono(self.registro.leTelefono3.text(), None, rfc)
+            telefono.registrar_telefono(telefono1, None, rfc)
+            if hay_telefono2:
+                telefono.registrar_telefono(telefono2, None, rfc)
+            if hay_telefono3:
+                telefono.registrar_telefono(telefono3, None, rfc)
+            
     
     
     def deshabilitar_telefonos(self):
