@@ -52,26 +52,26 @@ class Pago():
 
     
     def limpiar_pago(self):
-        self.navegacion.reNumReser.clear()
-        self.navegacion.reMontoPago.clear()
-        self.navegacion.reDescripcion_2.clear()
+        self.pago.reNumReser.clear()
+        self.pago.reMontoPago.clear()
+        self.pago.reDescripcion_2.clear()
 
         checks = [
-            self.navegacion.cbTransferencia, self.navegacion.cbTarjeta, self.navegacion.cbNFC, self.navegacion.cbEfectivo, self.navegacion.cbAbono, self.navegacion.cbUnico 
+            self.pago.cbTransferencia, self.pago.cbTarjeta, self.pago.cbNFC, self.pago.cbEfectivo, self.pago.cbAbono, self.pago.cbUnico 
         ]
 
         for chec in checks:
             chec.setChecked(False)
     
     def mostrar_descripcion_en_tiempo_real(self):
-        reservac = self.navegacion.reNumReser.text().strip()
+        reservac = self.pago.reNumReser.text().strip()
 
         if not reservac:
-            self.navegacion.reservacionResultados.clear()
+            self.pago.reservacionResultados.clear()
             return
         
         if not permitir_ingreso(reservac, 'numint'):
-            self.navegacion.reservacionResultados.setText("Escribir solo numero de reservacion")
+            self.pago.reservacionResultados.setText("Escribir solo numero de reservacion")
             return
         else:
             numReser = int(reservac)
@@ -87,16 +87,16 @@ class Pago():
             saldo = 0
 
         if decripcon:
-            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser} \n{decripcon} \nSaldo Pendiente: {saldo}")
+            self.pago.reservacionResultados.setText(f"Reservacion no.{numReser} \n{decripcon} \nSaldo Pendiente: {saldo}")
         else:
-            self.navegacion.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
+            self.pago.reservacionResultados.setText(f"Reservacion no.{numReser}\nNo se encontro descripcion")
     def intentar_registrar_pago(self):
         try:
             
-            resevacion_txt = self.navegacion.reNumReser.text().strip()
+            resevacion_txt = self.pago.reNumReser.text().strip()
             numReser = int(resevacion_txt) # Lanza ValueError si no es int
     
-            mpago_txt = self.navegacion.reMontoPago.text().strip()
+            mpago_txt = self.pago.reMontoPago.text().strip()
             montoPago = float(mpago_txt) # Lanza ValueError si no es float
             
             if montoPago <= 0:
@@ -109,12 +109,12 @@ class Pago():
             obtenerNumeroReservacion.append(numReser)
             
             
-            descripcion = self.navegacion.reDescripcion_2.text().strip()
+            descripcion = self.pago.reDescripcion_2.text().strip()
     
             concepto = ""
-            if self.navegacion.cbAbono.isChecked():
+            if self.pago.cbAbono.isChecked():
                 concepto = "ABONO"
-            elif self.navegacion.cbUnico.isChecked():
+            elif self.pago.cbUnico.isChecked():
                 concepto = "PAGOU"
             elif pagos.obtener_no_pago(numReser) == 2:
                 concepto = "LIQUI"
@@ -123,13 +123,13 @@ class Pago():
                 raise ValueError("Concepto Faltante")
                 
             metodo = ""
-            if self.navegacion.cbEfectivo.isChecked():
+            if self.pago.cbEfectivo.isChecked():
                 metodo = "EFCTV"
-            elif self.navegacion.cbTarjeta.isChecked():
+            elif self.pago.cbTarjeta.isChecked():
                 metodo = "TARJT"
-            elif self.navegacion.cbTransferencia.isChecked():
+            elif self.pago.cbTransferencia.isChecked():
                 metodo = "TRANS"
-            elif self.navegacion.cbNFC.isChecked():
+            elif self.pago.cbNFC.isChecked():
                 metodo = "NFC"
             
             if not metodo:

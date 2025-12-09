@@ -2747,6 +2747,7 @@ class AdministradorScreen():
 
     def intentar_registrar_reservacion(self):
         try:
+            from gui.login import resultadoEmail
             fecha = self.navegacion.refecha.date().toPyDate()
             fechaReserE = date.today()
             hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
