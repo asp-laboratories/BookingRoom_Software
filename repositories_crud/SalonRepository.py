@@ -63,12 +63,35 @@ class SalonRepository:
             cursor.execute("SELECT * FROM esta_salon")
             resultados = cursor.fetchall()
 
+            return resultados
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
         finally:
             cursor.close()
             self.db.desconectar()
-        return resultados
+
+    def listar_salones_en_estado(self,estadoDesc):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute("""
+select
+ds.numSalon as numero,
+es.descripcion as estado,
+ds.nombre as salon
+from `datos_salon` as ds
+inner join `esta_salon` as es on ds.esta_salon = es.codigoSal
+where es.descripcion = %s
+            """,(estadoDesc,))
+            resultados = cursor.fetchall()
+
+            return resultados
+        except Exception as error:
+            print(f"Error al listar los datos del salon: {error}")
+        finally:
+            cursor.close()
+            self.db.desconectar()
 
 
      
@@ -225,3 +248,4 @@ class SalonRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
