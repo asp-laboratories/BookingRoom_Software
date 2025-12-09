@@ -34,7 +34,7 @@ class TipoEquipaRepository:
     
     def listar_tipo_equipamentos(self): 
         if not self.db.conectar():
-            return None
+            return False
         
         try:
             cursor = self.db.cursor()
@@ -42,14 +42,14 @@ class TipoEquipaRepository:
 
             resultados = cursor.fetchall()
 
+            return resultados
         except Exception as error:
-            print(f"Error al listar los servicios: {error}")
-            
+            print(f"Error al listar los equipamientos: {error}")
+            return False 
         finally:
             cursor.close()
             self.db.desconectar()
 
-        return resultados
     
     def obtener_equipamentos_de_tipo(self, tipo_equipa):# Aca se mostrarian los equipamentos por tipo de equipamento
         if not self.db.conectar():
@@ -128,6 +128,7 @@ class TipoEquipaRepository:
             cursor = self.db.cursor()
             cursor.execute("""
 select
+e.numEquipa as numero,
 te.descripcion as tipo_equipamiento,
 e.nombre as equipamiento,
 e.descripcion as descripcion,
