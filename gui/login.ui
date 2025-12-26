@@ -140,6 +140,9 @@ border-bottom: 3px solid #ca857e;
 border-right: 3px solid  #ca857e;
 </string>
     </property>
+    <property name="text">
+     <string>A-12345</string>
+    </property>
     <property name="placeholderText">
      <string>Ingrese su numero de empleado</string>
     </property>
@@ -160,6 +163,9 @@ border-radius: 5px;
 border-bottom: 3px solid #ca857e;
 border-right: 3px solid  #ca857e;
 </string>
+    </property>
+    <property name="text">
+     <string>luisdagallardo@gmail.com</string>
     </property>
     <property name="placeholderText">
      <string>Ingrese su correo electronico</string>
