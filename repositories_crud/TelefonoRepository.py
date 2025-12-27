@@ -7,11 +7,14 @@ class TelefonoRepository:
             return False
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO telefonos (telefono, datos_cliente, trabajador)
                 VALUES ( %s, %s, %s)
-            """, (telefono.telefono, telefono.datos_cliente, telefono.trabajador))
-    
+            """,
+                (telefono.telefono, telefono.datos_cliente, telefono.trabajador),
+            )
+
             self.db.connection.commit()
             print("Se añadio un telefono")
             return True
@@ -40,26 +43,27 @@ class TelefonoRepository:
             cursor.close()
             self.db.desconectar()
 
-
     def listar_telefono_informacion(self, rfc):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("""
+            cursor.execute(
+                """
             SELECT t.telefono
             FROM telefonos AS t
             INNER JOIN datos_cliente AS dc ON t.datos_cliente = dc.RFC
             WHERE dc.RFC = %s
-            """,(rfc,))
+            """,
+                (rfc,),
+            )
             resultados = cursor.fetchall()
             return resultados
-        
+
         except Exception as error:
             print(f"Error al listar los telefonos: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
-

@@ -1,11 +1,12 @@
-import os
 from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
-#from gui.admin import AdminWindow
+
+# from gui.admin import AdminWindow
 from gui.admin_screen import AdministradorScreen
 from gui.almacen import Almacenista
-#from gui.deftl import DefaultWindow
+
+# from gui.deftl import DefaultWindow
 from gui.navegacion import Navegacion
 from gui.recepcionista import Recepcionista
 from gui.registro import Registro
@@ -18,7 +19,9 @@ ruta_ui = Path(__file__).parent / "login.ui"
 log = LoginService()
 
 resultadoEmail = []
-class Login():
+
+
+class Login:
     def __init__(self):
         self.login = uic.loadUi(str(ruta_ui))
         self.initGUI()
@@ -30,7 +33,6 @@ class Login():
         if link == "registro":
             self.login.hide()  # Ocultar ventana actual
             self.ventana_registro = Registro()
-            
 
     def ingresar(self):
         if len(self.login.leEmail.text()) < 2:
@@ -41,9 +43,11 @@ class Login():
             self.login.leNumero.setFocus()
         else:
             self.login.mensaje.setText("")
-            resultado = log.registrar_trabajadores(self.login.leEmail.text(), self.login.leNumero.text())
+            resultado = log.registrar_trabajadores(
+                self.login.leEmail.text(), self.login.leNumero.text()
+            )
             if resultado:
-                self.login.mensaje.setText("Correcto")
+                QMessageBox.information(self.login, "Login exitoso", "Credenciales correctas.")
                 if resultado[2] == "DEFLT":
                     self.nav = Navegacion()
                     self.login.hide()
@@ -58,14 +62,13 @@ class Login():
                 elif resultado[2] == "RECEP":
                     resultadoEmail.append(self.login.leEmail.text())
                     self.login.hide()
-                    self.recep = Recepcionista() 
-            elif resultado == None:
-                self.login.mensaje.setText("Incorrecto")
-
-
+                    self.recep = Recepcionista()
+            elif resultado is None:
+                QMessageBox.warning(self.login, "Error de login", "Credenciales incorrectas.")
 
     def initGUI(self):
         self.login.btnIniciar.clicked.connect(self.ingresar)
+
 
 # def enviarRfc(email):
 #     resultados = trabjador.obtener_rfc(email)

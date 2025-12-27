@@ -1,20 +1,36 @@
 from config.db_settings import BaseDeDatos
 from models.DatosSalon import DatosSalon
-from models.MontajeMobiliario import MontajeMobilario
 from repositories_crud.SalonRepository import SalonRepository
-
 
 
 class SalonServices:
     def __init__(self):
-        self.db = BaseDeDatos(database='BookingRoomLocal')
+        self.db = BaseDeDatos(database="BookingRoomLocal")
         # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.salon_repository = SalonRepository(self.db)
-       
-    def registrar_salones(self, nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2):
-        salon = DatosSalon( nombre, costoRenta, ubiNombrePas, ubiNumeroPas, dimenLargo, dimenAncho, dimenAltura, m2)
+
+    def registrar_salones(
+        self,
+        nombre,
+        costoRenta,
+        ubiNombrePas,
+        ubiNumeroPas,
+        dimenLargo,
+        dimenAncho,
+        dimenAltura,
+        m2,
+    ):
+        salon = DatosSalon(
+            nombre,
+            costoRenta,
+            ubiNombrePas,
+            ubiNumeroPas,
+            dimenLargo,
+            dimenAncho,
+            dimenAltura,
+            m2,
+        )
         return self.salon_repository.crear_salon(salon)
-    
 
     def listar_salones_informacion(self, numSalon):
         print("Salones: ")
@@ -22,8 +38,8 @@ class SalonServices:
         return salon
 
     def listar_salones(self):
-        return  self.salon_repository.listar_salones()
-        
+        return self.salon_repository.listar_salones()
+
         # print("Numero de salon:\t Nombre:\t Estado:")
         # for row in salon:
         #     print(f"{row['numSalon']}\t\t\t {row['nombre']}\t\t\t {row['esta_salon']}")
@@ -43,7 +59,7 @@ class SalonServices:
 
     def obtener_codigo_salon(self, nombreSalon):
         salon = self.salon_repository.obtener_num_salon(nombreSalon)
-        return salon['numSalon']
+        return salon["numSalon"]
 
     def datos_montaje(self, numero_salon):
         return self.salon_repository.datos_montaje_salon(numero_salon)

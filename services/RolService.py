@@ -5,10 +5,10 @@ from repositories_crud.RolRepository import RolRepository
 
 class RolService:
     def __init__(self):
-        self.db = BaseDeDatos(database='BookingRoomLocal')
+        self.db = BaseDeDatos(database="BookingRoomLocal")
         # self.db = BaseDeDatos(database='BookingRoomLoca')
         self.rol_repository = RolRepository(self.db)
-       
+
     def registrar_rol(self, codigoRol, descripcion):
         rol = Rol(codigoRol, descripcion)
         return self.rol_repository.crear_rol(rol)
@@ -27,7 +27,7 @@ class RolService:
             print("Algo salio mal, no tenemos un codigo de rol")
             return None
         else:
-            return rolCodigo['codigoRol']
+            return rolCodigo["codigoRol"]
 
     def obtener_trabajadores_rol(self, rol):
         codigRol = self.obtener_codigo_rol(rol)
@@ -35,30 +35,28 @@ class RolService:
         info_trabajadores = self.rol_repository.trabajadores_rol(codigRol)
 
         trabajadores = []
-        
+
         aux_traba = []
         for traba in info_trabajadores:
-            if traba['nombre'] not in aux_traba:
-                aux_traba.append(traba['nombre'])
+            if traba["nombre"] not in aux_traba:
+                aux_traba.append(traba["nombre"])
                 trabajador = {
-                    'nombre'    : traba['nombre'],
-                    'numTraba'  : traba['numTraba'],
-                    'RFC'       : traba['RFC'],
-                    'email'     : traba['email'],
-                    'telefonos' : []
+                    "nombre": traba["nombre"],
+                    "numTraba": traba["numTraba"],
+                    "RFC": traba["RFC"],
+                    "email": traba["email"],
+                    "telefonos": [],
                 }
-                trabajador['telefonos'].append(traba['telefono'])
+                trabajador["telefonos"].append(traba["telefono"])
 
                 trabajadores.append(trabajador)
-            
+
             else:
                 for traba2 in trabajadores:
-                    if traba2['nombre'] == traba['nombre']:
-                        traba2['telefonos'].append(traba['telefono'])
+                    if traba2["nombre"] == traba["nombre"]:
+                        traba2["telefonos"].append(traba["telefono"])
 
         return trabajadores
-
-
 
     # def listar_servicio_y_tipo(self):
     #

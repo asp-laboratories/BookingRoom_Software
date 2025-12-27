@@ -1,5 +1,5 @@
 class InventarioEqui:
-    def __init__(self,reservacion, equipamiento, cantidad):
+    def __init__(self, reservacion, equipamiento, cantidad):
         self.__reservacion = reservacion
         self.__equipamiento = equipamiento
         self.__cantidad = cantidad

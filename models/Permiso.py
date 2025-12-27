@@ -6,6 +6,7 @@ class Permiso:
     @property
     def codigoPer(self):
         return self.__codigoPer
+
     @codigoPer.setter
     def codigoPer(self, codigoPer):
         self.__codigoPer = codigoPer
@@ -13,6 +14,7 @@ class Permiso:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

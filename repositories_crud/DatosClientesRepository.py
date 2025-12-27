@@ -7,11 +7,25 @@ class DatosClientesRepository:
             return None
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO datos_cliente (RFC, contNombre, contPriApellido, contSegApellido, nombreFiscal, email, dirCalle, dirColonia, dirNumero, tipo_cliente)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s ,%s)
-            """, (cliente.RFC, cliente.contNombre, cliente.contPriApellido, cliente.contSegApellido ,cliente.nombreFiscal, cliente.email, cliente.dirColonia, cliente.dirCalle,cliente.dirNumero, cliente.tipo_cliente))
-    
+            """,
+                (
+                    cliente.RFC,
+                    cliente.contNombre,
+                    cliente.contPriApellido,
+                    cliente.contSegApellido,
+                    cliente.nombreFiscal,
+                    cliente.email,
+                    cliente.dirColonia,
+                    cliente.dirCalle,
+                    cliente.dirNumero,
+                    cliente.tipo_cliente,
+                ),
+            )
+
             self.db.connection.commit()
             print("Se añadio un cliente")
             return True
@@ -36,15 +50,18 @@ class DatosClientesRepository:
             cursor.close()
             self.db.desconectar()
         return resultados
-    
+
     def listar_cliente_busqueda(self, rfc):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("""
+            cursor.execute(
+                """
             SELECT * FROM datos_cliente WHERE RFC = %s
-            """,(rfc,))
+            """,
+                (rfc,),
+            )
             resultados = cursor.fetchone()
 
             return resultados
@@ -58,17 +75,20 @@ class DatosClientesRepository:
     def actualizar(self, RFC, codigoRol):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE datos_cliente 
                 SET rol = %s 
                 WHERE RFC = %s
-            """, (codigoRol, RFC))
+            """,
+                (codigoRol, RFC),
+            )
             self.db.connection.commit()
             print("cliente actualizado exitosamente.")
-            
+
         except Exception as e:
             print(f"Error al actualizar cliente: {e}")
             return False
@@ -79,24 +99,27 @@ class DatosClientesRepository:
     def obtener_rfc(self, nombreFiscal):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT rfc
                             FROM datos_cliente
                             WHERE nombreFiscal like %s
-                            """, (f"{nombreFiscal}%",))
-            
+                            """,
+                (f"{nombreFiscal}%",),
+            )
+
             resultados = cursor.fetchone()
             print(resultados)
             return resultados
-        
+
         except Exception as error:
             print(f"Error al obtener rfc del cliente: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()

@@ -1,5 +1,23 @@
 class Reservacion:
-    def __init__(self, fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, trabajador, datos_cliente, datos_montaje, servicios = [], equipamientos = [] , subtotal = None, IVA = None, total = None, numReser = None, esta_reser = 'PENDI'):
+    def __init__(
+        self,
+        fechaReser,
+        fechaEvento,
+        horaInicio,
+        horaFin,
+        descripEvento,
+        estimaAsistentes,
+        trabajador,
+        datos_cliente,
+        datos_montaje,
+        servicios=[],
+        equipamientos=[],
+        subtotal=None,
+        IVA=None,
+        total=None,
+        numReser=None,
+        esta_reser="PENDI",
+    ):
         self.__numReser = numReser
         self.__fechaReser = fechaReser
         self.__fechaEvento = fechaEvento
@@ -20,6 +38,7 @@ class Reservacion:
     @property
     def numReser(self):
         return self.__numReser
+
     @numReser.setter
     def numReser(self, numReser):
         self.__numReser = numReser
@@ -27,6 +46,7 @@ class Reservacion:
     @property
     def fechaReser(self):
         return self.__fechaReser
+
     @fechaReser.setter
     def fechaReser(self, fechaReser):
         self.__fechaReser = fechaReser
@@ -34,6 +54,7 @@ class Reservacion:
     @property
     def fechaEvento(self):
         return self.__fechaEvento
+
     @fechaEvento.setter
     def fechaEvento(self, fechaEvento):
         self.__fechaEvento = fechaEvento
@@ -41,6 +62,7 @@ class Reservacion:
     @property
     def horaInicio(self):
         return self.__horaInicio
+
     @horaInicio.setter
     def horaInicio(self, horaInicio):
         self.__horaInicio = horaInicio
@@ -48,6 +70,7 @@ class Reservacion:
     @property
     def horaFin(self):
         return self.__horaFin
+
     @horaFin.setter
     def horaFin(self, horaFin):
         self.__horaFin = horaFin
@@ -55,6 +78,7 @@ class Reservacion:
     @property
     def descripEvento(self):
         return self.__descripEvento
+
     @descripEvento.setter
     def descripEvento(self, descripEvento):
         self.__descripEvento = descripEvento
@@ -62,6 +86,7 @@ class Reservacion:
     @property
     def estimaAsistentes(self):
         return self.__estimaAsistentes
+
     @estimaAsistentes.setter
     def estimaAsistentes(self, estimaAsistentes):
         self.__estimaAsistentes = estimaAsistentes
@@ -69,6 +94,7 @@ class Reservacion:
     @property
     def subtotal(self):
         return self.__subtotal
+
     @subtotal.setter
     def subtotal(self, subtotal):
         self.__subtotal = subtotal
@@ -76,6 +102,7 @@ class Reservacion:
     @property
     def IVA(self):
         return self.__IVA
+
     @IVA.setter
     def IVA(self, IVA):
         self.__IVA = IVA
@@ -83,6 +110,7 @@ class Reservacion:
     @property
     def total(self):
         return self.__total
+
     @total.setter
     def total(self, total):
         self.__total = total
@@ -90,6 +118,7 @@ class Reservacion:
     @property
     def trabajador(self):
         return self.__trabajador
+
     @trabajador.setter
     def trabajador(self, trabajador):
         self.__trabajador = trabajador
@@ -97,6 +126,7 @@ class Reservacion:
     @property
     def datos_cliente(self):
         return self.__datos_cliente
+
     @datos_cliente.setter
     def datos_cliente(self, datos_cliente):
         self.__datos_cliente = datos_cliente
@@ -104,6 +134,7 @@ class Reservacion:
     @property
     def esta_reser(self):
         return self.__esta_reser
+
     @esta_reser.setter
     def esta_reser(self, esta_reser):
         self.__esta_reser = esta_reser
@@ -111,13 +142,15 @@ class Reservacion:
     @property
     def datos_montaje(self):
         return self.__datos_montaje
+
     @datos_montaje.setter
     def datos_montaje(self, datos_montaje):
         self.__datos_montaje = datos_montaje
-    
+
     @property
     def equipamientos(self):
         return self.__equipamientos
+
     @equipamientos.setter
     def equipamientos(self, equipamientos):
         self.__equipamientos = equipamientos
@@ -125,12 +158,30 @@ class Reservacion:
     @property
     def servicios(self):
         return self.__servicios
+
     @servicios.setter
     def servicios(self, servicios):
         self.__servicios = servicios
 
+
 class Reservacion2:
-    def __init__(self, fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, trabajador, datos_cliente, datos_montaje, subtotal = None, IVA = None, total = None, numReser = None, esta_reser = 'PENDI'):
+    def __init__(
+        self,
+        fechaReser,
+        fechaEvento,
+        horaInicio,
+        horaFin,
+        descripEvento,
+        estimaAsistentes,
+        trabajador,
+        datos_cliente,
+        datos_montaje,
+        subtotal=None,
+        IVA=None,
+        total=None,
+        numReser=None,
+        esta_reser="PENDI",
+    ):
         self.__numReser = numReser
         self.__fechaReser = fechaReser
         self.__fechaEvento = fechaEvento
@@ -149,6 +200,7 @@ class Reservacion2:
     @property
     def numReser(self):
         return self.__numReser
+
     @numReser.setter
     def numReser(self, numReser):
         self.__numReser = numReser
@@ -156,6 +208,7 @@ class Reservacion2:
     @property
     def fechaReser(self):
         return self.__fechaReser
+
     @fechaReser.setter
     def fechaReser(self, fechaReser):
         self.__fechaReser = fechaReser
@@ -163,6 +216,7 @@ class Reservacion2:
     @property
     def fechaEvento(self):
         return self.__fechaEvento
+
     @fechaEvento.setter
     def fechaEvento(self, fechaEvento):
         self.__fechaEvento = fechaEvento
@@ -170,6 +224,7 @@ class Reservacion2:
     @property
     def horaInicio(self):
         return self.__horaInicio
+
     @horaInicio.setter
     def horaInicio(self, horaInicio):
         self.__horaInicio = horaInicio
@@ -177,6 +232,7 @@ class Reservacion2:
     @property
     def horaFin(self):
         return self.__horaFin
+
     @horaFin.setter
     def horaFin(self, horaFin):
         self.__horaFin = horaFin
@@ -184,6 +240,7 @@ class Reservacion2:
     @property
     def descripEvento(self):
         return self.__descripEvento
+
     @descripEvento.setter
     def descripEvento(self, descripEvento):
         self.__descripEvento = descripEvento
@@ -191,6 +248,7 @@ class Reservacion2:
     @property
     def estimaAsistentes(self):
         return self.__estimaAsistentes
+
     @estimaAsistentes.setter
     def estimaAsistentes(self, estimaAsistentes):
         self.__estimaAsistentes = estimaAsistentes
@@ -198,6 +256,7 @@ class Reservacion2:
     @property
     def subtotal(self):
         return self.__subtotal
+
     @subtotal.setter
     def subtotal(self, subtotal):
         self.__subtotal = subtotal
@@ -205,6 +264,7 @@ class Reservacion2:
     @property
     def IVA(self):
         return self.__IVA
+
     @IVA.setter
     def IVA(self, IVA):
         self.__IVA = IVA
@@ -212,6 +272,7 @@ class Reservacion2:
     @property
     def total(self):
         return self.__total
+
     @total.setter
     def total(self, total):
         self.__total = total
@@ -219,6 +280,7 @@ class Reservacion2:
     @property
     def trabajador(self):
         return self.__trabajador
+
     @trabajador.setter
     def trabajador(self, trabajador):
         self.__trabajador = trabajador
@@ -226,6 +288,7 @@ class Reservacion2:
     @property
     def datos_cliente(self):
         return self.__datos_cliente
+
     @datos_cliente.setter
     def datos_cliente(self, datos_cliente):
         self.__datos_cliente = datos_cliente
@@ -233,6 +296,7 @@ class Reservacion2:
     @property
     def esta_reser(self):
         return self.__esta_reser
+
     @esta_reser.setter
     def esta_reser(self, esta_reser):
         self.__esta_reser = esta_reser
@@ -240,8 +304,7 @@ class Reservacion2:
     @property
     def datos_montaje(self):
         return self.__datos_montaje
+
     @datos_montaje.setter
     def datos_montaje(self, datos_montaje):
         self.__datos_montaje = datos_montaje
-    
-

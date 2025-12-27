@@ -1,4 +1,3 @@
-
 class TipoMontaje:
     # Constructor
     def __init__(self, codigoMon, nombre, descripcion):
@@ -10,6 +9,7 @@ class TipoMontaje:
     @property
     def codigoMon(self):
         return self.__codigoMon
+
     @codigoMon.setter
     def codigoMon(self, new_codigoMon):
         self.__codigoMon = new_codigoMon
@@ -17,6 +17,7 @@ class TipoMontaje:
     @property
     def nombre(self):
         return self.__nombre
+
     @nombre.setter
     def nombre(self, new_nombre):
         self.__nombre = new_nombre
@@ -24,6 +25,7 @@ class TipoMontaje:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, new_descripcion):
         self.__descripcion = new_descripcion

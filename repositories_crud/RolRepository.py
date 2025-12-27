@@ -1,4 +1,3 @@
-
 from models.Rol import Rol
 
 
@@ -11,11 +10,14 @@ class RolRepository:
             return False
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO rol (codigoRol, descripcion)
                 VALUES (%s, %s)
-            """, (rol.codigoRol, rol.descripcion))
-    
+            """,
+                (rol.codigoRol, rol.descripcion),
+            )
+
             self.db.connection.commit()
             print("Se añadio un rol")
             return True
@@ -25,26 +27,28 @@ class RolRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
     def obtener_descripcion(self, descripcion):
         if not self.db.conectar():
             return False
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT * FROM rol WHERE descripcion = %s
-            """, (descripcion,))
+            """,
+                (descripcion,),
+            )
             resultado = cursor.fetchone()
             rol = Rol(
-                codigoRol=resultado["codigoRol"],
-                descripcion=resultado["descripcion"]
+                codigoRol=resultado["codigoRol"], descripcion=resultado["descripcion"]
             )
             return rol
-        except Exception as error:  
+        except Exception as error:
             print(f"Error: {error}")
         finally:
             cursor.close()
             self.db.desconectar()
-
 
     def listar_rol(self):
         if not self.db.conectar():
@@ -60,28 +64,31 @@ class RolRepository:
             cursor.close()
             self.db.desconectar()
         return resultados
-    
+
     def obtener_codigo_rol(self, rolDescripcion):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT codigoRol
                             FROM rol
                             WHERE descripcion = %s 
-                            """, (rolDescripcion,))
+                            """,
+                (rolDescripcion,),
+            )
 
             resultado = cursor.fetchone()
 
             return resultado
-        
+
         except Exception as error:
             print(f"Error al obtener el codigo del rol: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -89,11 +96,12 @@ class RolRepository:
     def trabajadores_rol(self, rol):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("""
+            cursor.execute(
+                """
                             SELECT 
                             concat(tra.nombre, ' ', tra.priApellido, ' ', tra.segApellido)
                             as nombre, /*Nombre*/
@@ -105,16 +113,18 @@ class RolRepository:
                             INNER JOIN telefonos as tele on tele.trabajador = tra.RFC
                             INNER JOIN rol on tra.rol = rol.codigoRol
                             WHERE rol = %s
-                            """, (rol,))
-            
+                            """,
+                (rol,),
+            )
+
             resultados = cursor.fetchall()
 
             return resultados
-        
+
         except Exception as error:
             print(f"Error al obtener los trabajadores de un rol: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()

@@ -7,6 +7,7 @@ class TipoMob:
     @property
     def codigoTiMob(self):
         return self.__codigoTiMob
+
     @codigoTiMob.setter
     def codigoTiMob(self, codigoTiMob):
         self.__codigoTiMob = codigoTiMob
@@ -14,6 +15,7 @@ class TipoMob:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
@@ -21,6 +23,7 @@ class TipoMob:
     @property
     def mobiliarios(self):
         return self.__mobiliarios
+
     @mobiliarios.setter
     def mobiliarios(self, new_mobiliarios):
         self.__mobiliarios = new_mobiliarios

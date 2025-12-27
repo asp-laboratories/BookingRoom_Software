@@ -7,6 +7,7 @@ class TipoEquipa:
     @property
     def codigoTiEquipa(self):
         return self.__codigoTiEquipa
+
     @codigoTiEquipa.setter
     def codigoTiEquipa(self, codigoTiEquipa):
         self.__codigoTiEquipa = codigoTiEquipa
@@ -14,6 +15,7 @@ class TipoEquipa:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion
@@ -21,6 +23,7 @@ class TipoEquipa:
     @property
     def equipamientos(self):
         return self.__equipamientos
+
     @equipamientos.setter
     def equipamientos(self, new_equipamiento):
         self.__equipamientos = new_equipamiento

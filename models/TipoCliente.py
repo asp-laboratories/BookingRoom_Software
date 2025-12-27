@@ -6,6 +6,7 @@ class TipoCliente:
     @property
     def codigoCli(self):
         return self.__codigoCli
+
     @codigoCli.setter
     def codigoCli(self, codigoCli):
         self.__codigoCli = codigoCli
@@ -13,6 +14,7 @@ class TipoCliente:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

@@ -7,11 +7,22 @@ class TrabajadorRepository:
             return False
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO trabajador (RFC, numTrabajador, nombre, priApellido, segApellido, email, rol)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (trabajador.rfc, trabajador.numTrabajador, trabajador.nombre ,trabajador.priApellido, trabajador.segApellido, trabajador.email, trabajador.codigoRol))
-    
+            """,
+                (
+                    trabajador.rfc,
+                    trabajador.numTrabajador,
+                    trabajador.nombre,
+                    trabajador.priApellido,
+                    trabajador.segApellido,
+                    trabajador.email,
+                    trabajador.codigoRol,
+                ),
+            )
+
             self.db.connection.commit()
             print("Se añadio un trabajador")
             return True
@@ -36,13 +47,12 @@ class TrabajadorRepository:
             cursor.close()
             self.db.desconectar()
 
-
     def sacar_trabajador(self, nombre):
         if not self.db.conectar():
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("SELECT nombre FROM trabajador WHERE email = %s",(nombre,))
+            cursor.execute("SELECT nombre FROM trabajador WHERE email = %s", (nombre,))
             resultados = cursor.fetchone()
             return resultados
         except Exception as error:
@@ -52,19 +62,21 @@ class TrabajadorRepository:
             cursor.close()
             self.db.desconectar()
 
-
     def obtener_rfc(self, nombre):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT rfc
                             FROM trabajador
                             WHERE nombre like %s
-                            """, (f"{nombre}%",))
+                            """,
+                (f"{nombre}%",),
+            )
 
             resutlado = cursor.fetchone()
             print(resutlado)
@@ -73,11 +85,10 @@ class TrabajadorRepository:
         except Exception as error:
             print(f"Error al obtener el rfc del trabajador: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
-
 
     def buscar_trabajadores(self, buscador):
         if not self.db.conectar():
@@ -101,7 +112,6 @@ class TrabajadorRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-
 
     def buscar_trabajadores_por_reservacion(self, buscador):
         if not self.db.conectar():
@@ -132,23 +142,23 @@ WHERE t.nombre LIKE "%{buscador}%"
             cursor.close()
             self.db.desconectar()
 
-
-
-
     def actualizar_rol(self, RFC, codigoRol):
         if not self.db.conectar():
             return False
-        
+
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 UPDATE trabajador 
                 SET rol = %s 
                 WHERE RFC = %s
-            """, (codigoRol, RFC))
+            """,
+                (codigoRol, RFC),
+            )
             self.db.connection.commit()
             print("Trabajador actualizado exitosamente.")
-            
+
         except Exception as e:
             print(f"Error al actualizar trabajador: {e}")
             return False

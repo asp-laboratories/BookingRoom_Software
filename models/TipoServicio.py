@@ -11,7 +11,7 @@ class TipoServicio:
     @codigoTiSer.setter
     def codigoTiSer(self, codigoTiSer):
         self.__codigoTiSer = codigoTiSer
-        
+
     @property
     def descripcion(self):
         return self.__descripcion
@@ -29,4 +29,4 @@ class TipoServicio:
         self.__servicios = servicios
 
     def __str__(self):
-        return (f"{self.descripcion}")
+        return f"{self.descripcion}"

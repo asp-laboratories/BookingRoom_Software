@@ -1,4 +1,3 @@
-
 class TipoClienteRepository:
     # constructor
     def __init__(self, db_configuracion):
@@ -8,23 +7,23 @@ class TipoClienteRepository:
     def listar_tipos_clientes(self):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute("""
                             SELECT *
                             FROM tipo_cliente
                             """)
-            
+
             resultado = cursor.fetchall()
 
             return resultado
-        
+
         except Exception as error:
             print(f"Error al listar los tipos de cliente: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -32,11 +31,12 @@ class TipoClienteRepository:
     def listar_clientes_por_tipo(self, tipo):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT 
                             dc.nombreFiscal,
                             dc.RFC,
@@ -49,16 +49,18 @@ class TipoClienteRepository:
                             INNER JOIN tipo_cliente as tc on dc.tipo_cliente = tc.codigoCli
                             INNER JOIN telefonos as tele on tele.datos_cliente = dc.RFC
                             WHERE tc.codigoCli = %s
-                            """, ( tipo,))
-            
+                            """,
+                (tipo,),
+            )
+
             resultado = cursor.fetchall()
 
             return resultado
-        
+
         except Exception as error:
             print(f"Error al listar los clientes bajo el tipo {tipo}: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -66,24 +68,27 @@ class TipoClienteRepository:
     def obtener_codigo_tipo_cliente(self, descripcion):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT codigoCli
                             FROM tipo_cliente
                             WHERE descripcion = %s
-                            """, ( descripcion,))
-            
+                            """,
+                (descripcion,),
+            )
+
             resultado = cursor.fetchone()
 
             return resultado
-        
+
         except Exception as error:
             print(f"Error al obtener el codigo del tipo de cliente: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()

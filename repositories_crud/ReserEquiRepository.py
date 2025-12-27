@@ -7,11 +7,18 @@ class ReserEquiRepository:
             return False
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO reser_equipa (reservacion, equipamiento, cantidad)
                 VALUES (%s, %s, %s)
-            """, (reser_equipa.reservacion, reser_equipa.equipamiento,reser_equipa.cantidad))
-    
+            """,
+                (
+                    reser_equipa.reservacion,
+                    reser_equipa.equipamiento,
+                    reser_equipa.cantidad,
+                ),
+            )
+
             self.db.connection.commit()
             print("Se añadio al reser_equipa")
             return True
@@ -27,7 +34,8 @@ class ReserEquiRepository:
             return None
         try:
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute("""
+            cursor.execute(
+                """
 
 SELECT
     re.descripEvento as desc_reser,
@@ -40,7 +48,9 @@ INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
 INNER JOIN reser_equipa as req on req.reservacion = re.numReser
 INNER JOIN equipamiento as equi on req.equipamiento = equi.numEquipa
 WHERE re.numReser = %s
-            """, (numReser,))
+            """,
+                (numReser,),
+            )
             resultados = cursor.fetchall()
             return resultados
         except Exception as error:
@@ -48,4 +58,3 @@ WHERE re.numReser = %s
         finally:
             cursor.close()
             self.db.desconectar()
-

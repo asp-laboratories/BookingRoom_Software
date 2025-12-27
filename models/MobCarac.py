@@ -6,6 +6,7 @@ class MobCarac:
     @property
     def nombreCarac(self):
         return self.__nombreCarac
+
     @nombreCarac.setter
     def nombreCarac(self, nombreCarac):
         self.__nombreCarac = nombreCarac
@@ -13,6 +14,7 @@ class MobCarac:
     @property
     def tipo_carac(self):
         return self.__tipo_carac
+
     @tipo_carac.setter
     def tipo_carac(self, tipo_carac):
         self.__tipo_carac = tipo_carac

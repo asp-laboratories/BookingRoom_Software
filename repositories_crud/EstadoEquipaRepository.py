@@ -2,51 +2,57 @@ class EstadoEquipaRepository:
     # Constructor
     def __init__(self, db_configuration):
         self.db = db_configuration
-    
+
     # Metodos
-    def crear_estado_mobiliario(self, esta_equi): #????????
+    def crear_estado_mobiliario(self, esta_equi):  # ????????
         if not self.db.conectar():
             return False
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("""
+            cursor.execute(
+                """
                             INSERT INTO esta_mob (codigoEquipa, descripcion)
                             values (%s, %s)
-                            """, (esta_equi.codigoEquipa, esta_equi.descripcion))
+                            """,
+                (esta_equi.codigoEquipa, esta_equi.descripcion),
+            )
 
             self.db.connection.commit()
             return True
-        
+
         except Exception as error:
             print(f"Error al querer crear un nuevo estado de equipamiento: {error}")
             return False
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
-    
+
     def actu_esta_equi(self, esta_og_codigo, new_esta_descripcion):
         if not self.db.conectar():
             return False
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             UPDATE esta_equipa
                             SET descripcion = %s
                             WHERE codigoEquipa = %s
-                            """, (new_esta_descripcion, esta_og_codigo))
+                            """,
+                (new_esta_descripcion, esta_og_codigo),
+            )
 
             self.db.connection.commit()
             return True
-        
+
         except Exception as error:
             print(f"Error al querer modificar la descripcion del estado: {error}")
             return False
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -54,24 +60,27 @@ class EstadoEquipaRepository:
     def obtener_codigo_estado(self, descripcion):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT codigoEquipa
                             FROM esta_equipa
                             WHERE descripcion LIKE %s
-                            """, (f"{descripcion}%",))
-            
+                            """,
+                (f"{descripcion}%",),
+            )
+
             resultado = cursor.fetchone()
             print(resultado)
             return resultado
-        
+
         except Exception as error:
             print(f"Error al querer obtener el codigo de estado: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -79,11 +88,12 @@ class EstadoEquipaRepository:
     def listar_equipa_por_estado(self, esta_e):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT 
                             eq.numEquipa as Numero,
                             eq.nombre as Nombre,
@@ -93,31 +103,36 @@ class EstadoEquipaRepository:
                             INNER JOIN equipamiento as eq on iequ.equipamiento = eq.numEquipa
                             INNER JOIN esta_equipa as equi on iequ.esta_equipa = equi.codigoEquipa
                             WHERE equi.codigoEquipa = %s
-                            """, (esta_e,))
-            
+                            """,
+                (esta_e,),
+            )
+
             resultado = cursor.fetchall()
 
             return resultado
-        
+
         except Exception as error:
             print(f"Error al querer obtener el codigo de equipamiento: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
-        
+
     def actualizar_estado_equipa(self, codigoEquipa, descripcion):
         if not self.db.conectar():
             return False
 
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                             UPDATE esta_equipa
                             SET descripcion = %s
                             WHERE codigoEquipa = %s
-                            """, (descripcion, codigoEquipa))
+                            """,
+                (descripcion, codigoEquipa),
+            )
 
             self.db.connection.commit()
             return True
@@ -129,7 +144,7 @@ class EstadoEquipaRepository:
         finally:
             cursor.close()
             self.db.desconectar()
-    
+
     def eliminar_estado_equipa(self, codigoEquipa):
         if not self.db.conectar():
             return False
@@ -137,10 +152,13 @@ class EstadoEquipaRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute("""
+            cursor.execute(
+                """
                             DELETE FROM esta_equipa
                             WHERE codigoEquipa = %s
-                            """, (codigoEquipa,))
+                            """,
+                (codigoEquipa,),
+            )
 
             self.db.connection.commit()
             return True

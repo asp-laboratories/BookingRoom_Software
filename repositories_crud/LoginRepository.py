@@ -11,24 +11,27 @@ class LoginRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT * FROM trabajador WHERE email = %s AND numTrabajador = %s 
-            """, (email, numTrabajador))
+            """,
+                (email, numTrabajador),
+            )
             resultado = cursor.fetchone()
-            
+
             if not resultado:
                 return False
-            
+
             info = []
 
             trabajador = Trabajador(
-                rfc = resultado['RFC'],
-                numTrabajador = resultado['numTrabajador'],
-                nombre = resultado['nombre'],
-                priApellido = resultado['priApellido'],
-                segApellido = resultado['segApellido'],
-                email = resultado['email'],
-                codigoRol = resultado['rol']
+                rfc=resultado["RFC"],
+                numTrabajador=resultado["numTrabajador"],
+                nombre=resultado["nombre"],
+                priApellido=resultado["priApellido"],
+                segApellido=resultado["segApellido"],
+                email=resultado["email"],
+                codigoRol=resultado["rol"],
             )
 
             info.append(trabajador.email)
@@ -39,7 +42,7 @@ class LoginRepository:
         except Exception as error:
             print(f"Error al encontrar los datos: {error}")
             return False
-        
+
         finally:
             cursor.close()
             self.db.desconectar()

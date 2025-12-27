@@ -6,6 +6,7 @@ class MetodoPago:
     @property
     def codigoMe(self):
         return self.__codigoMe
+
     @codigoMe.setter
     def codigoMe(self, codigoMe):
         self.__codigoMe = codigoMe
@@ -13,6 +14,7 @@ class MetodoPago:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

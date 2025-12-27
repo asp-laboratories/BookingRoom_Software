@@ -1,11 +1,12 @@
-import os
 from pathlib import Path
-from datetime import datetime, date, timedelta
+from datetime import date
 from PyQt6 import uic
-from PyQt6.QtGui import QBrush, QColor
-from PyQt6.QtWidgets import QLabel, QLineEdit, QMessageBox, QListWidgetItem, QTableWidget, QTableWidgetItem, QVBoxLayout, QPushButton
-from PyQt6.QtCore import QDate, Qt
-from models.MobCarac import MobCarac
+from PyQt6.QtWidgets import (
+    QLabel,
+    QListWidgetItem,
+    QPushButton,
+)
+from PyQt6.QtCore import Qt
 from models.ReserEquipa import ReserEquipamiento
 from services.DatosClienteService import DatosClienteService
 from services.ReserEquipaService import ReserEquipaService
@@ -18,31 +19,28 @@ from services.TipoMontajeService import TipoMontajeService
 from services.TipoServicioService import TipoServicioService
 from services.TrabajadorServices import TrabajadorServices
 from services.mobiliarioService import mobiliarioService
-from utils.Formato import permitir_ingreso
+
 ruta_ui = Path(__file__).parent / "recepcionista.ui"
 
 tipo_servi = TipoServicioService()
 servicio = ServicioService()
-salon = SalonServices()  
+salon = SalonServices()
 equipamiento = EquipamentoService()
 trabajador = TrabajadorServices()
 cliente = DatosClienteService()
 telefono = TelefonoServices()
-mobiliario = mobiliarioService()  
+mobiliario = mobiliarioService()
 tipo_montaje = TipoMontajeService()
 reservacion = ReservacionService()
 reser_equipa = ReserEquipaService()
 
 
-
-class Recepcionista():
+class Recepcionista:
     def __init__(self):
         self.navegacion = uic.loadUi(str(ruta_ui))
         # self.initGUI()
         self.navegacion.show()
         self.navegacion.linkLogin.linkActivated.connect(self.volver_login)
-        
-
 
         self.navegacion.subMenuRecepcion.setVisible(False)
         # self.navegacion.widget.layout()
@@ -51,26 +49,17 @@ class Recepcionista():
 
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(6))
 
-
-
-
-
-       
         self.navegacion.reConfirmar.clicked.connect(self.total_reservacion)
-        
 
-
-        
         # Eventos del cliente dentro de reservaciones
         self.navegacion.clienteConfirmar.clicked.connect(self.registrar_cliente)
         self.deshabilitar_telefonos()
         self.navegacion.cbTelefono2.toggled.connect(self.ingresar_segundoTel)
         self.navegacion.cbTelefono3.toggled.connect(self.ingresar_tercerTel)
-        
+
         self.navegacion.cbTipoFisica.toggled.connect(self.seleccionar_fisica)
         self.navegacion.cbTipoMoral.toggled.connect(self.seleccionar_moral)
-        
-        
+
         self.cargar_seleccion_tipoMontaje()
         self.navegacion.reMontajeInfo.clicked.connect(self.mostrar_info_montaje)
         # Eventos de salones, equipamiento y servicios dentro de reservacion
@@ -78,41 +67,58 @@ class Recepcionista():
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
         self.cargar_listas()
         self.cargar_lista_equipamiento()
-        self.navegacion.listaEquipamiento.itemSelectionChanged.connect(self.mostrar_controles_cantidad)
-        #self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
-         
-        #Variables utilizadas para almacenar informatcion
+        self.navegacion.listaEquipamiento.itemSelectionChanged.connect(
+            self.mostrar_controles_cantidad
+        )
+        # self.navegacion.btnSubTotalE.clicked.connect(self.calcular_equipamiento)
+
+        # Variables utilizadas para almacenar informatcion
 
         self.subtotal_servicios = 0.0
-        self.subtotal_salon = 0.0 
+        self.subtotal_salon = 0.0
         self.cantidades = {}
         self.controles_equipos = {}
         self.inputs = []
         self.inputs_tipo = []
-        self.datos_finales = {} 
+        self.datos_finales = {}
         self.fechas = []
 
-        
     def mostrar_pagina(self, indice):
         self.navegacion.scrollAreaContenido.verticalScrollBar().setValue(0)
         self.navegacion.stackedWidget.setCurrentIndex(indice)
 
-    
     def registrar_cliente(self):
         tipo_cliente = ""
         if self.navegacion.cbTipoFisica.isChecked():
             tipo_cliente = "TCLPF"
 
         if self.navegacion.cbTipoMoral.isChecked():
-            tipo_cliente= "TCLPM"
+            tipo_cliente = "TCLPM"
 
-        resultado = cliente.registrar_clientes(self.navegacion.reRfc.text(), self.navegacion.reNombre.text(), self.navegacion.reApellPat.text(), self.navegacion.reApellMa.text(), self.navegacion.reNombreFiscal.text(), self.navegacion.reCorreo.text(), self.navegacion.reColonia.text(), self.navegacion.reCalle.text(), int(self.navegacion.reNumero.text()), tipo_cliente)
+        resultado = cliente.registrar_clientes(
+            self.navegacion.reRfc.text(),
+            self.navegacion.reNombre.text(),
+            self.navegacion.reApellPat.text(),
+            self.navegacion.reApellMa.text(),
+            self.navegacion.reNombreFiscal.text(),
+            self.navegacion.reCorreo.text(),
+            self.navegacion.reColonia.text(),
+            self.navegacion.reCalle.text(),
+            int(self.navegacion.reNumero.text()),
+            tipo_cliente,
+        )
 
-        telefono.registrar_telefono(self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(),None)
-        telefono.registrar_telefono(self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(),None)
-        telefono.registrar_telefono(self.navegacion.reTelefono3.text(), self.navegacion.reRfc.text(),None)
-        
-        if resultado == False:
+        telefono.registrar_telefono(
+            self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(), None
+        )
+        telefono.registrar_telefono(
+            self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(), None
+        )
+        telefono.registrar_telefono(
+            self.navegacion.reTelefono3.text(), self.navegacion.reRfc.text(), None
+        )
+
+        if not resultado:
             self.navegacion.clienteMen.setText("Incorrecto")
         else:
             self.navegacion.clienteMen.setText("Corecto")
@@ -120,10 +126,10 @@ class Recepcionista():
     def deshabilitar_telefonos(self):
         self.navegacion.reTelefono2.setEnabled(False)
         self.navegacion.reTelefono3.setEnabled(False)
-    
+
     def ingresar_segundoTel(self, estado):
         self.navegacion.reTelefono2.setEnabled(estado)
-        
+
     def ingresar_tercerTel(self, estado):
         self.navegacion.reTelefono3.setEnabled(estado)
 
@@ -145,10 +151,6 @@ class Recepcionista():
             self.navegacion.clAp.setText("Apellido paterno del contacto")
             self.navegacion.clAm.setText("Apellido materno del contacto")
 
-
-
-
-
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
         self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
@@ -156,24 +158,37 @@ class Recepcionista():
         for sln in obtener:
             self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
             print(sln["numSalon"])
-    
-    def mostrar_info_salon(self):
-        salNumero = self.navegacion.reSalonSelecc.currentData()
-        print(salNumero)
-        sali = self.buscar_usuario_por_id(salNumero)
-        mensaje = "INFORMACION DEL SALON"
-        mensaje += f"\n NOMBRE: {sali["nombre"]}"
-        mensaje += f"\n COSTO: {str(sali["costoRenta"])}"
-        self.subtotal_salon = 0.0
-        self.subtotal_salon = sali["costoRenta"]
-        if sali:
-            self.navegacion.resultadoSalon.setText(mensaje)
-    
-    def buscar_usuario_por_id(self, salNumero):
+
+    def buscar_salon_por_id(self, salNumero):
         for s in salon.listar_salones():
             if s["numSalon"] == salNumero:
                 return s
         return None
+
+    def mostrar_info_salon(self):
+        salNumero = self.navegacion.reSalonSelecc.currentData()
+        if salNumero is None:
+            self.navegacion.resultadoSalon.setText("")
+            return
+
+        sali = self.buscar_salon_por_id(salNumero)
+        if sali:
+            # Prepare data for display
+            nombre = sali.get('nombre', 'N/A')
+            costo = float(sali.get('costoRenta', 0.0))
+            
+            # Build an HTML string for rich text display
+            mensaje_html = f"""
+            <div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">
+                <h3 style="color: #9b582b;">INFORMACIÓN DEL SALÓN</h3>
+                <p><b>Nombre:</b> {nombre}</p>
+                <p><b>Costo de Renta:</b> ${costo:,.2f}</p>
+            </div>
+            """
+            self.subtotal_salon = costo
+            self.navegacion.resultadoSalon.setHtml(mensaje_html) 
+        else:
+            self.navegacion.resultadoSalon.setText("Salón no encontrado.")
 
     def cargar_seleccion_tipoMontaje(self):
         self.navegacion.reTipoMontaje.clear()
@@ -182,27 +197,37 @@ class Recepcionista():
         for tm in obtener:
             self.navegacion.reTipoMontaje.addItem(tm["nombre"], tm["codigoMon"])
             print(tm["codigoMon"])
-    
+
     def mostrar_info_montaje(self):
         tipoM = self.navegacion.reTipoMontaje.currentData()
-        print(tipoM)
-        tip = self.buscar_por_id(tipoM)
-        mensaje = "INFORMACION DEL SALON"
-        mensaje += f"\n NOMBRE: {tip["nombre"]}"
-        mensaje += f"\n descripcion: {tip["descripcion"]}"
-        if tip:
-            self.navegacion.resultadoMontaje.setText(mensaje)
+        if tipoM is None:
+            self.navegacion.resultadoMontaje.setText("")
+            return
 
-    def buscar_por_id(self, tipoM):
+        tip = self.buscar_montaje_por_id(tipoM)
+        if tip:
+            # Prepare data for display
+            nombre = tip.get('nombre', 'N/A')
+            descripcion = tip.get('descripcion', 'No hay descripción disponible.')
+
+            # Build an HTML string for rich text display
+            mensaje_html = f"""
+            <div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">
+                <h3 style="color: #9b582b;">INFORMACIÓN DEL MONTAJE</h3>
+                <p><b>Nombre:</b> {nombre}</p>
+                <p><b>Descripción:</b></p>
+                <p>{descripcion}</p>
+            </div>
+            """
+            self.navegacion.resultadoMontaje.setHtml(mensaje_html)
+        else:
+            self.navegacion.resultadoMontaje.setText("Tipo de montaje no encontrado.")
+
+    def buscar_montaje_por_id(self, tipoM):
         for t in tipo_montaje.listar_tipos_montajes():
             if t["codigoMon"] == tipoM:
                 return t
         return None
-
-
-
-
-
 
     def cargar_listas(self):
         self.navegacion.listaServicios.clear()
@@ -213,7 +238,6 @@ class Recepcionista():
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, servi)
             self.navegacion.listaServicios.addItem(item)
-    
 
     def calcular_subtotal_serv(self):
         servicios_seleccionados = self.navegacion.listaServicios.selectedItems()
@@ -222,10 +246,10 @@ class Recepcionista():
         for servicios in servicios_seleccionados:
             servicio = servicios.data(Qt.ItemDataRole.UserRole)
             self.subtotal_servicios += servicio["costoRenta"]
-            
-            numServicio = servicio['numServicio']
+
+            numServicio = servicio["numServicio"]
             print(numServicio)
-            #enviar(numServicio)
+            # enviar(numServicio)
         return self.subtotal_servicios
 
     def cargar_lista_equipamiento(self):
@@ -235,11 +259,8 @@ class Recepcionista():
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, equipa)
             self.navegacion.listaEquipamiento.addItem(item)
-    
-
 
     # Seccion del calendario
-
 
     def mostrar_controles_cantidad(self):
         self.limpiar_todos_controles()
@@ -247,7 +268,7 @@ class Recepcionista():
 
         for equipamiento_item in equipamientos_seleccionados:
             # CORRECCIÓN CLAVE: Obtener el diccionario 'equipa' completo del rol UserRole
-            equipa_data = equipamiento_item.data(Qt.ItemDataRole.UserRole) 
+            equipa_data = equipamiento_item.data(Qt.ItemDataRole.UserRole)
 
             # Verificar que los datos existen (buena práctica)
             if equipa_data is None:
@@ -255,21 +276,23 @@ class Recepcionista():
                 continue
 
             # Extraer las claves 'nombre' y 'costoRenta' del diccionario
-            nombre = equipa_data['nombre'] # Asume que 'equipa' tiene la clave 'nombre'
-            costoRenta = equipa_data['costoRenta'] # Asume que 'equipa' tiene la clave 'costoRenta'
-            numEquipa = equipa_data['numEquipa']
+            nombre = equipa_data["nombre"]  # Asume que 'equipa' tiene la clave 'nombre'
+            costoRenta = equipa_data[
+                "costoRenta"
+            ]  # Asume que 'equipa' tiene la clave 'costoRenta'
+            numEquipa = equipa_data["numEquipa"]
             # Asegurar que el nombre no ha sido agregado ya (para evitar duplicados visuales)
             if nombre not in self.cantidades:
                 # Inicializar la cantidad en 1 si es la primera vez que se agrega
-                self.cantidades[nombre] = 1 
-            
+                self.cantidades[nombre] = 1
+
             self.crear_control_cantidad(nombre, costoRenta, numEquipa)
 
     def crear_control_cantidad(self, nombre, costoRenta, numEquipa):
         # Widget contenedor
 
         layEqui = self.navegacion.equipamientoW.layout()
-        
+
         # Label del producto
         lbl_producto = QLabel(f"{nombre} (${costoRenta} c/u)")
         lbl_producto.setMinimumWidth(150)
@@ -277,7 +300,7 @@ class Recepcionista():
             QLabel{
                 color: #000000
             }
-            """) 
+            """)
         # Botón -
         btn_menos = QPushButton("-")
         btn_menos.setFixedSize(30, 30)
@@ -287,13 +310,13 @@ class Recepcionista():
                 color: #ffffff;
                 background-color: #000000;
             }                     
-            """) 
+            """)
         # Label cantidad actual
         lbl_cantidad = QLabel(str(self.cantidades[nombre]))
         lbl_cantidad.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lbl_cantidad.setMinimumWidth(30)
         lbl_cantidad.setStyleSheet("font-weight: bold; color: #000000;")
-        
+
         # Botón R
         btn_mas = QPushButton("+")
         btn_mas.setFixedSize(30, 30)
@@ -303,11 +326,11 @@ class Recepcionista():
                 color: #ffffff;
                 background-color: #000000;
             }                     
-            """) 
+            """)
 
-        # Label subtotal 
+        # Label subtotal
 
-        #enviar(numEquipa, self.cantidades[nombre])
+        # enviar(numEquipa, self.cantidades[nombre])
         subtotal = self.cantidades[nombre] * costoRenta
 
         lbl_subtotal = QLabel(f"${subtotal:.2f}")
@@ -316,9 +339,9 @@ class Recepcionista():
 
         if nombre not in self.controles_equipos:
             self.controles_equipos[nombre] = {
-                'label_cantidad': lbl_cantidad,
-                'label_subtotal': lbl_subtotal,
-                'costo': costoRenta
+                "label_cantidad": lbl_cantidad,
+                "label_subtotal": lbl_subtotal,
+                "costo": costoRenta,
             }
 
         sub = QLabel("Subtotal: ")
@@ -330,30 +353,29 @@ class Recepcionista():
         layEqui.addWidget(btn_mas)
         layEqui.addWidget(sub)
         layEqui.addWidget(lbl_subtotal)
-    
 
     def cambiar_cantidad(self, nombre, cambio, numEquipa):
         nueva_cantidad = self.cantidades[nombre] + cambio
-        
+
         if nueva_cantidad < 0:
             return
-        
+
         self.cantidades[nombre] = nueva_cantidad
-        
+
         if nombre in self.controles_equipos:
             controles = self.controles_equipos[nombre]
-            controles['label_cantidad'].setText(str(nueva_cantidad))
+            controles["label_cantidad"].setText(str(nueva_cantidad))
 
             self.datos_finales[numEquipa] = nueva_cantidad
-            
-            nuevo_subtotal = nueva_cantidad * controles['costo']
-            controles['label_subtotal'].setText(f"${nuevo_subtotal:.2f}")
-        
+
+            nuevo_subtotal = nueva_cantidad * controles["costo"]
+            controles["label_subtotal"].setText(f"${nuevo_subtotal:.2f}")
+
         self.calcular_total_general()
 
-    
     def registrar_reservacion(self):
         from gui.login import resultadoEmail
+
         fecha = self.navegacion.refecha.date().toPyDate()
         fechaReser = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
@@ -362,8 +384,8 @@ class Recepcionista():
         print(resultadoEmail[0])
         resultado = trabajador.obtener_rfc(resultadoEmail[0])
         print(resultado["rfc"])
-        rfcTrabajador = resultado['rfc']
-        descripEvento  = self.navegacion.reDescripcion.text()
+        rfcTrabajador = resultado["rfc"]
+        descripEvento = self.navegacion.reDescripcion.text()
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
         salon = self.navegacion.reSalonSelecc.currentText()
         tipo_montaje = self.navegacion.reTipoMontaje.currentText()
@@ -373,32 +395,44 @@ class Recepcionista():
 
         for item in servicios:
             data_servicio = item.data(Qt.ItemDataRole.UserRole)
-            lista_servicios.append(data_servicio['nombre'])
+            lista_servicios.append(data_servicio["nombre"])
 
-        lista_equipamientos = [] 
-        for num_equipo,cantidad in sorted(self.datos_finales.items()):
+        lista_equipamientos = []
+        for num_equipo, cantidad in sorted(self.datos_finales.items()):
             equipa = ReserEquipamiento(num_equipo, cantidad)
             lista_equipamientos.append(equipa)
 
-        resultado = reservacion.crear_reservacion(fechaReser, fechaEvento=fecha, horaInicio=hora_inicio, horaFin=hora_fin, descripEvento=descripEvento, estimaAsistentes=estimaAsistentes, tipo_montaje=tipo_montaje, trabajador=rfcTrabajador,datos_cliente=cliente, datos_salon=salon, equipamientos=lista_equipamientos, servicios=lista_servicios)
+        resultado = reservacion.crear_reservacion(
+            fechaReser,
+            fechaEvento=fecha,
+            horaInicio=hora_inicio,
+            horaFin=hora_fin,
+            descripEvento=descripEvento,
+            estimaAsistentes=estimaAsistentes,
+            tipo_montaje=tipo_montaje,
+            trabajador=rfcTrabajador,
+            datos_cliente=cliente,
+            datos_salon=salon,
+            equipamientos=lista_equipamientos,
+            servicios=lista_servicios,
+        )
 
-    
     def calcular_total_general(self):
         """Calcula el total de todos los equipos seleccionados"""
         total = 0
-        
+
         # Sumar el subtotal de cada equipo
         for nombre, cantidad in self.cantidades.items():
             if nombre in self.controles_equipos:
-                costo = self.controles_equipos[nombre]['costo']
+                costo = self.controles_equipos[nombre]["costo"]
                 subtotal = cantidad * costo
                 total += subtotal
-        
+
         # Actualizar algún label de total en tu interfaz
         # Ejemplo: si tienes un label llamado lblTotalGeneral
-        if hasattr(self.navegacion, 'lblTotalGeneral'):
+        if hasattr(self.navegacion, "lblTotalGeneral"):
             self.navegacion.lblTotalGeneral.setText(f"Total: ${total:.2f}")
-        
+
         return total
 
     def total_reservacion(self):
@@ -407,27 +441,28 @@ class Recepcionista():
         subtotalEquipamiento = self.calcular_total_general()
 
         total = subtotalServicios + subtotalEquipamiento + self.subtotal_salon
-        
+
         self.navegacion.reSubtotal.setText(f"Subtotal: {total}")
-        self.navegacion.reIVA.setText(f"IVA: {total*0.16}")
-        self.navegacion.reTotal.setText(f"Total: {total+(total*0.16)}")
+        self.navegacion.reIVA.setText(f"IVA: {total * 0.16}")
+        self.navegacion.reTotal.setText(f"Total: {total + (total * 0.16)}")
         return total
 
     def limpiar_todos_controles(self):
         # Eliminar widgets del layout
         layEqui = self.navegacion.equipamientoW.layout()
-        
+
         # Método 1: Eliminar todos los widgets del layout
         while layEqui.count():
             child = layEqui.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
-        
+
         # Limpiar diccionario de controles
         self.controles_equipos.clear()
 
     def volver_login(self, link):
         from gui.login import Login
+
         if link == "cerrar":
             self.navegacion.hide()
             self.login = Login()

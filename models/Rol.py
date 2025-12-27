@@ -7,6 +7,7 @@ class Rol:
     @property
     def codigoRol(self):
         return self.__codigoRol
+
     @codigoRol.setter
     def codigoRol(self, codigoRol):
         self.__codigoRol = codigoRol
@@ -14,6 +15,7 @@ class Rol:
     @property
     def descripcion(self):
         return self.__descripcion
+
     @descripcion.setter
     def descripcion(self, descripcion):
         self.__descripcion = descripcion

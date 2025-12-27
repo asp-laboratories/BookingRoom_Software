@@ -1,4 +1,3 @@
-
 from repositories_crud.MobiliarioRepository import MobiliarioRepository
 from repositories_crud.InventarioEquipaRepository import InventarioEquipaRepository
 
@@ -14,147 +13,217 @@ class ReservacionRepository:
     def registrar_reservacion(self, reservacion):
         if not self.db.conectar():
             return False
-        
+
         try:
             cursor = self.db.cursor()
-            
+
             # Para determinar el total a pagar es necesario tener el costo de renta de mobiliarios, equipamientos, servicios y el salon
 
             # Obtencion de costo del mobiliario
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT mo.numMob, mo.costoRenta, mm.cantidad
                             FROM montaje_mobiliario as mm
                             INNER JOIN datos_montaje as dm on mm.datos_montaje = dm.numDatMon
                             INNER JOIN mobiliario as mo on mm.mobiliario = mo.numMob
                             WHERE mm.datos_montaje = %s
-                            """, (reservacion.datos_montaje,))
+                            """,
+                (reservacion.datos_montaje,),
+            )
             costosMobiliarios = cursor.fetchall()
 
             totalMobiliarios = 0
             for mobiliario in costosMobiliarios:
-                totalMobiliarios += (mobiliario['costoRenta'] * mobiliario['cantidad'])
+                totalMobiliarios += mobiliario["costoRenta"] * mobiliario["cantidad"]
 
-                numMob = mobiliario['numMob']
-                esta_mob1 = 'DISPO'
-                esta_mob2 = 'RESER'
-                cantidad = mobiliario['cantidad']
-                cursor.execute(f"""SELECT * FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'""")
+                numMob = mobiliario["numMob"]
+                esta_mob1 = "DISPO"
+                esta_mob2 = "RESER"
+                cantidad = mobiliario["cantidad"]
+                cursor.execute(
+                    f"""SELECT * FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'"""
+                )
                 resultados = cursor.fetchall()
-                
-                cursor.execute(f"""SELECT cantidad FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
-                canti = cursor.fetchone()
-    
-                stockA = canti['cantidad']
-    
-                if not resultados:
-                    cursor.execute(f"""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})""")
-    
-                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
-    
-                else:
-                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {resultados[0]['cantidad'] + cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'""")
-    
-                    cursor.execute(f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'""")
 
-            
+                cursor.execute(
+                    f"""SELECT cantidad FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                )
+                canti = cursor.fetchone()
+
+                stockA = canti["cantidad"]
+
+                if not resultados:
+                    cursor.execute(
+                        f"""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})"""
+                    )
+
+                    cursor.execute(
+                        f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                    )
+
+                else:
+                    cursor.execute(
+                        f"""UPDATE inventario_mob set cantidad = {resultados[0]["cantidad"] + cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'"""
+                    )
+
+                    cursor.execute(
+                        f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                    )
+
             # Obtencion de costos de equipamientos
             totalEquipamientos = 0
             if reservacion.equipamientos:
                 for equipamiento in reservacion.equipamientos:
-                    print(f"Antes del cursor {equipamiento.equipamiento} y {equipamiento.cantidad}")
-                    cursor.execute( """
+                    print(
+                        f"Antes del cursor {equipamiento.equipamiento} y {equipamiento.cantidad}"
+                    )
+                    cursor.execute(
+                        """
                                     SELECT costoRenta
                                     FROM equipamiento
                                     WHERE numEquipa = %s
-                                    """, (equipamiento.equipamiento,))
+                                    """,
+                        (equipamiento.equipamiento,),
+                    )
                     costoEquipa = cursor.fetchone()
-                    totalEquipamientos += (costoEquipa['costoRenta'] * equipamiento.cantidad)
+                    totalEquipamientos += (
+                        costoEquipa["costoRenta"] * equipamiento.cantidad
+                    )
 
                     numEquipa = equipamiento.equipamiento
-                    new_esta = 'RESER'
-                    esta_og = 'DISPO'
+                    new_esta = "RESER"
+                    esta_og = "DISPO"
                     cantidad = equipamiento.cantidad
-                    cursor.execute( """
+                    cursor.execute(
+                        """
                                     SELECT *
                                     FROM inventario_equipa
                                     WHERE equipamiento = %s and esta_equipa = %s
-                                    """, (numEquipa, new_esta))
-                    
+                                    """,
+                        (numEquipa, new_esta),
+                    )
+
                     resultados = cursor.fetchall()
-        
+
                     if not resultados:
-                        cursor.execute( """
+                        cursor.execute(
+                            """
                                         INSERT INTO inventario_equipa (equipamiento, esta_equipa, cantidad) values
                                         (%s, %s, %s)
-                                        """, (numEquipa, new_esta, cantidad))
-                        
-                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
-        
+                                        """,
+                            (numEquipa, new_esta, cantidad),
+                        )
+
+                        cursor.execute(
+                            """SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""",
+                            (numEquipa, esta_og),
+                        )
+
                         oldCantidad = cursor.fetchone()
-                        newCantidad = oldCantidad['cantidad'] - cantidad
-        
-                        cursor.execute( """
+                        newCantidad = oldCantidad["cantidad"] - cantidad
+
+                        cursor.execute(
+                            """
                                         UPDATE inventario_equipa set
                                         cantidad = %s
                                         WHERE equipamiento = %s and esta_equipa = %s
-                                        """, (newCantidad, numEquipa, esta_og))
+                                        """,
+                            (newCantidad, numEquipa, esta_og),
+                        )
                     else:
-                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, new_esta))
+                        cursor.execute(
+                            """SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""",
+                            (numEquipa, new_esta),
+                        )
                         oldCantidad = cursor.fetchone()
-                        newCantidad = oldCantidad['cantidad'] + cantidad
-        
-                        cursor.execute( """
+                        newCantidad = oldCantidad["cantidad"] + cantidad
+
+                        cursor.execute(
+                            """
                                         UPDATE inventario_equipa set
                                         cantidad = %s
                                         WHERE equipamiento = %s and esta_equipa = %s
-                                        """, (newCantidad, numEquipa, new_esta))
-                        
-                        cursor.execute("""SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""", (numEquipa, esta_og))
-        
+                                        """,
+                            (newCantidad, numEquipa, new_esta),
+                        )
+
+                        cursor.execute(
+                            """SELECT cantidad FROM inventario_equipa WHERE equipamiento = %s and esta_equipa = %s""",
+                            (numEquipa, esta_og),
+                        )
+
                         oldCantidad = cursor.fetchone()
-                        newCantidad = oldCantidad['cantidad'] - cantidad
-        
-                        cursor.execute( """
+                        newCantidad = oldCantidad["cantidad"] - cantidad
+
+                        cursor.execute(
+                            """
                                         UPDATE inventario_equipa set
                                         cantidad = %s
                                         WHERE equipamiento = %s and esta_equipa = %s
-                                        """, (newCantidad, numEquipa, esta_og))
+                                        """,
+                            (newCantidad, numEquipa, esta_og),
+                        )
 
             # Obtencion de costos de servicios
             totalServicios = 0
             if reservacion.servicios:
                 for servicio in reservacion.servicios:
                     print()
-                    cursor.execute( """
+                    cursor.execute(
+                        """
                                     SELECT costoRenta
                                     FROM servicio
                                     WHERE numServicio = %s
-                                    """, (servicio,))
+                                    """,
+                        (servicio,),
+                    )
                     costoServicio = cursor.fetchone()
-                    totalServicios += costoServicio['costoRenta']
+                    totalServicios += costoServicio["costoRenta"]
 
             # Obtencion de costo de renta del salon
             print("punto de control antes de obtener el costo de renta")
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT ds.costoRenta
                             FROM datos_salon as ds
                             INNER JOIN datos_montaje as dm on dm.datos_salon = numSalon
                             WHERE dm.numDatMon = %s
-                            """, (reservacion.datos_montaje,))
+                            """,
+                (reservacion.datos_montaje,),
+            )
             costoSalon = cursor.fetchone()
-            totalSalon = costoSalon['costoRenta']
+            totalSalon = costoSalon["costoRenta"]
 
             # Suma de los totales de cada apartado
-            reservacion.subtotal = (totalEquipamientos + totalServicios + totalMobiliarios + totalSalon)
+            reservacion.subtotal = (
+                totalEquipamientos + totalServicios + totalMobiliarios + totalSalon
+            )
             reservacion.IVA = reservacion.subtotal * 0.16
             reservacion.total = reservacion.IVA + reservacion.subtotal
 
             # No se tiene por default el total, toca calcularlo aparte, pero antes de hacer el insert
-            cursor.execute( """INSERT INTO reservacion
+            cursor.execute(
+                """INSERT INTO reservacion
                             (fechaReser, fechaEvento, horaInicio, horaFin, descripEvento, estimaAsistentes, subtotal, IVA, total, datos_montaje, trabajador, datos_cliente, esta_reser)
                             values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                            """, (reservacion.fechaReser, reservacion.fechaEvento, reservacion.horaInicio, reservacion.horaFin, reservacion.descripEvento, reservacion.estimaAsistentes, reservacion.subtotal, reservacion.IVA, reservacion.total, reservacion.datos_montaje, reservacion.trabajador, reservacion.datos_cliente, reservacion.esta_reser))
-            
+                            """,
+                (
+                    reservacion.fechaReser,
+                    reservacion.fechaEvento,
+                    reservacion.horaInicio,
+                    reservacion.horaFin,
+                    reservacion.descripEvento,
+                    reservacion.estimaAsistentes,
+                    reservacion.subtotal,
+                    reservacion.IVA,
+                    reservacion.total,
+                    reservacion.datos_montaje,
+                    reservacion.trabajador,
+                    reservacion.datos_cliente,
+                    reservacion.esta_reser,
+                ),
+            )
+
             numReser = cursor.lastrowid
 
             # Guardar equipamientos y servicios asignados a la reservacion
@@ -162,35 +231,47 @@ class ReservacionRepository:
             # Guardando datos de equipamientos
             if reservacion.equipamientos:
                 for equipa in reservacion.equipamientos:
-                    cursor.execute( """
+                    cursor.execute(
+                        """
                                     INSERT INTO reser_equipa (reservacion, equipamiento, cantidad)
                                     values (%s, %s, %s)
-                                    """, (numReser, equipa.equipamiento, equipa.cantidad))
+                                    """,
+                        (numReser, equipa.equipamiento, equipa.cantidad),
+                    )
 
             # Guardando datos de servicios
             if reservacion.servicios:
                 for servicio in reservacion.servicios:
-                    cursor.execute( """
+                    cursor.execute(
+                        """
                                     INSERT INTO reser_servicio (reservacion, servicio)
                                     values (%s, %s)
-                                    """, (numReser, servicio))
-                    
+                                    """,
+                        (numReser, servicio),
+                    )
+
             # Para guardar el cambio de estado en el salon reservado de la base de datos
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT ds.numSalon
                             FROM datos_montaje as dm
                             INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
                             WHERE dm.numDatMon = %s
-                            """, (reservacion.datos_montaje,))
-            
-            resultado = cursor.fetchone()
-            numSalon = resultado['numSalon']
+                            """,
+                (reservacion.datos_montaje,),
+            )
 
-            cursor.execute( """
+            resultado = cursor.fetchone()
+            numSalon = resultado["numSalon"]
+
+            cursor.execute(
+                """
                             UPDATE datos_salon set
                             esta_salon = 'RESER'
                             WHERE numSalon = %s
-                            """, (numSalon,))
+                            """,
+                (numSalon,),
+            )
 
             self.db.connection.commit()
             return True
@@ -198,7 +279,7 @@ class ReservacionRepository:
         except Exception as error:
             print(f"Error al registrar la reservacion: {error}")
             return False
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -206,11 +287,12 @@ class ReservacionRepository:
     def listar_reservacion_fecha(self, fecha):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT
                             DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha,
                             TIME_FORMAT(re.horaInicio, '%H:%i') as horaInicio,
@@ -225,8 +307,10 @@ class ReservacionRepository:
                             INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
                             WHERE re.fechaEvento = %s
                             order by re.horaInicio
-                            """, (fecha,))
-        
+                            """,
+                (fecha,),
+            )
+
             resutlados = cursor.fetchall()
 
             return resutlados
@@ -234,7 +318,7 @@ class ReservacionRepository:
         except Exception as error:
             print(f"Error al listar las reservaciones: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -248,12 +332,15 @@ class ReservacionRepository:
         try:
             cursor = self.db.cursor(dictionary=True)
 
-            cursor.execute("""SELECT * FROM reser_servicio where reservacion = %s""", (numReser,))
+            cursor.execute(
+                """SELECT * FROM reser_servicio where reservacion = %s""", (numReser,)
+            )
 
             servicios = cursor.fetchall()
 
             if not servicios:
-                cursor.execute( """
+                cursor.execute(
+                    """
                                 SELECT
                                     re.numReser as num_reser,
                                     DATE_FORMAT(re.fechaReser, '%d / %m / %Y') as fecha_reser,
@@ -275,10 +362,13 @@ class ReservacionRepository:
                                 INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon 
                                 INNER JOIN tipo_montaje as tm on dm.tipo_montaje = tm.codigoMon 
                                 WHERE re.numReser = %s
-                                """,(numReser,))
+                                """,
+                    (numReser,),
+                )
 
             else:
-                cursor.execute( """
+                cursor.execute(
+                    """
                                 SELECT
                                     re.numReser as num_reser,
                                     DATE_FORMAT(re.fechaReser, '%d / %m / %Y') as fecha_reser,
@@ -303,8 +393,10 @@ class ReservacionRepository:
                                 INNER JOIN reser_servicio as res on res.reservacion = re.numReser 
                                 INNER JOIN servicio as ser on res.servicio = ser.numservicio
                                 WHERE re.numReser = %s
-                                """,(numReser,))
-                
+                                """,
+                    (numReser,),
+                )
+
             resultados = cursor.fetchall()
 
             return resultados
@@ -317,18 +409,18 @@ class ReservacionRepository:
     def listar_reservaciones(self):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute("""
                             SELECT
                             descripEvento,
                             DATE_FORMAT(fechaEvento, '%d / %m / %Y') as fecha
                             FROM reservacion
                             order by fechaEvento
                             """)
-        
+
             resutlados = cursor.fetchall()
 
             return resutlados
@@ -336,32 +428,35 @@ class ReservacionRepository:
         except Exception as error:
             print(f"Error al listar las reservaciones: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
-            
+
     def obtener_total(self, numReser):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT total
                             FROM reservacion
                             WHERE numReser = %s
-                            """, (f"{numReser}%",))
-            
+                            """,
+                (f"{numReser}%",),
+            )
+
             resultados = cursor.fetchone()
 
             return resultados
-        
+
         except Exception as error:
             print(f"Error para obtener el total de reservacion: {error}")
             return None
-        
+
         finally:
             cursor.close()
             self.db.desconectar()
@@ -373,11 +468,14 @@ class ReservacionRepository:
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
                             SELECT descripEvento
                             FROM reservacion
                             WHERE numReser = %s
-                            """, (numReser,))
+                            """,
+                (numReser,),
+            )
 
             info = cursor.fetchone()
 
@@ -394,11 +492,12 @@ class ReservacionRepository:
     def obtener_fecha(self, fecha):
         if not self.db.conectar():
             return None
-        
+
         try:
             cursor = self.db.cursor()
 
-            cursor.execute( """
+            cursor.execute(
+                """
 SELECT
 DATE_FORMAT(re.fechaEvento, '%d / %m / %Y') as fecha_evento,
 TIME_FORMAT(re.horaInicio, '%H : %i') as hra_ini,
@@ -412,15 +511,18 @@ INNER JOIN datos_montaje as dm on re.datos_montaje = dm.numDatMon
 INNER JOIN datos_salon as ds on dm.datos_salon = ds.numSalon
 INNER JOIN datos_cliente as dc on re.datos_cliente = dc.RFC
 WHERE fechaEvento = %s
-""", (fecha,))
-            
+""",
+                (fecha,),
+            )
+
             resultados = cursor.fetchall()
 
             return resultados
-        
+
         except Exception as error:
             print(f"Error para obtener el total de reservacion: {error}")
             return None
+
 
 if __name__ == "__main__":
     pass
