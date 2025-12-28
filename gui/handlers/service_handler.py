@@ -38,8 +38,8 @@ class ServiceHandler:
     def setup_experimentar_tab(self):
         # Cargar tipos de servicio en el ComboBox
         self.cargar_tipos_servicios_experimentar()
-        # Conectar el botón a la función de listar
-        self.navegacion.experimentarBoton.clicked.connect(self.listar_servicios_para_experimentar)
+        # Conectar el ComboBox a la función de listar
+        self.navegacion.experimentarCombo.currentIndexChanged.connect(self.listar_servicios_para_experimentar)
 
     def cargar_tipos_servicios_experimentar(self):
         combo = self.navegacion.experimentarCombo
