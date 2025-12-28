@@ -1,4 +1,5 @@
 from pathlib import Path
+from PyQt6 import uic
 from PyQt6.QtWidgets import QMessageBox
 from services.EquipamentoService import EquipamentoService
 

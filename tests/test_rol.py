@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from services.RolService import RolService

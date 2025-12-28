@@ -1,4 +1,4 @@
-class caracteristicas:
+class Caracteristicas:
     def __init__(self, mobiliario, mob_carac):
         self.__mobiliario = mobiliario
         self.__mob_carac = mob_carac
@@ -16,4 +16,5 @@ class caracteristicas:
         return self.__mob_carac
 
     @mob_carac.setter
+    def mob_carac(self, mob_carac):
         self.__mob_carac = mob_carac

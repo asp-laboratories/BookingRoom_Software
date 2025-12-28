@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import *
+from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont
 
@@ -42,7 +42,7 @@ class TableManager:
                 border-bottom: 1px solid #f8f9fa;
             }
             QHeaderView::section {
-                backgrond-color: #f5ddb9; 
+                background-color: #f5ddb9; 
                 color: #D18A5B; 
                 padding: 10px;
                 font-weight: bold;
@@ -130,5 +130,5 @@ class TableManager:
         """Formatea un número como moneda"""
         try:
             return f"${float(value):,.2f}"
-        except:
+        except Exception:
             return str(value)

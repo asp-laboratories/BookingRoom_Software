@@ -723,7 +723,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -733,7 +733,7 @@ color: rgb(255, 255, 255);
             <property name="geometry">
              <rect>
               <x>30</x>
-              <y>190</y>
+              <y>200</y>
               <width>894</width>
               <height>427</height>
              </rect>
@@ -960,7 +960,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -990,7 +990,7 @@ font-size: 28px;</string>
                <string>Tipo de servicio</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="tipoBuscar">
+             <widget class="QLineEdit" name="tipoBuscar1">
               <property name="geometry">
                <rect>
                 <x>70</x>
@@ -1030,14 +1030,14 @@ background-color: rgb(34, 76, 184);</string>
                <string>Buscar</string>
               </property>
              </widget>
-             <widget class="QTextEdit" name="tResultadoS">
+             <widget class="QTextEdit" name="tResultadoS1">
               <property name="enabled">
                <bool>true</bool>
               </property>
               <property name="geometry">
                <rect>
-                <x>70</x>
-                <y>140</y>
+                <x>120</x>
+                <y>170</y>
                 <width>701</width>
                 <height>411</height>
                </rect>
@@ -1063,6 +1063,26 @@ border: 3px solid rgba(155, 88, 43, 1.0);
               </property>
               <property name="readOnly">
                <bool>true</bool>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tResultadoS">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>640</y>
+                <width>841</width>
+                <height>421</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="tipoBuscar">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>580</y>
+                <width>431</width>
+                <height>41</height>
+               </rect>
               </property>
              </widget>
             </widget>
@@ -1932,7 +1952,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="tab_21">
              <attribute name="title">

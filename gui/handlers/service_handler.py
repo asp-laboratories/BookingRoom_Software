@@ -1,5 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QMessageBox
 from utils.Formato import permitir_ingreso
 from gui.table_manager import TableManager
 
@@ -11,6 +10,22 @@ class ServiceHandler:
         # Access service instances from the main screen
         self.servicio = self.main_window.servicio
         self.tipo_servi = self.main_window.tipo_servi
+        
+        # Load service types into the combobox and connect the signal
+        if hasattr(self.navegacion, 'tipoBuscar'):
+            self.cargar_tipos_servicios_for_recepcion()
+            self.navegacion.tipoBuscar.currentIndexChanged.connect(self.listar_servicio_segun_tipo)
+
+    def cargar_tipos_servicios_for_recepcion(self):
+        self.navegacion.tipoBuscar.clear()
+        self.navegacion.tipoBuscar.addItem("Seleccione un tipo de servicio:", None)
+
+        tpos_servcios = self.tipo_servi.listar_tipos_servicios()
+
+        for tipo in tpos_servcios:
+            self.navegacion.tipoBuscar.addItem(
+                tipo["descripcion"], tipo["codigoTiSer"]
+            )
 
     # =========================================================================================
     # MÉTODOS PARA SERVICIOS
@@ -211,14 +226,11 @@ class ServiceHandler:
         # NOTE: Asegúrate de que 'tResultadoS' sea un QTableWidget en el archivo .ui
         tabla = self.navegacion.tResultadoS
         try:
-            tipo_buscado = self.navegacion.tipoBuscar.text().strip()
+            tipo_buscado = self.navegacion.tipoBuscar.currentText()
 
-            if not tipo_buscado:
-                QMessageBox.warning(
-                    self.navegacion,
-                    "Búsqueda Inválida",
-                    "Por favor, ingresa el nombre del tipo de servicio para buscar.",
-                )
+            if not tipo_buscado or self.navegacion.tipoBuscar.currentIndex() == 0:
+                tabla.setRowCount(0)
+                TableManager.show_message(tabla, "Seleccione un tipo de servicio para buscar.")
                 return
 
             resultado = self.servicio.listar_servicio_y_tipo(tipo_buscado)

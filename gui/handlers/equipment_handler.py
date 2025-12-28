@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem, QTableWidgetItem
+from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem
 from PyQt6.QtCore import Qt
 from gui.table_manager import TableManager
 
