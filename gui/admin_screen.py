@@ -29,7 +29,6 @@ from gui.handlers.worker_handler import WorkerHandler
 from gui.handlers.client_handler import ClientHandler
 from gui.handlers.pago_handler import PagoHandler
 from gui.handlers.reservacion_handler import ReservacionHandler
-
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
 obtenerNumeroReservacion = []
@@ -184,12 +183,15 @@ class AdministradorScreen:
             self.mobiliario_handler.intentar_actualizar_estado_mob
         )
         self.navegacion.almConfirmar_2.clicked.connect(
-            self.equipment_handler.intentar_actualizar_estado_equipa
+            self.equipment_handler.intentar_actualizar_estado_desde_tabla # Nueva función para actualizar desde la tabla
         )
         self.navegacion.almBuscarM.clicked.connect(
             self.mobiliario_handler.buscar_estado_mobiliario
         )
-        self.navegacion.almBuscarE.clicked.connect(
+        
+        # Carga el ComboBox de estados de equipamiento al iniciar y conecta la búsqueda automática
+        self.equipment_handler.cargar_estados_equipamiento()
+        self.navegacion.almBuscadorE.currentIndexChanged.connect(
             self.equipment_handler.buscar_estado_equipamiento
         )
         # self.navegacion.almBuscarE_5.clicked.connect(self.mobiliario_handler.buscar_mobiliario_montaje)
@@ -199,6 +201,7 @@ class AdministradorScreen:
         )
         self.navegacion.registrarCliente.setVisible(False)
 
+        self.equipment_handler.cargar_tipos_equipamiento_registro()
         self.mobiliario_handler.cargar_seleccion_tipoMobiliario()
         self.navegacion.reMontajeInfo.clicked.connect(
             self.reservacion_handler.mostrar_info_montaje

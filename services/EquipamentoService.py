@@ -17,7 +17,7 @@ class EquipamentoService:
 
     # Metodos
     def registrar_equipamento(
-        self, nombre, descripcion, costoRenta, stock, tipo_equipa, esta_equipa="DISPO"
+        self, nombre, descripcion, costoRenta, stock, codigo_tipo_equipa, esta_equipa="DISPO"
     ):
         if (
             not nombre
@@ -25,18 +25,18 @@ class EquipamentoService:
             or not costoRenta
             or not stock
             or not esta_equipa
-            or not tipo_equipa
+            or not codigo_tipo_equipa
         ):
             print("Los campos no permiten nulos")
             return False
-        descripcionte = self.tipo_equipamiento.descripcion_de_tipo(tipo_equipa)
+        
         equipamento = Equpo(
             nombre,
             descripcion,
             costoRenta,
             stock,
             esta_equipa,
-            descripcionte.codigoTiEquipa,
+            codigo_tipo_equipa,
         )
         return self.equipamento_repository.crear_equipamiento(equipamento)
 
@@ -125,3 +125,6 @@ class EquipamentoService:
 
     def listar_equipamiento_tipo(self, descripcion):
         return self.tipo_equipamiento.conjunto_equipamientos(descripcion)
+
+    def listar_estados(self):
+        return self.estado.listar_estados()

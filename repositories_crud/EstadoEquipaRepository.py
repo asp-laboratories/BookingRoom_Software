@@ -170,3 +170,30 @@ class EstadoEquipaRepository:
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def listar_estados(self):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor(dictionary=True)
+
+            cursor.execute(
+                """
+                SELECT codigoEquipa, descripcion
+                FROM esta_equipa
+                ORDER BY descripcion
+                """
+            )
+
+            resultado = cursor.fetchall()
+            return resultado
+
+        except Exception as error:
+            print(f"Error al querer listar los estados de equipamiento: {error}")
+            return None
+
+        finally:
+            if self.db.connection and self.db.connection.is_connected():
+                cursor.close()
+                self.db.desconectar()

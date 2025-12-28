@@ -723,7 +723,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -923,7 +923,7 @@ color: rgb(255, 255, 255);
               <x>10</x>
               <y>10</y>
               <width>981</width>
-              <height>661</height>
+              <height>1261</height>
              </rect>
             </property>
             <property name="cursor">
@@ -960,7 +960,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -1374,7 +1374,7 @@ QComboBox QAbstractItemView {
              <attribute name="title">
               <string>Listar</string>
              </attribute>
-             <widget class="QTextEdit" name="sResultadoListar_2">
+             <widget class="QTextEdit" name="sResultadoListar_21">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -1587,6 +1587,16 @@ font-size: 28px;</string>
                <string>Listar servicios</string>
               </property>
              </widget>
+             <widget class="QTableWidget" name="sResultadoListar_2">
+              <property name="geometry">
+               <rect>
+                <x>190</x>
+                <y>660</y>
+                <width>651</width>
+                <height>471</height>
+               </rect>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab_6">
              <attribute name="title">
@@ -1769,7 +1779,7 @@ color: rgba(155, 88, 43, 1.0);
                </property>
               </widget>
              </widget>
-             <widget class="QTextEdit" name="sResultadoListar_3">
+             <widget class="QTextEdit" name="sResultadoListar_13">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -1868,6 +1878,16 @@ font-size: 28px;</string>
                <string>Actualizar informacion del servicio</string>
               </property>
              </widget>
+             <widget class="QTableWidget" name="sResultadoListar_3">
+              <property name="geometry">
+               <rect>
+                <x>160</x>
+                <y>670</y>
+                <width>651</width>
+                <height>471</height>
+               </rect>
+              </property>
+             </widget>
             </widget>
            </widget>
           </widget>
@@ -1912,7 +1932,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_21">
              <attribute name="title">
@@ -2232,7 +2252,7 @@ background-color: #2B9B32;</string>
                <string>Costo de renta</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="eTipoEquipamiento">
+             <widget class="QLineEdit" name="eTipoEquipamiento1">
               <property name="geometry">
                <rect>
                 <x>190</x>
@@ -2276,6 +2296,28 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               </property>
               <property name="text">
                <string>Nombre</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="eTipoEquipamiento">
+              <property name="geometry">
+               <rect>
+                <x>560</x>
+                <y>410</y>
+                <width>181</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox {
+    background-color: #f5ddb9; 
+    color: #9b582b;         
+    border: 2px solid #9b582b; 
+    border-radius: 5px;  
+    padding: 5px; 
+    font-size: 14px;
+    font-family: &quot;Adwaita Sans&quot;; 
+}
+</string>
               </property>
              </widget>
             </widget>
@@ -4089,7 +4131,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_12">
              <attribute name="title">
@@ -5769,8 +5811,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QTabWidget" name="tabWidget_5">
             <property name="geometry">
              <rect>
-              <x>0</x>
-              <y>0</y>
+              <x>10</x>
+              <y>60</y>
               <width>1041</width>
               <height>1601</height>
              </rect>
@@ -5806,7 +5848,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_24">
              <attribute name="title">
@@ -6040,7 +6082,7 @@ background-color: rgb(71, 105, 255);</string>
                <string>Buscar</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="almBuscadorE">
+             <widget class="QLineEdit" name="almBuscadorE1">
               <property name="geometry">
                <rect>
                 <x>90</x>
@@ -6118,6 +6160,51 @@ font-size: 28px;</string>
               </property>
               <property name="text">
                <string>Equipamientos</string>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tablaEstadosEqui">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>820</y>
+                <width>821</width>
+                <height>481</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">            QTableWidget {
+                background-color: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                font-size: 13px;
+                alternate-background-color: #f5ddb9; 
+            }
+            QTableWidget::item {
+                padding: 8px;
+                border-bottom: 1px solid #f8f9fa;
+            }
+            QHeaderView::section {
+                backgrond-color: #f5ddb9; 
+                color: #D18A5B; 
+                padding: 10px;
+                font-weight: bold;
+                border: none;
+                border-bottom: 2px solid #dee2e6;
+            }
+            QTableWidget::item:selected {
+                background-color: #9b582b; 
+                color: #ffffff; 
+            }</string>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="almBuscadorE">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>740</y>
+                <width>261</width>
+                <height>32</height>
+               </rect>
               </property>
              </widget>
             </widget>

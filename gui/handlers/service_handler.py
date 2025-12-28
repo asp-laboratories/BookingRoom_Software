@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
+from PyQt6.QtCore import Qt
 from utils.Formato import permitir_ingreso
-
+from gui.table_manager import TableManager
 
 class ServiceHandler:
     def __init__(self, main_window):
@@ -34,20 +35,20 @@ class ServiceHandler:
 
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Registro",
                     f"El servicio '{nombre}' no pudo ser registrado. Puede que ya exista o haya un error de base de datos.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Registro Exitoso",
                     f"El servicio '{nombre}' ha sido registrado correctamente.",
                 )
 
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos durante el registro: {e}",
             )
@@ -58,88 +59,129 @@ class ServiceHandler:
 
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Actualización",
-                    f"No se pudo actualizar el campo '{campo}' del serviciO{id_busqueda}. Verifique los datos, el numero o el tipo de valor nuevo.",
+                    f"No se pudo actualizar el campo '{campo}' del servicio {id_busqueda}. Verifique los datos, el número o el tipo de valor nuevo.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Exitosa",
                     f"El servicio {id_busqueda} ha sido actualizado correctamente.",
                 )
 
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos: {e}",
             )
 
-    def listar_servicio(self):  # No necesaria
-        self.navegacion.sResultadoListar.clear()
+    def listar_servicio(self):
+        # NOTE: Asegúrate de que 'sResultadoListar' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.sResultadoListar
+        try:
+            id_busqueda = self.navegacion.slIngresarBusqueda.text().strip()
+            if not id_busqueda:
+                TableManager.show_message(tabla, "Ingrese un ID para buscar")
+                return
 
-        resultado = self.servicio.listar_servicio_busqueda(
-            int(self.navegacion.slIngresarBusqueda.text())
-        )
-        if not resultado:
-            pass
-        else:
-            mensaje = "\n---SERVICIOS---\n"
-            for ser in resultado:
-                mensaje += f"\nNumero: {ser['numServicio']}.\nNombre: {ser['nombre']}.\nCosto Renta: {ser['costoRenta']}\n"
-            self.navegacion.sResultadoListar.setText(mensaje)
+            resultado = self.servicio.listar_servicio_busqueda(int(id_busqueda))
+            
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontró servicio con ID: {id_busqueda}")
+                return
+
+            headers = ['Número', 'Nombre', 'Costo Renta']
+            # Convertir el diccionario a una lista de listas
+            data = [[ser['numServicio'], ser['nombre'], TableManager.format_as_currency(ser['costoRenta'])] for ser in resultado]
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+
+        except ValueError:
+            QMessageBox.warning(self.navegacion, "Error", "El ID de búsqueda debe ser un número.")
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Error al listar servicio: {e}")
+
 
     def listar_servicio_act(self):
-        self.navegacion.sResultadoListar_3.clear()
+        # NOTE: Asegúrate de que 'sResultadoListar_3' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.sResultadoListar_3
         try:
-            resultado = self.servicio.listar_servicio_busqueda(
-                int(self.navegacion.slIngresarBusqueda_3.text())
-            )
+            id_busqueda = self.navegacion.slIngresarBusqueda_3.text().strip()
+            if not id_busqueda:
+                TableManager.show_message(tabla, "Ingrese un ID para buscar")
+                return
+            
+            resultado = self.servicio.listar_servicio_busqueda(int(id_busqueda))
+            
             if not resultado:
-                pass
-            else:
-                mensaje = "\n---SERVICIOS---\n"
-                for ser in resultado:
-                    mensaje += f"\nNumero: {ser['numServicio']}.\nNombre: {ser['nombre']}.\nCosto Renta: {ser['costoRenta']}\n"
-                self.navegacion.sResultadoListar_3.setText(mensaje)
+                TableManager.show_message(tabla, f"No se encontró servicio con ID: {id_busqueda}")
+                return
+
+            headers = ['ID', 'Nombre', 'Costo', 'Estado']
+            data = [[ser['numServicio'], ser['nombre'], TableManager.format_as_currency(ser['costoRenta']), ser.get('estado', 'Activo')] for ser in resultado]
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+            
         except ValueError:
-            QMessageBox.warning(
-                None,
-                "Datos Inválidos",
-                "El numero de servicio a eliminar debe ser un número entero válido.",
-            )
+            QMessageBox.warning(self.navegacion, "Error", "ID inválido. Debe ser un número.")
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Ocurrió un error: {e}")
 
     def listar_servicio_del(self):
-        self.navegacion.sResultadoListar_2.clear()
-        resultado = self.servicio.listar_servicio()
-        if not resultado:
-            pass
-        else:
-            mensaje = "\n---SERVICIOS---\n"
-            for ser in resultado:
-                mensaje += f"\nNumero: {ser['numServicio']}.\nNombre: {ser['nombre']}.\nCosto Renta: {ser['costoRenta']}\n"
-            self.navegacion.sResultadoListar_2.setText(mensaje)
+        # NOTE: Asegúrate de que 'sResultadoListar_2' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.sResultadoListar_2
+        try:
+            resultado = self.servicio.listar_servicio()
+            
+            if not resultado:
+                TableManager.show_message(tabla, "No hay servicios registrados para mostrar")
+                return
+
+            headers = ['Número', 'Nombre', 'Costo Renta']
+            data = [[ser['numServicio'], ser['nombre'], TableManager.format_as_currency(ser['costoRenta'])] for ser in resultado]
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+
+        except Exception as e:
+            QMessageBox.warning(self.navegacion, "Error", f"Error al listar servicios: {e}")
 
     def listar_servicios_del_mismo_tipo(self):
-        self.navegacion.sResultadoListar_2.clear()
-        tposervicio = self.navegacion.slIngresarBusqueda_2.text()
-        if not permitir_ingreso(tposervicio, "onlytext"):
-            QMessageBox.warning(
-                self.navegacion,
-                "Tipo de dato no valido",
-                "Favor de ingresar el nombre del tipo de servicio",
-            )
-            return
+        # NOTE: Asegúrate de que 'sResultadoListar_2' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.sResultadoListar_2
+        try:
+            tposervicio = self.navegacion.slIngresarBusqueda_2.text()
+            if not permitir_ingreso(tposervicio, "onlytext"):
+                QMessageBox.warning(
+                    self.navegacion,
+                    "Tipo de dato no valido",
+                    "Favor de ingresar el nombre del tipo de servicio",
+                )
+                return
 
-        resultado = self.servicio.servicios_tipo(tposervicio)
-        if not resultado:
-            pass
-        else:
-            mensaje = "\n---SERVICIOS---\n"
-            for st in resultado:
-                mensaje += f"\nTipo de servicio: {st['tipo_servicio']}"
-            self.navegacion.sResultadoListar_2.setText(mensaje)
+            resultado = self.servicio.servicios_tipo(tposervicio)
+
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontraron servicios del tipo '{tposervicio}'")
+                return
+            
+            headers = ['ID', 'Nombre', 'Costo', 'Tipo Servicio']
+            data = [[st['numServicio'], st['nombre'], TableManager.format_as_currency(st['costoRenta']), st['tipo_servicio']] for st in resultado]
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Ocurrió un error al buscar servicios por tipo: {e}")
+
 
     def eliminar_servicio(self, id_servicio: int):
         try:
@@ -147,92 +189,79 @@ class ServiceHandler:
 
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Eliminación",
-                    f"No se pudo eliminar el servicio {id_servicio}. Verifique que el numero exista o haya un error en la base de datos.",
+                    f"No se pudo eliminar el servicio {id_servicio}. Verifique que el número exista o haya un error en la base de datos.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Eliminación Exitosa",
                     f"El servicio {id_servicio} ha sido eliminado correctamente.",
                 )
 
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error grave de base de datos durante la eliminación: {e}",
             )
 
-    def buscar_tipo_ser(self):
-        resultado = self.tipo_servi.mostrar_servicios_de_tipo(
-            self.navegacion.tipoBuscar.text()
-        )
-        if resultado:
-            mensaje = f"\n--- {resultado} ---\n Servicios:\n"
-            if resultado.servicios:
-                for servicios in resultado.servicios:
-                    mensaje += f"- {servicios.nombre}\n"
-            else:
-                print(" No tiene servicios registrados")
-
-            self.navegacion.tResultadoS.setText(mensaje)
-
     def listar_servicio_segun_tipo(self):
-        self.navegacion.tResultadoS.clear()  # Limpiar resultados anteriores
+        # NOTE: Asegúrate de que 'tResultadoS' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.tResultadoS
         try:
             tipo_buscado = self.navegacion.tipoBuscar.text().strip()
 
             if not tipo_buscado:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Búsqueda Inválida",
-                    "Por favor, ingresa el **nombre del tipo de servicio** para realizar la búsqueda.",
+                    "Por favor, ingresa el nombre del tipo de servicio para buscar.",
                 )
                 return
 
             resultado = self.servicio.listar_servicio_y_tipo(tipo_buscado)
 
-            if resultado and isinstance(resultado, list) and len(resultado) > 0:
-                mensaje = (
-                    f"\n--- SERVICIOS ENCONTRADOS PARA: {tipo_buscado.upper()} ---\n"
-                )
-
-                for ts in resultado:
-                    mensaje += f"\nServicio: {ts.get('servicio', 'N/D')}\n"
-                    mensaje += f"Descripción: {ts.get('descservicio', 'N/D')}\n"
-                    mensaje += f"Costo Renta: {ts.get('costo_renta', 'N/D')}\n"
-                    mensaje += "--------------------------------------"
-
-                self.navegacion.tResultadoS.setText(mensaje)
-
-            else:
-                QMessageBox.information(
-                    None,
-                    "Sin Resultados",
-                    f"No se encontraron servicios registrados para el tipo: **{tipo_buscado}**.",
-                )
-                self.navegacion.tResultadoS.setText(
-                    f"Tipo '{tipo_buscado}' sin servicios."
-                )
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontraron servicios para el tipo: '{tipo_buscado}'")
+                return
+            
+            headers = ['Servicio', 'Descripción', 'Costo Renta']
+            data = [[ts.get('servicio', 'N/D'), ts.get('descservicio', 'N/D'), TableManager.format_as_currency(ts.get('costo_renta', 'N/D'))] for ts in resultado]
+            
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
 
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error al intentar listar los servicios: {e}",
             )
 
     def buscar_tipoS_eli(self):
-        resultado = self.tipo_servi.listar_tipos_servicio(
-            self.navegacion.tipoBusqueda.text()
-        )
-        if resultado:
-            mensaje = "\nTipo de servicios\n"
-            for row in resultado:
-                mensaje += f"\nCodigo del tipo: {row['codigoTiSer']}\nDescripcion del tipo: {row['descripcion']}\n"
-            self.navegacion.tipoResultado.setText(mensaje)
+        # NOTE: Asegúrate de que 'tipoResultado' sea un QTableWidget en el archivo .ui
+        tabla = self.navegacion.tipoResultado
+        try:
+            tipo_busqueda = self.navegacion.tipoBusqueda.text()
+            resultado = self.tipo_servi.listar_tipos_servicio(tipo_busqueda)
+            
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontró un tipo de servicio con el nombre '{tipo_busqueda}'")
+                return
+
+            headers = ['Código', 'Descripción']
+            data = [[row['codigoTiSer'], row['descripcion']] for row in resultado]
+            
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Ocurrió un error al buscar: {e}")
+
 
     # =========================================================================================
     # MÉTODOS DE CONFIRMACIÓN (UI Triggers)
@@ -267,7 +296,7 @@ class ServiceHandler:
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Registro Cancelado",
                     "La operación de registro de servicio ha sido cancelada.",
                 )
@@ -276,37 +305,37 @@ class ServiceHandler:
             error_type = str(e)
             if "float" in error_type:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Datos Inválidos",
                     "El costo de renta debe ser un valor numérico.",
                 )
             elif "Nombre" in error_type:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Validación de Datos",
                     "El nombre del servicio no es válido (mínimo 2 caracteres).",
                 )
             elif "Descripción" in error_type:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Validación de Datos",
                     "La descripción del servicio no es válida (mínimo 2 caracteres).",
                 )
             elif "Costo Inválido" in error_type:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Validación de Datos",
                     "El costo del servicio debe ser mayor o igual a 1.",
                 )
             elif "Tipo de Servicio" in error_type:
                 QMessageBox.warning(
-                    None,
+                    self.navegacion,
                     "Validación de Datos",
                     "Debes seleccionar un tipo de servicio válido.",
                 )
             else:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Validación",
                     f"Ocurrió un error inesperado en los datos: {e}",
                 )
@@ -327,32 +356,20 @@ class ServiceHandler:
                 self.actualizar_servicio(campo, id_busqueda, nuevo_valor)
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Cancelada",
                     "La operación de actualización del servicio ha sido cancelada.",
                 )
 
-        except ValueError as e:
-            error_msg = str(e)
-            if "invalid literal for int()" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "Asegúrate de que el numero de búsqueda contenga un valor numérico entero válido.",
-                )
-            elif "Campos Vacíos" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "Los campos 'Campo', 'busqueda' y 'Nuevo Valor' no pueden estar vacíos.",
-                )
-            else:
-                QMessageBox.critical(
-                    None, "Error de Pre-Validación", f"Ocurrió un error inesperado: {e}"
-                )
+        except ValueError:
+            QMessageBox.warning(
+                self.navegacion,
+                "Datos Inválidos",
+                "Asegúrate de que el número de búsqueda sea un valor numérico válido y que los demás campos no estén vacíos.",
+            )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error de Pre-Validación",
                 f"Ocurrió un error al procesar los datos: {e}",
             )
@@ -368,20 +385,20 @@ class ServiceHandler:
                 self.eliminar_servicio(id_servicio_a_eliminar)
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Operación Cancelada",
                     "La eliminación del servicio ha sido cancelada por el usuario.",
                 )
 
         except ValueError:
             QMessageBox.warning(
-                None,
+                self.navegacion,
                 "Datos Inválidos",
                 "El ID de servicio a eliminar debe ser un número entero válido.",
             )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error de Pre-Validación",
                 f"Ocurrió un error al intentar leer el ID: {e}",
             )

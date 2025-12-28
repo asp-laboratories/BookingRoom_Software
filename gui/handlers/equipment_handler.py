@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem
+from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem, QTableWidgetItem
 from PyQt6.QtCore import Qt
+from gui.table_manager import TableManager
 
 
 class EquipmentHandler:
@@ -22,19 +23,19 @@ class EquipmentHandler:
 
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Registro",
                     f"No se pudo registrar el equipo '{nombre}'. Verifique la conexión o si el equipo ya existe.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Registro Exitoso",
                     f"El equipamiento '{nombre}' ha sido registrado correctamente.",
                 )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos durante el registro: {e}",
             )
@@ -46,31 +47,32 @@ class EquipmentHandler:
             )
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Actualización",
                     f"No se pudo actualizar el campo '{campo}' del equipo {id_busqueda}. Verifique los datos o si el ID existe.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Exitosa",
                     f"El equipamiento {id_busqueda} ha sido actualizado correctamente.",
                 )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos: {e}",
             )
 
     def desplegar_informacion_equipamiento(self):
+        # NOTE: Consider replacing this text output with a QTableWidget using TableManager.create_info_table
         self.navegacion.sResultadoListar_5.clear()
         try:
             resultado = self.equipamiento.listar_equipamentos_informacion(
                 int(self.navegacion.slIngresarBusqueda_5.text())
             )
             if resultado is None:
-                pass
+                self.navegacion.sResultadoListar_5.setText("No se encontró el equipamiento.")
             else:
                 mensaje = "INFORMACION DEL EQUIPAMIENTO\n"
                 mensaje += f"\n -Nombre: {resultado['nombre']}"
@@ -80,18 +82,13 @@ class EquipmentHandler:
                 self.navegacion.sResultadoListar_5.setText(mensaje)
         except ValueError:
             QMessageBox.warning(
-                None,
-                "Datos Inválidos",
-                "El numero de equipamiento debe ser un número entero válido.",
-            )
-        except TypeError:
-            QMessageBox.warning(
-                None,
+                self.navegacion,
                 "Datos Inválidos",
                 "El numero de equipamiento debe ser un número entero válido.",
             )
 
     def listar_equipamentos_del(self):
+        # NOTE: This should be converted to a QTableWidget for consistency.
         self.navegacion.sResultadoListar_7.clear()
         try:
             resultado = self.equipamiento.listar_equipamentos()
@@ -119,7 +116,7 @@ class EquipmentHandler:
                 self.navegacion.sResultadoListar_7.setHtml(mensaje_html)
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error inesperado",
                 f"Ocurrió un error al listar los equipamientos: {e}",
             )
@@ -129,19 +126,19 @@ class EquipmentHandler:
             resultado = self.equipamiento.eliminar_registro(id_equipamiento)
             if not resultado:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Eliminación",
                     "No se pudo eliminar el equipamiento. Verifique que el numero.",
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Eliminación Exitosa",
                     f"El equipamiento {id_equipamiento} ha sido eliminado correctamente.",
                 )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error grave de base de datos durante la eliminación: {e}",
             )
@@ -156,6 +153,7 @@ class EquipmentHandler:
             )
 
     def buscar_tipo_equipo(self):
+        # NOTE: This should also be converted to a QTableWidget.
         self.navegacion.tResultadoS_3.setText("")
         try:
             tipo_equipamiento_buscado = self.navegacion.sEquipamiento.currentData()
@@ -186,7 +184,7 @@ class EquipmentHandler:
                 self.navegacion.tResultadoS_3.setHtml(mensaje_html)
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error inesperado",
                 f"Ocurrió un error al buscar equipamientos por tipo: {e}",
             )
@@ -200,19 +198,21 @@ class EquipmentHandler:
             )
             if resultado:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Exitosa",
                     f"Se han movido {cantidad} unidades del equipo {num_equipo} al estado '{estado_nuevo}'.",
                 )
+                # Refresh the table to show the change
+                self.buscar_estado_equipamiento()
             else:
                 QMessageBox.critical(
-                    None,
+                    self.navegacion,
                     "Error de Actualización",
                     f"No se pudo actualizar el estado del equipo {num_equipo}. Verifique la existencia del numero, la cantidad disponible en el estado origen o si los estados son válidos.",
                 )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos: {e}",
             )
@@ -296,35 +296,84 @@ class EquipmentHandler:
                 child.widget().deleteLater()
         self.controles_equipos.clear()
 
+    def cargar_tipos_equipamiento_registro(self):
+        """
+        Carga los tipos de equipamiento en el ComboBox de la pantalla de registro.
+        """
+        # NOTE: Asegúrate de que 'eTipoEquipamiento' sea un QComboBox en tu archivo .ui
+        combo = self.navegacion.eTipoEquipamiento
+        combo.clear()
+        combo.addItem("Seleccione un tipo...", None)
+        try:
+            tipos = self.tipo_equipamiento.listar_tipos_equipamentos()
+            if tipos:
+                for tipo in tipos:
+                    combo.addItem(tipo["descripcion"], tipo["codigoTiEquipa"])
+        except Exception as e:
+            QMessageBox.critical(
+                self.navegacion,
+                "Error de Carga",
+                f"No se pudieron cargar los tipos de equipamiento: {e}",
+            )
+
+    def cargar_estados_equipamiento(self):
+        """
+        Carga todos los estados de equipamiento disponibles en el QComboBox.
+        """
+        # NOTE: Asegúrate de que 'almBuscadorE' sea un QComboBox en tu archivo .ui
+        combo = self.navegacion.almBuscadorE
+        combo.clear()
+        combo.addItem("Seleccione un estado...", None)
+
+        try:
+            estados = self.equipamiento.listar_estados()
+            if estados:
+                for estado in estados:
+                    combo.addItem(estado["descripcion"], estado["codigoEquipa"])
+        except Exception as e:
+            QMessageBox.critical(
+                self.navegacion,
+                "Error de Carga",
+                f"No se pudieron cargar los estados de equipamiento: {e}",
+            )
+
     def intentar_registrar_equipamiento(self):
         try:
             costo_renta = float(self.navegacion.eCostoRenta.text())
             stock = int(self.navegacion.eStock.text())
             nombre_equipo = self.navegacion.eNombreEqui.text()
             descripcion = self.navegacion.eDescripcion.text()
-            tipo = self.navegacion.eTipoEquipamiento.text()
+            
+            # Obtener el código del tipo de equipamiento desde el ComboBox
+            codigo_tipo = self.navegacion.eTipoEquipamiento.currentData()
+
+            if not codigo_tipo:
+                QMessageBox.warning(self.navegacion, "Dato Requerido", "Debe seleccionar un tipo de equipamiento.")
+                return
+
             if self.main_window.mostrar_confirmacion(
                 "Confirmar Registro de Equipamiento",
                 f"¿Deseas registrar el equipo '{nombre_equipo}' (Costo: ${costo_renta}, Stock: {stock})?",
             ):
+                # Se pasa el código directamente al servicio refactorizado
                 self.registrar_equipamiento(
-                    nombre_equipo, descripcion, costo_renta, stock, tipo
+                    nombre_equipo, descripcion, costo_renta, stock, codigo_tipo
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Registro Cancelado",
                     "La operación de registro ha sido cancelada.",
                 )
         except ValueError:
             QMessageBox.warning(
-                None,
+                self.navegacion,
                 "Datos Inválidos",
                 "Asegúrate de que 'Costo de Renta' y 'Stock' contengan valores numéricos válidos.",
             )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error de Pre-Validación",
                 f"Ocurrió un error al procesar los datos: {e}",
             )
@@ -341,19 +390,19 @@ class EquipmentHandler:
                 self.actualizar_equipamiento(campo, id_busqueda, nuevo_valor)
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Cancelada",
                     "La operación de actualización del equipamiento ha sido cancelada.",
                 )
         except ValueError:
             QMessageBox.warning(
-                None,
+                self.navegacion,
                 "Datos Inválidos",
                 "Asegúrate de que la búsqueda contenga un valor numérico entero válido.",
             )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error de Pre-Validación",
                 f"Ocurrió un error al procesar los datos: {e}",
             )
@@ -368,118 +417,119 @@ class EquipmentHandler:
                 self.eliminar_equipamiento(id_equipo_a_eliminar)
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Operación Cancelada",
                     "La eliminación del equipamiento ha sido cancelada por el usuario.",
                 )
         except ValueError:
             QMessageBox.warning(
-                None,
+                self.navegacion,
                 "Datos Inválidos",
                 "El equipamiento a eliminar debe ser un número entero válido.",
             )
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error de Pre-Validación",
                 f"Ocurrió un error al intentar leer el ID: {e}",
             )
 
-    def intentar_actualizar_estado_equipa(self):
+    def intentar_actualizar_estado_desde_tabla(self):
+        """
+        Intenta actualizar el estado de un equipo seleccionado desde la tabla.
+        Lee la fila seleccionada para obtener el estado de origen y el ID.
+        Toma el nuevo estado y la cantidad de los campos de entrada de la UI.
+        """
+        # NOTE: Asegúrate de que los widgets 'almNuevoEstado', 'almCantidadMover' 
+        # y 'tablaEstadosEqui' existan en tu archivo .ui
+        tabla = self.navegacion.tablaEstadosEqui
+        selected_items = tabla.selectedItems()
+
+        if not selected_items:
+            QMessageBox.warning(self.navegacion, "Selección Requerida", "Por favor, selecciona un equipo de la tabla para actualizar.")
+            return
+
         try:
-            num_equipo = int(self.navegacion.numE.text())
-            cantidad = int(self.navegacion.almCantidade.text())
-            estado_nuevo = self.navegacion.almEstadoO.text().strip()
-            estado_origen = self.navegacion.almEstadoE.text().strip()
-            if not estado_nuevo or not estado_origen:
-                raise ValueError("Campos de estado vacíos")
+            selected_row = selected_items[0].row()
+            num_equipo = int(tabla.item(selected_row, 0).text())
+            estado_origen = tabla.item(selected_row, 2).text()
+            cantidad_disponible = int(tabla.item(selected_row, 3).text())
+
+            estado_nuevo = self.navegacion.almNuevoEstado.text().strip()
+            cantidad_a_mover_str = self.navegacion.almCantidadMover.text().strip()
+
+            if not estado_nuevo or not cantidad_a_mover_str:
+                raise ValueError("Campos de entrada vacíos")
+
+            cantidad_a_mover = int(cantidad_a_mover_str)
+
+            if cantidad_a_mover <= 0:
+                QMessageBox.warning(self.navegacion, "Cantidad Inválida", "La cantidad a mover debe ser mayor que cero.")
+                return
+            
+            if cantidad_a_mover > cantidad_disponible:
+                QMessageBox.warning(self.navegacion, "Cantidad Excedida", f"No puedes mover más de {cantidad_disponible} unidades.")
+                return
+
             if self.main_window.mostrar_confirmacion(
                 "Confirmar Actualización de Estado",
-                f"¿Deseas mover {cantidad} unidades del equipo {num_equipo} desde el estado '{estado_origen}' al nuevo estado '{estado_nuevo}'?",
+                f"¿Mover {cantidad_a_mover} unidad(es) del equipo #{num_equipo}\n"
+                f"Desde '{estado_origen}' hacia '{estado_nuevo}'?",
             ):
                 self.actualizar_estado_equipa(
-                    num_equipo, estado_nuevo, estado_origen, cantidad
+                    num_equipo, estado_nuevo, estado_origen, cantidad_a_mover
                 )
             else:
                 QMessageBox.information(
-                    None,
+                    self.navegacion,
                     "Actualización Cancelada",
-                    "La operación de actualización del estado ha sido cancelada.",
+                    "La operación ha sido cancelada.",
                 )
-        except ValueError as e:
-            error_msg = str(e)
-            if "invalid literal for int()" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "Asegúrate de que los campos de numero y cantidad contengan valores numéricos enteros válidos.",
-                )
-            elif "Campos de estado vacíos" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Faltantes",
-                    "Los campos Estado Nuevo' y Estado Origen' no pueden estar vacíos.",
-                )
-            else:
-                QMessageBox.critical(
-                    None,
-                    "Error de Pre-Validación",
-                    f"Ocurrió un error inesperado al validar los datos: {e}",
-                )
+
+        except ValueError:
+            QMessageBox.warning(
+                self.navegacion,
+                "Datos Inválidos",
+                "Asegúrate de que la 'Cantidad a Mover' sea un número válido y que el 'Nuevo Estado' no esté vacío.",
+            )
         except Exception as e:
             QMessageBox.critical(
-                None, "Error Inesperado", f"Ocurrió un error al procesar los datos: {e}"
+                self.navegacion, "Error Inesperado", f"Ocurrió un error al procesar la actualización: {e}"
             )
 
     def buscar_estado_equipamiento(self):
-        self.navegacion.almResulE.clear()  # Limpiar resultados anteriores
-
+        # NOTE: Asegúrate de que 'tablaEstadosEqui' sea un QTableWidget y 'almBuscadorE' un QComboBox en el archivo .ui
+        tabla = self.navegacion.tablaEstadosEqui
+        combo = self.navegacion.almBuscadorE
+        
         try:
-            estado_buscado = self.navegacion.almBuscadorE.text().strip()
-
-            if not estado_buscado:
-                QMessageBox.warning(
-                    None,
-                    "Búsqueda Inválida",
-                    "Por favor, ingresa el **estado de equipamiento** que deseas buscar (ej. 'Operativo', 'En Reparación').",
-                )
+            # No realizar la búsqueda si el placeholder está seleccionado
+            if combo.currentIndex() == 0:
+                TableManager.show_message(tabla, "Seleccione un estado para buscar")
                 return
-
+            
+            estado_buscado = combo.currentText()
             resultado = self.equipamiento.obtener_equipa_estado(estado_buscado)
 
-            if not resultado: # If resultado is None or empty list
-                QMessageBox.information(
-                    None,
-                    "Sin Resultados",
-                    f"No se encontró equipamiento en el estado '{estado_buscado}' o el estado no es válido.",
-                )
-                # Removed redundant setText call here
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontró equipamiento en estado '{estado_buscado}'")
                 return
-            else:
-                mensaje_html = '<div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">'
-                mensaje_html += f'<h3 style="color: #9b582b;">EQUIPAMIENTOS EN ESTADO: {estado_buscado.upper()}</h3>'
-
-                for equi in resultado:
-                    numero = equi.get('Numero', 'N/A')
-                    nombre = equi.get('Nombre', 'N/A')
-                    estado_actual = equi.get('Estado', 'N/A')
-                    cantidad = equi.get('Cantidad', 'N/A')
-                    
-                    mensaje_html += f"""
-                    <div style="border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 5px;">
-                        <p><b>Número:</b> {numero}</p>
-                        <p><b>Nombre:</b> {nombre}</p>
-                        <p><b>Estado Actual:</b> {estado_actual}</p>
-                        <p><b>Cantidad:</b> {cantidad}</p>
-                    </div>
-                    """
-                
-                mensaje_html += "</div>"
-                self.navegacion.almResulE.setHtml(mensaje_html)
+            
+            headers = ['Número', 'Nombre', 'Estado Actual', 'Cantidad']
+            data = [[
+                equi.get('Numero', 'N/A'),
+                equi.get('Nombre', 'N/A'),
+                equi.get('Estado', 'N/A'),
+                equi.get('Cantidad', 'N/A')
+            ] for equi in resultado]
+            
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
 
         except Exception as e:
             QMessageBox.critical(
-                None,
+                self.navegacion,
                 "Error Inesperado",
-                f"Ocurrió un error al intentar buscar el equipamiento: {e}",
+                f"Ocurrió un error al buscar el equipamiento: {e}",
             )
