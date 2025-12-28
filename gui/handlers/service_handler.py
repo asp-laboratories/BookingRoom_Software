@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QPushButton, QInputDialog, QWidget, QHBoxLayout, QTableWidgetItem
+from functools import partial
 from utils.Formato import permitir_ingreso
 from gui.table_manager import TableManager
 
@@ -16,6 +17,9 @@ class ServiceHandler:
             self.cargar_tipos_servicios_for_recepcion()
             self.navegacion.tipoBuscar.currentIndexChanged.connect(self.listar_servicio_segun_tipo)
 
+        if hasattr(self.navegacion, 'experimentarBoton'):
+            self.setup_experimentar_tab()
+
     def cargar_tipos_servicios_for_recepcion(self):
         self.navegacion.tipoBuscar.clear()
         self.navegacion.tipoBuscar.addItem("Seleccione un tipo de servicio:", None)
@@ -26,6 +30,103 @@ class ServiceHandler:
             self.navegacion.tipoBuscar.addItem(
                 tipo["descripcion"], tipo["codigoTiSer"]
             )
+
+    # =========================================================================================
+    # MÉTODOS PARA EXPERIMENTAR
+    # =========================================================================================
+
+    def setup_experimentar_tab(self):
+        # Cargar tipos de servicio en el ComboBox
+        self.cargar_tipos_servicios_experimentar()
+        # Conectar el botón a la función de listar
+        self.navegacion.experimentarBoton.clicked.connect(self.listar_servicios_para_experimentar)
+
+    def cargar_tipos_servicios_experimentar(self):
+        combo = self.navegacion.experimentarCombo
+        combo.clear()
+        combo.addItem("Seleccione un tipo de servicio", None)
+        tipos = self.tipo_servi.listar_tipos_servicios()
+        for tipo in tipos:
+            combo.addItem(tipo['descripcion'], tipo['codigoTiSer'])
+
+    def listar_servicios_para_experimentar(self):
+        tabla = self.navegacion.experimentarTabla
+        tipo_servicio_nombre = self.navegacion.experimentarCombo.currentText()
+
+        if self.navegacion.experimentarCombo.currentIndex() == 0:
+            TableManager.show_message(tabla, "Por favor, seleccione un tipo de servicio.")
+            return
+
+        try:
+            resultado = self.servicio.servicios_tipo(tipo_servicio_nombre)
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontraron servicios del tipo '{tipo_servicio_nombre}'.")
+                tabla.setRowCount(0) # Limpiar la tabla si no hay resultados
+                return
+
+            headers = ['ID', 'Nombre', 'Costo', 'Tipo Servicio', 'Acciones']
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            tabla.setRowCount(len(resultado))
+
+            for row, st in enumerate(resultado):
+                service_id = st['numServicio']
+                
+                # Llenar la tabla con datos
+                tabla.setItem(row, 0, QTableWidgetItem(str(st['numServicio'])))
+                tabla.setItem(row, 1, QTableWidgetItem(st['nombre']))
+                tabla.setItem(row, 2, QTableWidgetItem(TableManager.format_as_currency(st['costoRenta'])))
+                tabla.setItem(row, 3, QTableWidgetItem(st['tipo_servicio']))
+
+                # Crear y añadir botones de acción
+                action_buttons_widget = self._crear_botones_accion(service_id)
+                tabla.setCellWidget(row, len(headers) - 1, action_buttons_widget)
+
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Ocurrió un error al listar los servicios: {e}")
+
+    def _crear_botones_accion(self, service_id):
+        # Contenedor para los botones
+        widget = QWidget()
+        layout = QHBoxLayout(widget)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(5)
+
+        # Botón de Actualizar
+        btn_actualizar = QPushButton("Actualizar")
+        btn_actualizar.clicked.connect(partial(self._actualizar_servicio_desde_tabla, service_id))
+        layout.addWidget(btn_actualizar)
+
+        # Botón de Eliminar
+        btn_eliminar = QPushButton("Eliminar")
+        btn_eliminar.clicked.connect(partial(self._eliminar_servicio_desde_tabla, service_id))
+        layout.addWidget(btn_eliminar)
+
+        return widget
+
+    def _actualizar_servicio_desde_tabla(self, service_id):
+        # Aquí iría la lógica para la actualización.
+        # Por simplicidad, usamos QInputDialog para obtener el nuevo valor de un campo.
+        campo, ok = QInputDialog.getText(self.navegacion, 'Actualizar Servicio', 'Campo a actualizar (nombre, descripcion, costoRenta):')
+        if ok and campo and campo in ['nombre', 'descripcion', 'costoRenta']:
+            nuevo_valor, ok = QInputDialog.getText(self.navegacion, 'Actualizar Servicio', f'Nuevo valor para {campo}:')
+            if ok and nuevo_valor:
+                self.actualizar_servicio(campo, service_id, nuevo_valor)
+                # Refrescar la tabla
+                self.listar_servicios_para_experimentar()
+        elif ok:
+            QMessageBox.warning(self.navegacion, "Campo no válido", "El campo a actualizar no es válido.")
+
+    def _eliminar_servicio_desde_tabla(self, service_id):
+        confirmacion = self.main_window.mostrar_confirmacion(
+            "Confirmar Eliminación",
+            f"⚠️ ¿Estás seguro de ELIMINAR el servicio con ID: {service_id}? Esta acción es irreversible."
+        )
+        if confirmacion:
+            self.eliminar_servicio(service_id)
+            # Refrescar la tabla
+            self.listar_servicios_para_experimentar()
+
 
     # =========================================================================================
     # MÉTODOS PARA SERVICIOS
