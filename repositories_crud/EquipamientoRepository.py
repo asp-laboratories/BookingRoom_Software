@@ -75,19 +75,13 @@ class EquipamentoRepository:
         if not self.db.conectar():
             return False
 
-        CAMPOS = {
-            "Nombre": "nombre",
-            "Costo de renta": "costoRenta",
-            "Descripcion": "descripcion",
-            "Cantidad": "stock",
-            "Tipo de equipamiento": "tipo_equipa",
-        }
+        CAMPOS = ["nombre", "costoRenta", "descripcion", "stock", "tipo_equipa"]
 
         if campo not in CAMPOS:
-            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            print(f"Error: El campo '{campo}' no es válido o no está permitido para actualización.")
             return False
 
-        transformar_campo = CAMPOS[campo]
+        transformar_campo = campo
 
         try:
             cursor = self.db.cursor(dictionary=True)
@@ -107,6 +101,7 @@ class EquipamentoRepository:
             return True
         except Exception as error:
             print(f"Error al actualizar: {error}")
+            return False
         finally:
             cursor.close()
             self.db.desconectar()

@@ -133,7 +133,7 @@ class TipoEquipaRepository:
             return None
 
         try:
-            cursor = self.db.cursor()
+            cursor = self.db.cursor(dictionary=True)
             cursor.execute(
                 """
 select
@@ -141,7 +141,8 @@ e.numEquipa as numero,
 te.descripcion as tipo_equipamiento,
 e.nombre as equipamiento,
 e.descripcion as descripcion,
-e.costoRenta as costo
+e.costoRenta as costo,
+e.stock as stock
 from equipamiento as e
 inner join tipo_equipa as te on e.tipo_equipa = te.codigoTiEquipa
 WHERE te.codigoTiEquipa = %s

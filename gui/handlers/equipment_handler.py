@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem
+from PyQt6.QtWidgets import QMessageBox, QLabel, QPushButton, QListWidgetItem,  QTableWidgetItem, QTableWidget 
 from PyQt6.QtCore import Qt
 from gui.table_manager import TableManager
 
@@ -14,6 +14,10 @@ class EquipmentHandler:
         self.cantidades = {}
         self.controles_equipos = {}
         self.datos_finales = {}
+
+        if hasattr(self.navegacion, 'sEquipamiento'):
+            self.cargar_tipos_equipamiento()
+            self.navegacion.sEquipamiento.currentIndexChanged.connect(self.buscar_tipo_equipo)
 
     def registrar_equipamiento(self, nombre, descripcion, costo, stock, tipo):
         try:
@@ -51,18 +55,14 @@ class EquipmentHandler:
                     "Error de Actualización",
                     f"No se pudo actualizar el campo '{campo}' del equipo {id_busqueda}. Verifique los datos o si el ID existe.",
                 )
-            else:
-                QMessageBox.information(
-                    self.navegacion,
-                    "Actualización Exitosa",
-                    f"El equipamiento {id_busqueda} ha sido actualizado correctamente.",
-                )
+            return resultado
         except Exception as e:
             QMessageBox.critical(
                 self.navegacion,
                 "Error Inesperado",
                 f"Ocurrió un error de conexión/base de datos: {e}",
             )
+            return False
 
     def desplegar_informacion_equipamiento(self):
         # NOTE: Consider replacing this text output with a QTableWidget using TableManager.create_info_table
@@ -153,35 +153,59 @@ class EquipmentHandler:
             )
 
     def buscar_tipo_equipo(self):
-        # NOTE: This should also be converted to a QTableWidget.
-        self.navegacion.tResultadoS_3.setText("")
+        tabla = self.navegacion.tResultadoS_3
+        
         try:
             tipo_equipamiento_buscado = self.navegacion.sEquipamiento.currentData()
             if not tipo_equipamiento_buscado:
-                self.navegacion.tResultadoS_3.setText("Por favor, seleccione un tipo de equipamiento válido.")
+                TableManager.show_message(tabla, "Por favor, seleccione un tipo de equipamiento válido.")
                 return
 
             resultado = self.equipamiento.listar_equipamiento_tipo(tipo_equipamiento_buscado)
 
             if not resultado:
-                self.navegacion.tResultadoS_3.setText(f"No se encontraron equipamientos para el tipo: '{tipo_equipamiento_buscado}'.")
-            else:
-                mensaje_html = '<div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">'
-                mensaje_html += f'<h3 style="color: #9b582b;">EQUIPAMIENTOS DE TIPO: {tipo_equipamiento_buscado.upper()}</h3>'
-                
-                for bes in resultado:
-                    numero = bes.get('numero', 'N/A')
-                    equipamiento_nombre = bes.get('equipamiento', 'N/A')
-                    
-                    mensaje_html += f"""
-                    <div style="border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 5px;">
-                        <p><b>Número:</b> {numero}</p>
-                        <p><b>Equipamiento:</b> {equipamiento_nombre}</p>
-                    </div>
-                    """
-                
-                mensaje_html += "</div>"
-                self.navegacion.tResultadoS_3.setHtml(mensaje_html)
+                TableManager.show_message(tabla, f"No se encontraron equipamientos para el tipo seleccionado.")
+                return
+
+            self.datos_tabla_actual_equipo = resultado
+            self.id_equipos = [eq.get('numero') for eq in resultado]
+
+            headers = ['Nombre', 'Descripción', 'Costo', 'Stock']
+            data = [
+                [
+                    eq.get('equipamiento', 'N/A'),
+                    eq.get('descripcion', 'N/A'),
+                    TableManager.format_as_currency(eq.get('costo', 0)),
+                    eq.get('stock', 0)
+                ]
+                for eq in resultado
+            ]
+            
+            try:
+                tabla.itemChanged.disconnect(self.on_equipo_table_item_changed)
+            except Exception:
+                pass
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            
+            tabla.blockSignals(True)
+            tabla.setRowCount(0)
+            tabla.setRowCount(len(data))
+            
+            for row_idx, row_data in enumerate(data):
+                for col_idx, cell_data in enumerate(row_data):
+                    item = QTableWidgetItem(str(cell_data))
+                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsEditable)
+                    if col_idx == 2:
+                        item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+                    tabla.setItem(row_idx, col_idx, item)
+            
+            tabla.blockSignals(False)
+            tabla.itemChanged.connect(self.on_equipo_table_item_changed)
+            tabla.resizeColumnsToContents()
+            tabla.setEditTriggers(QTableWidget.EditTrigger.DoubleClicked | QTableWidget.EditTrigger.EditKeyPressed)
+
         except Exception as e:
             QMessageBox.critical(
                 self.navegacion,
@@ -531,5 +555,90 @@ class EquipmentHandler:
             QMessageBox.critical(
                 self.navegacion,
                 "Error Inesperado",
-                f"Ocurrió un error al buscar el equipamiento: {e}",
+                                f"Ocurrió un error al buscar el equipamiento: {e}",
+                            )
+                
+    def on_equipo_table_item_changed(self, item):
+        """
+        Maneja los cambios en las celdas de la tabla de equipamiento.
+        """
+        try:
+            fila = item.row()
+            columna = item.column()
+            nuevo_valor = item.text()
+            
+            if not hasattr(self, 'id_equipos') or fila >= len(self.id_equipos):
+                QMessageBox.warning(self.navegacion, "Error de Datos", "No se encontró la información del equipo. Recargue la tabla.")
+                return
+            
+            id_equipo = self.id_equipos[fila]
+            
+            mapeo_campos = {
+                0: 'nombre',
+                1: 'descripcion',
+                2: 'costoRenta',
+                3: 'stock'
+            }
+            
+            campo = mapeo_campos.get(columna)
+            if not campo:
+                return
+
+            if columna in [2, 3]:  # Validar costo y stock como números
+                try:
+                    float(nuevo_valor)
+                except ValueError:
+                    QMessageBox.warning(self.navegacion, "Valor Inválido", f"El campo '{campo}' debe ser un valor numérico.")
+                    self.restaurar_valor_celda_equipo(fila, columna)
+                    return
+
+            respuesta = QMessageBox.question(
+                self.navegacion,
+                "Confirmar Cambio",
+                f"¿Desea actualizar el campo '{campo}' del equipo ID {id_equipo} a '{nuevo_valor}'?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No
             )
+            
+            if respuesta == QMessageBox.StandardButton.Yes:
+                exito = self.actualizar_equipamiento(campo, id_equipo, nuevo_valor)
+                
+                if exito:
+                    if hasattr(self, 'datos_tabla_actual_equipo'):
+                        self.datos_tabla_actual_equipo[fila][campo] = nuevo_valor
+                    
+                    if columna == 2: # Formato de moneda para costo
+                        item.setText(TableManager.format_as_currency(nuevo_valor))
+
+                    QMessageBox.information(self.navegacion, "Cambio Guardado", "El cambio ha sido guardado exitosamente.")
+                else:
+                    self.restaurar_valor_celda_equipo(fila, columna)
+            else:
+                self.restaurar_valor_celda_equipo(fila, columna)
+                
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Error al procesar el cambio: {e}")
+            if 'fila' in locals() and 'columna' in locals():
+                self.restaurar_valor_celda_equipo(fila, columna)
+
+    def restaurar_valor_celda_equipo(self, fila, columna):
+        """
+        Restaura el valor original de una celda en la tabla de equipamiento.
+        """
+        tabla = self.navegacion.tResultadoS_3
+        if hasattr(self, 'datos_tabla_actual_equipo') and fila < len(self.datos_tabla_actual_equipo):
+            datos = self.datos_tabla_actual_equipo[fila]
+            
+            mapeo_valores = {
+                0: datos.get('nombre', ''),
+                1: datos.get('descripcion', ''),
+                2: TableManager.format_as_currency(datos.get('costoRenta', '')),
+                3: datos.get('stock', '')
+            }
+            
+            valor_original = mapeo_valores.get(columna, '')
+            
+            tabla.blockSignals(True)
+            tabla.item(fila, columna).setText(str(valor_original))
+            tabla.blockSignals(False)
+

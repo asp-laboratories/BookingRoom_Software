@@ -61,7 +61,9 @@ class EquipamentoService:
             )
 
     def actualizar_equipamento(self, campo, numEquipa, valor):
-        self.equipamento_repository.actualizar_equipamientos(campo, numEquipa, valor)
+        return self.equipamento_repository.actualizar_equipamientos(
+            campo, numEquipa, valor
+        )
 
     def aliminar_equipamento(self, numEquipa):
         self.equipamento_repository.eliminar_equipamiento(numEquipa)
