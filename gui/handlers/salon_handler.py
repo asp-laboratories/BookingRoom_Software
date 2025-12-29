@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QTableWidget 
+
 
 
 class SalonHandler:
@@ -6,6 +7,9 @@ class SalonHandler:
         self.main_window = main_window
         self.navegacion = self.main_window.navegacion
         self.salon = self.main_window.salon
+
+        if hasattr(self.navegacion, 'sResultadoListar_4'):
+            self.desplegar_informacion_salon()
 
     # =========================================================================================
     # MÉTODOS PARA SALONES
@@ -144,61 +148,63 @@ class SalonHandler:
             )
 
     def desplegar_informacion_salon(self):
-        self.navegacion.sResultadoListar_4.clear()
+        from PyQt6.QtWidgets import QTableWidgetItem
+        from PyQt6.QtCore import Qt
+        
+        tabla = self.navegacion.sResultadoListar_4
         try:
-            termino_busqueda = self.navegacion.slIngresarBusqueda_4.text()
-            sali = self.salon.listar_salones_informacion(termino_busqueda)
+            resultado = self.salon.listar_salones()
 
-            if not sali:
-                self.navegacion.sResultadoListar_4.setText(f"No se encontró información para el salón: {termino_busqueda}")
-            else:
-                nombre = sali.get('nombre', 'N/A')
-                costoRenta = float(sali.get('costoRenta', 0.0))
-                dimenLargo = sali.get('dimenLargo', 'N/A')
-                dimenAncho = sali.get('dimenAncho', 'N/A')
-                dimenAltura = sali.get('dimenAltura', 'N/A')
-                mCuadrados = sali.get('mCuadrados', 'N/A')
-                ubiNombrePas = sali.get('ubiNombrePas', 'N/A')
-                ubiNumeroPas = sali.get('ubiNumeroPas', 'N/A')
+            if not resultado:
+                QMessageBox.information(None, "Sin Resultados", "No hay salones registrados para mostrar.")
+                tabla.setRowCount(0)
+                return
 
-                mensaje_html = f"""
-                <div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">
-                    <h3 style="color: #9b582b;">INFORMACIÓN DETALLADA DEL SALÓN</h3>
-                    <p><b>Nombre:</b> {nombre}</p>
-                    <p><b>Costo de Renta:</b> ${costoRenta:,.2f}</p>
-                    <p><b>Dimensiones:</b></p>
-                    <ul>
-                        <li>Largo: {dimenLargo} m</li>
-                        <li>Ancho: {dimenAncho} m</li>
-                        <li>Altura: {dimenAltura} m</li>
-                        <li>Metros Cuadrados: {mCuadrados} m²</li>
-                    </ul>
-                    <p><b>Ubicación:</b></p>
-                    <ul>
-                        <li>Pasillo: {ubiNombrePas}</li>
-                        <li>Número de Pasillo: {ubiNumeroPas}</li>
-                    </ul>
-                </div>
-                """
-                self.navegacion.sResultadoListar_4.setHtml(mensaje_html)
-        except ValueError:
-            QMessageBox.warning(
-                None,
-                "Datos Inválidos",
-                "El número de salón debe ser un número entero válido para la búsqueda.",
-            )
-        except TypeError: # This might occur if list_salones_informacion returns unexpected data
-            QMessageBox.warning(
-                None,
-                "Error de datos",
-                "No se pudieron procesar los datos del salón. Verifique el formato.",
-            )
+            self.datos_tabla_salones = resultado
+            self.id_salones = [s.get('numSalon') for s in resultado]
+
+            headers = ['ID', 'Nombre', 'Costo Renta', 'Pasillo', 'Num Pasillo', 'Largo (m)', 'Ancho (m)', 'Altura (m)']
+            
+            try:
+                tabla.itemChanged.disconnect(self.on_salon_table_item_changed)
+            except TypeError:
+                pass
+
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            
+            tabla.blockSignals(True)
+            tabla.setRowCount(len(resultado))
+
+            for row_idx, sali in enumerate(resultado):
+                id_item = QTableWidgetItem(str(sali.get('numSalon', '')))
+                id_item.setFlags(id_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                tabla.setItem(row_idx, 0, id_item)
+
+                editable_data = {
+                    1: sali.get('nombre', 'N/A'),
+                    2: f"${float(sali.get('costoRenta', 0)):,.2f}",
+                    3: sali.get('ubiNombrePas', 'N/A'),
+                    4: str(sali.get('ubiNumeroPas', 'N/A')),
+                    5: str(sali.get('dimenLargo', '')),
+                    6: str(sali.get('dimenAncho', '')),
+                    7: str(sali.get('dimenAltura', ''))
+                }
+
+                for col_idx, cell_data in editable_data.items():
+                    item = QTableWidgetItem(cell_data)
+                    item.setFlags(item.flags() | Qt.ItemFlag.ItemIsEditable)
+                    tabla.setItem(row_idx, col_idx, item)
+
+            tabla.blockSignals(False)
+            tabla.itemChanged.connect(self.on_salon_table_item_changed)
+            tabla.resizeColumnsToContents()
+            tabla.setEditTriggers(QTableWidget.EditTrigger.DoubleClicked | QTableWidget.EditTrigger.EditKeyPressed)
+
+        except AttributeError:
+             QMessageBox.critical(None, "Error de UI", "El elemento 'sResultadoListar_4' no es una tabla (QTableWidget).\n\nPor favor, en Qt Designer, cambie el tipo de este widget de QTextEdit a QTableWidget.")
         except Exception as e:
-            QMessageBox.critical(
-                None,
-                "Error inesperado",
-                f"Ocurrió un error al desplegar la información del salón: {e}",
-            )
+            QMessageBox.critical(None, "Error Inesperado", f"Ocurrió un error al listar los salones: {e}")
 
     def cargar_seleccion_estado_salon(self):
         self.navegacion.reSalonSelecc_2.clear()
@@ -457,3 +463,91 @@ class SalonHandler:
                 "Error Inesperado",
                 f"Ocurrió un error grave durante el proceso: {e}",
             )
+
+    def on_salon_table_item_changed(self, item):
+        """
+        Maneja los cambios en las celdas de la tabla de salones (sResultadoListar_4).
+        """
+        try:
+            fila = item.row()
+            columna = item.column()
+            nuevo_valor = item.text()
+
+            if not hasattr(self, 'id_salones') or fila >= len(self.id_salones):
+                return
+
+            id_salon = self.id_salones[fila]
+
+            mapeo_campos = {
+                1: 'nombre', 2: 'costoRenta', 3: 'ubiNombrePas', 4: 'ubiNumeroPas',
+                5: 'dimenLargo', 6: 'dimenAncho', 7: 'dimenAltura'
+            }
+            
+            campo_bd = mapeo_campos.get(columna)
+            if not campo_bd:
+                return
+
+            if campo_bd in ['costoRenta', 'dimenLargo', 'dimenAncho', 'dimenAltura']:
+                try:
+                    # Permitir comas y puntos para la validación, pero usar punto para float
+                    valor_a_validar = nuevo_valor.replace('$', '').replace(',', '')
+                    float(valor_a_validar)
+                except ValueError:
+                    QMessageBox.warning(self.navegacion, "Valor Inválido", f"El valor para '{campo_bd}' debe ser numérico.")
+                    self.restaurar_valor_celda_salon(fila, columna)
+                    return
+
+            respuesta = QMessageBox.question(
+                self.navegacion, "Confirmar Cambio",
+                f"¿Desea actualizar el campo '{campo_bd}' del salón ID {id_salon} a '{nuevo_valor}'?",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No
+            )
+            
+            if respuesta == QMessageBox.StandardButton.Yes:
+                valor_a_guardar = nuevo_valor.replace('$', '').replace(',', '')
+                exito = self.salon.actualizar_campos(campo_bd, id_salon, valor_a_guardar)
+                
+                if exito:
+                    self.datos_tabla_salones[fila][campo_bd] = valor_a_guardar
+                    if campo_bd == 'costoRenta':
+                        item.setText(f"${float(valor_a_guardar):,.2f}")
+                    QMessageBox.information(self.navegacion, "Cambio Guardado", "El cambio ha sido guardado exitosamente.")
+                else:
+                    QMessageBox.critical(self.navegacion, "Error de Actualización", f"No se pudo actualizar el campo '{campo_bd}'.")
+                    self.restaurar_valor_celda_salon(fila, columna)
+            else:
+                self.restaurar_valor_celda_salon(fila, columna)
+                
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error", f"Error al procesar el cambio: {e}")
+            if 'fila' in locals() and 'columna' in locals():
+                self.restaurar_valor_celda_salon(fila, columna)
+
+    def restaurar_valor_celda_salon(self, fila, columna):
+        """
+        Restaura el valor original de una celda en la tabla de salones (sResultadoListar_4).
+        """
+        tabla = self.navegacion.sResultadoListar_4
+        if hasattr(self, 'datos_tabla_salones') and fila < len(self.datos_tabla_salones):
+            datos_originales = self.datos_tabla_salones[fila]
+            
+            mapeo_campos = {
+                1: 'nombre', 2: 'costoRenta', 3: 'ubiNombrePas', 4: 'ubiNumeroPas',
+                5: 'dimenLargo', 6: 'dimenAncho', 7: 'dimenAltura'
+            }
+            campo_bd = mapeo_campos.get(columna)
+
+            if not campo_bd: return
+
+            valor_original = datos_originales.get(campo_bd, '')
+            
+            if campo_bd == 'costoRenta':
+                valor_original_display = f"${float(valor_original):,.2f}"
+            else:
+                valor_original_display = str(valor_original)
+
+
+            tabla.blockSignals(True)
+            tabla.item(fila, columna).setText(valor_original_display)
+            tabla.blockSignals(False)

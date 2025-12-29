@@ -113,22 +113,22 @@ where es.descripcion = %s
         if not self.db.conectar():
             return False
 
-        CAMPOS = {
-            "Nombre": "nombre",
-            "Costo de renta": "costoRenta",
-            "Nombre del pasillo": "ubiNombrePas",
-            "Numero del pasillo": "ubiNumeroPas",
-            "Largo del salon": "dimenLargo",
-            "Ancho del salon": "dimenAncho",
-            "Altura del salon": "dimenAltura",
-            "Metros cuadrados": "mCuadrados",
-        }
+        CAMPOS = [
+            "nombre",
+            "costoRenta",
+            "ubiNombrePas",
+            "ubiNumeroPas",
+            "dimenLargo",
+            "dimenAncho",
+            "dimenAltura",
+            "mCuadrados",
+        ]
 
         if campo not in CAMPOS:
-            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            print(f"Error: El campo '{campo}' no es válido o no está permitido para actualización.")
             return False
 
-        transformar_campo = CAMPOS[campo]
+        transformar_campo = campo
 
         try:
             cursor = self.db.cursor(dictionary=True)
