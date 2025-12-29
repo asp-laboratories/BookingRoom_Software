@@ -95,20 +95,27 @@ class TrabajadorRepository:
             return None
 
         try:
-            like = f"%{buscador}%"
-            print(like)
+            like_pattern = f"%{buscador}%"
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute(f"""
-                SELECT t.RFC as RFC, CONCAT(t.nombre, ' ', t.priApellido, ' ', t.segApellido) as nombre, r.descripcion as rol  
+            cursor.execute("""
+                SELECT 
+                    t.RFC, 
+                    t.numTrabajador,
+                    t.nombre, 
+                    t.priApellido, 
+                    t.segApellido, 
+                    t.email,
+                    r.descripcion as rol  
                 FROM trabajador as t
                 INNER JOIN rol as r on t.rol = r.codigoRol
-                WHERE nombre LIKE "%{buscador}%" 
-            """)
+                WHERE t.nombre LIKE %s
+            """, (like_pattern,))
             resultadoTraba = cursor.fetchall()
 
             return resultadoTraba
         except Exception as error:
             print(f"Error: {error}")
+            return None # Return None on error
         finally:
             cursor.close()
             self.db.desconectar()
@@ -161,6 +168,34 @@ WHERE t.nombre LIKE "%{buscador}%"
 
         except Exception as e:
             print(f"Error al actualizar trabajador: {e}")
+            return False
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
+    def actualizar_trabajador(self, campo, rfc, valor):
+        if not self.db.conectar():
+            return False
+
+        CAMPOS_PERMITIDOS = ["nombre", "priApellido", "segApellido", "email"]
+        if campo not in CAMPOS_PERMITIDOS:
+            print(f"Error: El campo '{campo}' no es válido o no está permitido para actualización.")
+            return False
+
+        try:
+            cursor = self.db.cursor()
+            query = f"UPDATE trabajador SET {campo} = %s WHERE RFC = %s"
+            cursor.execute(query, (valor, rfc))
+            self.db.connection.commit()
+            
+            if cursor.rowcount == 0:
+                print(f"Advertencia: No se encontró ningún trabajador con RFC '{rfc}' para actualizar.")
+                return False
+
+            print(f"Trabajador con RFC {rfc} actualizado correctamente en el campo {campo}.")
+            return True
+        except Exception as error:
+            print(f"Error al actualizar trabajador: Failed to edit, Expected 1 occurrence but found 7 for old_string in file: /home/luisdgr/Descargas/BookingRoom_Software/repositories_crud/TrabajadorRepository.py")
             return False
         finally:
             cursor.close()

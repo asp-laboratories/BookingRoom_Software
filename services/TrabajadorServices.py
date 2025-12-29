@@ -29,6 +29,9 @@ class TrabajadorServices:
     def obtener_nombre(self, nombre):
         return self.trabajador_repository.sacar_trabajador(nombre)
 
+    def actualizar_trabajador(self, campo, rfc, valor):
+        return self.trabajador_repository.actualizar_trabajador(campo, rfc, valor)
+
     def actualizar_roles(self, RFC, codigoRolValor):
         descripcionRol = self.rol_repository.obtener_descripcion(codigoRolValor)
         self.trabajador_repository.actualizar_rol(RFC, descripcionRol.codigoRol)
