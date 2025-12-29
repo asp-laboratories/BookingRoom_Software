@@ -97,18 +97,14 @@ class ServicioRepository:
         if not self.db.conectar():
             return False
 
-        CAMPOS = {
-            "Nombre": "nombre",
-            "Costo de renta": "costoRenta",
-            "Descripcion": "descripcion",
-            "Tipo de servicio": "tipo_servicio",
-        }
+        CAMPOS = ["nombre", "costoRenta", "descripcion", "tipo_servicio"]
 
         if campo not in CAMPOS:
-            print("Error: Nombre de campo no válido o no permitido para actualización.")
+            print(f"Error: El campo '{campo}' no es válido o no está permitido para actualización.")
             return False
 
-        transformar_campo = CAMPOS[campo]
+        transformar_campo = campo
+
 
         try:
             cursor = self.db.cursor(dictionary=True)
@@ -128,6 +124,7 @@ class ServicioRepository:
             return True
         except Exception as error:
             print(f"Error al actualizar: {error}")
+            return False
         finally:
             cursor.close()
             self.db.desconectar()
@@ -236,6 +233,7 @@ class ServicioRepository:
                 """
                 SELECT
                 tser.descripcion as tipo_servicio,
+                ser.numServicio as numServicio,
                 ser.nombre as servicio,
                 ser.descripcion as descservicio,
                 ser.costoRenta as costo_renta
