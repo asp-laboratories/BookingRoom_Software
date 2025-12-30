@@ -113,6 +113,13 @@ class ReservacionService:
         total = self.reservacion_repository.obtener_total(numReser)
         return total["total"]
 
+    def reservaciones_trabajador(self, rfc):
+        return self.reservacion_repository.listar_por_trabajador(rfc)
+
+    def listar_reservaciones_en_rango(self, start_date, end_date):
+        return self.reservacion_repository.listar_reservaciones_en_rango(start_date, end_date)
+
+
     def reservacion_descripcion(self, numreser):
         decripcion = self.reservacion_repository.reservacion_descripcion(numreser)
         if not decripcion:

@@ -523,6 +523,67 @@ WHERE fechaEvento = %s
             print(f"Error para obtener el total de reservacion: {error}")
             return None
 
+    def listar_por_trabajador(self, rfc):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(
+                """
+                SELECT
+                    r.numReser,
+                    DATE_FORMAT(r.fechaReser, '%d/%m/%Y') as fechaReser,
+                    DATE_FORMAT(r.fechaEvento, '%d/%m/%Y') as fechaEvento,
+                    r.descripEvento,
+                    dc.nombreFiscal as cliente
+                FROM reservacion as r
+                JOIN datos_cliente as dc ON r.datos_cliente = dc.RFC
+                WHERE r.trabajador = %s
+                ORDER BY r.fechaEvento DESC
+                """,
+                (rfc,)
+            )
+            resultados = cursor.fetchall()
+            return resultados
+        except Exception as error:
+            print(f"Error al listar reservaciones por trabajador: {error}")
+            return None
+        finally:
+            if self.db.connection:
+                cursor.close()
+                self.db.desconectar()
+
 
 if __name__ == "__main__":
     pass
+
+    def listar_reservaciones_en_rango(self, start_date, end_date):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute(
+                """
+                SELECT
+                    r.numReser,
+                    r.fechaEvento,
+                    TIME_FORMAT(r.horaInicio, '%H:%i') as horaInicio,
+                    TIME_FORMAT(r.horaFin, '%H:%i') as horaFin,
+                    r.descripEvento,
+                    ds.nombre as nombre_salon
+                FROM reservacion as r
+                JOIN datos_montaje as dm ON r.datos_montaje = dm.numDatMon
+                JOIN datos_salon as ds ON dm.datos_salon = ds.numSalon
+                WHERE r.fechaEvento BETWEEN %s AND %s
+                """,
+                (start_date, end_date)
+            )
+            resultados = cursor.fetchall()
+            return resultados
+        except Exception as error:
+            print(f"Error al listar reservaciones en rango: {error}")
+            return None
+        finally:
+            if self.db.connection:
+                cursor.close()
+                self.db.desconectar()
