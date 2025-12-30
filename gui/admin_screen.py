@@ -182,15 +182,15 @@ class AdministradorScreen:
         )
 
         # Botones para los eventos de actualizacion de roles por parte del almacenista
-        self.navegacion.almConfirmar.clicked.connect(
-            self.mobiliario_handler.intentar_actualizar_estado_mob
+        self.navegacion.almConfirmarMobi_3.clicked.connect(
+            self.mobiliario_handler.intentar_actualizar_estado_manual_mob
         )
         self.navegacion.almConfirmar_2.clicked.connect(
-            self.equipment_handler.intentar_actualizar_estado_desde_tabla # Nueva función para actualizar desde la tabla
+            self.equipment_handler.intentar_actualizar_estado_manual # Nueva función para actualizar desde la tabla
         )
-        self.navegacion.almBuscarM.clicked.connect(
-            self.mobiliario_handler.buscar_estado_mobiliario
-        )
+        # self.navegacion.almBuscarM.clicked.connect(
+        #     self.mobiliario_handler.buscar_estado_mobiliario
+        # )
         
         # Carga el ComboBox de estados de equipamiento al iniciar y conecta la búsqueda automática
         self.equipment_handler.cargar_estados_equipamiento()
