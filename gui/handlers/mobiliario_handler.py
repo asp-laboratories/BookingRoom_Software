@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QMessageBox, QLabel, QLineEdit
+from PyQt6.QtWidgets import QMessageBox, QLabel, QLineEdit, QTableWidget 
 from models.MobCarac import MobCarac
-
+from PyQt6.QtCore import Qt
+from gui.table_manager import TableManager
 
 class MobiliarioHandler:
     def __init__(self, main_window):
@@ -10,6 +11,14 @@ class MobiliarioHandler:
         self.tipo_mobiliario = self.main_window.tipo_mobiliario
         self.inputs = []
         self.inputs_tipo = []
+
+        if hasattr(self.navegacion, 'almBuscadorM'):
+            self.cargar_estados_mobiliario()
+            self.navegacion.almBuscadorM.currentIndexChanged.connect(self.buscar_estado_mobiliario)
+        
+        if hasattr(self.navegacion, 'almConfirmarMobi_3'):
+            self.navegacion.almConfirmarMobi_3.clicked.connect(self.intentar_actualizar_estado_manual_mob)
+
 
     def registrar_mobiliario_ejecutar(
         self, nombre, costoRenta, stock, tipo, caracteristicas
@@ -210,184 +219,206 @@ class MobiliarioHandler:
                 f"Ocurrió un error de conexión/base de datos: {e}",
             )
 
-    def buscar_estado_mobiliario(self):
-        self.navegacion.almResultadoM.clear()
+    def cargar_estados_mobiliario(self):
+        """
+        Carga todos los estados de mobiliario en los ComboBoxes almBuscadorM y almNuevoEstadoMobi.
+        """
         try:
-            estado_buscado = self.navegacion.almBuscadorM.text().strip()
-            if not estado_buscado:
-                QMessageBox.warning(
-                    None,
-                    "Búsqueda Inválida",
-                    "Por favor, ingresa el **estado de mobiliario** que deseas buscar (ej. 'Disponible', 'Dañado').",
-                )
-                return
-            resultado = self.mobiliario.obtener_mob_estado(estado_buscado)
-            if not resultado: # If resultado is None or empty list
-                QMessageBox.information(
-                    None,
-                    "Sin Resultados",
-                    f"No se encontró mobiliario en el estado '{estado_buscado}' o el estado no es válido.",
-                )
-                # Removed redundant setText call here
-                return
-            else:
-                mensaje_html = '<div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">'
-                mensaje_html += f'<h3 style="color: #9b582b;">MOBILIARIOS EN ESTADO: {estado_buscado.upper()}</h3>'
+            estados = self.mobiliario.listar_estados()
+            
+            # Asumiendo que ambos son QComboBox
+            combo_buscador = self.navegacion.almBuscadorM
+            combo_nuevo = self.navegacion.almNuevoEstadoMobi
+            
+            combo_buscador.clear()
+            combo_buscador.addItem("Seleccione un estado...", None)
+            
+            combo_nuevo.clear()
+            combo_nuevo.addItem("Seleccione nuevo estado...", None)
 
-                for mob in resultado:
-                    numero = mob.get('Numero', 'N/A')
-                    nombre = mob.get('Nombre', 'N/A')
-                    estado_actual = mob.get('Estado', 'N/A')
-                    cantidad = mob.get('Cantidad', 'N/A')
-                    
-                    mensaje_html += f"""
-                    <div style="border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 5px;">
-                        <p><b>Número:</b> {numero}</p>
-                        <p><b>Nombre:</b> {nombre}</p>
-                        <p><b>Estado Actual:</b> {estado_actual}</p>
-                        <p><b>Cantidad:</b> {cantidad}</p>
-                    </div>
-                    """
-                
-                mensaje_html += "</div>"
-                self.navegacion.almResultadoM.setHtml(mensaje_html)
+            if estados:
+                for estado in estados:
+                    combo_buscador.addItem(estado["descripcion"], estado["codigoMob"])
+                    combo_nuevo.addItem(estado["descripcion"], estado["codigoMob"])
+        
         except Exception as e:
             QMessageBox.critical(
-                None,
-                "Error Inesperado",
-                f"Ocurrió un error al intentar buscar el mobiliario: {e}",
+                self.navegacion,
+                "Error de Carga",
+                f"No se pudieron cargar los estados de mobiliario: {e}",
             )
-            # Removed redundant setText call here, the QMessageBox is sufficient.
+
+    def buscar_estado_mobiliario(self):
+        # Asumiendo que 'tablaEstadosMobi' es un QTableWidget en el .ui
+        tabla = self.navegacion.tablaEstadosMobi
+        combo = self.navegacion.almBuscadorM # Asumiendo que ahora es un QComboBox
+        
+        try:
+            if combo.currentIndex() == 0:
+                TableManager.show_message(tabla, "Seleccione un estado para buscar")
+                return
+            
+            estado_buscado = combo.currentText()
+            resultado = self.mobiliario.obtener_mob_estado(estado_buscado)
+
+            if not resultado:
+                TableManager.show_message(tabla, f"No se encontró mobiliario en estado '{estado_buscado}'")
+                return
+            
+            headers = ['Número', 'Nombre', 'Estado Actual', 'Cantidad']
+            data = [[
+                mob.get('Numero', 'N/A'),
+                mob.get('Nombre', 'N/A'),
+                mob.get('Estado', 'N/A'),
+                mob.get('Cantidad', 'N/A')
+            ] for mob in resultado]
+            
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+            tabla.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers) # Hacer la tabla de solo lectura
+
+        except Exception as e:
+            QMessageBox.critical(
+                self.navegacion, "Error Inesperado", f"Ocurrió un error al buscar el mobiliario: {e}"
+            )
+
+    def intentar_actualizar_estado_manual_mob(self):
+        """
+        Intenta actualizar el estado de un mobiliario usando los campos de entrada manuales.
+        """
+        try:
+            # Asumiendo nuevos widgets en el .ui
+            num_mob_str = self.navegacion.almNumeroMobi.text().strip()
+            cantidad_a_mover_str = self.navegacion.almCantidadMoverMobi.text().strip()
+            estado_nuevo = self.navegacion.almNuevoEstadoMobi.currentText()
+            estado_origen = self.navegacion.almBuscadorM.currentText()
+
+            if not num_mob_str or not cantidad_a_mover_str:
+                QMessageBox.warning(self.navegacion, "Campos Vacíos", "Complete los campos de Número y Cantidad.")
+                return
+
+            if estado_origen == "Seleccione un estado..." or not estado_origen:
+                QMessageBox.warning(self.navegacion, "Estado Origen Inválido", "Seleccione un Estado Origen válido.")
+                return
+            
+            if estado_nuevo == "Seleccione nuevo estado..." or not estado_nuevo:
+                QMessageBox.warning(self.navegacion, "Estado Destino Inválido", "Seleccione un Estado de Destino válido.")
+                return
+
+            num_mob = int(num_mob_str)
+            cantidad_a_mover = int(cantidad_a_mover_str)
+
+            if cantidad_a_mover <= 0:
+                QMessageBox.warning(self.navegacion, "Cantidad Inválida", "La cantidad debe ser mayor a cero.")
+                return
+
+            cantidad_disponible = self.mobiliario.obtener_cantidad_en_estado(num_mob, estado_origen)
+
+            if cantidad_disponible < cantidad_a_mover:
+                QMessageBox.warning(self.navegacion, "Cantidad Excedida", f"Solo hay {cantidad_disponible} unidades del mobiliario {num_mob} en '{estado_origen}'.")
+                return
+
+            if estado_nuevo == estado_origen:
+                QMessageBox.information(self.navegacion, "Mismo Estado", "El mobiliario ya se encuentra en ese estado.")
+                return
+
+            if self.main_window.mostrar_confirmacion(
+                "Confirmar Actualización",
+                f"¿Mover {cantidad_a_mover} unidad(es) del mobiliario #{num_mob}\n"
+                f"Desde '{estado_origen}' hacia '{estado_nuevo}'?",
+            ):
+                self.actualizar_estado_mob(num_mob, cantidad_a_mover, estado_origen, estado_nuevo)
+                self.navegacion.almNumeroMobi.clear()
+                self.navegacion.almCantidadMoverMobi.clear()
+            else:
+                QMessageBox.information(self.navegacion, "Actualización Cancelada", "La operación ha sido cancelada.")
+
+        except ValueError:
+            QMessageBox.warning(self.navegacion, "Datos Inválidos", "El Número y la Cantidad deben ser números válidos.")
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error Inesperado", f"Ocurrió un error al procesar la actualización: {e}")
+
 
     def intentar_registrar_mobiliario(self):
         try:
             nombre = self.navegacion.mobNombre.text().strip()
             tipo = self.navegacion.mobTipo.text().strip()
+            
             if not nombre:
                 raise ValueError("Nombre del Mobiliario")
             if not tipo:
                 raise ValueError("Tipo de Mobiliario")
+    
             costoRenta = float(self.navegacion.mobCostoRenta.text())
             stock = int(self.navegacion.mobStock.text())
+            
             if costoRenta <= 0 or stock <= 0:
                 raise ValueError("Valores Numéricos")
+                
             caracteristicas = []
             num_caracteristicas = len(self.inputs)
+            
             for i in range(num_caracteristicas):
                 nombre_carac = self.inputs[i].text().strip()
                 tipo_carac = self.inputs_tipo[i].text().strip()
+    
                 if nombre_carac and tipo_carac:
                     caracteristica = MobCarac(nombre_carac, tipo_carac)
                     caracteristicas.append(caracteristica)
                 elif nombre_carac or tipo_carac:
-                    raise ValueError(
-                        f"Característica Incompleta: Faltó el Nombre o el Tipo de la Característica {i + 1}"
-                    )
-            if (
-                self.navegacion.seleccionCaracteristicas.value() > 0
-                and len(caracteristicas) == 0
+                    raise ValueError(f"Característica Incompleta: Faltó el Nombre o el Tipo de la Característica {i+1}")
+            
+            if self.navegacion.seleccionCaracteristicas.value() > 0 and len(caracteristicas) == 0:
+                 if QMessageBox.question(
+                    None, 
+                    "Advertencia de Característica",
+                    "Ha indicado que desea características, pero no ingresó ninguna. ¿Desea continuar con el registro sin características?"
+                ) == QMessageBox.StandardButton.No:
+                     return 
+    
+            if self.mostrar_confirmacion(
+                "Confirmar Registro de Mobiliario", 
+                f"¿Deseas registrar el mobiliario '{nombre}' (Stock: {stock}, Costo: ${costoRenta})?"
             ):
-                if (
-                    QMessageBox.question(
-                        None,
-                        "Advertencia de Característica",
-                        "Ha indicado que desea características, pero no ingresó ninguna. ¿Desea continuar con el registro sin características?",
-                    )
-                    == QMessageBox.StandardButton.No
-                ):
-                    return
-            if self.main_window.mostrar_confirmacion(
-                "Confirmar Registro de Mobiliario",
-                f"¿Deseas registrar el mobiliario '{nombre}' (Stock: {stock}, Costo: ${costoRenta})?",
-            ):
-                self.registrar_mobiliario_ejecutar(
-                    nombre, costoRenta, stock, tipo, caracteristicas
-                )
+                self.registrar_mobiliario_ejecutar(nombre, costoRenta, stock, tipo, caracteristicas)
             else:
                 QMessageBox.information(
-                    None,
-                    "Registro Cancelado",
-                    "La operación de registro de mobiliario ha sido cancelada.",
+                    None, 
+                    "Registro Cancelado", 
+                    "La operación de registro de mobiliario ha sido cancelada."
                 )
+    
         except ValueError as e:
             error_type = str(e)
+            
             if "float" in error_type or "int" in error_type:
-                QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "El Costo de Renta y el Stock deben ser números enteros o decimales válidos.",
+                 QMessageBox.warning(
+                    None, "Datos Inválidos", "El Costo de Renta y el Stock deben ser números enteros o decimales válidos."
                 )
             elif "Valores Numéricos" in error_type:
                 QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "El Costo de Renta y el Stock deben ser mayores que cero.",
+                    None, "Datos Inválidos", "El Costo de Renta y el Stock deben ser mayores que cero."
                 )
             elif "Nombre del Mobiliario" in error_type:
-                QMessageBox.warning(
+                 QMessageBox.warning(
                     None, "Datos Faltantes", "Debes ingresar el Nombre del mobiliario."
                 )
             elif "Tipo de Mobiliario" in error_type:
-                QMessageBox.warning(
+                 QMessageBox.warning(
                     None, "Datos Faltantes", "Debes ingresar el Tipo de mobiliario."
                 )
             elif "Característica Incompleta" in error_type:
-                QMessageBox.warning(
+                 QMessageBox.warning(
                     None, "Datos Incompletos", f"Corrija la entrada: {error_type}."
                 )
             else:
-                QMessageBox.critical(
-                    None,
-                    "Error de Validación",
-                    f"Ocurrió un error inesperado al validar: {e}",
+                 QMessageBox.critical(
+                    None, "Error de Validación", f"Ocurrió un error inesperado al validar: {e}"
                 )
         except Exception as e:
             QMessageBox.critical(
-                None,
-                "Error Inesperado",
-                f"Ocurrió un error grave durante el pre-registro: {e}",
-            )
-
-    def intentar_actualizar_estado_mob(self):
-        try:
-            num_mob = int(self.navegacion.almNum.text())
-            cantidad = int(self.navegacion.almCantidad.text())
-            buscador = self.navegacion.almBuscadorM.text()
-            nuevo_estado = self.navegacion.almNuevoEstado.text()
-            if not buscador or not nuevo_estado:
-                raise ValueError("Campos de texto vacíos")
-            if self.main_window.mostrar_confirmacion(
-                "Confirmar Actualización de Mobiliario",
-                f"¿Deseas actualizar el estado de **{cantidad}** unidades del mobiliario '{buscador}' (ID: {num_mob}) al estado **'{nuevo_estado}'**?",
-            ):
-                self.actualizar_estado_mob(num_mob, cantidad, buscador, nuevo_estado)
-            else:
-                QMessageBox.information(
-                    None,
-                    "Actualización Cancelada",
-                    "La operación de actualización del estado de mobiliario ha sido cancelada.",
-                )
-        except ValueError as e:
-            error_msg = str(e)
-            if "invalid literal for int()" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Inválidos",
-                    "Asegúrate de que los campos **'Número'** y **'Cantidad'** contengan valores numéricos enteros válidos.",
-                )
-            elif "Campos de texto vacíos" in error_msg:
-                QMessageBox.warning(
-                    None,
-                    "Datos Faltantes",
-                    "Los campos de **'Buscador'** y **'Nuevo Estado'** no pueden estar vacíos.",
-                )
-            else:
-                QMessageBox.critical(
-                    None,
-                    "Error de Pre-Validación",
-                    f"Ocurrió un error inesperado al validar los datos: {e}",
-                )
-        except Exception as e:
-            QMessageBox.critical(
-                None, "Error Inesperado", f"Ocurrió un error al procesar los datos: {e}"
+                None, 
+                "Error Inesperado", 
+                f"Ocurrió un error grave durante el pre-registro: {e}"
             )

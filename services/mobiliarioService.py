@@ -112,9 +112,33 @@ class mobiliarioService:
             print("Valores no validos de estados")
             return
 
-        self.mobiliario_repository.actu_mob_esta(
+        return self.mobiliario_repository.actu_mob_esta(
             numMob, cantidad, esta_og["codigoMob"], new_esta["codigoMob"]
         )
+
+    def listar_estados(self):
+        """
+        Devuelve una lista de todos los estados de mobiliario disponibles.
+        """
+        return self.estaMob_repository.listar_estados()
+
+    def obtener_cantidad_en_estado(self, num_mob: int, estado_descripcion: str):
+        """
+        Obtiene la cantidad de un mobiliario específico en un estado particular.
+        """
+        try:
+            codigo_estado = self.estaMob_repository.obtener_codigo_estado(estado_descripcion)
+            if not codigo_estado:
+                print(f"Estado '{estado_descripcion}' no válido.")
+                return 0
+            
+            cantidad = self.mobiliario_repository.obtener_cantidad_por_mob_y_estado(
+                num_mob, codigo_estado['codigoMob']
+            )
+            return cantidad
+        except Exception as e:
+            print(f"Error al obtener cantidad de mobiliario en estado: {e}")
+            return 0
 
     def caracteristicas_mob(self, numMob):
         print("Caracteristicas del mobiliario")

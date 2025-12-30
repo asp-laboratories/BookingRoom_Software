@@ -95,19 +95,66 @@ class EquipamentoService:
         return numEquipa["numEquipa"]
 
     def actualizar_estado_equipamiento(
-        self, equipamiento, estado_og, new_estado, cantidad
+        self, num_equipo: int, estado_origen: str, nuevo_estado: str, cantidad: int
     ):
-        estado_og = self.obtener_codig_estado(estado_og)
-        new_estado = self.obtener_codig_estado(new_estado)
-        equipamiento = self.obtener_codigo_equipamiento(equipamiento)
+        """
+        Actualiza el estado de una cantidad de equipamiento, moviéndola de un estado a otro.
 
-        if (not estado_og) or (not new_estado) or (not equipamiento):
-            print("No procde la actualizacion de estado")
-            return
+        Args:
+            num_equipo (int): El ID del equipamiento a actualizar.
+            estado_origen (str): La descripción del estado original (ej. "DISPO").
+            nuevo_estado (str): La descripción del nuevo estado (ej. "EN REPARACION").
+            cantidad (int): La cantidad de unidades a mover.
 
-        self.InventarioEquipamientoRepository.actualizar_estado_equipamiento(
-            equipamiento, estado_og, new_estado, cantidad
-        )
+        Returns:
+            bool: True si la actualización fue exitosa, False en caso contrario.
+        """
+        try:
+            # Convertir descripciones de estado a códigos de estado
+            codigo_estado_origen = self.obtener_codig_estado(estado_origen)
+            codigo_nuevo_estado = self.obtener_codig_estado(nuevo_estado)
+
+            if not codigo_estado_origen or not codigo_nuevo_estado:
+                print(f"Error: Uno o ambos estados ('{estado_origen}', '{nuevo_estado}') son inválidos.")
+                return False
+
+            # El ID del equipamiento (num_equipo) ya es un entero, no se necesita lookup.
+
+            # Llamar al repositorio con los códigos de estado y el ID del equipamiento
+            resultado = self.InventarioEquipamientoRepository.actualizar_estado_equipamiento(
+                num_equipo, codigo_estado_origen, codigo_nuevo_estado, cantidad
+            )
+            
+            return resultado
+
+        except Exception as e:
+            print(f"Error en la capa de servicio al actualizar estado de equipamiento: {e}")
+            return False
+
+    def obtener_cantidad_en_estado(self, num_equipo: int, estado_descripcion: str):
+        """
+        Obtiene la cantidad de un equipo específico en un estado particular.
+
+        Args:
+            num_equipo (int): El ID del equipamiento.
+            estado_descripcion (str): La descripción del estado (ej. "DISPO").
+
+        Returns:
+            int: La cantidad de unidades del equipo en ese estado, o 0 si no se encuentra.
+        """
+        try:
+            codigo_estado = self.obtener_codig_estado(estado_descripcion)
+            if not codigo_estado:
+                print(f"Estado '{estado_descripcion}' no válido.")
+                return 0
+            
+            cantidad = self.InventarioEquipamientoRepository.obtener_cantidad_por_equipo_y_estado(
+                num_equipo, codigo_estado
+            )
+            return cantidad
+        except Exception as e:
+            print(f"Error al obtener cantidad en estado: {e}")
+            return 0
 
     def listar_equipamientos_reser(self, numReser):
         return self.equipamento_repository.listar_equipamientos_reser(numReser)

@@ -18,6 +18,13 @@ class EquipmentHandler:
         if hasattr(self.navegacion, 'sEquipamiento'):
             self.cargar_tipos_equipamiento()
             self.navegacion.sEquipamiento.currentIndexChanged.connect(self.buscar_tipo_equipo)
+        
+        # Connect new button for manual state update
+        if hasattr(self.navegacion, 'almConfirmar_2'):
+            self.navegacion.almConfirmar_2.clicked.connect(self.intentar_actualizar_estado_manual)
+
+        if hasattr(self.navegacion, 'almNuevoEstado'):
+            self.cargar_estados_nuevos()
 
     def registrar_equipamiento(self, nombre, descripcion, costo, stock, tipo):
         try:
@@ -161,11 +168,12 @@ class EquipmentHandler:
             )
 
     def actualizar_estado_equipa(
-        self, num_equipo: int, estado_nuevo: str, estado_origen: str, cantidad: int
+        self, num_equipo: int, estado_origen: str, estado_nuevo: str, cantidad: int
     ):
         try:
+            # La llamada al servicio debe coincidir con su firma: (num_equipo, estado_origen, nuevo_estado, cantidad)
             resultado = self.equipamiento.actualizar_estado_equipamiento(
-                num_equipo, estado_nuevo, estado_origen, cantidad
+                num_equipo, estado_origen, estado_nuevo, cantidad
             )
             if resultado:
                 QMessageBox.information(
@@ -308,6 +316,27 @@ class EquipmentHandler:
                 f"No se pudieron cargar los estados de equipamiento: {e}",
             )
 
+    def cargar_estados_nuevos(self):
+        """
+        Carga todos los estados de equipamiento disponibles en el QComboBox almNuevoEstado.
+        """
+        # Asumiendo que almNuevoEstado es un QComboBox
+        combo = self.navegacion.almNuevoEstado
+        combo.clear()
+        combo.addItem("Seleccione nuevo estado...", None)
+
+        try:
+            estados = self.equipamiento.listar_estados()
+            if estados:
+                for estado in estados:
+                    combo.addItem(estado["descripcion"], estado["codigoEquipa"])
+        except Exception as e:
+            QMessageBox.critical(
+                self.navegacion,
+                "Error de Carga",
+                f"No se pudieron cargar los estados de equipamiento para el nuevo estado: {e}",
+            )
+
     def intentar_registrar_equipamiento(self):
         try:
             costo_renta = float(self.navegacion.eCostoRenta.text())
@@ -405,67 +434,74 @@ class EquipmentHandler:
                 f"Ocurrió un error al intentar leer el ID: {e}",
             )
 
-    def intentar_actualizar_estado_desde_tabla(self):
+    def intentar_actualizar_estado_manual(self):
         """
-        Intenta actualizar el estado de un equipo seleccionado desde la tabla.
-        Lee la fila seleccionada para obtener el estado de origen y el ID.
-        Toma el nuevo estado y la cantidad de los campos de entrada de la UI.
+        Intenta actualizar el estado de un equipo usando los campos de entrada manuales.
+        Lee almNumeroEquipa, almNuevoEstado, almCantidadMover, y toma estado_origen de almBuscadorE.
         """
-        # NOTE: Asegúrate de que los widgets 'almNuevoEstado', 'almCantidadMover' 
-        # y 'tablaEstadosEqui' existan en tu archivo .ui
-        tabla = self.navegacion.tablaEstadosEqui
-        selected_items = tabla.selectedItems()
-
-        if not selected_items:
-            QMessageBox.warning(self.navegacion, "Selección Requerida", "Por favor, selecciona un equipo de la tabla para actualizar.")
-            return
-
         try:
-            selected_row = selected_items[0].row()
-            num_equipo = int(tabla.item(selected_row, 0).text())
-            estado_origen = tabla.item(selected_row, 2).text()
-            cantidad_disponible = int(tabla.item(selected_row, 3).text())
-
-            estado_nuevo = self.navegacion.almNuevoEstado.text().strip()
+            num_equipo_str = self.navegacion.almNumeroEquipa.text().strip()
+            estado_nuevo = self.navegacion.almNuevoEstado.currentText()
             cantidad_a_mover_str = self.navegacion.almCantidadMover.text().strip()
+            estado_origen = self.navegacion.almBuscadorE.currentText()
 
-            if not estado_nuevo or not cantidad_a_mover_str:
-                raise ValueError("Campos de entrada vacíos")
+            # Validaciones básicas
+            if not num_equipo_str or not cantidad_a_mover_str:
+                QMessageBox.warning(self.navegacion, "Campos Vacíos", "Por favor, complete los campos de Número de Equipo y Cantidad a Mover.")
+                return
 
-            cantidad_a_mover = int(cantidad_a_mover_str)
+            if estado_nuevo == "Seleccione nuevo estado..." or not estado_nuevo:
+                QMessageBox.warning(self.navegacion, "Estado Destino Inválido", "Por favor, seleccione un Estado de Destino válido del ComboBox.")
+                return
 
+            if estado_origen == "Seleccione un estado..." or not estado_origen:
+                QMessageBox.warning(self.navegacion, "Estado Origen Inválido", "Por favor, seleccione un Estado Origen válido del ComboBox.")
+                return
+            
+            try:
+                num_equipo = int(num_equipo_str)
+                cantidad_a_mover = int(cantidad_a_mover_str)
+            except ValueError:
+                QMessageBox.warning(self.navegacion, "Datos Inválidos", "El Número de Equipo y la Cantidad a Mover deben ser números enteros válidos.")
+                return
+            
             if cantidad_a_mover <= 0:
                 QMessageBox.warning(self.navegacion, "Cantidad Inválida", "La cantidad a mover debe ser mayor que cero.")
                 return
+
+            # Obtener cantidad disponible del equipo en el estado origen
+            cantidad_disponible = self.equipamiento.obtener_cantidad_en_estado(num_equipo, estado_origen)
+
+            if cantidad_disponible < cantidad_a_mover:
+                QMessageBox.warning(self.navegacion, "Cantidad Excedida", f"Solo hay {cantidad_disponible} unidades del equipo {num_equipo} en el estado '{estado_origen}'.")
+                return
             
-            if cantidad_a_mover > cantidad_disponible:
-                QMessageBox.warning(self.navegacion, "Cantidad Excedida", f"No puedes mover más de {cantidad_disponible} unidades.")
+            if estado_nuevo == estado_origen:
+                QMessageBox.information(self.navegacion, "Mismo Estado", "El equipo ya se encuentra en el estado de destino seleccionado.")
                 return
 
             if self.main_window.mostrar_confirmacion(
-                "Confirmar Actualización de Estado",
+                "Confirmar Actualización de Estado Manual",
                 f"¿Mover {cantidad_a_mover} unidad(es) del equipo #{num_equipo}\n"
                 f"Desde '{estado_origen}' hacia '{estado_nuevo}'?",
             ):
                 self.actualizar_estado_equipa(
-                    num_equipo, estado_nuevo, estado_origen, cantidad_a_mover
+                    num_equipo, estado_origen, estado_nuevo, cantidad_a_mover
                 )
+                # Limpiar campos después de una operación exitosa
+                self.navegacion.almNumeroEquipa.clear()
+                self.navegacion.almNuevoEstado.clear()
+                self.navegacion.almCantidadMover.clear()
             else:
                 QMessageBox.information(
                     self.navegacion,
                     "Actualización Cancelada",
-                    "La operación ha sido cancelada.",
+                    "La operación de actualización de estado ha sido cancelada.",
                 )
 
-        except ValueError:
-            QMessageBox.warning(
-                self.navegacion,
-                "Datos Inválidos",
-                "Asegúrate de que la 'Cantidad a Mover' sea un número válido y que el 'Nuevo Estado' no esté vacío.",
-            )
         except Exception as e:
             QMessageBox.critical(
-                self.navegacion, "Error Inesperado", f"Ocurrió un error al procesar la actualización: {e}"
+                self.navegacion, "Error Inesperado", f"Ocurrió un error al procesar la actualización manual de estado: {e}"
             )
 
     def buscar_estado_equipamiento(self):
@@ -497,6 +533,7 @@ class EquipmentHandler:
             tabla.setColumnCount(len(headers))
             tabla.setHorizontalHeaderLabels(headers)
             TableManager.fill_table(tabla, data)
+            tabla.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers) # Make the table read-only
 
         except Exception as e:
             QMessageBox.critical(

@@ -465,6 +465,30 @@ class MobiliarioRepository:
             cursor.close()
             self.db.desconectar()
 
+    def obtener_cantidad_por_mob_y_estado(self, num_mob, estado_codigo):
+        if not self.db.conectar():
+            return 0
+        try:
+            cursor = self.db.cursor()
+            cursor.execute(
+                """
+                SELECT cantidad
+                FROM inventario_mob
+                WHERE mobiliario = %s AND esta_mob = %s
+                """,
+                (num_mob, estado_codigo)
+            )
+            resultado = cursor.fetchone()
+            if resultado:
+                return resultado['cantidad']
+            return 0
+        except Exception as error:
+            print(f"Error al obtener cantidad por mobiliario y estado: {error}")
+            return 0
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
 
 if __name__ == "__main__":
     conexcion = BaseDeDatos(database="BookingRoomLocal")

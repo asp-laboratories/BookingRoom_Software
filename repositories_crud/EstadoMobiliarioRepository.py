@@ -85,6 +85,24 @@ class EstadoMobiliarioRepository:
             cursor.close()
             self.db.desconectar()
 
+    def listar_estados(self):
+        if not self.db.conectar():
+            return None
+
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("SELECT * FROM esta_mob")
+            resultados = cursor.fetchall()
+            return resultados
+
+        except Exception as error:
+            print(f"Error al listar los estados de mobiliario: {error}")
+            return None
+
+        finally:
+            cursor.close()
+            self.db.desconectar()
+
     def listar_mob_por_estado(self, esta_mob):
         if not self.db.conectar():
             return None
