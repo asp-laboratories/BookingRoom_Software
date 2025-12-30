@@ -7,17 +7,28 @@ from services.EquipamentoService import EquipamentoService
 from services.TrabajadorServices import TrabajadorServices
 from utils.Formato import permitir_ingreso
 
+from services.ReservacionService import ReservacionService
+from gui.horario_view import HorarioView
+from gui.handlers.horario_handler import HorarioHandler
+
 ruta_ui = Path(__file__).parent / "navegacion.ui"
-servicio = ServicioService()
-salon = SalonServices()
-equipamiento = EquipamentoService()
-trabajador = TrabajadorServices()
 
 
 class Navegacion:
     def __init__(self):
         self.navegacion = uic.loadUi(str(ruta_ui))
-        # self.initGUI()
+
+        # --- Instanciar Servicios como atributos de la clase ---
+        self.servicio = ServicioService()
+        self.salon = SalonServices()
+        self.equipamiento = EquipamentoService()
+        self.trabajador = TrabajadorServices()
+        self.reservacion = ReservacionService()
+        # Asumiendo que existen estos otros servicios y son necesarios en otros handlers
+        # self.TrabajadorRol = ... 
+        # self.telefono = ...
+
+        # --- Configuración de la Interfaz ---
         self.navegacion.show()
         self.navegacion.sMensaje.setText("")
         self.navegacion.saMensaje.setText("")
@@ -28,31 +39,37 @@ class Navegacion:
         self.navegacion.subMenuAdministracion.setVisible(False)
         self.navegacion.subMenuAlmacen.setVisible(False)
         self.navegacion.subMenuRecepcion.setVisible(False)
-        self.navegacion.widget.layout()
+        
+        # --- Conexión de Señales (Botones del Menú) ---
         self.navegacion.btnAdministracion.clicked.connect(self.abrir_opciones_admin)
         self.navegacion.btnAlmacen.clicked.connect(self.abrir_opciones_almac)
         self.navegacion.btnRecepcion.clicked.connect(self.abrir_opciones_recep)
 
-        self.navegacion.atConfirmar.clicked.connect(self.establecer_rol)
-
+        # --- Conexión de Páginas del StackedWidget ---
         self.navegacion.servicios.clicked.connect(lambda: self.mostrar_pagina(1))
         self.navegacion.equipamiento.clicked.connect(lambda: self.mostrar_pagina(2))
         self.navegacion.salon.clicked.connect(lambda: self.mostrar_pagina(3))
         self.navegacion.reservacion.clicked.connect(lambda: self.mostrar_pagina(4))
         self.navegacion.subTrabajador.clicked.connect(lambda: self.mostrar_pagina(5))
 
+        # --- Integración de la nueva vista de Horario ---
+        self.horario_view = HorarioView()
+        self.horario_page_index = self.navegacion.stackedWidget.addWidget(self.horario_view)
+        # Pasar 'self' (la instancia de Navegacion) al handler para que pueda acceder a los servicios
+        self.horario_handler = HorarioHandler(self) 
+        self.navegacion.btnRecepcion_2.clicked.connect(lambda: self.mostrar_pagina(self.horario_page_index))
+
+        # --- Conexiones de otras funcionalidades ---
+        self.navegacion.atConfirmar.clicked.connect(self.establecer_rol)
         self.navegacion.sConfirmar.clicked.connect(self.registar_servicio)
-
         self.navegacion.sConfirmarAct.clicked.connect(self.actualizar_servicio)
-
         self.navegacion.saConfirmar.clicked.connect(self.registrar_salon)
         self.navegacion.saCancelar.clicked.connect(self.limpiar_salon)
         self.navegacion.atBuscar.clicked.connect(self.buscar)
-
         self.cargar_seleccion_salon()
         self.navegacion.reSalonInfo.clicked.connect(self.mostrar_info_salon)
-
         self.navegacion.eConfirmar.clicked.connect(self.registrar_equipamiento)
+
 
     def abrir_opciones_admin(self):
         self.navegacion.subMenuAdministracion.setVisible(
