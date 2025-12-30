@@ -45,3 +45,6 @@ class TrabajadorServices:
     def obtener_rfc_nombre(self, nombre):
         rfc = self.trabajador_repository.obtener_rfc(nombre)
         return rfc["rfc"]
+
+    def obtener_rfc_por_identificador(self, termino_busqueda):
+        return self.trabajador_repository.obtener_rfc_por_identificador(termino_busqueda)

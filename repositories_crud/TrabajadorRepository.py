@@ -200,3 +200,27 @@ WHERE t.nombre LIKE "%{buscador}%"
         finally:
             cursor.close()
             self.db.desconectar()
+
+    def obtener_rfc_por_identificador(self, termino_busqueda):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            # Intenta buscar por RFC o por numTrabajador
+            cursor.execute(
+                """
+                SELECT RFC FROM trabajador
+                WHERE RFC = %s OR numTrabajador = %s
+                """,
+                (termino_busqueda, termino_busqueda)
+            )
+            resultado = cursor.fetchone()
+            if resultado:
+                return resultado['RFC']
+            return None
+        except Exception as error:
+            print(f"Error al obtener RFC por identificador: Failed to edit, Expected 1 occurrence but found 8 for old_string in file: /home/luisdgr/Descargas/BookingRoom_Software/repositories_crud/TrabajadorRepository.py")
+            return None
+        finally:
+            cursor.close()
+            self.db.desconectar()

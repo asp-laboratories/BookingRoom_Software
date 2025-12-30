@@ -13,8 +13,15 @@ class WorkerHandler:
 
         # Conectar la señal del buscador
         if hasattr(self.navegacion, 'atBuscador'):
-            # self.navegacion.atBotonBuscador.clicked.connect(self.buscar_trabajadores_y_mostrar) # Reemplaza 'atBotonBuscador' con el nombre de tu botón
             self.navegacion.atBuscador.returnPressed.connect(self.buscar_trabajadores_y_mostrar)
+
+        # Conectar el nuevo buscador de reservaciones
+        if hasattr(self.navegacion, 'atBuscar_2'):
+            self.navegacion.atBuscar_2.clicked.connect(self.buscar_sus_reservaciones)
+
+        if hasattr(self.navegacion, 'atRol'):
+            self.cargar_roles_establecer()
+
 
     # def buscar(self):
     #     rfc = self.navegacion.atBuscador.text()
@@ -59,7 +66,7 @@ class WorkerHandler:
             
             try:
                 tabla.itemChanged.disconnect(self.on_trabajador_table_item_changed)
-            except TypeError:
+            except (TypeError, RuntimeError): # RuntimeError if already disconnected
                 pass
 
             tabla.setColumnCount(len(headers))
@@ -105,34 +112,64 @@ class WorkerHandler:
         except Exception as e:
             QMessageBox.critical(None, "Error Inesperado", f"Ocurrió un error al buscar trabajadores: {e}")
 
-
     def buscar_sus_reservaciones(self):
-        rfc = self.navegacion.atRFC_2.text()
-        resultado = self.reservacion_service.reservaciones_trabajador(rfc)
-
-        if not resultado:
-            self.navegacion.atOutput_2.setText("No se encontraron resultados")
+        termino_busqueda = self.navegacion.atBuscador_2.text().strip()
+        if not termino_busqueda:
+            QMessageBox.warning(self.navegacion, "Entrada Vacía", "Por favor, ingrese un RFC o Número de Trabajador.")
+            return
+        
+        # Obtener RFC usando el nuevo método de servicio flexible
+        rfc = self.trabajador.obtener_rfc_por_identificador(termino_busqueda)
+        
+        if not rfc:
+            QMessageBox.information(self.navegacion, "No Encontrado", f"No se encontró ningún trabajador con el RFC o Número: {termino_busqueda}")
             return
 
-        mensaje = ""
-        for reser in resultado:
-            mensaje += f"Numero de reservacion: {reser['numReser']}\n"
-            mensaje += f"Fecha de la reservacion: {reser['fechaReser']}\n"
-            mensaje += f"Fecha del evento: {reser['fecha']}\n"
-            mensaje += "--------------------------------------------------------\n"
+        tabla = self.navegacion.tablaReservacionesTrabajador
+        try:
+            from gui.table_manager import TableManager
+            resultado = self.reservacion_service.reservaciones_trabajador(rfc)
 
-        self.navegacion.atOutput_2.setText(mensaje)
+            if not resultado:
+                TableManager.show_message(tabla, f"El trabajador con RFC {rfc} no tiene reservaciones asociadas.")
+                return
+
+            headers = ['# Reserva', 'Fecha Reserva', 'Fecha Evento', 'Cliente', 'Descripción']
+            data = [[
+                res.get('numReser', 'N/A'),
+                res.get('fechaReser', 'N/A'),
+                res.get('fechaEvento', 'N/A'),
+                res.get('cliente', 'N/A'),
+                res.get('descripEvento', 'N/A')
+            ] for res in resultado]
+            
+            tabla.setColumnCount(len(headers))
+            tabla.setHorizontalHeaderLabels(headers)
+            TableManager.fill_table(tabla, data)
+            tabla.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+
+        except Exception as e:
+            QMessageBox.critical(self.navegacion, "Error Inesperado", f"Ocurrió un error al buscar las reservaciones: {e}")
 
     def establecer_rol(self):
-        rol = self.navegacion.atRol.text()
-        rfc = self.navegacion.atRFC_3.text()
-        resultado = self.trabajador.establecer_rol(rol, rfc)
+        codigo_rol_seleccionado = self.navegacion.atRol.currentData() # Obtener el código del rol
+        rfc = self.navegacion.atRFC_3.text().strip()
 
-        if not resultado:
-            self.navegacion.atOutput_3.setText("No se encontraron resultados")
+        if codigo_rol_seleccionado is None:
+            QMessageBox.warning(self.navegacion, "Rol no Seleccionado", "Por favor, seleccione un rol válido.")
+            return
+        
+        if not rfc:
+            QMessageBox.warning(self.navegacion, "RFC Vacío", "Por favor, ingrese el RFC del trabajador.")
             return
 
-        self.navegacion.atOutput_3.setText("Rol establecido con éxito")
+        resultado = self.trabajador.actualizar_roles(rfc, codigo_rol_seleccionado)
+
+        if not resultado:
+            QMessageBox.critical(self.navegacion, "Error de Actualización", "No se pudo establecer el rol. Verifique el RFC o la conexión.")
+            return
+
+        QMessageBox.information(self.navegacion, "Rol Establecido", "Rol establecido con éxito")
 
     def intentar_establecer_rol(self):
         if self.main_window.mostrar_confirmacion(
@@ -171,19 +208,39 @@ class WorkerHandler:
             self.navegacion.rolTrabajadores.setItemWidget(item, tarjeta)
 
     def detalles_trabajador(self, item):
+        # Limpiar widgets anteriores
         self.navegacion.rolDetalleTrabajador.clear()
+        
+        # Eliminar el botón de reservaciones si existe de una selección anterior
+        if hasattr(self, 'btn_ver_reservaciones'):
+            self.btn_ver_reservaciones.deleteLater()
+            del self.btn_ver_reservaciones
+
         traba = item.data(Qt.ItemDataRole.UserRole)
-        infoTrabajador = f"\n---{traba['nombre']}---\n"
-        infoTrabajador += f"Numero de trabajador: {traba['numTraba']}\n"
-        infoTrabajador += f"RFC: {traba['RFC']}\n"
-        infoTrabajador += "\n---CONTACTO---\n"
-        infoTrabajador += f"Correo Electronico: {traba['email']}\n"
-        infoTrabajador += "--Telefonos:\n"
-        contador = 0
-        for telef in traba["telefonos"]:
-            contador += 1
-            infoTrabajador += f"{contador}. {telef}\n"
+        self.selected_worker_rfc = traba.get('RFC') # Guardar RFC
+
+        infoTrabajador = f"<h3>{traba.get('nombre', 'N/A')}</h3>"
+        infoTrabajador += f"<b>Número de trabajador:</b> {traba.get('numTraba', 'N/A')}<br>"
+        infoTrabajador += f"<b>RFC:</b> {traba.get('RFC', 'N/A')}<br>"
+        infoTrabajador += "<h4>Contacto</h4>"
+        infoTrabajador += f"<b>Correo Electrónico:</b> {traba.get('email', 'N/A')}<br>"
+        infoTrabajador += "<b>Teléfonos:</b><ul>"
+        for telef in traba.get("telefonos", []):
+            infoTrabajador += f"<li>{telef}</li>"
+        infoTrabajador += "</ul>"
+        
         self.navegacion.rolDetalleTrabajador.setText(infoTrabajador)
+
+        # Lógica para mostrar el botón solo para recepcionistas
+        if traba.get('rol') == 'Recepcionista':
+            # Asumiendo que 'rolDetalleTrabajador' está en un layout vertical. 
+            # Se necesita un widget contenedor con layout para que esto funcione.
+            parent_layout = self.navegacion.rolDetalleTrabajador.parent().layout()
+            if parent_layout:
+                from PyQt6.QtWidgets import QPushButton
+                self.btn_ver_reservaciones = QPushButton("Ver Sus Reservaciones")
+                self.btn_ver_reservaciones.clicked.connect(self.buscar_sus_reservaciones)
+                parent_layout.addWidget(self.btn_ver_reservaciones)
 
     def tarjeta_trabajador(self, trabajador):
         widget = QWidget()
@@ -223,6 +280,28 @@ class WorkerHandler:
         layoutTar.addWidget(label_id)
 
         return widget
+    
+    def cargar_roles_establecer(self):
+        """
+        Carga los roles disponibles en el QComboBox atRol.
+        """
+        combo = self.navegacion.atRol
+        combo.clear()
+        combo.addItem("Seleccione un rol...", None) # Placeholder
+
+        try:
+            roles = self.rol_service.listar_rol()
+            if roles:
+                for rol in roles:
+                    # Almacena el código del rol en itemData para usarlo en establecer_rol
+                    combo.addItem(rol["descripcion"], rol["codigoRol"]) 
+        except Exception as e:
+            QMessageBox.critical(
+                self.navegacion,
+                "Error de Carga",
+                f"No se pudieron cargar los roles para establecer: {e}",
+            )
+
 
     def on_trabajador_table_item_changed(self, item):
         """
