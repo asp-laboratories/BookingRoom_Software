@@ -99,61 +99,64 @@ class AdministradorScreen:
         self.navegacion.sConfirmar.clicked.connect(
             self.service_handler.intentar_registrar_servicio
         )
-        self.navegacion.sConfirmarAct.clicked.connect(
-            self.service_handler.intentar_actualizar_servicio
-        )
-        self.navegacion.slBuscar_3.clicked.connect(
-            self.service_handler.listar_servicio_act
-        )
-        self.navegacion.slBuscar_2.clicked.connect(
-            self.service_handler.listar_servicio_del
-        )
+        # self.navegacion.sConfirmarAct.clicked.connect(
+        #     self.service_handler.intentar_actualizar_servicio
+        # )
+        # self.navegacion.slBuscar_3.clicked.connect(
+        #     self.service_handler.listar_servicio_act
+        # )
+        # self.navegacion.slBuscar_2.clicked.connect(
+        #     self.service_handler.listar_servicio_del
+        # )
 
-        self.navegacion.buscarTipo.clicked.connect(
-            self.service_handler.listar_servicio_segun_tipo
-        )
-        self.navegacion.seConfirmar.clicked.connect(
-            self.service_handler.intentar_eliminar_servicio
-        )
-
+        # self.navegacion.buscarTipo.clicked.connect(
+        #     self.service_handler.listar_servicio_segun_tipo
+        # )
+        # self.navegacion.seConfirmar.clicked.connect(
+        #     self.service_handler.intentar_eliminar_servicio
+        # )
+        
+        # self.navegacion.guardar_cambios.clicked.connect(
+        #     self.service_handler.guardar_cambios_tabla
+        # )
         # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(
             self.equipment_handler.intentar_registrar_equipamiento
         )
-        self.navegacion.slBuscar_5.clicked.connect(
-            self.equipment_handler.desplegar_informacion_equipamiento
-        )
-        self.navegacion.sConfirmarAct_3.clicked.connect(
-            self.equipment_handler.intentar_actualizar_equipamiento
-        )
-        self.navegacion.slBuscar_7.clicked.connect(
-            self.equipment_handler.listar_equipamentos_del
-        )
-        self.navegacion.seConfirmar_3.clicked.connect(
-            self.equipment_handler.intentar_eliminar_equipamiento
-        )
-        self.navegacion.buscarTipo_4.clicked.connect(
-            self.equipment_handler.buscar_tipo_equipo
-        )
+        # self.navegacion.slBuscar_5.clicked.connect(
+        #     self.equipment_handler.desplegar_informacion_equipamiento
+        # )
+        # self.navegacion.sConfirmarAct_3.clicked.connect(
+        #     self.equipment_handler.intentar_actualizar_equipamiento
+        # )
+        # self.navegacion.slBuscar_7.clicked.connect(
+        #     self.equipment_handler.listar_equipamentos_del
+        # )
+        # self.navegacion.seConfirmar_3.clicked.connect(
+        #     self.equipment_handler.intentar_eliminar_equipamiento
+        # )
+        # self.navegacion.buscarTipo_4.clicked.connect(
+        #     self.equipment_handler.buscar_tipo_equipo
+        # )
 
         # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(
             self.salon_handler.intentar_registrar_salon
         )
-        self.navegacion.saCancelar.clicked.connect(self.salon_handler.limpiar_salon)
+        # self.navegacion.saCancelar.clicked.connect(self.salon_handler.limpiar_salon)
         # self.navegacion.almBuscarE_4.clicked.connect(self.salon_handler.buscar_datos_montaje_salon)
-        self.navegacion.sConfirmarAct_2.clicked.connect(
-            self.salon_handler.intentar_actualizar_salon
-        )
-        self.navegacion.slBuscar_4.clicked.connect(
-            self.salon_handler.desplegar_informacion_salon
-        )
-        self.navegacion.slBuscar_6.clicked.connect(
-            self.salon_handler.listar_salones_del
-        )
-        self.navegacion.seConfirmar_2.clicked.connect(
-            self.salon_handler.intentar_eliminar_salon
-        )
+        # self.navegacion.sConfirmarAct_2.clicked.connect(
+        #     self.salon_handler.intentar_actualizar_salon
+        # )
+        # self.navegacion.slBuscar_4.clicked.connect(
+        #     self.salon_handler.desplegar_informacion_salon
+        # )
+        # self.navegacion.slBuscar_6.clicked.connect(
+        #     self.salon_handler.listar_salones_del
+        # )
+        # self.navegacion.seConfirmar_2.clicked.connect(
+        #     self.salon_handler.intentar_eliminar_salon
+        # )
         # self.navegacion.almBuscarE_6.clicked.connect(self.buscar_estado_salon)
         # self.navegacion.sConfirmarAct_4.clicked.connect(self.intentar_cambiar_estado_salon)
         # Botones para los eventos de mobiliario
@@ -169,7 +172,7 @@ class AdministradorScreen:
         self.navegacion.atConfirmar.clicked.connect(
             self.worker_handler.intentar_establecer_rol
         )
-        self.navegacion.atBuscar.clicked.connect(self.worker_handler.buscar)
+        self.navegacion.atBuscar.clicked.connect(self.worker_handler.buscar_trabajadores_y_mostrar)
         self.navegacion.atBuscar_2.clicked.connect(
             self.worker_handler.buscar_sus_reservaciones
         )

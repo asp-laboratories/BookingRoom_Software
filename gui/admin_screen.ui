@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1262</width>
+    <width>1285</width>
     <height>787</height>
    </rect>
   </property>
@@ -679,6 +679,25 @@ color: rgb(255, 255, 255);
            <bool>true</bool>
           </property>
          </widget>
+         <widget class="QLabel" name="label_55">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>20</y>
+            <width>161</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>../Imagenes/03.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -693,8 +712,8 @@ color: rgb(255, 255, 255);
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
-         <width>1031</width>
+         <y>-600</y>
+         <width>1054</width>
          <height>3500</height>
         </rect>
        </property>
@@ -723,7 +742,7 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
@@ -923,7 +942,7 @@ color: rgb(255, 255, 255);
               <x>10</x>
               <y>10</y>
               <width>981</width>
-              <height>1261</height>
+              <height>2011</height>
              </rect>
             </property>
             <property name="cursor">
@@ -990,99 +1009,116 @@ font-size: 28px;</string>
                <string>Tipo de servicio</string>
               </property>
              </widget>
-             <widget class="QLineEdit" name="tipoBuscar1">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>70</y>
-                <width>521</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar tipos de servicios</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="buscarTipo">
-              <property name="geometry">
-               <rect>
-                <x>610</x>
-                <y>70</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="tResultadoS1">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>120</x>
-                <y>170</y>
-                <width>701</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
              <widget class="QTableWidget" name="tResultadoS">
               <property name="geometry">
                <rect>
-                <x>80</x>
-                <y>640</y>
+                <x>70</x>
+                <y>200</y>
                 <width>841</width>
                 <height>421</height>
                </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">
+QTableWidget {
+    background-color: rgb(154, 87, 89);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
               </property>
              </widget>
              <widget class="QComboBox" name="tipoBuscar">
               <property name="geometry">
                <rect>
                 <x>70</x>
-                <y>580</y>
-                <width>431</width>
+                <y>120</y>
+                <width>841</width>
                 <height>41</height>
                </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox {
+    background-color: #f5ddb9; 
+    color: #9b582b;         
+    border: 2px solid #9b582b; 
+    border-radius: 5px;  
+    padding: 5px; 
+    font-size: 14px;
+    font-family: &quot;Adwaita Sans&quot;; 
+}
+
+
+QComboBox:hover {
+    border: 2px solid #c7837c; 
+    background-color: #fff0d9; 
+}
+
+
+QComboBox:on { 
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 30px;
+    border-left-width: 1px;
+    border-left-color: #9b582b;
+    border-left-style: solid;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #9b582b;
+}
+
+QComboBox::down-arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white; 
+    margin-top: 2px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #f5ddb9; 
+    color: #5c3519;    
+    border: 1px solid #9b582b;
+    selection-background-color: #9b582b; 
+    selection-color: white; 
+    outline: 0px;  
+}</string>
               </property>
              </widget>
             </widget>
@@ -1390,525 +1426,6 @@ QComboBox QAbstractItemView {
               </property>
              </widget>
             </widget>
-            <widget class="QWidget" name="tab_7">
-             <attribute name="title">
-              <string>Listar</string>
-             </attribute>
-             <widget class="QTextEdit" name="sResultadoListar_21">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>170</y>
-                <width>461</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_2">
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>100</y>
-                <width>461</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_2">
-              <property name="geometry">
-               <rect>
-                <x>620</x>
-                <y>90</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="seCancelar">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="seConfirmar">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);
-border: none;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_29">
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>30</y>
-                 <width>201</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Eliminar servicio</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_30">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>140</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Numero del servicio</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="seEliminarInput">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>190</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del servicio</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QLabel" name="label_11">
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>30</y>
-                <width>251</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>Listar servicios</string>
-              </property>
-             </widget>
-             <widget class="QTableWidget" name="sResultadoListar_2">
-              <property name="geometry">
-               <rect>
-                <x>190</x>
-                <y>660</y>
-                <width>651</width>
-                <height>471</height>
-               </rect>
-              </property>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_6">
-             <attribute name="title">
-              <string>Actualizar</string>
-             </attribute>
-             <widget class="QFrame" name="frame_3">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>100</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="sCancelarAct">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>350</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="sConfirmarAct">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>350</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>Confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sNuevoValor">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>250</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>500.99</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_10">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>200</y>
-                 <width>221</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Nuevo valor:</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sCampo">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>140</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Servicios empresariales</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_9">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>90</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Campo:</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_31">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>10</y>
-                 <width>221</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar servicio</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QTextEdit" name="sResultadoListar_13">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>170</y>
-                <width>461</width>
-                <height>431</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="slIngresarBusqueda_3">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>100</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar servicio </string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_3">
-              <property name="geometry">
-               <rect>
-                <x>400</x>
-                <y>100</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_66">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>30</y>
-                <width>471</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>Actualizar informacion del servicio</string>
-              </property>
-             </widget>
-             <widget class="QTableWidget" name="sResultadoListar_3">
-              <property name="geometry">
-               <rect>
-                <x>160</x>
-                <y>670</y>
-                <width>651</width>
-                <height>471</height>
-               </rect>
-              </property>
-             </widget>
-            </widget>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaEquipamiento">
@@ -1918,7 +1435,7 @@ font-size: 28px;</string>
               <x>0</x>
               <y>0</y>
               <width>1011</width>
-              <height>761</height>
+              <height>1031</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -1952,65 +1469,12 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_21">
              <attribute name="title">
               <string>Tipo de equipamiento</string>
              </attribute>
-             <widget class="QPushButton" name="buscarTipo_4">
-              <property name="geometry">
-               <rect>
-                <x>650</x>
-                <y>90</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="tResultadoS_3">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>160</y>
-                <width>701</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
              <widget class="QComboBox" name="sEquipamiento">
               <property name="geometry">
                <rect>
@@ -2023,6 +1487,54 @@ border: 3px solid rgba(155, 88, 43, 1.0);
               <property name="styleSheet">
                <string notr="true">border: 2px solid rgb(155, 88, 43);
 color: rgb(0, 0, 0);</string>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tResultadoS_3">
+              <property name="geometry">
+               <rect>
+                <x>110</x>
+                <y>180</y>
+                <width>731</width>
+                <height>341</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">
+QTableWidget {
+    background-color: rgb(154, 87, 89);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
               </property>
              </widget>
             </widget>
@@ -2341,481 +1853,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               </property>
              </widget>
             </widget>
-            <widget class="QWidget" name="tab_9">
-             <attribute name="title">
-              <string>Actualizar equipamiento</string>
-             </attribute>
-             <widget class="QPushButton" name="slBuscar_5">
-              <property name="geometry">
-               <rect>
-                <x>420</x>
-                <y>80</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_9">
-              <property name="geometry">
-               <rect>
-                <x>620</x>
-                <y>80</y>
-                <width>321</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="sCancelarAct_3">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>360</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="sConfirmarAct_3">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>360</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>Confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sNuevoValor_3">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>250</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el nuevo valor</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_67">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>200</y>
-                 <width>221</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Nuevo valor:</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sCampo_3">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>140</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el nombre del campo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_68">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>90</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Campo:</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_69">
-               <property name="geometry">
-                <rect>
-                 <x>10</x>
-                 <y>20</y>
-                 <width>291</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar equipamientos</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QLineEdit" name="slIngresarBusqueda_5">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>80</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar servicio </string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="sResultadoListar_5">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>150</y>
-                <width>461</width>
-                <height>431</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_16">
-             <attribute name="title">
-              <string>Listar</string>
-             </attribute>
-             <widget class="QLabel" name="label_58">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>70</y>
-                <width>291</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>Listar equipamientos</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="sResultadoListar_7">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>210</y>
-                <width>461</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_7">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>140</y>
-                <width>461</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_7">
-              <property name="geometry">
-               <rect>
-                <x>630</x>
-                <y>130</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="seCancelar_3">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="seConfirmar_3">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);
-border: none;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_59">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>30</y>
-                 <width>271</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Eliminar equipamiento</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_70">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>150</y>
-                 <width>271</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>16</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Numero del  equipamiento</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="seEliminarInput_3">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>190</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del equipamiento</string>
-               </property>
-              </widget>
-             </widget>
-            </widget>
            </widget>
           </widget>
           <widget class="QWidget" name="paginaSalon">
@@ -2825,7 +1862,7 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <x>0</x>
               <y>0</y>
               <width>1021</width>
-              <height>881</height>
+              <height>1421</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -2859,7 +1896,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_14">
              <attribute name="title">
@@ -3299,258 +2336,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <attribute name="title">
               <string>Actualizar salon</string>
              </attribute>
-             <widget class="QFrame" name="frame_8">
-              <property name="geometry">
-               <rect>
-                <x>620</x>
-                <y>90</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="sCancelarAct_2">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>370</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="sConfirmarAct_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>370</y>
-                 <width>121</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>Confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sNuevoValor_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>250</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el nuevo valor</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_62">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>200</y>
-                 <width>221</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Nuevo valor:</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="sCampo_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>140</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="placeholderText">
-                <string>Ingrese el nombre del campo</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_63">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>90</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Campo:</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_65">
-               <property name="geometry">
-                <rect>
-                 <x>40</x>
-                 <y>10</y>
-                 <width>221</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Actualizar salones</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_4">
-              <property name="geometry">
-               <rect>
-                <x>420</x>
-                <y>90</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="slIngresarBusqueda_4">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>90</y>
-                <width>311</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="placeholderText">
-               <string>Buscar salon</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="sResultadoListar_4">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>160</y>
-                <width>461</width>
-                <height>431</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
              <widget class="QLabel" name="label_64">
               <property name="geometry">
                <rect>
@@ -3575,222 +2360,52 @@ font-size: 28px;</string>
                <string>Actualizar informacion del salon</string>
               </property>
              </widget>
-            </widget>
-            <widget class="QWidget" name="tab_5">
-             <attribute name="title">
-              <string>Listar salones</string>
-             </attribute>
-             <widget class="QTextEdit" name="sResultadoListar_6">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
+             <widget class="QTableWidget" name="sResultadoListar_4">
               <property name="geometry">
                <rect>
-                <x>90</x>
-                <y>180</y>
-                <width>461</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="slBuscar_6">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>110</y>
-                <width>461</width>
-                <height>41</height>
+                <x>110</x>
+                <y>150</y>
+                <width>791</width>
+                <height>451</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">border-radius: 10px;
-background-color: rgb(38, 96, 255);
-background-color: rgb(34, 76, 184);</string>
-              </property>
-              <property name="text">
-               <string>Buscar</string>
-              </property>
-             </widget>
-             <widget class="QFrame" name="frame_6">
-              <property name="geometry">
-               <rect>
-                <x>630</x>
-                <y>100</y>
-                <width>301</width>
-                <height>501</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <widget class="QPushButton" name="seCancelar_2">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-border-radius: 10px;
-background-color: #CA301B;</string>
-               </property>
-               <property name="text">
-                <string>Cancelar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="seConfirmar_2">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>300</y>
-                 <width>131</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);
-border: none;
-border-radius: 10px;
-background-color: #2B9B32;</string>
-               </property>
-               <property name="text">
-                <string>confirmar</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_55">
-               <property name="geometry">
-                <rect>
-                 <x>50</x>
-                 <y>30</y>
-                 <width>201</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Eliminar salon</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_56">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>140</y>
-                 <width>251</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Adwaita Sans</family>
-                 <pointsize>18</pointsize>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-               </property>
-               <property name="text">
-                <string>Numero del salon</string>
-               </property>
-              </widget>
-              <widget class="QLineEdit" name="seEliminarInput_2">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>190</y>
-                 <width>261</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border-bottom: 3px solid rgba(155, 88, 43, 1.0);
-border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
-               </property>
-               <property name="placeholderText">
-                <string>Ingresa el numero del salon</string>
-               </property>
-              </widget>
-             </widget>
-             <widget class="QLabel" name="label_57">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>40</y>
-                <width>251</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>-1</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgba(155, 88, 43, 1.0);
-font-size: 28px;</string>
-              </property>
-              <property name="text">
-               <string>Listar salones</string>
+               <string notr="true">
+QTableWidget {
+    background-color: rgb(154, 87, 89);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
               </property>
              </widget>
             </widget>
@@ -4117,7 +2732,7 @@ font-size: 28px;</string>
               <x>0</x>
               <y>0</y>
               <width>1011</width>
-              <height>771</height>
+              <height>1281</height>
              </rect>
             </property>
             <property name="styleSheet">
@@ -4157,47 +2772,12 @@ QTabBar::tab:hover {
              <attribute name="title">
               <string>Asignar roles</string>
              </attribute>
-             <widget class="QTextEdit" name="atResultadoText">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>140</y>
-                <width>401</width>
-                <height>411</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="cursor" stdset="0">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: unset;
-color: rgb(0, 0, 0);
-border-radius: 5px;
-border: 3px solid rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
              <widget class="QLineEdit" name="atBuscador">
               <property name="geometry">
                <rect>
-                <x>70</x>
-                <y>70</y>
-                <width>261</width>
+                <x>50</x>
+                <y>80</y>
+                <width>781</width>
                 <height>51</height>
                </rect>
               </property>
@@ -4215,8 +2795,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
              <widget class="QPushButton" name="atBuscar">
               <property name="geometry">
                <rect>
-                <x>350</x>
-                <y>70</y>
+                <x>860</x>
+                <y>80</y>
                 <width>111</width>
                 <height>51</height>
                </rect>
@@ -4233,18 +2813,91 @@ background-color: rgb(71, 105, 255);</string>
                <string>Buscar</string>
               </property>
              </widget>
-             <widget class="QFrame" name="frame">
+             <widget class="QLabel" name="label_23">
               <property name="geometry">
                <rect>
-                <x>580</x>
-                <y>59</y>
-                <width>301</width>
-                <height>501</height>
+                <x>50</x>
+                <y>20</y>
+                <width>161</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Adwaita Sans</family>
+                <pointsize>18</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: none;
+color: rgba(155, 88, 43, 1.0);
+</string>
+              </property>
+              <property name="text">
+               <string>Roles</string>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="atResultadoText">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>150</y>
+                <width>931</width>
+                <height>481</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">border: 3px solid rgb(155, 88, 43);
-border-radius: 10px;</string>
+               <string notr="true">
+QTableWidget {
+    background-color: rgb(154, 87, 89);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
+              </property>
+             </widget>
+             <widget class="QFrame" name="frame">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>650</y>
+                <width>931</width>
+                <height>171</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">border: 2px solid rgb(155, 88, 43);
+border-radius: 7px;</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::StyledPanel</enum>
@@ -4255,8 +2908,8 @@ border-radius: 10px;</string>
               <widget class="QPushButton" name="atCancelar">
                <property name="geometry">
                 <rect>
-                 <x>160</x>
-                 <y>370</y>
+                 <x>780</x>
+                 <y>110</y>
                  <width>131</width>
                  <height>41</height>
                 </rect>
@@ -4279,8 +2932,8 @@ background-color: #CA301B;</string>
                </property>
                <property name="geometry">
                 <rect>
-                 <x>20</x>
-                 <y>370</y>
+                 <x>630</x>
+                 <y>110</y>
                  <width>131</width>
                  <height>41</height>
                 </rect>
@@ -4301,8 +2954,8 @@ background-color: #2B9B32;</string>
               <widget class="QLabel" name="label_20">
                <property name="geometry">
                 <rect>
-                 <x>80</x>
-                 <y>40</y>
+                 <x>400</x>
+                 <y>10</y>
                  <width>161</width>
                  <height>41</height>
                 </rect>
@@ -4326,8 +2979,8 @@ color: rgba(155, 88, 43, 1.0);
               <widget class="QLabel" name="label_21">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>110</y>
+                 <x>20</x>
+                 <y>60</y>
                  <width>61</width>
                  <height>41</height>
                 </rect>
@@ -4351,8 +3004,8 @@ color: rgba(155, 88, 43, 1.0);
               <widget class="QLabel" name="label_22">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>230</y>
+                 <x>320</x>
+                 <y>60</y>
                  <width>171</width>
                  <height>31</height>
                 </rect>
@@ -4376,8 +3029,8 @@ color: rgba(155, 88, 43, 1.0);
               <widget class="QLineEdit" name="atRfc">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>160</y>
+                 <x>20</x>
+                 <y>100</y>
                  <width>261</width>
                  <height>51</height>
                 </rect>
@@ -4396,8 +3049,8 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
               <widget class="QLineEdit" name="atNombreR">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
-                 <y>270</y>
+                 <x>320</x>
+                 <y>100</y>
                  <width>261</width>
                  <height>51</height>
                 </rect>
@@ -4413,31 +3066,6 @@ border-right: 3px solid  rgba(155, 88, 43, 1.0);</string>
                 <string>Ingresa el nombre del rol</string>
                </property>
               </widget>
-             </widget>
-             <widget class="QLabel" name="label_23">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>20</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <family>Adwaita Sans</family>
-                <pointsize>18</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border: none;
-color: rgba(155, 88, 43, 1.0);
-</string>
-              </property>
-              <property name="text">
-               <string>Roles</string>
-              </property>
              </widget>
             </widget>
             <widget class="QWidget" name="tab_13">
@@ -4624,7 +3252,7 @@ QTabBar::tab:hover {
 }</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_20">
              <attribute name="title">
@@ -5831,8 +4459,8 @@ color: rgba(155, 88, 43, 1.0);
            <widget class="QTabWidget" name="tabWidget_5">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>60</y>
+              <x>0</x>
+              <y>10</y>
               <width>1041</width>
               <height>1601</height>
              </rect>
@@ -6192,29 +4820,42 @@ font-size: 28px;</string>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">            QTableWidget {
-                background-color: #ffffff;
-                border: 1px solid #dee2e6;
-                border-radius: 8px;
-                font-size: 13px;
-                alternate-background-color: #f5ddb9; 
-            }
-            QTableWidget::item {
-                padding: 8px;
-                border-bottom: 1px solid #f8f9fa;
-            }
-            QHeaderView::section {
-                backgrond-color: #f5ddb9; 
-                color: #D18A5B; 
-                padding: 10px;
-                font-weight: bold;
-                border: none;
-                border-bottom: 2px solid #dee2e6;
-            }
-            QTableWidget::item:selected {
-                background-color: #9b582b; 
-                color: #ffffff; 
-            }</string>
+               <string notr="true">
+QTableWidget {
+    background-color: rgb(154, 87, 89);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
               </property>
              </widget>
              <widget class="QComboBox" name="almBuscadorE">

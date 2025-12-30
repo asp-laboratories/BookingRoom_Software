@@ -64,62 +64,9 @@ class EquipmentHandler:
             )
             return False
 
-    def desplegar_informacion_equipamiento(self):
-        # NOTE: Consider replacing this text output with a QTableWidget using TableManager.create_info_table
-        self.navegacion.sResultadoListar_5.clear()
-        try:
-            resultado = self.equipamiento.listar_equipamentos_informacion(
-                int(self.navegacion.slIngresarBusqueda_5.text())
-            )
-            if resultado is None:
-                self.navegacion.sResultadoListar_5.setText("No se encontró el equipamiento.")
-            else:
-                mensaje = "INFORMACION DEL EQUIPAMIENTO\n"
-                mensaje += f"\n -Nombre: {resultado['nombre']}"
-                mensaje += f"\n -Descripcion: {resultado['descripcion']}"
-                mensaje += f"\n -Costo de renta: {str(resultado['costoRenta'])}"
-                mensaje += f"\n -Cantidad: {str(resultado['stock'])}"
-                self.navegacion.sResultadoListar_5.setText(mensaje)
-        except ValueError:
-            QMessageBox.warning(
-                self.navegacion,
-                "Datos Inválidos",
-                "El numero de equipamiento debe ser un número entero válido.",
-            )
 
-    def listar_equipamentos_del(self):
-        # NOTE: This should be converted to a QTableWidget for consistency.
-        self.navegacion.sResultadoListar_7.clear()
-        try:
-            resultado = self.equipamiento.listar_equipamentos()
 
-            if not resultado:
-                self.navegacion.sResultadoListar_7.setText("No hay equipamientos registrados para mostrar.")
-            else:
-                mensaje_html = '<div style="font-family: Adwaita Sans; font-size: 14px; color: #333;">'
-                mensaje_html += '<h3 style="color: #9b582b;">LISTA DE EQUIPAMIENTOS</h3>'
-                
-                for e in resultado:
-                    numEquipa = e.get('numEquipa', 'N/A')
-                    nombre = e.get('nombre', 'N/A')
-                    descripcion = e.get('descripcion', 'N/A')
-                    
-                    mensaje_html += f"""
-                    <div style="border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 5px;">
-                        <p><b>Número:</b> {numEquipa}</p>
-                        <p><b>Nombre:</b> {nombre}</p>
-                        <p><b>Descripción:</b> {descripcion}</p>
-                    </div>
-                    """
-                
-                mensaje_html += "</div>"
-                self.navegacion.sResultadoListar_7.setHtml(mensaje_html)
-        except Exception as e:
-            QMessageBox.critical(
-                self.navegacion,
-                "Error inesperado",
-                f"Ocurrió un error al listar los equipamientos: {e}",
-            )
+
 
     def eliminar_equipamiento(self, id_equipamiento: int):
         try:
