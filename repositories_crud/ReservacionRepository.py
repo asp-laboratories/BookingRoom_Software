@@ -552,11 +552,7 @@ WHERE fechaEvento = %s
             if self.db.connection:
                 cursor.close()
                 self.db.desconectar()
-
-
-if __name__ == "__main__":
-    pass
-
+    
     def listar_reservaciones_en_rango(self, start_date, end_date):
         if not self.db.conectar():
             return None

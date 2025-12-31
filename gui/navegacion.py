@@ -105,7 +105,7 @@ class Navegacion:
 
         tipo_servicio = self.navegacion.sTipoServicio.text()  # Combo box?
 
-        resultado = servicio.registrar_servicio(
+        resultado = self.servicio.registrar_servicio(
             nombre, descripcion, costo_renta, tipo_servicio
         )
 
@@ -160,7 +160,7 @@ class Navegacion:
         if not permitir_ingreso(numPasillo, "numtraba"):
             self.navegacion.saMensaje.setText("Ingrese un nombre de pasillo valido")
 
-        resultado = salon.registrar_salones(
+        resultado = self.salon.registrar_salones(
             nombre, costoRenta, nombrePasillo, numPasillo, largo, ancho, altura, m2
         )
         if not resultado:
@@ -203,7 +203,7 @@ class Navegacion:
 
         # resultado = equipamiento.registrar_equipamento(nombreEquipa, descripcion, costoRenta, stock, tipoEquipa)
 
-        if not equipamiento.registrar_equipamento(
+        if not self.equipamiento.registrar_equipamento(
             nombreEquipa, descripcion, costoRenta, stock, tipoEquipa
         ):
             self.navegacion.eMensaje.setText("Registro fallido")
@@ -226,7 +226,7 @@ class Navegacion:
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
         self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
-        obtener = salon.listar_salones()
+        obtener = self.salon.listar_salones()
         for sln in obtener:
             self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
 
@@ -240,7 +240,7 @@ class Navegacion:
             self.navegacion.resultadoSalon.setText(mensaje)
 
     def buscar_usuario_por_id(self, salNumero):
-        for s in salon.listar_salones():
+        for s in self.salon.listar_salones():
             if s["numSalon"] == salNumero:
                 return s
         return None
@@ -252,7 +252,7 @@ class Navegacion:
             self.navegacion.atMensaje.setText("")
             return
 
-        resultado = trabajador.buscar_al_trabajador(termino_busqueda)
+        resultado = self.trabajador.buscar_al_trabajador(termino_busqueda)
 
         if not resultado:
             self.navegacion.atResultadoText.setText(f"No se encontraron trabajadores con el RFC: {termino_busqueda}")
@@ -279,7 +279,7 @@ class Navegacion:
             self.navegacion.atMensaje.setText(f"{len(resultado)} resultado(s)")
 
     def establecer_rol(self):
-        resultado = trabajador.actualizar_roles(
+        resultado = self.trabajador.actualizar_roles(
             self.navegacion.atRfc.text(), self.navegacion.atNombreR.text()
         )
         if resultado is None:
@@ -288,7 +288,7 @@ class Navegacion:
             QMessageBox.warning(self.navegacion, "Error", "No se pudo establecer el rol.")
 
     def actualizar_servicio(self):
-        resultado = servicio.actualizar_campos(
+        resultado = self.servicio.actualizar_campos(
             self.navegacion.sCampo.text(),
             int(self.navegacion.sNumeroServicio.text()),
             self.navegacion.sNuevoValor.text(),
