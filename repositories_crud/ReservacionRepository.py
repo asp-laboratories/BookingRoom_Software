@@ -561,12 +561,13 @@ WHERE fechaEvento = %s
             cursor.execute(
                 """
                 SELECT
-                    r.numReser,
-                    r.fechaEvento,
-                    TIME_FORMAT(r.horaInicio, '%H:%i') as horaInicio,
-                    TIME_FORMAT(r.horaFin, '%H:%i') as horaFin,
-                    r.descripEvento,
-                    ds.nombre as nombre_salon
+                    r.numReser as id_reservacion,
+                    r.fechaEvento as fecha_reser,
+                    TIME_FORMAT(r.horaInicio, '%H:%i') as hora_inicio,
+                    TIME_FORMAT(r.horaFin, '%H:%i') as hora_fin,
+                    r.descripEvento as evento,
+                    ds.nombre as nombre_salon,
+                    ds.numSalon as id_salon
                 FROM reservacion as r
                 JOIN datos_montaje as dm ON r.datos_montaje = dm.numDatMon
                 JOIN datos_salon as ds ON dm.datos_salon = ds.numSalon

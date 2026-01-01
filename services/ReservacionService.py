@@ -1,11 +1,13 @@
 from config.db_settings import BaseDeDatos
 from repositories_crud.ReservacionRepository import ReservacionRepository
+from datetime import timedelta
 from models.Reservacion import Reservacion
 from services.TipoMontajeService import TipoMontajeService
 from services.TrabajadorServices import TrabajadorServices
 from services.DatosClienteService import DatosClienteService
 from services.EquipamentoService import EquipamentoService
 from services.ServicioServices import ServicioService
+from types import SimpleNamespace
 
 
 class ReservacionService:
@@ -19,6 +21,16 @@ class ReservacionService:
         self.DatosClienteServices = DatosClienteService()
         self.EquipamientoService = EquipamentoService()
         self.ServicioService = ServicioService()
+
+    def obtener_reservaciones_por_semana(self, fecha_inicio):
+        """
+        Obtiene todas las reservaciones para una semana a partir de una fecha de inicio.
+        """
+        if not fecha_inicio:
+            return []
+        
+        fecha_fin = fecha_inicio + timedelta(days=6)
+        return self.listar_reservaciones_en_rango(fecha_inicio, fecha_fin)
 
     # Metodos
     # Ingresar unicamente nombres de equipamientos y servicios
@@ -117,7 +129,12 @@ class ReservacionService:
         return self.reservacion_repository.listar_por_trabajador(rfc)
 
     def listar_reservaciones_en_rango(self, start_date, end_date):
-        return self.reservacion_repository.listar_reservaciones_en_rango(start_date, end_date)
+        reservaciones_dict = self.reservacion_repository.listar_reservaciones_en_rango(start_date, end_date)
+        if reservaciones_dict is None:
+            return []
+        # Convertir la lista de diccionarios a una lista de objetos
+        reservaciones_obj = [SimpleNamespace(**d) for d in reservaciones_dict]
+        return reservaciones_obj
 
 
     def reservacion_descripcion(self, numreser):

@@ -679,17 +679,17 @@ color: rgb(255, 255, 255);
            <bool>true</bool>
           </property>
          </widget>
-         <widget class="QLabel" name="label_55">
+         <widget class="QLabel" name="irHorario">
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>20</y>
+            <y>30</y>
             <width>161</width>
             <height>31</height>
            </rect>
           </property>
           <property name="text">
-           <string/>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;horarioP&quot;&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="pixmap">
            <pixmap>../Imagenes/03.png</pixmap>
@@ -742,28 +742,66 @@ color: rgb(255, 255, 255);
            <string notr="true">background-color: rgb(245, 221, 185);</string>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="predeterminada">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(245, 221, 185);</string>
            </property>
-           <widget class="QTableWidget" name="tableHorario">
+           <widget class="QTableWidget" name="scheduleTableHorario">
             <property name="geometry">
              <rect>
-              <x>30</x>
-              <y>200</y>
-              <width>894</width>
-              <height>427</height>
+              <x>20</x>
+              <y>140</y>
+              <width>994</width>
+              <height>730</height>
              </rect>
             </property>
+            <property name="styleSheet">
+             <string notr="true">
+QTableWidget {
+	background-color: rgb(155, 88, 43);
+    border: 2px solid rgba(209, 138, 91, 0.5);
+    border-radius: 8px;
+    font-size: 13px;
+    alternate-background-color: rgba(245, 221, 178, 0.1);
+}
+
+QTableWidget::item {
+    background-color: rgba(155, 88, 43, 0.9);
+    padding: 8px;
+    border-bottom: 1px solid rgba(209, 138, 91, 0.2);
+}
+
+QTableWidget::item:hover {
+    background-color: rgba(209, 138, 91, 0.15);
+}
+
+QTableWidget::item:selected {
+    background-color: rgba(155, 88, 43, 0.9);
+    color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: rgba(209, 138, 91, 1.0);
+    color: rgba(245, 221, 178, 1.0);
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid rgba(155, 88, 43, 0.8);
+}
+
+QLineEdit{
+	background-color: rgb(154, 87, 89);
+}</string>
+            </property>
            </widget>
-           <widget class="QGroupBox" name="groupBox">
+           <widget class="QGroupBox" name="groupBox_5">
             <property name="geometry">
              <rect>
-              <x>30</x>
-              <y>10</y>
-              <width>894</width>
+              <x>20</x>
+              <y>60</y>
+              <width>994</width>
               <height>61</height>
              </rect>
             </property>
@@ -771,166 +809,73 @@ color: rgb(255, 255, 255);
              <string notr="true">background-color: rgb(155, 88, 43);</string>
             </property>
             <property name="title">
-             <string>📅 Configurar Fechas del Horario</string>
+             <string>📅 Controles del Horario</string>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="label_salon">
+               <property name="text">
+                <string>Salón:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboSalonHorario"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_fecha">
                <property name="text">
                 <string>Mostrar semana desde:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="dateInicio">
-               <property name="minimumDate">
-                <date>
-                 <year>2025</year>
-                 <month>9</month>
-                 <day>1</day>
-                </date>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnActualizar">
-               <property name="text">
-                <string>🔄 Actualizar</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_2">
-            <property name="geometry">
-             <rect>
-              <x>30</x>
-              <y>80</y>
-              <width>894</width>
-              <height>61</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(155, 88, 43);</string>
-            </property>
-            <property name="title">
-             <string>➕ Agregar Evento</string>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_51">
-               <property name="text">
-                <string>Nombre:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="inputNombre_2"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_52">
-               <property name="text">
-                <string>Fecha:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDateEdit" name="dateEvento_2">
+              <widget class="QDateEdit" name="dateInicioHorario">
                <property name="calendarPopup">
                 <bool>true</bool>
                </property>
                <property name="date">
                 <date>
                  <year>2025</year>
-                 <month>9</month>
-                 <day>1</day>
+                 <month>12</month>
+                 <day>30</day>
                 </date>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_53">
+              <widget class="QPushButton" name="btnActualizarHorario">
                <property name="text">
-                <string>Hora Inicio:</string>
+                <string>🔄 Actualizar Horario</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTimeEdit" name="timeInicio_2">
-               <property name="displayFormat">
-                <string>HH:mm</string>
-               </property>
-               <property name="time">
-                <time>
-                 <hour>19</hour>
-                 <minute>0</minute>
-                 <second>0</second>
-                </time>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_54">
+              <widget class="QPushButton" name="btnSiguienteSemana">
                <property name="text">
-                <string>Hora Fin:</string>
+                <string>Anterior</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QTimeEdit" name="timeFin_2">
-               <property name="displayFormat">
-                <string>HH:mm</string>
-               </property>
-               <property name="time">
-                <time>
-                 <hour>20</hour>
-                 <minute>0</minute>
-                 <second>0</second>
-                </time>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnAgregar_2">
+              <widget class="QPushButton" name="btnAnteriorSemana">
                <property name="text">
-                <string>✅ Agregar</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>320</x>
-              <y>150</y>
-              <width>257</width>
-              <height>36</height>
-             </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QPushButton" name="btnMostrar_2">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(155, 88, 43);</string>
-               </property>
-               <property name="text">
-                <string>📋 Mostrar Eventos</string>
+                <string>Siguiente</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnLimpiar_2">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(155, 88, 43);</string>
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
                </property>
-               <property name="text">
-                <string>🧹 Limpiar Todo</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
                </property>
-              </widget>
+              </spacer>
              </item>
             </layout>
            </widget>

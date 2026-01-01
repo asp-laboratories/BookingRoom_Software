@@ -3,6 +3,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import (
     QMessageBox,
 )
+from datetime import date, timedelta
 from gui.registro_cliente import RegistroCliente
 from services.DatosClienteService import DatosClienteService
 from services.ReserEquipaService import ReserEquipaService
@@ -29,6 +30,7 @@ from gui.handlers.worker_handler import WorkerHandler
 from gui.handlers.client_handler import ClientHandler
 from gui.handlers.pago_handler import PagoHandler
 from gui.handlers.reservacion_handler import ReservacionHandler
+from gui.handlers.horario_handler import HorarioHandler
 ruta_ui = Path(__file__).parent / "admin_screen.ui"
 
 obtenerNumeroReservacion = []
@@ -66,6 +68,7 @@ class AdministradorScreen:
         self.client_handler = ClientHandler(self)
         self.pago_handler = PagoHandler(self)
         self.reservacion_handler = ReservacionHandler(self)
+        self.horario_handler = HorarioHandler(self)
 
         # self.initGUI()
         self.navegacion.show()
@@ -94,6 +97,19 @@ class AdministradorScreen:
         self.navegacion.mobiliario.clicked.connect(lambda: self.mostrar_pagina(7))
         self.navegacion.pagos.clicked.connect(lambda: self.mostrar_pagina(8))
         self.navegacion.reSalon.clicked.connect(lambda: self.mostrar_pagina(11))
+        # self.navegacion.horario.clicked.connect(lambda: self.mostrar_pagina(12))
+        # =========================================================================================
+        # CONEXIONES DE HORARIO
+        # =========================================================================================
+        # NOTA: Asegúrate de que los nombres de widgets en tu .ui coincidan.
+        self.navegacion.btnActualizarHorario.clicked.connect(self.horario_handler.actualizar_vista_horario)
+        self.navegacion.comboSalonHorario.currentIndexChanged.connect(self.horario_handler.actualizar_vista_horario)
+        self.navegacion.dateInicioHorario.dateChanged.connect(self.horario_handler.actualizar_vista_horario)
+        
+        # Conexiones para navegar entre semanas (asegúrate de que los botones existan en el .ui)
+        self.navegacion.btnSiguienteSemana.clicked.connect(self.horario_handler.avanzar_semana)
+        self.navegacion.btnAnteriorSemana.clicked.connect(self.horario_handler.retroceder_semana)
+        # =========================================================================================
 
         # Botones de los eventos de servicios
         self.navegacion.sConfirmar.clicked.connect(
