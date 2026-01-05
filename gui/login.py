@@ -11,18 +11,17 @@ from gui.navegacion import Navegacion
 from gui.recepcionista import Recepcionista
 from gui.registro import Registro
 from services.LoginService import LoginService
-from services.TrabajadorServices import TrabajadorServices
-
-trabjador = TrabajadorServices()
 
 ruta_ui = Path(__file__).parent / "login.ui"
-log = LoginService()
-
-resultadoEmail = []
 
 
 class Login:
-    def __init__(self):
+    def __init__(self, db_instance):
+        # Se recibe y guarda la instancia de la BD.
+        self.db = db_instance
+        # Se inicializa el servicio de Login con la instancia de la BD.
+        self.log_service = LoginService(self.db)
+        
         self.login = uic.loadUi(str(ruta_ui))
         self.initGUI()
         self.login.mensaje.setText("")
@@ -32,7 +31,7 @@ class Login:
     def abrir_registro(self, link):
         if link == "registro":
             self.login.hide()  # Ocultar ventana actual
-            self.ventana_registro = Registro()
+            self.ventana_registro = Registro(self.db)
 
     def ingresar(self):
         if len(self.login.leEmail.text()) < 2:
@@ -43,41 +42,24 @@ class Login:
             self.login.leNumero.setFocus()
         else:
             self.login.mensaje.setText("")
-            resultado = log.registrar_trabajadores(
+            # Se usa la instancia de servicio de la clase.
+            trabajador = self.log_service.autenticar_trabajador(
                 self.login.leEmail.text(), self.login.leNumero.text()
             )
-            if resultado:
+            if trabajador:
                 QMessageBox.information(self.login, "Login exitoso", "Credenciales correctas.")
-                if resultado[2] == "DEFLT":
-                    self.nav = Navegacion()
-                    self.login.hide()
-                elif resultado[2] == "ADMIN":
-                    resultadoEmail.append(self.login.leEmail.text())
-                    self.admin = AdministradorScreen()
-                    self.login.hide()
-                    # self.admin = AdminWindow()
-                elif resultado[2] == "ALMAC":
-                    self.almacen = Almacenista()
-                    self.login.hide()
-                elif resultado[2] == "RECEP":
-                    resultadoEmail.append(self.login.leEmail.text())
-                    self.login.hide()
-                    self.recep = Recepcionista()
-            elif resultado is None:
+                
+                self.login.hide()
+                if trabajador.codigoRol == "DEFLT":
+                    self.nav = Navegacion(self.db, trabajador)
+                elif trabajador.codigoRol == "ADMIN":
+                    self.admin = AdministradorScreen(self.db, trabajador)
+                elif trabajador.codigoRol == "ALMAC":
+                    self.almacen = Almacenista(self.db, trabajador)
+                elif trabajador.codigoRol == "RECEP":
+                    self.recep = Recepcionista(self.db, trabajador)
+            else:
                 QMessageBox.warning(self.login, "Error de login", "Credenciales incorrectas.")
 
     def initGUI(self):
         self.login.btnIniciar.clicked.connect(self.ingresar)
-
-
-# def enviarRfc(email):
-#     resultados = trabjador.obtener_rfc(email)
-#     return resultados["rfc"]
-
-# Método 1: Con pathlib (recomendado)
-# self.login = uic.loadUi(str(ruta_ui))
-
-# Método 2: Con os.path
-# ruta_actual = os.path.dirname(__file__)
-# ruta_ui = os.path.join(ruta_actual, "login-ui.ui")
-# self.login = uic.loadUi(ruta_ui)

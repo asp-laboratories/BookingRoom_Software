@@ -140,15 +140,9 @@ class MobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"""
-                            DELETE FROM inventario_mob
-                            WHERE mobiliario = {numMob}""")
-            cursor.execute(f"""
-                            DELETE FROM caracteristicas
-                            WHERE mobiliario = {numMob}""")
-            cursor.execute(f"""
-                            DELETE FROM mobiliario
-                            WHERE numMob = {numMob}""")
+            cursor.execute("DELETE FROM inventario_mob WHERE mobiliario = %s", (numMob,))
+            cursor.execute("DELETE FROM caracteristicas WHERE mobiliario = %s", (numMob,))
+            cursor.execute("DELETE FROM mobiliario WHERE numMob = %s", (numMob,))
 
             self.db.connection.commit()
 
@@ -167,12 +161,13 @@ class MobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-            cursor.execute(f"""
-                            UPDATE mobiliario set
-                            nombre = '{nombre}',
-                            costoRenta = {costoRenta},
-                            stock = {stock}
-                            where numMob = {numMob}""")
+            cursor.execute(
+                """
+                UPDATE mobiliario SET nombre = %s, costoRenta = %s, stock = %s
+                WHERE numMob = %s
+                """,
+                (nombre, costoRenta, stock, numMob)
+            )
 
             self.db.connection.commit()
             return True
@@ -191,9 +186,11 @@ class MobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-
+            
+            like_pattern = f"%{nombre}%"
             cursor.execute(
-                f"SELECT numMob FROM mobiliario WHERE nombre like '%{nombre}%'"
+                "SELECT numMob FROM mobiliario WHERE nombre like %s",
+                (like_pattern,)
             )
             resultado = cursor.fetchone()
 
@@ -216,33 +213,40 @@ class MobiliarioRepository:
         try:
             cursor = self.db.cursor()
             cursor.execute(
-                f"""SELECT * FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'"""
+                "SELECT * FROM inventario_mob WHERE mobiliario = %s and esta_mob = %s",
+                (numMob, esta_mob2)
             )
             resultados = cursor.fetchall()
 
             cursor.execute(
-                f"""SELECT cantidad FROM inventario_mob WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                "SELECT cantidad FROM inventario_mob WHERE mobiliario = %s and esta_mob = %s",
+                (numMob, esta_mob1)
             )
             canti = cursor.fetchone()
 
-            stockA = canti["cantidad"]
+            stockA = canti["cantidad"] if canti else 0
+            new_stock_origen = stockA - cantidad
 
             if not resultados:
                 cursor.execute(
-                    f"""INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values ({numMob}, '{esta_mob2}', {cantidad})"""
+                    "INSERT INTO inventario_mob (mobiliario, esta_mob, cantidad) values (%s, %s, %s)",
+                    (numMob, esta_mob2, cantidad)
                 )
-
                 cursor.execute(
-                    f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                    "UPDATE inventario_mob set cantidad = %s WHERE mobiliario = %s and esta_mob = %s",
+                    (new_stock_origen, numMob, esta_mob1)
                 )
 
             else:
+                new_stock_destino = resultados[0]["cantidad"] + cantidad
                 cursor.execute(
-                    f"""UPDATE inventario_mob set cantidad = {resultados[0]["cantidad"] + cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob2}'"""
+                    "UPDATE inventario_mob set cantidad = %s WHERE mobiliario = %s and esta_mob = %s",
+                    (new_stock_destino, numMob, esta_mob2)
                 )
 
                 cursor.execute(
-                    f"""UPDATE inventario_mob set cantidad = {stockA - cantidad} WHERE mobiliario = {numMob} and esta_mob = '{esta_mob1}'"""
+                    "UPDATE inventario_mob set cantidad = %s WHERE mobiliario = %s and esta_mob = %s",
+                    (new_stock_origen, numMob, esta_mob1)
                 )
 
             self.db.connection.commit()
@@ -250,6 +254,7 @@ class MobiliarioRepository:
 
         except Exception as error:
             print(f"Error al actualizar el dato: {error}")
+            self.db.connection.rollback()
             return False
 
         finally:
@@ -265,22 +270,21 @@ class MobiliarioRepository:
         try:
             cursor = self.db.cursor()
             if not tipo_carac:
-                cursor.execute(f"""
-                                UPDATE mob_carac set nombreCarac = '{nombreCarac}' WHERE numCarac = {numCarac}
-                                """)
-                self.db.connection.commit()
-
+                cursor.execute(
+                    "UPDATE mob_carac SET nombreCarac = %s WHERE numCarac = %s",
+                    (nombreCarac, numCarac)
+                )
             elif not nombreCarac:
-                cursor.execute(f"""
-                                UPDATE mob_carac set tipo_carac = '{tipo_carac}' WHERE numCarac = {numCarac}
-                                """)
-                self.db.connection.commit()
-
+                cursor.execute(
+                    "UPDATE mob_carac SET tipo_carac = %s WHERE numCarac = %s",
+                    (tipo_carac, numCarac)
+                )
             else:
-                cursor.execute(f"""
-                                UPDATE mob_carac set nombreCarac = '{nombreCarac}', tipo_carac = '{tipo_carac}' WHERE numCarac = {numCarac}
-                                """)
-                self.db.connection.commit()
+                cursor.execute(
+                    "UPDATE mob_carac SET nombreCarac = %s, tipo_carac = %s WHERE numCarac = %s",
+                    (nombreCarac, tipo_carac, numCarac)
+                )
+            self.db.connection.commit()
             return True
 
         except Exception as error:
@@ -489,8 +493,21 @@ class MobiliarioRepository:
             cursor.close()
             self.db.desconectar()
 
-
-if __name__ == "__main__":
-    conexcion = BaseDeDatos(database="BookingRoomLocal")
-    prueba = MobiliarioRepository(conexcion)
-    print(prueba.obtener_esta_mob(1, "dispo"))
+    def obtener_costo_por_nombre(self, nombre_mobiliario):
+        if not self.db.conectar():
+            return None
+        try:
+            cursor = self.db.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT costoRenta FROM mobiliario WHERE nombre = %s",
+                (nombre_mobiliario,)
+            )
+            resultado = cursor.fetchone()
+            return resultado['costoRenta'] if resultado else None
+        except Exception as error:
+            print(f"Error al obtener costo por nombre de mobiliario: {error}")
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+            self.db.desconectar()

@@ -9,12 +9,11 @@ from services.ReservacionService import ReservacionService
 
 ruta_ui = Path(__file__).parent / "recibo.ui"
 
-pagos = PagoServices()
-reservacion = ReservacionService()
-
 
 class Recibo:
-    def __init__(self, numeroR):
+    def __init__(self, db_instance, numeroR):
+        self.pagos = PagoServices(db_instance)
+        self.reservacion = ReservacionService(db_instance)
         self.numeroR = numeroR
         self.recibo = uic.loadUi(str(ruta_ui))
         self.recibo.show()
@@ -23,8 +22,8 @@ class Recibo:
         self.recibo.guardarImagen.clicked.connect(self.guardar_imagen)
 
     def mostrarRecibo(self):
-        numeroPago = pagos.obtener_no_pago(self.numeroR)
-        resultado = pagos.recibo(self.numeroR, numeroPago)
+        numeroPago = self.pagos.obtener_no_pago(self.numeroR)
+        resultado = self.pagos.recibo(self.numeroR, numeroPago)
 
         if not resultado or len(resultado) == 0:
             self.recibo.labelNombreCliente.setText("No hay datos del cliente")

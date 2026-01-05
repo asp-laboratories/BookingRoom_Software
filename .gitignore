@@ -207,4 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 # Directorio de referencia
-referencia_horario/
+referencia_horario/.env

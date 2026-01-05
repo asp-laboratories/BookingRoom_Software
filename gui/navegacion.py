@@ -15,15 +15,17 @@ ruta_ui = Path(__file__).parent / "navegacion.ui"
 
 
 class Navegacion:
-    def __init__(self):
+    def __init__(self, db_instance, trabajador):
+        self.db = db_instance
+        self.trabajador_actual = trabajador
         self.navegacion = uic.loadUi(str(ruta_ui))
 
         # --- Instanciar Servicios como atributos de la clase ---
-        self.servicio = ServicioService()
-        self.salon = SalonServices()
-        self.equipamiento = EquipamentoService()
-        self.trabajador = TrabajadorServices()
-        self.reservacion = ReservacionService()
+        self.servicio = ServicioService(db_instance)
+        self.salon = SalonServices(db_instance)
+        self.equipamiento = EquipamentoService(db_instance)
+        self.trabajador = TrabajadorServices(db_instance)
+        self.reservacion = ReservacionService(db_instance)
         # Asumiendo que existen estos otros servicios y son necesarios en otros handlers
         # self.TrabajadorRol = ... 
         # self.telefono = ...

@@ -8,13 +8,12 @@ from datetime import date, datetime
 
 
 class PagoServices:
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.PagoRepository = PagoRepository(self.db)
         self.MetodoPagoRepository = MetodoPagoRepository(self.db)
         self.ConceptoPagoRepository = ConceptoPagoRepository(self.db)
-        self.RservacionService = ReservacionService()
+        self.RservacionService = ReservacionService(self.db)
 
     def hacer_pago(self, numReser, montoPago, descripcion, concepto, metodo):
         # concepto = self.obtener_concepto(concepto)

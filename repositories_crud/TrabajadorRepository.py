@@ -125,10 +125,9 @@ class TrabajadorRepository:
             return None
 
         try:
-            like = f"%{buscador}%"
-            print(like)
+            like_pattern = f"%{buscador}%"
             cursor = self.db.cursor(dictionary=True)
-            cursor.execute(f"""
+            cursor.execute("""
 select 
 CONCAT(t.nombre, ' ',t.priApellido,' ', IFNULL(t.segApellido, ' ')) as trabajador,
 dc.nombreFiscal as cliente,
@@ -138,8 +137,8 @@ r.descripEvento as descripcion
 from reservacion as r
 inner join trabajador as t on r.trabajador = t.RFC
 inner join datos_cliente as dc on r.datos_cliente = dc.RFC
-WHERE t.nombre LIKE "%{buscador}%" 
-""")
+WHERE t.nombre LIKE %s 
+""", (like_pattern,))
             resultadoTraba = cursor.fetchall()
 
             return resultadoTraba

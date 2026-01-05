@@ -59,132 +59,7 @@ class ReservacionHandler:
         
         mensaje_html += "</div>"
         self.navegacion.tResultadoS_4.setHtml(mensaje_html)
-    def registrar_reservacion(self):
-        from gui.login import resultadoEmail
-
-        fecha = self.navegacion.refecha.date().toPyDate()
-        fechaReserE = date.today()
-        hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
-        hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
-        resultado = self.trabajador.obtener_nombre(resultadoEmail[0])
-        rfcTrabajador = resultado["nombre"]
-
-        descripEvento = self.navegacion.reDescripcion.text()
-        if len(descripEvento) < 5:
-            QMessageBox.warning(
-                self.navegacion,
-                "Error en Descripcion",
-                "Ingrese una descripcion verdadera",
-            )
-            return
-
-        estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
-        if not permitir_ingreso(estimaAsistentes, "numint"):
-            QMessageBox.warning(
-                self.navegacion,
-                "Error en Asistentes",
-                "Ingrese un valor valido para el estimado de asistentes",
-            )
-            return
-
-        salNumero = self.navegacion.reSalonSelecc.currentData()
-        if not salNumero:
-            QMessageBox.warning(
-                self.navegacion,
-                "Error Salon Seleccionado",
-                "No se ha seleccionado un salon",
-            )
-            return
-
-        sali = self.main_window.salon_handler.buscar_salon_por_id(salNumero)
-
-        tipo_montaje = self.navegacion.reTipoMontaje.currentText()
-        if not tipo_montaje:
-            QMessageBox.warning(
-                self.navegacion,
-                "Error Tipo de Montaje",
-                "No se ha seleccionado un tipo de montaje",
-            )
-            return
-
-        lista_servicios = []
-        servicios = self.navegacion.listaServicios.selectedItems()
-
-        for item in servicios:
-            data_servicio = item.data(Qt.ItemDataRole.UserRole)
-            lista_servicios.append(data_servicio["nombre"])
-
-        equipas = self.generar_lista_equipamiento_reservado()
-        for equipa in equipas:
-            equipa.equipamiento = self.equipamiento.obtener_codigo_equipamiento(
-                equipa.equipamiento
-            )
-            if self.equipamiento.comprobar_stock(equipa.equipamiento, equipa.cantidad):
-                QMessageBox.warning(
-                    self.navegacion,
-                    "Stock insuficiente",
-                    f"No existe suficiente disponibilidad del equipamiento {equipa.equipamiento}",
-                )
-                return
-
-        disponibilidad = self.salon.salon_disponible()
-        for salon_disponible in disponibilidad:
-            if (sali["numSalon"]) == (salon_disponible["numSalon"]) and str(
-                fecha
-            ) == str(salon_disponible["fecha"]):
-                QMessageBox.warning(
-                    self.navegacion,
-                    "Salon ocupado en dia seleccionado",
-                    "El salon seleccionado ya tiene una reservacion el dia seleccionado",
-                )
-                return
-
-        try:
-            clienteReservacion = self.main_window.clienteNombre
-        except AttributeError:
-            QMessageBox.warning(
-                self.navegacion,
-                "Error Cliente",
-                "No se ha seleccionado un cliente para la reservacion",
-            )
-            return
-
-        respuesta = self.main_window.mostrar_confirmacion(
-            "Confirmacion de Reservacion", "¿Seguro de continuar con la resevacion?"
-        )
-        if respuesta:
-            self.reservacion.crear_reservacion(
-                fechaReserE,
-                fecha,
-                hora_inicio,
-                hora_fin,
-                descripEvento,
-                estimaAsistentes,
-                tipo_montaje,
-                rfcTrabajador,
-                clienteReservacion,
-                sali["nombre"],
-                equipas,
-                lista_servicios,
-            )
-
-        def total_reservacion(self):
-            self.intentar_registrar_reservacion()
-            subtotalServicios = self.calcular_subtotal_serv()
-            subtotalEquipamiento = self.calcular_total_general()
     
-            total = (
-                subtotalServicios + subtotalEquipamiento + self.main_window.subtotal_salon
-            )
-            iva = total * 0.16
-            gran_total = total + iva
-    
-            # Using rich text for better visual presentation
-            self.navegacion.reSubtotal.setText(f'Subtotal: <b style="color: #555;">${total:,.2f}</b>')
-            self.navegacion.reIVA.setText(f'IVA (16%): <b style="color: #555;">${iva:,.2f}</b>')
-            self.navegacion.reTotal.setText(f'<b style="font-size: 18pt; color: #c0392b;">Total: ${gran_total:,.2f}</b>')
-    
-            return gran_total
     def intentar_registrar_reservacion(self):
         try:
             from gui.login import resultadoEmail
@@ -428,6 +303,7 @@ class ReservacionHandler:
             controles["label_subtotal"].setText(f"${nuevo_subtotal:.2f}")
 
         self.calcular_total_general()
+        self.total_reservacion()
 
     def generar_lista_equipamiento_reservado(self):
         lista_objetos_reservados = []
@@ -511,3 +387,33 @@ class ReservacionHandler:
         if hasattr(self.navegacion, "lblTotalGeneral"):
             self.navegacion.lblTotalGeneral.setText(f"Total: ${total:.2f}")
         return total
+
+    def calcular_subtotal_mobi(self):
+        salon_nombre = self.navegacion.reSalonSelecc.currentText()
+        montaje_nombre = self.navegacion.reTipoMontaje.currentText()
+        
+        if not salon_nombre or not montaje_nombre or "Selecciona" in salon_nombre or "Selecciona" in montaje_nombre:
+            return 0.0
+
+        costo_mobiliario = self.datosMontaje.calcular_costo_mobiliario_montaje(montaje_nombre, salon_nombre)
+        return costo_mobiliario
+
+    def total_reservacion(self):
+        subtotalServicios = self.calcular_subtotal_serv()
+        subtotalEquipamiento = self.calcular_total_general()
+        subtotalMobiliario = self.calcular_subtotal_mobi()
+
+        # Asegúrate de que subtotal_salon se actualice correctamente. Por ahora, lo leemos.
+        # Es posible que necesites una función que lo actualice al seleccionar un salón.
+        subtotal_salon = self.main_window.subtotal_salon if hasattr(self.main_window, 'subtotal_salon') else 0.0
+
+        total = subtotalServicios + subtotalEquipamiento + subtotalMobiliario + subtotal_salon
+        iva = total * 0.16
+        gran_total = total + iva
+
+        # Using rich text for better visual presentation
+        self.navegacion.reSubtotal.setText(f'Subtotal: <b style="color: #555;">${total:,.2f}</b>')
+        self.navegacion.reIVA.setText(f'IVA (16%): <b style="color: #555;">${iva:,.2f}</b>')
+        self.navegacion.reTotal.setText(f'<b style="font-size: 18pt; color: #c0392b;">Total: ${gran_total:,.2f}</b>')
+
+        return gran_total

@@ -1,16 +1,19 @@
 import mysql.connector as conector
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 class BaseDeDatos:
     # Constructor
-    def __init__(self, host="localhost", user="root", password="", database=""):
+    def __init__(self):
         try:
             self.database_config = {
-                "host": host,
+                "host": os.getenv("DB_HOST", "localhost"),
                 "port": 3306,
-                "user": user,
-                "password": password,
-                "database": database,
+                "user": os.getenv("DB_USER", "root"),
+                "password": os.getenv("DB_PASSWORD", ""),
+                "database": os.getenv("DB_NAME", ""),
             }
             self.connection = None
             print("Conexion establecida")
@@ -31,9 +34,17 @@ class BaseDeDatos:
             self.connection.close()
 
     def cursor(self, dictionary=True):
-        if self.connection:
+        try:
+            if not self.connection or not self.connection.is_connected():
+                print("Conexión perdida. Reconectando...")
+                if not self.conectar():
+                    print("Error: No se pudo restablecer la conexión.")
+                    return None
+            
             return self.connection.cursor(dictionary=dictionary)
-        return None
+        except Exception as e:
+            print(f"Error al obtener el cursor: {e}")
+            return None
 
     def show_tables(self):
         print("Mostrando tablas")
@@ -67,7 +78,7 @@ class BaseDeDatos:
 
 
 if __name__ == "__main__":
-    conexion = BaseDeDatos(database="bokkingroomlocal")
+    conexion = BaseDeDatos()
     conexion.conectar()
     conexion.show_tables()
     conexion.show_databases()

@@ -37,29 +37,33 @@ obtenerNumeroReservacion = []
 
 
 class AdministradorScreen:
-    def __init__(self):
-        # Instantiation of service classes
-        self.tipo_servi = TipoServicioService()
-        self.servicio = ServicioService()
-        self.salon = SalonServices()
-        self.equipamiento = EquipamentoService()
-        self.trabajador = TrabajadorServices()
-        self.cliente = DatosClienteService()
-        self.datosMontaje = DatosMontajeService()
-        self.telefono = TelefonoServices()
-        self.mobiliario = mobiliarioService()
-        self.tipo_montaje = TipoMontajeService()
-        self.reservacion = ReservacionService()
-        self.reser_equipa = ReserEquipaService()
-        self.pagos = PagoServices()
-        self.tipo_mobiliario = TipoMobiliarioService()
-        self.TrabajadorRol = RolService()
-        self.TipoCliente = TipoClienteService()
-        self.tipo_equipamiento = TipoEquipamentoService()
+    def __init__(self, db_instance, trabajador):
+        self.trabajador_actual = trabajador
+        # Se recibe y se guarda la instancia única de la BD
+        self.db = db_instance
+
+        # Se inicializan todos los servicios pasando la misma instancia de la BD
+        self.tipo_servi = TipoServicioService(self.db)
+        self.servicio = ServicioService(self.db)
+        self.salon = SalonServices(self.db)
+        self.equipamiento = EquipamentoService(self.db)
+        self.trabajador = TrabajadorServices(self.db)
+        self.cliente = DatosClienteService(self.db)
+        self.datosMontaje = DatosMontajeService(self.db)
+        self.telefono = TelefonoServices(self.db)
+        self.mobiliario = mobiliarioService(self.db)
+        self.tipo_montaje = TipoMontajeService(self.db)
+        self.reservacion = ReservacionService(self.db)
+        self.reser_equipa = ReserEquipaService(self.db)
+        self.pagos = PagoServices(self.db)
+        self.tipo_mobiliario = TipoMobiliarioService(self.db)
+        self.TrabajadorRol = RolService(self.db)
+        self.TipoCliente = TipoClienteService(self.db)
+        self.tipo_equipamiento = TipoEquipamentoService(self.db)
 
         self.navegacion = uic.loadUi(str(ruta_ui))
 
-        # Instantiation of handlers
+        # Instantiation of handlers (estos no necesitan la BD directamente)
         self.service_handler = ServiceHandler(self)
         self.salon_handler = SalonHandler(self)
         self.equipment_handler = EquipmentHandler(self)
@@ -115,66 +119,14 @@ class AdministradorScreen:
         self.navegacion.sConfirmar.clicked.connect(
             self.service_handler.intentar_registrar_servicio
         )
-        # self.navegacion.sConfirmarAct.clicked.connect(
-        #     self.service_handler.intentar_actualizar_servicio
-        # )
-        # self.navegacion.slBuscar_3.clicked.connect(
-        #     self.service_handler.listar_servicio_act
-        # )
-        # self.navegacion.slBuscar_2.clicked.connect(
-        #     self.service_handler.listar_servicio_del
-        # )
-
-        # self.navegacion.buscarTipo.clicked.connect(
-        #     self.service_handler.listar_servicio_segun_tipo
-        # )
-        # self.navegacion.seConfirmar.clicked.connect(
-        #     self.service_handler.intentar_eliminar_servicio
-        # )
-        
-        # self.navegacion.guardar_cambios.clicked.connect(
-        #     self.service_handler.guardar_cambios_tabla
-        # )
         # Botones para los eventos de equipamiento
         self.navegacion.eConfirmar.clicked.connect(
             self.equipment_handler.intentar_registrar_equipamiento
         )
-        # self.navegacion.slBuscar_5.clicked.connect(
-        #     self.equipment_handler.desplegar_informacion_equipamiento
-        # )
-        # self.navegacion.sConfirmarAct_3.clicked.connect(
-        #     self.equipment_handler.intentar_actualizar_equipamiento
-        # )
-        # self.navegacion.slBuscar_7.clicked.connect(
-        #     self.equipment_handler.listar_equipamentos_del
-        # )
-        # self.navegacion.seConfirmar_3.clicked.connect(
-        #     self.equipment_handler.intentar_eliminar_equipamiento
-        # )
-        # self.navegacion.buscarTipo_4.clicked.connect(
-        #     self.equipment_handler.buscar_tipo_equipo
-        # )
-
         # Botones para los eventos de salones
         self.navegacion.saConfirmar.clicked.connect(
             self.salon_handler.intentar_registrar_salon
         )
-        # self.navegacion.saCancelar.clicked.connect(self.salon_handler.limpiar_salon)
-        # self.navegacion.almBuscarE_4.clicked.connect(self.salon_handler.buscar_datos_montaje_salon)
-        # self.navegacion.sConfirmarAct_2.clicked.connect(
-        #     self.salon_handler.intentar_actualizar_salon
-        # )
-        # self.navegacion.slBuscar_4.clicked.connect(
-        #     self.salon_handler.desplegar_informacion_salon
-        # )
-        # self.navegacion.slBuscar_6.clicked.connect(
-        #     self.salon_handler.listar_salones_del
-        # )
-        # self.navegacion.seConfirmar_2.clicked.connect(
-        #     self.salon_handler.intentar_eliminar_salon
-        # )
-        # self.navegacion.almBuscarE_6.clicked.connect(self.buscar_estado_salon)
-        # self.navegacion.sConfirmarAct_4.clicked.connect(self.intentar_cambiar_estado_salon)
         # Botones para los eventos de mobiliario
         self.navegacion.amConfirmar.clicked.connect(
             self.mobiliario_handler.generar_caracteristicas
@@ -182,7 +134,6 @@ class AdministradorScreen:
         self.navegacion.amConfirmar_2.clicked.connect(
             self.mobiliario_handler.intentar_registrar_mobiliario
         )
-        # self.navegacion.amConfirmar_2.clicked.connect(self.obtener_valores_inputs)
 
         # Botones para los eventos de trabajadores
         self.navegacion.atConfirmar.clicked.connect(
@@ -194,8 +145,12 @@ class AdministradorScreen:
         )
 
         self.navegacion.reConfirmar.clicked.connect(
-            self.reservacion_handler.registrar_reservacion
+            self.reservacion_handler.intentar_registrar_reservacion
         )
+        # Assuming a button named reCalcularTotal exists in the UI
+        # self.navegacion.reCalcularTotal.clicked.connect(
+        #     self.reservacion_handler.total_reservacion
+        # )
 
         # Botones para los eventos de actualizacion de roles por parte del almacenista
         self.navegacion.almConfirmarMobi_3.clicked.connect(
@@ -204,16 +159,11 @@ class AdministradorScreen:
         self.navegacion.almConfirmar_2.clicked.connect(
             self.equipment_handler.intentar_actualizar_estado_manual # Nueva función para actualizar desde la tabla
         )
-        # self.navegacion.almBuscarM.clicked.connect(
-        #     self.mobiliario_handler.buscar_estado_mobiliario
-        # )
-        
         # Carga el ComboBox de estados de equipamiento al iniciar y conecta la búsqueda automática
         self.equipment_handler.cargar_estados_equipamiento()
         self.navegacion.almBuscadorE.currentIndexChanged.connect(
             self.equipment_handler.buscar_estado_equipamiento
         )
-        # self.navegacion.almBuscarE_5.clicked.connect(self.mobiliario_handler.buscar_mobiliario_montaje)
 
         self.navegacion.buscarCliente.clicked.connect(
             self.client_handler.buscar_cliente
@@ -282,6 +232,15 @@ class AdministradorScreen:
         self.navegacion.reSalonSelecc.currentIndexChanged.connect(
             self.reservacion_handler.cargar_seleccion_tipoMontaje
         )
+        self.navegacion.reSalonSelecc.currentIndexChanged.connect(
+            self.salon_handler.actualizar_subtotal_salon_y_total
+        )
+        self.navegacion.reTipoMontaje.currentIndexChanged.connect(
+            self.reservacion_handler.total_reservacion
+        )
+        self.navegacion.listaServicios.itemSelectionChanged.connect(
+            self.reservacion_handler.total_reservacion
+        )
 
         self.navegacion.registrarCliente.clicked.connect(
             self.client_handler.abrir_registro_cliente
@@ -320,7 +279,7 @@ class AdministradorScreen:
 
         if link == "cerrar":
             self.navegacion.hide()
-            self.login = Login()
+            self.login = Login(self.db)
 
     def mostrar_confirmacion(self, titulo: str, mensaje: str) -> bool:
         reply = QMessageBox.question(

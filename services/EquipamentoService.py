@@ -8,8 +8,8 @@ from repositories_crud.InventarioEquipaRepository import InventarioEquipaReposit
 
 class EquipamentoService:
     # Constructor
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.equipamento_repository = EquipamentoRepository(self.db)
         self.tipo_equipamiento = TipoEquipaRepository(self.db)
         self.estado = EstadoEquipaRepository(self.db)

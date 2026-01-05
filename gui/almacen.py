@@ -7,12 +7,13 @@ from services.mobiliarioService import mobiliarioService
 
 ruta_ui = Path(__file__).parent / "almacen.ui"
 
-equipamiento = EquipamentoService()
-mobiliario = mobiliarioService()
-
-
 class Almacenista:
-    def __init__(self):
+    def __init__(self, db_instance, trabajador):
+        self.db = db_instance
+        self.trabajador_actual = trabajador
+        self.equipamiento_service = EquipamentoService(self.db)
+        self.mobiliario_service = mobiliarioService(self.db)
+        
         self.navegacion = uic.loadUi(str(ruta_ui))
         # self.initGUI()
         self.navegacion.show()
@@ -41,7 +42,7 @@ class Almacenista:
         # Variables utilizadas para almacenar informatcion
 
     def actualizar_estado_mob(self):
-        resultado = mobiliario.actu_esta_mob(
+        resultado = self.mobiliario_service.actu_esta_mob(
             int(self.navegacion.almNum.text()),
             int(self.navegacion.almCantidad.text()),
             self.navegacion.almEstadoAntiguo.text(),
@@ -53,7 +54,7 @@ class Almacenista:
             QMessageBox.information(self.navegacion, "Actualización exitosa", "El estado del mobiliario se actualizó correctamente.")
 
     def actualizar_estado_equipa(self):
-        resultado = equipamiento.actualizar_estado_equipamiento(
+        resultado = self.equipamiento_service.actualizar_estado_equipamiento(
             int(self.navegacion.numE.text()),
             self.navegacion.almEstadoE.text(),
             self.navegacion.almEstadoO.text(),
@@ -65,7 +66,7 @@ class Almacenista:
             QMessageBox.information(self.navegacion, "Actualización exitosa", "El estado del equipamiento se actualizó correctamente.")
 
     def buscar_estado_mobiliario(self):
-        resultado = mobiliario.obtener_mob_estado(self.navegacion.almBuscadorM.text())
+        resultado = self.mobiliario_service.obtener_mob_estado(self.navegacion.almBuscadorM.text())
         if resultado is None:
             pass
         else:
@@ -76,7 +77,7 @@ class Almacenista:
 
     def buscar_estado_equipamiento(self):
         self.navegacion.almResulE.clear()
-        resultado = equipamiento.obtener_equipa_estado(
+        resultado = self.equipamiento_service.obtener_equipa_estado(
             self.navegacion.almBuscadorE.text()
         )
         if resultado is None:
@@ -96,7 +97,7 @@ class Almacenista:
 
         if link == "cerrar":
             self.navegacion.hide()
-            self.login = Login()
+            self.login = Login(self.db)
 
     # def initGUI(self):
     #     self.login.btnIniciar.clicked.connect(self.ingresar)

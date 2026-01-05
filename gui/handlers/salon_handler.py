@@ -325,6 +325,21 @@ class SalonHandler:
         else:
             self.navegacion.resultadoSalon.setText("No se encontró información para el salón seleccionado.")
 
+    def actualizar_subtotal_salon_y_total(self):
+        salNumero = self.navegacion.reSalonSelecc.currentData()
+        if salNumero is None:
+            self.main_window.subtotal_salon = 0.0
+        else:
+            sali = self.buscar_salon_por_id(salNumero)
+            if sali:
+                self.main_window.subtotal_salon = float(sali.get('costoRenta', 0.0))
+            else:
+                self.main_window.subtotal_salon = 0.0
+        
+        # Llama al método del manejador de reservaciones para actualizar el total general
+        if hasattr(self.main_window, 'reservacion_handler'):
+            self.main_window.reservacion_handler.total_reservacion()
+
     def buscar_salon_por_id(self, salNumero):
         for s in self.salon.listar_salones():
             if s["numSalon"] == salNumero:

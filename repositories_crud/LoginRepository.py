@@ -6,11 +6,9 @@ class LoginRepository:
         self.db = db_configuracion
 
     def iniciar_trabajador(self, email, numTrabajador):
-        if not self.db.conectar():
-            return False
-
+        cursor = None
         try:
-            cursor = self.db.cursor()
+            cursor = self.db.cursor(dictionary=True)
             cursor.execute(
                 """
                 SELECT * FROM trabajador WHERE email = %s AND numTrabajador = %s 
@@ -20,9 +18,7 @@ class LoginRepository:
             resultado = cursor.fetchone()
 
             if not resultado:
-                return False
-
-            info = []
+                return None
 
             trabajador = Trabajador(
                 rfc=resultado["RFC"],
@@ -33,16 +29,12 @@ class LoginRepository:
                 email=resultado["email"],
                 codigoRol=resultado["rol"],
             )
-
-            info.append(trabajador.email)
-            info.append(trabajador.numTrabajador)
-            info.append(trabajador.codigoRol)
-            return info
+            return trabajador
 
         except Exception as error:
             print(f"Error al encontrar los datos: {error}")
-            return False
+            return None
 
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()

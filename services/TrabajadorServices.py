@@ -5,9 +5,8 @@ from repositories_crud.TrabajadorRepository import TrabajadorRepository
 
 
 class TrabajadorServices:
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.trabajador_repository = TrabajadorRepository(self.db)
         self.rol_repository = RolRepository(self.db)
 

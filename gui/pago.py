@@ -9,16 +9,16 @@ from utils.Formato import permitir_ingreso
 
 ruta_ui = Path(__file__).parent / "pago.ui"
 
-pagos = PagoServices()
-reservacion = ReservacionService()
-
-numeroReservacion = []
-
 
 class Pago:
-    def __init__(self):
+    def __init__(self, db_instance, trabajador):
+        self.db = db_instance
+        self.trabajador_actual = trabajador
+        self.pago_service = PagoServices(self.db)
+        self.reservacion_service = ReservacionService(self.db)
+
         self.pago = uic.loadUi(str(ruta_ui))
-        # self.initGUI()
+
         self.pago.show()
         self.pago.reNumReser.textChanged.connect(
             self.mostrar_descripcion_en_tiempo_real
@@ -35,7 +35,7 @@ class Pago:
         metodo: str,
     ):
         try:
-            if pagos.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
+            if self.pago_service.hacer_pago(numReser, montoPago, descripcion, concepto, metodo):
                 QMessageBox.information(
                     None,
                     "Pago Registrado",
@@ -43,7 +43,7 @@ class Pago:
                 )
 
                 # Lógica posterior al pago (emisión de recibo y limpieza)
-                self.recibo = Recibo(numReser)
+                self.recibo = Recibo(self.db, numReser)
                 self.limpiar_pago()
             else:
                 QMessageBox.critical(
@@ -90,8 +90,8 @@ class Pago:
         else:
             numReser = int(reservac)
 
-        decripcon = reservacion.reservacion_descripcion(numReser)
-        saldo = pagos.calcular_saldo(numReser)
+        decripcon = self.reservacion_service.reservacion_descripcion(numReser)
+        saldo = self.pago_service.calcular_saldo(numReser)
         if saldo:
             saldo = round(saldo, 2)
         else:
@@ -120,11 +120,10 @@ class Pago:
             if montoPago <= 0:
                 raise ValueError("Monto Inválido")
 
-            saldo = pagos.calcular_saldo(numReser)
+            saldo = self.pago_service.calcular_saldo(numReser)
             if saldo < montoPago:
                 raise ValueError("Monto Excede Saldo")
 
-            numeroReservacion.append(numReser)
 
             descripcion = self.pago.reDescripcion_2.text().strip()
 
@@ -133,7 +132,7 @@ class Pago:
                 concepto = "ABONO"
             elif self.pago.cbUnico.isChecked():
                 concepto = "PAGOU"
-            elif pagos.obtener_no_pago(numReser) == 2:
+            elif self.pago_service.obtener_no_pago(numReser) == 2:
                 concepto = "LIQUI"
 
             if not concepto:

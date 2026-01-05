@@ -4,9 +4,8 @@ from repositories_crud.TelefonoRepository import TelefonoRepository
 
 
 class TelefonoServices:
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.telefono_repository = TelefonoRepository(self.db)
 
     def registrar_telefono(self, tel, datos_cliente, trabajador):

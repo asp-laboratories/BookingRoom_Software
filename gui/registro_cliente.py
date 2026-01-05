@@ -8,14 +8,13 @@ from utils.Formato import permitir_ingreso
 ruta_ui = Path(__file__).parent / "registro_cliente.ui"
 
 
-cliente = DatosClienteService()
-telefono = TelefonoServices()
-
-
 class RegistroCliente:
-    def __init__(self):
+    def __init__(self, db_instance, trabajador):
+        self.db = db_instance
+        self.trabajador_actual = trabajador
+        self.cliente_service = DatosClienteService(self.db)
+        self.telefono_service = TelefonoServices(self.db)
         self.registro_cliente = uic.loadUi(str(ruta_ui))
-        # self.initGUI()
         self.registro_cliente.show()
         self.registro_cliente.clienteConfirmar.clicked.connect(
             self.intentar_registrar_cliente_completo
@@ -46,7 +45,7 @@ class RegistroCliente:
     ):
         try:
             # 1. Registro del Cliente
-            resultado = cliente.registrar_clientes(
+            resultado = self.cliente_service.registrar_clientes(
                 rfc,
                 nombre,
                 priApellido,
@@ -61,15 +60,15 @@ class RegistroCliente:
 
             # 2. Registro de Teléfonos (solo si tienen contenido)
             if telefono1:
-                telefono.registrar_telefono(telefono1, rfc, None)
+                self.telefono_service.registrar_telefono(telefono1, rfc, None)
             if (
                 telefono2 and self.registro_cliente.reTelefono2.isEnabled()
             ):  # Verifica si el campo está habilitado
-                telefono.registrar_telefono(telefono2, rfc, None)
+                self.telefono_service.registrar_telefono(telefono2, rfc, None)
             if (
                 telefono3 and self.registro_cliente.reTelefono3.isEnabled()
             ):  # Verifica si el campo está habilitado
-                telefono.registrar_telefono(telefono3, rfc, None)
+                self.telefono_service.registrar_telefono(telefono3, rfc, None)
 
             # 3. Retroalimentación Final
             if resultado is None:
@@ -292,5 +291,4 @@ class RegistroCliente:
 
         return reply == QMessageBox.StandardButton.Yes
 
-    # def initGUI(self):
-    #   self.registro_cliente.btnRegistrar.clicked.connect(self.registrar)
+

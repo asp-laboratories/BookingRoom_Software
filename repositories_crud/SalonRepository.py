@@ -3,8 +3,7 @@ class SalonRepository:
         self.db = db_configuracion
 
     def crear_salon(self, salon):
-        if not self.db.conectar():
-            return False
+        cursor = None
         try:
             cursor = self.db.cursor()
             cursor.execute(
@@ -32,12 +31,11 @@ class SalonRepository:
             print(f"Error al crear un salon: {error}")
             return False
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def listar_salones_2(self, numSalon):
-        if not self.db.conectar():
-            return None
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("SELECT * FROM datos_salon WHERE numSalon = %s", (numSalon,))
@@ -48,12 +46,11 @@ class SalonRepository:
             print(f"Error al listar los datos del salon: {error}")
             return None
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def listar_salones(self):
-        if not self.db.conectar():
-            return False
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("SELECT * FROM datos_salon")
@@ -61,16 +58,15 @@ class SalonRepository:
 
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
-            return False
+            return None
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
         return resultados
 
     def listar_estados(self):
-        if not self.db.conectar():
-            return None
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute("SELECT * FROM esta_salon")
@@ -79,13 +75,13 @@ class SalonRepository:
             return resultados
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
+            return None
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def listar_salones_en_estado(self, estadoDesc):
-        if not self.db.conectar():
-            return None
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute(
@@ -105,14 +101,12 @@ where es.descripcion = %s
             return resultados
         except Exception as error:
             print(f"Error al listar los datos del salon: {error}")
+            return None
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def actualizar_salones(self, campo, numSalon, valor):
-        if not self.db.conectar():
-            return False
-
         CAMPOS = [
             "nombre",
             "costoRenta",
@@ -130,6 +124,7 @@ where es.descripcion = %s
 
         transformar_campo = campo
 
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute(
@@ -150,13 +145,11 @@ where es.descripcion = %s
             print(f"Error al actualizar: {error}")
             return False
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def actualizar(self, numSalon, esta_salon):
-        if not self.db.conectar():
-            return None
-
+        cursor = None
         try:
             cursor = self.db.cursor()
             cursor.execute(
@@ -169,18 +162,16 @@ where es.descripcion = %s
             )
             self.db.connection.commit()
             print("Salon actualizado exitosamente.")
-
+            return True
         except Exception as e:
             print(f"Error al actualizar salon: {e}")
             return False
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def obtener_num_salon(self, nombre):
-        if not self.db.conectar():
-            return None
-
+        cursor = None
         try:
             cursor = self.db.cursor()
 
@@ -196,13 +187,11 @@ where es.descripcion = %s
             return None
 
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def datos_montaje_salon(self, num_salon):
-        if not self.db.conectar():
-            return None
-
+        cursor = None
         try:
             cursor = self.db.cursor()
 
@@ -231,12 +220,11 @@ where es.descripcion = %s
             return None
 
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def eliminar_salon(self, numSalon):
-        if not self.db.conectar():
-            return None
+        cursor = None
         try:
             cursor = self.db.cursor(dictionary=True)
             cursor.execute(
@@ -248,16 +236,16 @@ where es.descripcion = %s
             )
             self.db.connection.commit()
             print("Salon eliminado correctamente")
+            return True
         except Exception as error:
             print(f"Error al eliminar salon: {error}")
+            return False
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()
 
     def salon_disponible(self):
-        if not self.db.conectar():
-            return None
-
+        cursor = None
         try:
             cursor = self.db.cursor()
 
@@ -277,5 +265,5 @@ where es.descripcion = %s
             return None
 
         finally:
-            cursor.close()
-            self.db.desconectar()
+            if cursor:
+                cursor.close()

@@ -10,18 +10,12 @@ from repositories_crud.TipoServiciosRepository import TipoServiciosRepository
 
 
 class ServicioService:  # Clase que ayudara a gestionar las operaciones de la base de datos.
-    def __init__(self) -> None:
-        self.db = BaseDeDatos(
-            database="BookingRoomLocal"
-        )  # Desde aqui se envia la configuracion de la base de datos a ServicioRepository, en este caso
-        # es mi base de datos local, pero cuando se tenga la del servidor, se pondran mas parametros como lo son la contraseña, usuario y otro nombre.
-
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance) -> None:
+        self.db = db_instance
         self.servicio_repository = ServicioRepository(
             self.db
-        )  # Pasamos la propiedad creada arriba, que en realidad es una instancia que contendra toda la informacion,
+        )
         self.tipo_repository = TipoServiciosRepository(self.db)
-        # pero ademas de pasar la configuracion tambien creados otra instancia/objeto con el cual nos vamos a poder comunicar con las operaciones de la base de datos.
 
     def registrar_servicio(
         self, nombre, descripcion, costo_renta, tipo_servicio

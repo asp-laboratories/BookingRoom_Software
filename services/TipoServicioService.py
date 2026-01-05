@@ -4,9 +4,8 @@ from repositories_crud.TipoServiciosRepository import TipoServiciosRepository
 
 
 class TipoServicioService:
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.repository = TipoServiciosRepository(self.db)
 
     def registrar_tipo_servicio(self, codigoTiSer, descripcion):

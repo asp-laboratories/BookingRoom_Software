@@ -16,9 +16,8 @@ from config.db_settings import BaseDeDatos
 
 class mobiliarioService:
     # Constructor
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.mobiliario_repository = MobiliarioRepository(self.db)
         self.tipoMobiliario_repository = TipoMobiliarioRepository(self.db)
         self.estaMob_repository = EstadoMobiliarioRepository(self.db)
@@ -226,17 +225,5 @@ class mobiliarioService:
     def datos_mob_2(self, numMob):
         return self.mobiliario_repository.datos_especificos_mob(numMob)
 
-
-if __name__ == "__main__":
-    prueba = mobiliarioService()
-    # prueba.listar_tipo_carac()
-    # prueba.actu_carac_mob(1,"hhh", 'mater')
-    prueba.actu_esta_mob(
-        numMob=3, cantidad=10, esta_mob_og="Disponible", new_esta_mob="No Disponible"
-    )
-    # print(prueba.obtener_tipo_carac('espec'))
-    # print(prueba.caracteristicas_mob(1))
-    # prueba.actu_esta_mob(numMob=1,cantidad=50,esta_mob_og='disponible',new_esta_mob='no disponible')
-    # print(prueba.obtener_tipo_carac('espec'))
-    # print(prueba.caracteristicas_mob(1))
-    # print(prueba.obtener_mob_estado('Disponible'))
+    def obtener_costo_mobiliario(self, nombre_mobiliario):
+        return self.mobiliario_repository.obtener_costo_por_nombre(nombre_mobiliario)

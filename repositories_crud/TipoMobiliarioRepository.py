@@ -99,12 +99,16 @@ class TipoMobiliarioRepository:
 
         try:
             cursor = self.db.cursor()
-
-            cursor.execute(f"""
-                            SELECT codigoTiMob
-                            FROM tipo_mob
-                            WHERE descripcion LIKE '%{descripcion}%'
-                            """)
+            
+            like_pattern = f"%{descripcion}%"
+            cursor.execute(
+                """
+                SELECT codigoTiMob
+                FROM tipo_mob
+                WHERE descripcion LIKE %s
+                """,
+                (like_pattern,)
+            )
 
             resultado = cursor.fetchone()
             return resultado

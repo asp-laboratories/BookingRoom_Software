@@ -5,9 +5,8 @@ from models.TipoEquipa import TipoEquipa
 
 class TipoEquipamentoService:
     # Constructor
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.repository = TipoEquipaRepository(self.db)
 
     # Metodos

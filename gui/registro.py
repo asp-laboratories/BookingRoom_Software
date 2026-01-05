@@ -5,12 +5,14 @@ from services.TrabajadorServices import TrabajadorServices
 from utils.Formato import permitir_ingreso
 
 ruta_ui = Path(__file__).parent / "registro.ui"
-trabajador = TrabajadorServices()
-telefono = TelefonoServices()
 
 
 class Registro:
-    def __init__(self):
+    def __init__(self, db_instance):
+        self.db = db_instance
+        self.trabajador = TrabajadorServices(self.db)
+        self.telefono = TelefonoServices(self.db)
+        
         self.registro = uic.loadUi(str(ruta_ui))
         self.initGUI()
         self.registro.mensaje.setText("")
@@ -25,7 +27,7 @@ class Registro:
 
         if link == "iniciar":
             self.registro.hide()
-            self.login = Login()
+            self.login = Login(self.db)
 
     def registrar(self):
         rfc = self.registro.leRfc.text()
@@ -108,7 +110,7 @@ class Registro:
         else:
             hay_telefono3 = False
 
-        resultado = trabajador.registrar_trabajadores(
+        resultado = self.trabajador.registrar_trabajadores(
             rfc, numTrabajador, nombre, apePater, apeMater, email
         )
 
@@ -116,11 +118,11 @@ class Registro:
             self.registro.mensaje.setText("Error al registrar trabajador")
         else:
             self.registro.mensaje.setText("Trabajador registrado")
-            telefono.registrar_telefono(telefono1, None, rfc)
+            self.telefono.registrar_telefono(telefono1, None, rfc)
             if hay_telefono2:
-                telefono.registrar_telefono(telefono2, None, rfc)
+                self.telefono.registrar_telefono(telefono2, None, rfc)
             if hay_telefono3:
-                telefono.registrar_telefono(telefono3, None, rfc)
+                self.telefono.registrar_telefono(telefono3, None, rfc)
 
     def deshabilitar_telefonos(self):
         self.registro.leTelefono2.setEnabled(False)

@@ -8,12 +8,11 @@ from models.MontajeMobiliario import MontajeMobilario
 
 class TipoMontajeService:
     # Constructor
-    def __init__(self):
-        db = BaseDeDatos(database="BookingRoomLocal")
-        # db = BaseDeDatos(database='BookingRoomLoca')
-        self.TipoMontajeRepository = TipoMontajeRepository(db)
-        self.DatosMontajeRepository = DatosMontajeRepository(db)
-        self.SalonServices = SalonServices()
+    def __init__(self, db_instance):
+        self.db = db_instance
+        self.TipoMontajeRepository = TipoMontajeRepository(self.db)
+        self.DatosMontajeRepository = DatosMontajeRepository(self.db)
+        self.SalonServices = SalonServices(self.db)
 
     # Metodos
     def listar_tipos_montajes(self):

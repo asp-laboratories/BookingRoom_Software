@@ -12,15 +12,14 @@ from types import SimpleNamespace
 
 class ReservacionService:
     # Constructor
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.reservacion_repository = ReservacionRepository(self.db)
-        self.tipo_montajeService = TipoMontajeService()
-        self.TrabajadorService = TrabajadorServices()
-        self.DatosClienteServices = DatosClienteService()
-        self.EquipamientoService = EquipamentoService()
-        self.ServicioService = ServicioService()
+        self.tipo_montajeService = TipoMontajeService(self.db)
+        self.TrabajadorService = TrabajadorServices(self.db)
+        self.DatosClienteServices = DatosClienteService(self.db)
+        self.EquipamientoService = EquipamentoService(self.db)
+        self.ServicioService = ServicioService(self.db)
 
     def obtener_reservaciones_por_semana(self, fecha_inicio):
         """

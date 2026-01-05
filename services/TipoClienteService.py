@@ -4,8 +4,8 @@ from repositories_crud.TipoClienteRepository import TipoClienteRepository
 
 class TipoClienteService:
     # Constructor
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.tipoclienteRepository = TipoClienteRepository(self.db)
 
     # Metodos

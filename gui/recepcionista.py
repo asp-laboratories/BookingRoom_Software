@@ -22,23 +22,24 @@ from services.mobiliarioService import mobiliarioService
 
 ruta_ui = Path(__file__).parent / "recepcionista.ui"
 
-tipo_servi = TipoServicioService()
-servicio = ServicioService()
-salon = SalonServices()
-equipamiento = EquipamentoService()
-trabajador = TrabajadorServices()
-cliente = DatosClienteService()
-telefono = TelefonoServices()
-mobiliario = mobiliarioService()
-tipo_montaje = TipoMontajeService()
-reservacion = ReservacionService()
-reser_equipa = ReserEquipaService()
-
-
 class Recepcionista:
-    def __init__(self):
+    def __init__(self, db_instance, trabajador):
+        self.db = db_instance
+        self.trabajador_actual = trabajador
         self.navegacion = uic.loadUi(str(ruta_ui))
-        # self.initGUI()
+        
+        # Instanciación de servicios con la conexión a la BD
+        self.tipo_servicio_service = TipoServicioService(self.db)
+        self.servicio_service = ServicioService(self.db)
+        self.salon_service = SalonServices(self.db)
+        self.equipamiento_service = EquipamentoService(self.db)
+        self.trabajador_service = TrabajadorServices(self.db)
+        self.cliente_service = DatosClienteService(self.db)
+        self.telefono_service = TelefonoServices(self.db)
+        self.mobiliario_service = mobiliarioService(self.db)
+        self.tipo_montaje_service = TipoMontajeService(self.db)
+        self.reservacion_service = ReservacionService(self.db)
+        self.reser_equipa_service = ReserEquipaService(self.db)
         self.navegacion.show()
         self.navegacion.linkLogin.linkActivated.connect(self.volver_login)
 
@@ -95,7 +96,7 @@ class Recepcionista:
         if self.navegacion.cbTipoMoral.isChecked():
             tipo_cliente = "TCLPM"
 
-        resultado = cliente.registrar_clientes(
+        resultado = self.cliente_service.registrar_clientes(
             self.navegacion.reRfc.text(),
             self.navegacion.reNombre.text(),
             self.navegacion.reApellPat.text(),
@@ -108,13 +109,13 @@ class Recepcionista:
             tipo_cliente,
         )
 
-        telefono.registrar_telefono(
+        self.telefono_service.registrar_telefono(
             self.navegacion.reTelefono1.text(), self.navegacion.reRfc.text(), None
         )
-        telefono.registrar_telefono(
+        self.telefono_service.registrar_telefono(
             self.navegacion.reTelefono2.text(), self.navegacion.reRfc.text(), None
         )
-        telefono.registrar_telefono(
+        self.telefono_service.registrar_telefono(
             self.navegacion.reTelefono3.text(), self.navegacion.reRfc.text(), None
         )
 
@@ -154,13 +155,13 @@ class Recepcionista:
     def cargar_seleccion_salon(self):
         self.navegacion.reSalonSelecc.clear()
         self.navegacion.reSalonSelecc.addItem("Selecciona un salon", None)
-        obtener = salon.listar_salones()
+        obtener = self.salon_service.listar_salones()
         for sln in obtener:
             self.navegacion.reSalonSelecc.addItem(sln["nombre"], sln["numSalon"])
             print(sln["numSalon"])
 
     def buscar_salon_por_id(self, salNumero):
-        for s in salon.listar_salones():
+        for s in self.salon_service.listar_salones():
             if s["numSalon"] == salNumero:
                 return s
         return None
@@ -193,7 +194,7 @@ class Recepcionista:
     def cargar_seleccion_tipoMontaje(self):
         self.navegacion.reTipoMontaje.clear()
         self.navegacion.reTipoMontaje.addItem("Selecciona un montaje", None)
-        obtener = tipo_montaje.listar_tipos_montajes()
+        obtener = self.tipo_montaje_service.listar_tipos_montajes()
         for tm in obtener:
             self.navegacion.reTipoMontaje.addItem(tm["nombre"], tm["codigoMon"])
             print(tm["codigoMon"])
@@ -224,7 +225,7 @@ class Recepcionista:
             self.navegacion.resultadoMontaje.setText("Tipo de montaje no encontrado.")
 
     def buscar_montaje_por_id(self, tipoM):
-        for t in tipo_montaje.listar_tipos_montajes():
+        for t in self.tipo_montaje_service.listar_tipos_montajes():
             if t["codigoMon"] == tipoM:
                 return t
         return None
@@ -233,7 +234,7 @@ class Recepcionista:
         self.navegacion.listaServicios.clear()
         # self.navegacion.listaEquipamiento.clear()
 
-        for servi in servicio.listar_servicio():
+        for servi in self.servicio_service.listar_servicio():
             texto = f"{servi['nombre']} - ${servi['costoRenta']:.2f}"
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, servi)
@@ -254,7 +255,7 @@ class Recepcionista:
 
     def cargar_lista_equipamiento(self):
         self.navegacion.listaEquipamiento.clear()
-        for equipa in equipamiento.listar_equipamentos():
+        for equipa in self.equipamiento_service.listar_equipamentos():
             texto = f"{equipa['nombre']} - ${equipa['costoRenta']:.2f}"
             item = QListWidgetItem(texto)
             item.setData(Qt.ItemDataRole.UserRole, equipa)
@@ -374,17 +375,12 @@ class Recepcionista:
         self.calcular_total_general()
 
     def registrar_reservacion(self):
-        from gui.login import resultadoEmail
-
         fecha = self.navegacion.refecha.date().toPyDate()
         fechaReser = date.today()
         hora_inicio = self.navegacion.reHoraInicio.time().toString("HH:mm")
         hora_fin = self.navegacion.reHoraFin.time().toString("HH:mm")
         cliente = self.navegacion.reRfc.text()
-        print(resultadoEmail[0])
-        resultado = trabajador.obtener_rfc(resultadoEmail[0])
-        print(resultado["rfc"])
-        rfcTrabajador = resultado["rfc"]
+        rfcTrabajador = self.trabajador_actual.rfc
         descripEvento = self.navegacion.reDescripcion.text()
         estimaAsistentes = self.navegacion.reEstimadoAsistentes.text()
         salon = self.navegacion.reSalonSelecc.currentText()
@@ -402,7 +398,7 @@ class Recepcionista:
             equipa = ReserEquipamiento(num_equipo, cantidad)
             lista_equipamientos.append(equipa)
 
-        resultado = reservacion.crear_reservacion(
+        resultado = self.reservacion_service.crear_reservacion(
             fechaReser,
             fechaEvento=fecha,
             horaInicio=hora_inicio,
@@ -465,7 +461,7 @@ class Recepcionista:
 
         if link == "cerrar":
             self.navegacion.hide()
-            self.login = Login()
+            self.login = Login(self.db)
 
     # def initGUI(self):
     #     self.login.btnIniciar.clicked.connect(self.ingresar)

@@ -4,9 +4,8 @@ from repositories_crud.DatosClientesRepository import DatosClientesRepository
 
 
 class DatosClienteService:
-    def __init__(self):
-        self.db = BaseDeDatos(database="BookingRoomLocal")
-        # self.db = BaseDeDatos(database='BookingRoomLoca')
+    def __init__(self, db_instance):
+        self.db = db_instance
         self.cliente_repository = DatosClientesRepository(self.db)
 
     def registrar_clientes(

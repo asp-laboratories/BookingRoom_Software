@@ -7,13 +7,15 @@ from utils.Formato import permitir_ingreso
 class ClientHandler:
     def __init__(self, main_window):
         self.main_window = main_window
+        self.db = main_window.db
+        self.trabajador = main_window.trabajador_actual
         self.navegacion = self.main_window.navegacion
         self.cliente = self.main_window.cliente
         self.telefono = self.main_window.telefono
         self.TipoCliente = self.main_window.TipoCliente
 
     def abrir_registro_cliente(self):
-        self.main_window.cliente_window = RegistroCliente()
+        self.main_window.cliente_window = RegistroCliente(self.db, self.trabajador)
 
     def buscar_cliente(self):
         rfc = self.navegacion.reRfc.text()
